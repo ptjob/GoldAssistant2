@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_F5F5F5"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_common_head2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:text=""
+        android:gravity="center"
+        android:id="@+id/tip"
+        android:background="@color/public_button_hollow_pressed_solod"
+        android:textColor="@android:color/white" />
+
+    <com.parttimejob.swipe.SwipeListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

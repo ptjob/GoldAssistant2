@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_0"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_common_head" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 兼职标题 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_job_title" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <EditText
+                android:id="@+id/edittxt_job_title"
+                style="@style/FormInput"
+                android:layout_height="match_parent"
+                android:hint="@string/uninput"
+                android:text="测试兼职标题" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 开始时间 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_begin_time" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <TextView
+                android:id="@+id/txt_begin_time"
+                style="@style/FormSelect"
+                android:hint="@string/unselect"
+                android:text="2015-08-01" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 结束时间 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_end_time" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <TextView
+                android:id="@+id/txt_end_time"
+                style="@style/FormSelect"
+                android:hint="@string/unselect"
+                android:text="2015-08-07" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 结算方式 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_pay_type" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <TextView
+                android:id="@+id/txt_pay_type"
+                style="@style/FormSelect"
+                android:hint="@string/unselect"
+                android:text="日结" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 工作区域 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_work_area" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <TextView
+                android:id="@+id/txt_work_area"
+                style="@style/FormSelect"
+                android:hint="@string/unselect"
+                android:text="南山区" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 详细地点 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_work_address" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <EditText
+                android:id="@+id/edittxt_work_address"
+                style="@style/FormInput"
+                android:hint="@string/publish_job_hint_work_address"
+                android:maxLength="@integer/work_address_max_length"
+                android:text="南山区科技园高新中二道软件园二期12栋501" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 工资薪酬 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_salary" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edittxt_salary"
+                        style="@style/FormInput"
+                        android:layout_height="match_parent"
+                        android:hint="@string/uninput"
+                        android:inputType="number"
+                        android:text="200" />
+
+                    <TextView
+                        android:id="@+id/txt_salary_unit_tip"
+                        style="@style/FormLabel.Unit" />
+                </FrameLayout>
+
+
+                <ImageView style="@style/PublicLineV" />
+
+                <TextView
+                    android:id="@+id/txt_salary_unit"
+                    style="@style/FormSelect"
+                    android:layout_weight="1"
+                    android:hint="@string/publish_job_hint_salary_unit"
+                    android:text="日薪" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 指定性别 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_sex" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_sex_unlimited"
+                    style="@style/FormCheckbox"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/publish_job_checkbox_sex_unlimited" />
+
+                <ImageView style="@style/PublicLineV" />
+
+                <RadioButton
+                    android:id="@+id/radio_sex_limited"
+                    style="@style/FormCheckbox"
+                    android:layout_weight="1"
+                    android:text="@string/publish_job_checkbox_sex_limited" />
+
+            </RadioGroup>
+
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 总人数  -->
+            <LinearLayout
+                android:id="@+id/ll_head_sum_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    style="@style/FormLabel"
+                    android:layout_weight="1"
+                    android:text="@string/publish_job_label_head_sum" />
+
+
+                <ImageView style="@style/PublicLineH" />
+
+                <EditText
+                    android:id="@+id/edittxt_head_sum"
+                    style="@style/FormInput"
+                    android:layout_weight="1"
+                    android:hint="@string/canblank"
+                    android:inputType="number"
+                    android:text="12" />
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <!-- 性别选择  -->
+            <LinearLayout
+                android:id="@+id/ll_sex_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/FormLabel"
+                        android:layout_weight="1"
+                        android:text="@string/publish_job_label_male_num" />
+
+                    <TextView
+                        style="@style/FormLabel"
+                        android:layout_weight="1"
+                        android:text="@string/publish_job_label_female_num" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edittxt_male_num"
+                        style="@style/FormInput"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:hint="@string/canblank"
+                        android:inputType="number" />
+
+                    <ImageView style="@style/PublicLineV" />
+
+                    <EditText
+                        android:id="@+id/edittxt_female_num"
+                        style="@style/FormInput"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:hint="@string/canblank"
+                        android:inputType="number" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <!-- 工作要求和内容 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_label_work_require" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edittxt_work_require_content"
+                    style="@style/FormInput_S"
+                    android:hint="@string/publish_job_hint_work_require"
+                    android:maxLength="@integer/work_require_max_length"
+                    android:text="教育
+具有大专及以上毕业文凭者
+经验
+六个月以上销售工作经验，具有团队意识，热爱销售
+技能要求
+能够熟练使用Microsoft Office办公软件
+熟悉计算机、手机的基本结构，并能够自主维护
+具备市场营销、人力资源、统计学等方面的知识" />
+
+                <TextView
+                    android:id="@+id/edittxt_work_require_tip"
+                    style="@style/FormInput_S_Tip"
+                    android:text="@string/publish_job_tip_work_require_default" />
+            </FrameLayout>
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 是否显示您的手机号 -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/publish_job_hint_is_show_tel" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_unshow_tel"
+                    style="@style/FormCheckbox"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/unshow" />
+
+                <ImageView style="@style/PublicLineV" />
+
+                <RadioButton
+                    android:id="@+id/radio_show_tel"
+                    style="@style/FormCheckbox"
+                    android:layout_weight="1"
+                    android:text="@string/show" />
+
+            </RadioGroup>
+
+            <ImageView style="@style/PublicLineH" />
+
+            <View style="@style/FormDivider" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 更多要求 -->
+            <TextView
+                android:id="@+id/txt_more_require"
+                style="@style/FormInput"
+                android:drawableRight="@drawable/other_btn_on"
+                android:text="@string/publish_job_label_more_require" />
+
+            <ImageView style="@style/PublicLineH" />
+
+            <LinearLayout
+                android:id="@+id/ll_more_require_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- 健康证 -->
+                <TextView
+                    style="@style/FormLabel"
+
+                    android:text="@string/publish_job_label_health_book" />
+
+                <ImageView style="@style/PublicLineH" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_need_health_prove"
+                        style="@style/FormCheckbox"
+                        android:layout_weight="1"
+                        android:text="@string/need" />
+
+                    <ImageView style="@style/PublicLineV" />
+
+                    <RadioButton
+                        android:id="@+id/radio_unneed_health_prove"
+                        style="@style/FormCheckbox"
+                        android:layout_weight="1"
+                        android:text="@string/unneed" />
+
+                </RadioGroup>
+
+                <ImageView style="@style/PublicLineH" />
+
+                <!-- 擅长语言 -->
+                <TextView
+                    style="@style/FormLabel"
+                    android:text="@string/publish_job_label_language" />
+
+                <ImageView style="@style/PublicLineH" />
+
+                <TextView
+                    android:id="@+id/txt_language"
+                    style="@style/FormSelect"
+                    android:hint="@string/unselect" />
+
+                <ImageView style="@style/PublicLineH" />
+
+                <!-- 身高 -->
+                <TextView
+                    style="@style/FormLabel"
+                    android:text="@string/publish_job_label_height" />
+
+                <ImageView style="@style/PublicLineH" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txt_height"
+                        style="@style/FormSelect"
+                        android:layout_gravity="center|left"
+                        android:hint="@string/unselect" />
+
+                    <TextView
+                        style="@style/FormLabel.Unit"
+                        android:text="以上" />
+
+                </FrameLayout>
+
+                <ImageView style="@style/PublicLineH" />
+
+                <!-- 三围 -->
+                <TextView
+                    style="@style/FormLabel"
+                    android:text="@string/publish_job_label_measurements" />
+
+                <ImageView style="@style/PublicLineH" />
+
+                <TextView
+                    android:id="@+id/txt_measurements"
+                    style="@style/FormSelect"
+                    android:hint="@string/unselect" />
+
+                <ImageView style="@style/PublicLineH" />
+
+            </LinearLayout>
+
+            <View style="@style/FormDivider" />
+
+            <Button
+                android:id="@+id/btn_publish"
+                style="@style/FormBlueButton"
+                android:text="@string/publish" />
+
+            <View style="@style/FormDivider" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

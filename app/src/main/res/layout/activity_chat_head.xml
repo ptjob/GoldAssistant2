@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/top_bar"
+android:layout_width="match_parent"
+android:layout_height="@dimen/height_top_bar"
+android:gravity="center_vertical"
+android:background="@drawable/shape_top_background">
+
+<include layout="@layout/commom_back_btn" android:id="@+id/back"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:paddingLeft="90dp"
+    android:paddingRight="90dp"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLength="12"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:text=""
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLength="12"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:text=""
+        android:textSize="20sp" />
+</LinearLayout>
+<LinearLayout
+    android:id="@+id/right_container"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentRight="true"
+    android:background="@drawable/shape_top_background">
+    <RelativeLayout
+        android:id="@+id/container_contact_detail"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:onClick="contactDetail"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/user_chat" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_group_notice"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/container_right2_image"
+        android:onClick="showGroupNotice"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="9dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/selector_notice" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_right2_image"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:onClick="toGroupDetails"
+        android:visibility="gone" >
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/group_chat" />
+    </RelativeLayout>
+</LinearLayout>
+</RelativeLayout>

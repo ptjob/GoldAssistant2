@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray_block">
+    <TextView
+        android:id="@+id/tv_search"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/ll_et"
+        android:layout_alignBottom="@+id/ll_et"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/selector_orange"
+        android:text="@string/search"
+        android:gravity="center"
+        android:textColor="@color/common_txt_color"
+        android:textSize="15dp" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toLeftOf="@id/tv_search"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_width"
+            android:background="@color/edit_text_divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/query"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_toLeftOf="@id/tv_search"
+                android:background="@null"
+                android:drawableLeft="@drawable/search_bar_icon_normal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="搜索"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
+                android:textColorHint="@color/txt_color_gray"
+                android:textSize="15dp" />
+            <ImageButton
+                android:id="@+id/search_clear"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/search_clear"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_width"
+            android:background="@color/edit_text_divider" />
+    </LinearLayout>
+
+
+
+
+
+    <!---->
+
+
+
+</RelativeLayout>
+
+
+

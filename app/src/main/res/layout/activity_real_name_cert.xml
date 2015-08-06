@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:paddingTop="9dp"
+        android:textSize="13sp"
+        android:text="@string/which_kind_of_cert"/>
+
+    <Button
+        android:id="@+id/btn_enterprise_cert"
+        style="@style/CommonButton.Blue"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/enterprise_cert"/>
+
+    <Button
+        android:id="@+id/btn_personal_cert"
+        style="@style/CommonButton.Blue"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="@string/personal_cert"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:layout_marginTop="15dp"
+        android:text="@string/your_info_only_for_auth"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:text="@string/promiss_to_protect_personal_info"/>
+</LinearLayout>

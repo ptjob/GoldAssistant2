@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/body_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_top_bar"
+        android:background="@color/common_top_bar_blue"
+        android:gravity="center_vertical" >
+
+        <include layout="@layout/activity_common_head" android:id="@+id/linear_layout"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7dp" />
+
+        <TextView
+            android:id="@+id/group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#f2f0eb" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="vertical" >
+
+            <com.easemob.chatuidemo.widget.ExpandGridView
+                android:id="@+id/gridview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="13dp"
+                android:columnWidth="52dp"
+                android:gravity="start"
+                android:horizontalSpacing="6dp"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="4"
+                android:verticalSpacing="10dp" />
+
+
+            <com.parttime.widget.SetItem
+                android:id="@+id/gag"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:background="@drawable/item_selector"
+                app:form_left_txt="@string/group_not_allow_send_msg"
+                android:layout_marginTop="10dp"
+                app:topLine_shown="false"
+                app:form_Right_Img="@drawable/btn_go"
+                android:visibility="gone"/>
+
+            <com.parttime.widget.SetItem
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:background="@drawable/item_selector"
+                android:layout_marginTop="10dp"
+                app:form_left_txt="@string/group_top"
+                app:topLine_shown="false"/>
+
+            <com.parttime.widget.SetItem
+                android:id="@+id/undisturb"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:background="@drawable/item_selector"
+                app:form_left_txt="@string/group_msg_undisturb"
+                app:topLine_shown="false"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+                <Button
+                    android:id="@+id/btn_exit_grp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    style="@style/FormRedButton"
+                    android:paddingLeft="70dp"
+                    android:paddingRight="70dp"
+                    android:onClick="exitGroup"
+                    android:text="退出群聊"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/btn_exitdel_grp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    style="@style/FormRedButton"
+                    android:paddingLeft="70dp"
+                    android:paddingRight="70dp"
+                    android:onClick="exitDeleteGroup"
+                    android:text="解散群聊"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

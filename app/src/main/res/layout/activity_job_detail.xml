@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_0"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_common_head" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/FormNormalContainer">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/category" />
+
+                    <TextView
+                        android:id="@+id/txt_type"
+                        style="@style/FormGrayText_1"
+                        android:layout_marginLeft="6dp" />
+
+                    <TextView
+                        android:id="@+id/txt_title"
+                        style="@style/FormBlackText_1"
+                        android:layout_marginLeft="9dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_salary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/form_orange"
+                    android:textSize="@dimen/form_text_size_1" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/PublicLineH" />
+
+            <View style="@style/FormDivider" />
+
+            <LinearLayout
+                android:id="@+id/ll_job_declare_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <ImageView style="@style/PublicLineH" />
+
+                <!-- 活动状态 -->
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_job_status_label" />
+
+                    <TextView
+                        android:id="@+id/txt_job_status"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+
+                <!-- 浏览人数 -->
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_view_count_label" />
+
+                    <TextView
+                        android:id="@+id/txt_view_count"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+
+                <!-- 报名人数 -->
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_hand_count_label" />
+
+                    <TextView
+                        android:id="@+id/txt_hand_count"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+
+                <View style="@style/FormDivider" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/PublicLineH" />
+
+            <!-- 发布商家 -->
+            <LinearLayout
+                android:id="@+id/ll_company_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_company_label" />
+
+                    <TextView
+                        android:id="@+id/txt_company"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <!-- 所在区域 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_work_area_label" />
+
+                    <TextView
+                        android:id="@+id/txt_work_area"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <!-- 工作时间 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_work_time_label" />
+
+                    <TextView
+                        android:id="@+id/txt_work_time"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <!-- 结算方式 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_pay_type_label" />
+
+                    <TextView
+                        android:id="@+id/txt_pay_type"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <!-- 招募人数 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/FormItemContainer">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_head_sum_label" />
+
+                    <TextView
+                        android:id="@+id/txt_head_sum"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <!-- 详细地址 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/FormItemContainer_Wrap">
+
+                    <TextView
+                        style="@style/FormGrayText_0"
+                        android:text="@string/job_detail_work_address" />
+
+                    <TextView
+                        android:id="@+id/txt_work_address"
+                        style="@style/FormBlackText_0"
+                        android:layout_marginLeft="@dimen/form_item_in_margin"
+                        android:singleLine="false" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/PublicLineH" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_more_require_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View style="@style/FormDivider" />
+
+                <ImageView style="@style/PublicLineH" />
+
+                <!-- 身高要求 -->
+                <LinearLayout
+                    android:id="@+id/ll_height_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout style="@style/FormItemContainer">
+
+                        <TextView
+                            style="@style/FormGrayText_0"
+                            android:text="@string/job_detail_height_label" />
+
+                        <TextView
+                            android:id="@+id/txt_height"
+                            style="@style/FormBlackText_0"
+                            android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                    </LinearLayout>
+
+                    <ImageView style="@style/PublicLineH" />
+                </LinearLayout>
+
+                <!-- 三围要求 -->
+                <LinearLayout
+                    android:id="@+id/ll_measurements_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout style="@style/FormItemContainer">
+
+                        <TextView
+                            style="@style/FormGrayText_0"
+                            android:text="@string/job_detail_measurements_label" />
+
+                        <TextView
+                            android:id="@+id/txt_measurements"
+                            style="@style/FormBlackText_0"
+                            android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                    </LinearLayout>
+
+                    <ImageView style="@style/PublicLineH" />
+                </LinearLayout>
+
+                <!--健康证件-->
+                <LinearLayout
+                    android:id="@+id/ll_health_prove_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout style="@style/FormItemContainer">
+
+                        <TextView
+                            style="@style/FormGrayText_0"
+                            android:text="@string/job_detail_health_prove_label" />
+
+                        <TextView
+                            android:id="@+id/txt_health_prove"
+                            style="@style/FormBlackText_0"
+                            android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                    </LinearLayout>
+
+                    <ImageView style="@style/PublicLineH" />
+                </LinearLayout>
+
+                <!--语言要求-->
+                <LinearLayout
+                    android:id="@+id/ll_language_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout style="@style/FormItemContainer">
+
+                        <TextView
+                            style="@style/FormGrayText_0"
+                            android:text="@string/job_detail_language_label" />
+
+                        <TextView
+                            android:id="@+id/txt_language"
+                            style="@style/FormBlackText_0"
+                            android:layout_marginLeft="@dimen/form_item_in_margin" />
+
+                    </LinearLayout>
+
+                    <ImageView style="@style/PublicLineH" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View style="@style/FormDivider" />
+
+            <ImageView style="@style/PublicLineH" />
+            `
+            <!-- 兼职描述 -->
+            <LinearLayout style="@style/FormItemContainer_Wrap.V">
+
+                <TextView
+                    style="@style/FormGrayText_0"
+                    android:text="@string/job_detail_work_require_label" />
+
+                <TextView
+                    android:id="@+id/txt_work_require"
+                    style="@style/FormBlackText_0"
+                    android:layout_marginTop="10dp"
+                    android:singleLine="false" />
+            </LinearLayout>
+
+            <ImageView style="@style/PublicLineH" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_job_action_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <ImageView style="@style/PublicLineH_1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:orientation="horizontal">
+
+            <ImageView style="@style/PublicLineV_1" />
+
+            <LinearLayout
+                android:id="@+id/ll_job_refresh_or_expedited"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/bg_0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgvi_refresh_or_expedited"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/refresh" />
+
+                <TextView
+                    android:id="@+id/txt_refresh_or_expedited"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/refresh"
+                    android:textColor="@color/black_1"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/PublicLineV_1" />
+
+            <LinearLayout
+                android:id="@+id/ll_job_mofify"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/bg_0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/edit" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/modify"
+                    android:textColor="@color/black_1"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/PublicLineV_1" />
+
+            <LinearLayout
+                android:id="@+id/ll_job_shelves"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/bg_0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/expired" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/shelves"
+                    android:textColor="@color/black_1"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/PublicLineV_1" />
+
+        </LinearLayout>
+
+        <ImageView style="@style/PublicLineH_1" />
+    </LinearLayout>
+
+</LinearLayout>

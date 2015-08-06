@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.parttime.IM.EditGroupNoticeActivity">
+    <include layout="@layout/activity_common_head"
+        android:id="@+id/include" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/group_notice_function_declare"
+        android:layout_below="@+id/include"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:id="@+id/declare" />
+
+    <FrameLayout android:id="@+id/notice_container"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/declare">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:id="@+id/notice_content"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/content_text_count"
+            android:id="@+id/text_count"
+            android:textSize="13sp"
+            android:textColor="#beb5b8"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="right|bottom"/>
+    </FrameLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:id="@+id/done"
+        android:layout_below="@+id/notice_container"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

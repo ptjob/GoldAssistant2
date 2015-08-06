@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/title"/>
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="@dimen/head_img_edge"
+                    android:layout_height="@dimen/head_img_edge"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/my_intro_take_img_bg">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/common_txt_color"
+                        android:text="@string/click_to_upload_head_img"/>
+                    <ImageView
+                        android:id="@+id/iv_head_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </FrameLayout>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/brief_intro"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:textSize="13sp"
+                android:paddingTop="9dp"/>
+
+            <com.parttime.widget.CountingEditText
+                android:id="@+id/cet_intro"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:cet_maxLen="500"
+                android:background="@drawable/shape_intro_enter_bg"
+                android:gravity="top"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+
+                android:hint="@string/enter_your_intro_here"/>
+            
+            <TextView
+                android:id="@+id/tv_work_types_title"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:textSize="13sp"
+                android:paddingTop="9dp"
+                android:gravity="center_horizontal"
+                android:text="@string/select_work_types_tips"
+                android:visibility="gone"/>
+
+
+            <com.parttime.widget.SelectLayout
+                android:id="@+id/sl_work_types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                app:sl_textColor="@color/select_layout_text_color"
+                app:sl_textSize="14sp"
+                app:sl_itemBackground="@drawable/selector_select_item"
+                app:sl_maxSelectCount="5"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btn_finish"
+                style="@style/CommonButton.Blue"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/done"
+                android:layout_marginBottom="15dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/title"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.parttime.widget.EditItem
+                android:id="@+id/ei_original_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                app:ei_name="@string/original_phone_number"/>
+
+            <com.parttime.widget.EditItem
+                android:id="@+id/ei_login_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                app:ei_name="@string/login_pwd"/>
+
+            <com.parttime.widget.EditItem
+                android:id="@+id/ei_new_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                app:ei_name="@string/new_phone_number"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_code_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/selector_vefify_state"
+                    android:scaleType="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/common_margin"
+                    android:visibility="gone"/>
+                <com.parttime.widget.EditItem
+                    android:id="@+id/ei_validation_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/form_item_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/iv_code_ok"
+                    android:background="@color/white"
+                    app:ei_topDividerShow="false"
+                    app:ei_bottomDividerShow="false"
+                    app:ei_name="@string/validation_code"/>
+                <include layout="@layout/view_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_width"
+                    android:layout_above="@id/ei_validation_code"/>
+                <include layout="@layout/view_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_width"
+                    android:layout_below="@id/ei_validation_code"/>
+
+            </RelativeLayout>
+            
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true">
+                    <Button
+                        android:id="@+id/btn_get_code"
+                        style="@style/CommonButton.Orange"
+                        android:text="@string/get_validation_code"
+                        android:layout_width="110dp"/>
+                    <Button
+                        android:id="@+id/btn_next"
+                        style="@style/CommonButton.Blue"
+                        android:text="@string/next_step"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="110dp"
+                        android:enabled="false"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+            
+            <TextView
+                android:id="@+id/tv_failed_to_get_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:gravity="center_horizontal"
+                android:textSize="15sp"
+                android:textColor="@color/common_gray"
+                android:text="@string/failed_to_get_validation_code"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

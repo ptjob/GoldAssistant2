@@ -1,0 +1,167 @@
+<resources>
+
+    <!-- 公共 -->
+    <dimen name="public_button_radius">3dp</dimen>
+    <dimen name="public_button_radius_1">5dp</dimen>
+    <dimen name="public_line_0.5">0.5dp</dimen>
+    <dimen name="public_line_1">1dp</dimen>
+
+    <!-- 表单 -->
+    <dimen name="form_label_height">32dp</dimen>
+    <dimen name="form_label_padding_left_right">15dp</dimen>
+    <dimen name="form_label_padding_top_bottom">9dp</dimen>
+    <dimen name="form_label_text_size">13sp</dimen>
+    <dimen name="form_input_padding_left_right">15dp</dimen>
+    <dimen name="form_input_padding_top_bottom">13dp</dimen>
+    <dimen name="form_text_size_0">15sp</dimen>
+    <dimen name="form_input_s_height">179dp</dimen>
+    <dimen name="form_input_s_padding_top_bottom">10dp</dimen>
+    <dimen name="form_input_s_tip_text_size">13sp</dimen>
+    <dimen name="form_divider_height">20dp</dimen>
+    <dimen name="form_divider_height_1">8dp</dimen>
+    <dimen name="form_text_size_1">17sp</dimen>
+    <dimen name="form_container_padding">15dp</dimen>
+    <dimen name="form_item_container_height">40dp</dimen>
+    <dimen name="form_button_width">200dp</dimen>
+    <dimen name="form_button_height">40dp</dimen>
+    <dimen name="form_item_in_margin">15dp</dimen>
+
+    <!-- 滚轮选择器 -->
+    <!-- time picker -->
+    <dimen name="time_picker_time_item_height">34dp</dimen>
+    <dimen name="time_picker_top_item_height">50dp</dimen>
+    <dimen name="time_picker_top_item_touchable_width">60dp</dimen>
+    <dimen name="time_picker_title_height">48dp</dimen>
+    <dimen name="time_picker_center_rect_height">39dp</dimen>
+    <dimen name="time_picker_time_area_height">239dp</dimen>
+    <dimen name="time_picker_time_item_text_size">18dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="bgRadius">4dp</dimen>
+
+    <dimen name="fontsize_20px">15sp</dimen>
+    <dimen name="fontsize_28px">14sp</dimen>
+    <dimen name="fontsize_24px">12sp</dimen>
+    <dimen name="fontsize_30px">15sp</dimen>
+    <dimen name="fontsize_36px">18sp</dimen>
+    <dimen name="ziti_19">19sp</dimen>
+    <dimen name="fontsize_40px">20sp</dimen>
+    <dimen name="tt">22sp</dimen>
+    <dimen name="xingchou">25sp</dimen>
+    <dimen name="xiaohui">16sp</dimen>
+
+    <dimen name="img_icon_size_border">135px</dimen>
+    <dimen name="img_icon_size">130px</dimen>
+    <!-- icon -->
+    <!-- 个人详情 头像-->
+    <dimen name="defaul_icon_size_border">145px</dimen>
+    <dimen name="defaul_icon_size">140px</dimen>
+    <dimen name="defaul_icon_size_my_data">116px</dimen>
+    <dimen name="detail_info_key_text_size">15sp</dimen>
+    <dimen name="detail_info_value_text_size">15sp</dimen>
+    <!-- 列表头像 -->
+    <dimen name="defaul_icon_size_small_border">120px</dimen>
+    <dimen name="defaul_icon_size_small">117px</dimen>
+    <dimen name="defaul_icon_size_96">119px</dimen>
+
+    <!-- RatingBar Height-->
+    <dimen name="ratingbarHeight">13dp</dimen>
+
+    <dimen name="indicator_right_padding">10dp</dimen>
+    <dimen name="indicator_corner_radius">12dp</dimen>
+    <dimen name="indicator_internal_padding">4dp</dimen>
+    <dimen name="header_footer_left_right_padding">24dp</dimen>
+    <dimen name="header_footer_top_bottom_padding">12dp</dimen>
+
+    <dimen name="chengyijin">16sp</dimen>
+    <dimen name="center_big">18sp</dimen>
+    <dimen name="name">18sp</dimen>
+
+    <dimen name="menu_setting">14sp</dimen>
+    <!-- 我的简历 -->
+    <dimen name="myjianli">16sp</dimen>
+    <dimen name="myjianli_size">15sp</dimen>
+
+    <dimen name="scan_jianli_pic_height">180dp</dimen>
+
+    <!-- 环信 -->
+    <dimen name="height_top_bar">46dp</dimen>
+    <dimen name="padding_search_bar">5dp</dimen>
+    <dimen name="height_row_weixin">59dp</dimen>
+    <dimen name="size_avatar">50dp</dimen>
+    <dimen name="margin_chat_activity">20dp</dimen>
+    <dimen name="field_textsize">14sp</dimen>
+    <dimen name="field_margin_right">5dp</dimen>
+    <dimen name="call_button_padding_vertical">10dp</dimen>
+    <dimen name="call_button_padding_left">25dp</dimen>
+    <dimen name="call_button_padding_right">25dp</dimen>
+    <dimen name="sidebar_text_size">10dp</dimen>
+    <dimen name="image_thumbnail_size">100dp</dimen>
+    <dimen name="image_thumbnail_spacing">1dp</dimen>
+
+    <dimen name="im_buble_margin">7dp</dimen>
+    <dimen name="im_user_name_margin">8dp</dimen>
+    <dimen name="im_buble_other_size_margin">65dp</dimen>
+
+
+
+    <dimen name="common_margin">15dp</dimen>
+    <dimen name="commopn_inner_margin">10dp</dimen>
+    <dimen name="form_item_height">45dp</dimen>
+    <dimen name="divider_width">1dp</dimen>
+    <dimen name="form_items_margin">8dp</dimen>
+    <dimen name="form_item_margin_left">12dp</dimen>
+    <dimen name="form_item_title_margin_left">20dp</dimen>
+
+    <dimen name="form_item_icon_edge">22dp</dimen>
+
+    <dimen name="title_height">49dp</dimen>
+    <dimen name="title_padding">10dp</dimen>
+    <dimen name="head_img_edge">83dp</dimen>
+
+    <dimen name="my_intro_block_height">130dp</dimen>
+
+    <dimen name="counting_edit_text_height">179dp</dimen>
+    <dimen name="counting_text_default_size">15sp</dimen>
+    <dimen name="counting_bar_default_height">30dp</dimen>
+
+    <dimen name="btn_cornner_radius">4dp</dimen>
+    <dimen name="btn_width">200dp</dimen>
+    <dimen name="btn_height">40dp</dimen>
+    <dimen name="btn_txt_size">15sp</dimen>
+    <dimen name="select_item_stroke_width">1dp</dimen>
+    <dimen name="select_item_cornnor_radius">3dp</dimen>
+
+    <dimen name="csil_horizontal_inner_margin_default">10dp</dimen>
+    <dimen name="csil_verticle_inner_margin_default">10dp</dimen>
+    <dimen name="csil_item_height_default">33dp</dimen>
+
+    <dimen name="rank_view_inner_margin_default">2dp</dimen>
+
+    <dimen name="form_title_margin_bottom_default">9dp</dimen>
+    <dimen name="form_title_margin_top_default">9dp</dimen>
+
+    <dimen name="button_margin">20dp</dimen>
+
+    <!-- IM -->
+    <dimen name="im_msg_timestamp_radius">3dp</dimen>
+    <dimen name="im_msg_item_vertial_margin">20dp</dimen>
+
+    <!-- 招人 -->
+    <dimen name="job_type_content_padding_left_right">37dp</dimen>
+    <dimen name="job_type_item_height">33dp</dimen>
+    <dimen name="job_type_title_text_size">16sp</dimen>
+    <dimen name="job_type_item_text_size">14sp</dimen>
+    <dimen name="job_type_tip_text_size">12sp</dimen>
+    <dimen name="job_type_item_margin_left_right">15dp</dimen>
+    <dimen name="job_type_item_margin_top_bottom">10dp</dimen>
+
+
+    <!-- 群成员界面 -->
+    <dimen name="group_member_item_padding">10dp</dimen>
+    <dimen name="group_memberr_head_edge">83dp</dimen>
+    <dimen name="contact_item_height">55dp</dimen>
+
+</resources>
