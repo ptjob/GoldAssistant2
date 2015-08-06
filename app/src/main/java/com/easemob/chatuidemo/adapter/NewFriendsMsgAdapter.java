@@ -197,9 +197,9 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
 	/**
 	 * 同意好友请求或者群申请
-	 * 
-	 * @param button
-	 * @param username
+	 *
+	 * @param button Button
+	 * @param msg InviteMessage
 	 */
 	private void acceptInvitation(final Button button, final InviteMessage msg) {
 		final ProgressDialog pd = new ProgressDialog(context);
@@ -241,7 +241,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 						public void run() {
 							pd.dismiss();
 							Toast.makeText(context, "同意失败: " + e.getMessage(),
-									1).show();
+									Toast.LENGTH_LONG).show();
 						}
 					});
 
@@ -253,8 +253,8 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 	/**
 	 * 拒绝好友请求或者群申请
 	 * 
-	 * @param button
-	 * @param username
+	 * @param button Button
+	 * @param msg InviteMessage
 	 */
 	private void refuseInvitation(final Button button, final InviteMessage msg) {
 		final ProgressDialog pd = new ProgressDialog(context);
@@ -297,7 +297,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 						public void run() {
 							pd.dismiss();
 							Toast.makeText(context, "拒绝失败: " + e.getMessage(),
-									1).show();
+									Toast.LENGTH_LONG).show();
 						}
 					});
 

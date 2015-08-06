@@ -2,7 +2,9 @@ package com.parttime.IM;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -37,8 +39,11 @@ public class ChatActivityHelper {
      */
     public void showGroupNotice(final ChatActivity activity, View view){
         View popView = activity.getLayoutInflater().inflate(R.layout.activity_chat_group_notice_popup, null);
+
+        DisplayMetrics metric = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
         final PopupWindow popupWindow = new PopupWindow(popView,
-                LinearLayout.LayoutParams.MATCH_PARENT,
+                (metric.widthPixels /*- (int)activity.getResources().getDimension(R.dimen.chat_activity_popup_margin)*/),
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         EMGroup group = EMGroupManager.getInstance().getGroup(activity.toChatUsername);
@@ -82,6 +87,9 @@ public class ChatActivityHelper {
 
         //设置popwindow显示位置
         popupWindow.showAsDropDown(view);
+        /*popupWindow.showAsDropDown(view,
+                (int) activity.getResources().getDimension(R.dimen.chat_activity_popup_margin) / 2,
+                (int) activity.getResources().getDimension(R.dimen.chat_activity_popup_margin) / 2);*/
         //获取popwindow焦点
         popupWindow.setFocusable(true);
         //设置popwindow如果点击外面区域，便关闭。

@@ -29,7 +29,7 @@ import java.io.IOException;
  * @author Administrator  
  *
  */    
-public class VideoSurfaceActivity extends Activity implements MediaPlayer.OnCompletionListener,MediaPlayer.OnErrorListener,MediaPlayer.OnInfoListener,
+public class VedioSurfaceActivity extends Activity implements MediaPlayer.OnCompletionListener,MediaPlayer.OnErrorListener,MediaPlayer.OnInfoListener,
         MediaPlayer.OnPreparedListener, OnSeekCompleteListener,OnVideoSizeChangedListener,SurfaceHolder.Callback{
     private Display currDisplay;
     private SurfaceView surfaceView;

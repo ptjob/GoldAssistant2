@@ -120,6 +120,7 @@
     <!-- 编辑群通知 -->
     <string name="group_notice_function_declare">群通知是XXX的功能</string>
     <string name="group_notice_max_count_tip">限制输入数为%1$d</string>
+    <string name="group_notice_hint">请在此输入您想让群成员看到的通知</string>
 
     <!-- 群组设置 -->
     <string name="group_member">群成员</string>

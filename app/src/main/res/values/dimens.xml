@@ -54,6 +54,7 @@
 
     <dimen name="img_icon_size_border">135px</dimen>
     <dimen name="img_icon_size">130px</dimen>
+    <dimen name="chat_activity_popup_margin">50dp</dimen>
     <!-- icon -->
     <!-- 个人详情 头像-->
     <dimen name="defaul_icon_size_border">145px</dimen>

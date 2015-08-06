@@ -516,7 +516,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.parttime.IM.VideoSurfaceActivity"
+            android:name="com.parttime.IM.VedioSurfaceActivity"
             android:label="@string/title_activity_group_update_remark"
             android:screenOrientation="portrait">
         </activity>
