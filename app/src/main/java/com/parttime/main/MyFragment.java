@@ -77,9 +77,9 @@ import java.util.Map;
 
 /**
  * 设置 商家 用户公用
- * 
+ *
  * @author howe
- * 
+ *
  */
 public class MyFragment extends BaseFragment implements OnClickListener {
 	private static final String IMAGE_FILE_NAME = "faceImage.jpg";// 图片名称
@@ -145,8 +145,9 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 			rvRank.rank((int) function.getPoint());
 			String certString = getCertString();
 //			tvCertState.setText(certString);
-			tvCertState.setText(getCertStringForIcon());
+			ivCertStatus.setSelected(function.getCompany_status() == CertStatus.CERT_PASSED);
 			if(function.getType() == AccountType.AGENT) {
+				fiMyIntro.setBottomDividerIndent(true, true);
 				fiMyFans.setValue(getString(R.string.x_ge_in_chinese, function.getFollowers()));
 				fiMyFans.setVisibility(View.VISIBLE);
 			}
@@ -195,9 +196,9 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 			@Override
 			public void success(Object obj) {
 				JSONObject json = (JSONObject) obj;
-					function = (Function) JsonUtil.jsonToBean(json, Function.class);
-					updateView();
-					saveInfor();
+				function = (Function) JsonUtil.jsonToBean(json, Function.class);
+				updateView();
+				saveInfor();
 			}
 
 			@Override
@@ -266,13 +267,13 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	@ViewInject(R.id.tv_businessman)
 	private TextView tvName;
 
-//	@ViewInject(R.id.tv_score)
+	//	@ViewInject(R.id.tv_score)
 //	private TextView tvScore;
 	@ViewInject(R.id.rv_rank)
 	private RankView rvRank;
 
 	@ViewInject(R.id.tv_cert_state)
-	private TextView tvCertState;
+	private ImageView ivCertStatus;
 
 	@ViewInject(R.id.tv_title)
 	private TextView tvTitle;
@@ -381,7 +382,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_my, container, false);
 		ViewUtils.inject(this, view);
 		tvTitle.setText(R.string.mine);
@@ -532,7 +533,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
 	/**
 	 * 预加载免打扰开关
-	 * 
+	 *
 	 */
 	private void getMiandarao() {
 //		miandarao_kaiguan_on = (ImageView) view
@@ -568,17 +569,17 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	private void miandarao_switch_btn() {
 		StringRequest stringRequest = new StringRequest(Method.POST,
 				miandarao_url, new Response.Listener<String>() {
-					@Override
-					public void onResponse(String response) {
+			@Override
+			public void onResponse(String response) {
 
-					}
+			}
 
-				}, new Response.ErrorListener() {
+		}, new Response.ErrorListener() {
 
-					@Override
-					public void onErrorResponse(VolleyError arg0) {
-					}
-				}) {
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+			}
+		}) {
 			@Override
 			protected Map<String, String> getParams() {
 				Map<String, String> map = new HashMap<String, String>();
@@ -912,13 +913,13 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 		builder.create().show();
 	}
 
-    private void goToActivity(Class activityClz){
-        Activity activity = getActivity();
-        if(activity != null && !activity.isFinishing() && isAdded()) {
-            Intent intent = new Intent(activity, activityClz);
-            activity.startActivity(intent);
-        }
-    }
+	private void goToActivity(Class activityClz){
+		Activity activity = getActivity();
+		if(activity != null && !activity.isFinishing() && isAdded()) {
+			Intent intent = new Intent(activity, activityClz);
+			activity.startActivity(intent);
+		}
+	}
 
 	private void myIntro(){
 		goToActivity(EditMyIntroActivity.class);
@@ -929,11 +930,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void myBalance(){
-        goToActivity(MyWalletActivity.class);
+		goToActivity(MyWalletActivity.class);
 	}
 
 	private void praiseRecved(){
-        goToActivity(PraiseRecvedActivity.class);
+		goToActivity(PraiseRecvedActivity.class);
 	}
 
 	private void realNameCert(){
@@ -1011,11 +1012,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void freshManGuide(){
-        goToActivity(FreshManGuideActivity.class);
+		goToActivity(FreshManGuideActivity.class);
 	}
 
 	private void suggestion(){
-        goToActivity(SuggestionActivity.class);
+		goToActivity(SuggestionActivity.class);
 	}
 
 	private void setting(){

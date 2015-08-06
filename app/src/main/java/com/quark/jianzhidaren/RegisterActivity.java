@@ -50,10 +50,12 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.parttime.base.WithTitleActivity;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.login.RegisterInfoActivity;
 import com.parttime.main.MainTabActivity;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
+import com.parttime.net.ErrorHandler;
 import com.parttime.utils.CountDownTimer;
 import com.parttime.widget.EditItem;
 import com.qingmu.jianzhidaren.R;
@@ -115,9 +117,9 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 	String telephoneStrTemp;
 	String nameStr;
 	String inputcodeStr;
-//	String passwordStr;
+	//	String passwordStr;
 	String againpasswordStr;
-//	String codeStr;
+	//	String codeStr;
 	String codeStrget;
 	String url;// 注册url
 	String sendMSMUrl;
@@ -138,7 +140,8 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 
 
 
-	private CountDownTimer countDownTimer;
+	private static CountDownTimer countDownTimer;
+	private static long lastTime;
 
 	private String code;
 	private int lastLen;
@@ -184,6 +187,14 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		center(R.string.register);
 		left(TextView.class, R.string.back);
 		eiCode.addTextChangeListener(this);
+
+		if(System.currentTimeMillis() - lastTime < ApplicationConstants.PERIOD_FOR_GET_CODE){
+			if(countDownTimer != null){
+				countDownTimer.cancel();
+			}
+			countDownTimer = new CountDownTimer((int) (ApplicationConstants.PERIOD_FOR_GET_CODE - System.currentTimeMillis() + lastTime), this);
+			countDownTimer.start();
+		}
 	}
 
 	/**
@@ -299,53 +310,53 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		showWait(true);
 		StringRequest request = new StringRequest(Request.Method.POST,
 				loginUrl, new Response.Listener<String>() {
-					@Override
-					public void onResponse(String response) {
-						showWait(false);
-						try {
-							JSONObject json = new JSONObject(response);
-							JSONObject jsont = json
-									.getJSONObject("ResponseStatus");
-							int status = jsont.getInt("status");
-							if (status == 1) {
-								showToast(getResources().getString(
-										R.string.regist_not_regist_company));
-							} else if (status == 2) {
-								showToast(getResources().getString(
-										R.string.regist_login_pwd_error));
-							} else if (status == 4) { // 放飞机
-								String activity_title = jsont
-										.getString("run_over_activity_title");
-								Intent intent = new Intent();
-								intent.setClass(RegisterActivity.this,
-										FeiJiPageActivity.class);
-								intent.putExtra("title", activity_title + "");
-								startActivity(intent);
-								finish();
-							} else {
-								// 记录用户id 环信登陆id 密码 昵称 头像
-								JSONObject jsonts = json
-										.getJSONObject("LoginResponse");
-								token = jsonts.getString("token");
-								user_id = jsonts.getInt("company_id");
-								IM_PASSWORD = jsonts.getString("IM_PASSWORD");
-								IM_USERID = jsonts.getString("IM_USERID");
-								IM_AVATAR = jsonts.getString("IM_AVATAR");
-								IM_NIKENAME = jsonts.getString("IM_NIKENAME");
-								loginIM(IM_USERID, IM_PASSWORD);
-							}
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-					}
-				}, new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError volleyError) {
-						showWait(false);
+			@Override
+			public void onResponse(String response) {
+				showWait(false);
+				try {
+					JSONObject json = new JSONObject(response);
+					JSONObject jsont = json
+							.getJSONObject("ResponseStatus");
+					int status = jsont.getInt("status");
+					if (status == 1) {
 						showToast(getResources().getString(
-								R.string.regist_request_server_fail));
+								R.string.regist_not_regist_company));
+					} else if (status == 2) {
+						showToast(getResources().getString(
+								R.string.regist_login_pwd_error));
+					} else if (status == 4) { // 放飞机
+						String activity_title = jsont
+								.getString("run_over_activity_title");
+						Intent intent = new Intent();
+						intent.setClass(RegisterActivity.this,
+								FeiJiPageActivity.class);
+						intent.putExtra("title", activity_title + "");
+						startActivity(intent);
+						finish();
+					} else {
+						// 记录用户id 环信登陆id 密码 昵称 头像
+						JSONObject jsonts = json
+								.getJSONObject("LoginResponse");
+						token = jsonts.getString("token");
+						user_id = jsonts.getInt("company_id");
+						IM_PASSWORD = jsonts.getString("IM_PASSWORD");
+						IM_USERID = jsonts.getString("IM_USERID");
+						IM_AVATAR = jsonts.getString("IM_AVATAR");
+						IM_NIKENAME = jsonts.getString("IM_NIKENAME");
+						loginIM(IM_USERID, IM_PASSWORD);
 					}
-				}) {
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				showWait(false);
+				showToast(getResources().getString(
+						R.string.regist_request_server_fail));
+			}
+		}) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
 				Map<String, String> map = new HashMap<String, String>();
@@ -428,24 +439,24 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 									setUserHearder(username, user);
 									userlist.put(username, user);
 								}
-                                // 添加user"申请与通知"
-                                User newFriends = new User();
-                                newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
-                                newFriends.setNick(getString(R.string.apply_notify));
-                                newFriends.setHeader("");
-                                userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-                                // 添加"群聊"
-                                User groupUser = new User();
-                                groupUser.setUsername(Constant.GROUP_USERNAME);
-                                groupUser.setNick(getString(R.string.group_chat));
-                                groupUser.setHeader("");
-                                userlist.put(Constant.GROUP_USERNAME, groupUser);
-                                // 添加"官方账号"
-                                User publicCount = new User();
-                                publicCount.setUsername(Constant.PUBLIC_COUNT);
-                                publicCount.setNick(getString(R.string.public_count));
-                                publicCount.setHeader("");
-                                userlist.put(Constant.PUBLIC_COUNT, publicCount);
+								// 添加user"申请与通知"
+								User newFriends = new User();
+								newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
+								newFriends.setNick(getString(R.string.apply_notify));
+								newFriends.setHeader("");
+								userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
+								// 添加"群聊"
+								User groupUser = new User();
+								groupUser.setUsername(Constant.GROUP_USERNAME);
+								groupUser.setNick(getString(R.string.group_chat));
+								groupUser.setHeader("");
+								userlist.put(Constant.GROUP_USERNAME, groupUser);
+								// 添加"官方账号"
+								User publicCount = new User();
+								publicCount.setUsername(Constant.PUBLIC_COUNT);
+								publicCount.setNick(getString(R.string.public_count));
+								publicCount.setHeader("");
+								userlist.put(Constant.PUBLIC_COUNT, publicCount);
 
 								// 存入内存
 								ApplicationControl.getInstance()
@@ -526,7 +537,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 	 * @param user
 	 */
 	protected void setUserHearder(String username,
-			com.easemob.chatuidemo.domain.User user) {
+								  com.easemob.chatuidemo.domain.User user) {
 		String headerName = null;
 		if (!TextUtils.isEmpty(user.getNick())) {
 			headerName = user.getNick();
@@ -540,7 +551,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		} else {
 			user.setHeader(HanziToPinyin.getInstance()
 					.get(headerName.substring(0, 1)).get(0).target.substring(0,
-					1).toUpperCase());
+							1).toUpperCase());
 			char header = user.getHeader().toLowerCase().charAt(0);
 			if (header < 'a' || header > 'z') {
 				user.setHeader("#");
@@ -563,7 +574,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 	}
 
 	private void loginFailure2Umeng(final long start, final int code,
-			final String message) {
+									final String message) {
 		runOnUiThread(new Runnable() {
 			public void run() {
 				long costTime = System.currentTimeMillis() - start;
@@ -586,8 +597,6 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		if (Util.isMobileNO(telephoneStr)) {
 			telephoneStrTemp = telephoneStr;
 			btnGetCode.setEnabled(false);
-			countDownTimer = new CountDownTimer(60, this);
-			countDownTimer.start();
 			sendMSM();
 
 		} else {
@@ -734,43 +743,48 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 			public void success(Object obj) {
 				showWait(false);
 				btnNext.setEnabled(true);
+				countDownTimer = new CountDownTimer(ApplicationConstants.PERIOD_FOR_GET_CODE / 1000, RegisterActivity.this);
+				lastTime = System.currentTimeMillis();
+				countDownTimer.start();
 			}
 
 			@Override
 			public void failed(Object obj) {
 				showWait(false);
+				btnGetCode.setEnabled(true);
+				new ErrorHandler(RegisterActivity.this, obj).showToast();
 			}
 		});
 
 		StringRequest request2 = new StringRequest(Request.Method.POST,
 				sendMSMUrl, new Response.Listener<String>() {
-					@Override
-					public void onResponse(String response) {
-						try {
-							JSONObject js = new JSONObject(response);
-							JSONObject jsstatus = js
-									.getJSONObject("ResponseStatus");
-							int status = jsstatus.getInt("status");
-							String msg = jsstatus.getString("msg");
-							if (status == 1) {
-								// 成功
-								ConstantForSaveList.regist_time = current_time;// 保存进入界面的时间
-							} else {
-								showToast(msg);
-							}
+			@Override
+			public void onResponse(String response) {
+				try {
+					JSONObject js = new JSONObject(response);
+					JSONObject jsstatus = js
+							.getJSONObject("ResponseStatus");
+					int status = jsstatus.getInt("status");
+					String msg = jsstatus.getString("msg");
+					if (status == 1) {
+						// 成功
+						ConstantForSaveList.regist_time = current_time;// 保存进入界面的时间
+					} else {
+						showToast(msg);
+					}
 
-						} catch (JSONException e) {
-							showToast(getResources().getString(
-									R.string.regist_getcode_fail));
-							e.printStackTrace();
-						}
-					}
-				}, new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						showToast("获取验证码失败,请检查网络环境");
-					}
-				}) {
+				} catch (JSONException e) {
+					showToast(getResources().getString(
+							R.string.regist_getcode_fail));
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				showToast("获取验证码失败,请检查网络环境");
+			}
+		}) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
 				Map<String, String> map = new HashMap<String, String>();

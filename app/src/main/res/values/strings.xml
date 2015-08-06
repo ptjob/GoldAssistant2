@@ -464,6 +464,9 @@
     <string name="exit_app">退出应用</string>
     <string name="blacklist_line_1">啊...账号因为违规操作被冻结</string>
     <string name="blacklist_line_2">请联系客服</string>
+    <string name="real_name_line_1">*实名认证将有助于您更快速地</string>
+    <string name="real_name_line_2">找到合适的兼职人员</string>
+    <string name="real_name_line_3">*兼职达人承诺不会向外界泄露您的认证信息</string>
 
     <!-- 招人Tab -->
     <string name="publish_job">发布兼职</string>

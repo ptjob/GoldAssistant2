@@ -54,7 +54,6 @@
 
     <dimen name="img_icon_size_border">135px</dimen>
     <dimen name="img_icon_size">130px</dimen>
-    <dimen name="chat_activity_popup_margin">50dp</dimen>
     <!-- icon -->
     <!-- 个人详情 头像-->
     <dimen name="defaul_icon_size_border">145px</dimen>
@@ -116,7 +115,8 @@
     <dimen name="form_item_margin_left">12dp</dimen>
     <dimen name="form_item_title_margin_left">20dp</dimen>
 
-    <dimen name="form_item_icon_edge">22dp</dimen>
+    <dimen name="form_item_icon_width">22dp</dimen>
+    <dimen name="form_item_icon_height">22.5dp</dimen>
 
     <dimen name="title_height">49dp</dimen>
     <dimen name="title_padding">10dp</dimen>

@@ -24,7 +24,7 @@ import com.qingmu.jianzhidaren.R;
  * Created by cjz on 2015/7/29.
  */
 public class AfterCertedActivity extends WithTitleActivity{
-//    public static final String EXTRA_IS_AGENT = "extra_is_agent";
+    //    public static final String EXTRA_IS_AGENT = "extra_is_agent";
     public static final String EXTRA_CERT_VO = "extra_cert_vo";
 
     @ViewInject(R.id.ei_boss_name)
@@ -85,9 +85,25 @@ public class AfterCertedActivity extends WithTitleActivity{
         initViewByStatus();
     }
 
+    private String getMaskString(String s){
+        if(s == null){
+            return null;
+        }
+        if(s.length() <= 2){
+            return s.replaceAll(".", "*");
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(s.charAt(0));
+        for(int i = 0; i < s.length() - 1; ++i){
+            sb.append("*");
+        }
+        sb.append(s.charAt(s.length() - 1));
+        return sb.toString();
+    }
+
     private void initViewByStatus(){
         eiName.setValue(certVo.name);
-        eiIdNum.setValue(certVo.idNum);
+        eiIdNum.setValue(getMaskString(certVo.idNum));
         eiIdNum.setEnabled(false);
         eiName.setEnabled(false);
         if(certVo.accountType == AccountType.ENTERPRISE || !TextUtils.isEmpty(certVo.regId)){

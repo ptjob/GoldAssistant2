@@ -134,33 +134,33 @@ public class MainTabActivity extends BaseActivity implements
 	protected WaitDialog dialog;
 	// 极光推送
 	private MessageReceiver jpushMessageReceiver;
-	
+
 	protected static final String TAG = "MainTabActivity";
 	public static final String MESSAGE_RECEIVED_ACTION = "com.company.jpush.MESSAGE_RECEIVED_ACTION";
 	public static final String KEY_MESSAGE = "message";
 	public static final String KEY_EXTRAS = "extras";
-	
+
 	Function function = new Function();
 	private String company_infor_url;// 商家信息
 	//private TextView unread_guanli_msg_tv;// 未处理报名信息
 	private TextView unread_msg_tv;// 未查看消息条数
 	private String company_id;// 商家id
-	
+
 	// ===========高德地图=================
 	private LocationManagerProxy mLocationManagerProxy;
-	
+
 	// =========环信===========
 	protected NotificationManager notificationManager;
 	private static final int notifiId = 11;
-	
+
 	private MessageAndAddressFragment messageAndAddressFragment;
 	// 当前fragment的index
 	private int currentTabIndex;
 	private NewMessageBroadcastReceiver msgReceiver;
-	
+
 	// 账号在别处登录
 	public boolean isConflict = false;
-	
+
 	// 账号被移除
 	public static boolean isForeground = false;// 界面是否在前端运行
 	private boolean isCurrentAccountRemoved = false;
@@ -209,7 +209,7 @@ public class MainTabActivity extends BaseActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题
 		setContentView(R.layout.activity_main_company);
 		createNoMediaFile();// 隐藏图片
-		
+
 		queue = VolleySington.getInstance().getRequestQueue();
 		initSpAndParam();
 		initUrl();
@@ -217,7 +217,7 @@ public class MainTabActivity extends BaseActivity implements
 		fm = getFragmentManager();
 		instens = this;
 		initGaoDe();
-		
+
 		initJiGuangPush();
 
 		selectedFragment(PAGER.MESSAGE);
@@ -225,7 +225,7 @@ public class MainTabActivity extends BaseActivity implements
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		ConfigDataUtil.getInstance().setDisplayMetrics(dm);
-		
+
 		// 检测更新
 		updateLog();
 		// login();
@@ -251,9 +251,9 @@ public class MainTabActivity extends BaseActivity implements
 			finish();
 			return;
 		}
-		
+
 		initView();
-		
+
 		// MobclickAgent.setDebugMode( true );
 		MobclickAgent.updateOnlineConfig(this);
 
@@ -268,7 +268,7 @@ public class MainTabActivity extends BaseActivity implements
 		inviteMessgeDao = new InviteMessgeDao(this);
 		userDao = new UserDao(this);
 		messageAndAddressFragment = new MessageAndAddressFragment();
-		
+
 		initEasemob();
 
 		// ************************如果登陆过，app长期在后台再进的时候也可能会导致加载到内存的群组和会话为空*************************************
@@ -377,10 +377,10 @@ public class MainTabActivity extends BaseActivity implements
 		// 获取本地所有群组并且设置保存的消息免打扰
 		setMessageMainDaRao();
 	}
-	
+
 
 	private void initView() {
-		
+
 		// 未查看消息记录条数
 		unread_msg_tv = (TextView) findViewById(R.id.unread_company_quanzi_number);
 
@@ -435,7 +435,7 @@ public class MainTabActivity extends BaseActivity implements
 		}
 	};
 
-	
+
 	// 初始化极光
 	private void initJiGuangPush() {
 		registerMessageReceiver(); // used for receive msg
@@ -461,7 +461,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 设置hearder属性，方便通讯中对联系人按header分类显示，以及通过右侧ABCD...字母栏快速定位联系人
-	 * 
+	 *
 	 * @param username String
 	 * @param user com.easemob.chatuidemo.domain.User
 	 */
@@ -496,7 +496,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 获取消息免打扰群组并设置
-	 * 
+	 *
 	 */
 	private void setMessageMainDaRao() {
         //屏蔽组
@@ -788,8 +788,8 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 新消息广播接收者
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private class NewMessageBroadcastReceiver extends BroadcastReceiver {
 		@Override
@@ -839,7 +839,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 当应用在前台时，如果当前消息不是属于当前会话，在状态栏提示一下 如果不需要，注释掉即可
-	 * 
+	 *
 	 * @param message
 	 */
 	protected void notifyNewMessage(EMMessage message) {
@@ -961,7 +961,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/***
 	 * 好友变化listener
-	 * 
+	 *
 	 */
 	private class MyContactListener implements EMContactListener {
 
@@ -1071,7 +1071,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 保存提示新消息
-	 * 
+	 *
 	 * @param msg
 	 */
 	private void notifyNewIviteMessage(InviteMessage msg) {
@@ -1088,7 +1088,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 保存邀请等msg
-	 * 
+	 *
 	 * @param msg
 	 */
 	private void saveInviteMsg(InviteMessage msg) {
@@ -1103,7 +1103,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * set head
-	 * 
+	 *
 	 * @param username String
 	 * @return User
 	 */
@@ -1134,7 +1134,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 连接监听listener
-	 * 
+	 *
 	 */
 	private class MyConnectionListener implements EMConnectionListener {
 
@@ -1371,7 +1371,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 获取商家信息
-	 * 
+	 *
 	 */
 	private void initMy() {
 		showWait(true);
@@ -1811,7 +1811,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * DOWNLOAD APK FILE BY URL
-	 * 
+	 *
 	 * @param url String
 	 */
 	private void downloadApkFile(final String url) {
@@ -2030,7 +2030,7 @@ public class MainTabActivity extends BaseActivity implements
 
     /**
 	 * 获取服务器端好友列表
-	 * 
+	 *
 	 */
 	private void getFriendListFromServer() {
 		StringRequest stringRequest = new StringRequest(Method.POST,
@@ -2085,7 +2085,7 @@ public class MainTabActivity extends BaseActivity implements
 
 	/**
 	 * 得到本地应用的版本信息
-	 * 
+	 *
 	 * @return
 	 */
 	private int getAPKVersion() {
@@ -2147,7 +2147,7 @@ public class MainTabActivity extends BaseActivity implements
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 	}
-	
+
 
 	public enum PAGER {
 		MESSAGE(R.id.tv2), PUBLISH(R.id.tv3), MINE(R.id.tv4);

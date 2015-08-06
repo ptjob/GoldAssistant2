@@ -12,4 +12,6 @@ public class ApplicationConstants {
     public static final String KEFU = "kefu";
     public static final String TONGZHI = "tongzhi";
 
+    public static final int PERIOD_FOR_GET_CODE = 60 * 1000;
+
 }
