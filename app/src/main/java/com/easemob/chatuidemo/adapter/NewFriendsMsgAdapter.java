@@ -130,11 +130,9 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 					|| msg.getStatus() == InviteMesageStatus.BEAPPLYED) {
 				holder.status.setVisibility(View.VISIBLE);
 				holder.status.setEnabled(true);
-				holder.status.setBackgroundResource(R.drawable.button_bg);
 				holder.status.setText("同意");
 				// 群申请拒绝
 				holder.refuse.setVisibility(View.VISIBLE);
-				holder.refuse.setBackgroundResource(R.drawable.button_bg);
 				holder.refuse.setEnabled(true);
 				holder.refuse.setText("拒绝");
 				if (msg.getStatus() == InviteMesageStatus.BEINVITEED) {
@@ -155,7 +153,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 						// 同意别人发的好友请求
 						acceptInvitation(holder.status, msg);
 						holder.status.setText("已同意");
-						holder.status.setBackgroundDrawable(null);
 						holder.status.setVisibility(View.VISIBLE);
 						holder.status.setEnabled(false);
 						holder.refuse.setVisibility(View.GONE);
@@ -168,7 +165,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 					public void onClick(View arg0) {
 						refuseInvitation(holder.refuse, msg);
 						holder.refuse.setText("已拒绝");
-						holder.refuse.setBackgroundDrawable(null);
 						holder.refuse.setVisibility(View.VISIBLE);
 						holder.refuse.setEnabled(false);
 						holder.status.setVisibility(View.GONE);
@@ -177,13 +173,11 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 				});
 			} else if (msg.getStatus() == InviteMesageStatus.AGREED) {
 				holder.status.setText("已同意");
-				holder.status.setBackgroundDrawable(null);
 				holder.status.setEnabled(false);
 				holder.status.setVisibility(View.VISIBLE);
 				holder.refuse.setVisibility(View.GONE);
 			} else if (msg.getStatus() == InviteMesageStatus.REFUSED) {
 				holder.refuse.setText("已拒绝");
-				holder.refuse.setBackgroundDrawable(null);
 				holder.refuse.setVisibility(View.VISIBLE);
 				holder.refuse.setEnabled(false);
 				holder.status.setVisibility(View.GONE);

@@ -43,7 +43,7 @@ public class ChatActivityHelper {
         DisplayMetrics metric = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
         final PopupWindow popupWindow = new PopupWindow(popView,
-                (metric.widthPixels /*- (int)activity.getResources().getDimension(R.dimen.chat_activity_popup_margin)*/),
+                (metric.widthPixels),
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         EMGroup group = EMGroupManager.getInstance().getGroup(activity.toChatUsername);
@@ -86,10 +86,10 @@ public class ChatActivityHelper {
         //popupWindow.setAnimationStyle(R.style.popwin_anim_style_2);
 
         //设置popwindow显示位置
-        popupWindow.showAsDropDown(view);
-        /*popupWindow.showAsDropDown(view,
-                (int) activity.getResources().getDimension(R.dimen.chat_activity_popup_margin) / 2,
-                (int) activity.getResources().getDimension(R.dimen.chat_activity_popup_margin) / 2);*/
+        //popupWindow.showAsDropDown(view);
+        popupWindow.showAsDropDown(view,
+                0,
+                (int) activity.getResources().getDimension(R.dimen.chat_activity_popup_margin) / 5);
         //获取popwindow焦点
         popupWindow.setFocusable(true);
         //设置popwindow如果点击外面区域，便关闭。
