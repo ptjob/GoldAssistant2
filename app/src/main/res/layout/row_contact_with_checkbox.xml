@@ -47,12 +47,12 @@
 
         <CheckBox
             android:id="@+id/checkbox"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="40dp"
             android:focusable="false"
-            android:button="@drawable/contact_select"
+            style="@style/Checkbox_Circle"
             android:layout_centerVertical="true"
             />
 

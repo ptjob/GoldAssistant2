@@ -224,7 +224,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 							values.put(InviteMessgeDao.COLUMN_NAME_STATUS, msg
 									.getStatus().ordinal());
 							messgeDao.updateMessage(msg.getId(), values);
-							button.setBackgroundDrawable(null);
 							button.setEnabled(false);
 						}
 					});
@@ -280,7 +279,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 							values.put(InviteMessgeDao.COLUMN_NAME_STATUS, msg
 									.getStatus().ordinal());
 							messgeDao.updateMessage(msg.getId(), values);
-							button.setBackgroundDrawable(null);
 							button.setEnabled(false);
 						}
 					});

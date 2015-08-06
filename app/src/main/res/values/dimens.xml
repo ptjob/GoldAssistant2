@@ -51,6 +51,7 @@
     <dimen name="tt">22sp</dimen>
     <dimen name="xingchou">25sp</dimen>
     <dimen name="xiaohui">16sp</dimen>
+    <dimen name="chat_activity_popup_margin">50dp</dimen>
 
     <dimen name="img_icon_size_border">135px</dimen>
     <dimen name="img_icon_size">130px</dimen>
