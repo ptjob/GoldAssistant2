@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.parttime.login.FindPJLoginActivity;
 import com.qingmu.jianzhidaren.R;
 import com.umeng.analytics.MobclickAgent;
 
@@ -23,7 +25,7 @@ public class LaheiPageActivity extends Activity {
 		MobclickAgent.updateOnlineConfig(this);
 		instance = this;
 		setContentView(R.layout.activity_lahei);
-		TextView phone = (TextView) findViewById(R.id.phone);
+		Button phone = (Button) findViewById(R.id.phone);
 		phone.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -34,13 +36,13 @@ public class LaheiPageActivity extends Activity {
 			}
 		});
 
-		TextView exit = (TextView) findViewById(R.id.exit);
+		Button exit = (Button) findViewById(R.id.exit);
 		exit.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (EnterActivity.instance != null) {
-					EnterActivity.instance.finish();
+				if(FindPJLoginActivity.instance != null){
+					FindPJLoginActivity.instance.finish();
 				}
 				finish();
 			}

@@ -461,6 +461,9 @@
     <string name="i_am_boy">我是男生</string>
     <string name="login_tel">登录手机</string>
     <string name="qing_mu_company">青木科技有限公司</string>
+    <string name="exit_app">退出应用</string>
+    <string name="blacklist_line_1">啊...账号因为违规操作被冻结</string>
+    <string name="blacklist_line_2">请联系客服</string>
 
     <!-- 招人Tab -->
     <string name="publish_job">发布兼职</string>
