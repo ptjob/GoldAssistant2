@@ -566,6 +566,7 @@
     <string name="job_expantion_title">扩招</string>
     <string name="job_expedited_success">加急成功</string>
     <string name="job_expansion_num_limited">扩招人数输入限制在50人以内</string>
+    <string name="job_expansion_input_hint">请在此输入需要扩招的人数</string>
 
     <!-- 兼职广场 -->
     <string name="job_plaza_title">最新兼职</string>

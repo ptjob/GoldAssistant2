@@ -91,7 +91,7 @@ public class SharePopupWindow extends PopupWindow {
 		// 设置SelectPicPopupWindow弹出窗体的宽
 		this.setWidth(LayoutParams.FILL_PARENT);
 		// 设置SelectPicPopupWindow弹出窗体的高
-		this.setHeight(LayoutParams.FILL_PARENT);
+		this.setHeight(LayoutParams.WRAP_CONTENT);
 		// 设置SelectPicPopupWindow弹出窗体可点击
 		this.setFocusable(true);
 		// 设置SelectPicPopupWindow弹出窗体动画效果
@@ -281,15 +281,19 @@ public class SharePopupWindow extends PopupWindow {
 		sp.setComment("我对此分享内容的评论");
 		sp.setSite("兼职达人");
 		sp.setSiteUrl(shareParams.getUrl());
-		Platform weixin = ShareSDK.getPlatform(context, "Wechat");
+        try {
+            Platform weixin = ShareSDK.getPlatform(context, "Wechat");
 
-		if (weixin != null) {
-			weixin.setPlatformActionListener(platformActionListener); // 设置分享事件回调
-																		// //
-																		// 执行图文分享
-			weixin.share(sp);
-		}
-	}
+            if (weixin != null) {
+                weixin.setPlatformActionListener(platformActionListener); // 设置分享事件回调
+                                                                            // //
+                                                                            // 执行图文分享
+                weixin.share(sp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * 分享到微博
