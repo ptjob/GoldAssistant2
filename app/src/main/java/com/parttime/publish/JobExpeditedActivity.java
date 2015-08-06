@@ -13,11 +13,24 @@ import com.quark.jianzhidaren.BaseActivity;
  * Created by wyw on 2015/8/2.
  */
 public class JobExpeditedActivity extends BaseActivity {
+    public static final String EXTRA_JOB_ID = "job_id";
+
+    private int jobId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_expedited);
+        initIntent();
         initControls();
+    }
+
+    private void initIntent() {
+        jobId = getIntent().getIntExtra(EXTRA_JOB_ID, -1);
+        if (jobId == -1) {
+            showToast(R.string.error_operation_fail);
+            finish();
+        }
     }
 
     private void initControls() {
@@ -35,7 +48,8 @@ public class JobExpeditedActivity extends BaseActivity {
     }
 
     public void expansion(View view) {
-        Intent intent = new Intent(this, JobExpeditedActivity.class);
+        Intent intent = new Intent(this, JobExpansionActivity.class);
+        intent.putExtra(JobExpeditedActivity.EXTRA_JOB_ID, jobId);
         startActivity(intent);
     }
 }

@@ -9,11 +9,15 @@
 
     <TextView
         style="@style/FormLabel"
+        android:inputType="number"
         android:text="@string/job_expansion_label_num" />
 
     <ImageView style="@style/PublicLineH_1" />
 
-    <EditText android:id="@+id/edittxt_expansion_num" style="@style/FormInput" />
+    <EditText
+        android:id="@+id/edittxt_expansion_num"
+        style="@style/FormInput"
+        android:hint="@string/job_expansion_input_hint" />
 
     <ImageView style="@style/PublicLineH_1" />
 

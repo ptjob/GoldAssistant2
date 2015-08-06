@@ -233,10 +233,13 @@ public class PublishRequest extends BaseRequest {
         request(url, reqParams, requestQueue, callback);
     }
 
-    public void setUrgent(int jobId, RequestQueue requestQueue, final DefaultCallback callback) {
+    public void setUrgent(int jobId, int addCount, RequestQueue requestQueue, final DefaultCallback callback) {
         HashMap<String, String> reqParams = new HashMap<>();
         reqParams.put("company_id", String.valueOf(ApplicationUtils.getLoginId()));
         reqParams.put("activity_id", String.valueOf(jobId));
+        if (addCount > 0) {
+            reqParams.put("add_count", String.valueOf(addCount));
+        }
 
         String url = Url.COMPANY_MyJianzhi_setUrgent;
 

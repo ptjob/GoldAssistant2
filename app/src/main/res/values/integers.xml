@@ -6,4 +6,5 @@
     <integer name="work_address_min_length">4</integer>
     <integer name="measurements_min_value">60</integer>
     <integer name="measurements_max_value">120</integer>
+    <integer name="expansion_max_value">50</integer>
 </resources>

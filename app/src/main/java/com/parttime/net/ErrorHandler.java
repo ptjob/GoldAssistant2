@@ -38,4 +38,10 @@ public class ErrorHandler {
             activity.showToast(getErrorMsg());
         }
     }
+
+    public void showToast(String prevTag){
+        if(activity != null){
+            activity.showToast(prevTag + getErrorMsg());
+        }
+    }
 }
