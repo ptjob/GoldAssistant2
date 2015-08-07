@@ -1,0 +1,72 @@
+[33mcommit 9aa638095d42177e5fa5e7b3857708d627110d1b[m
+Merge: 6c07b0d e555539
+Author: luhuajcdd <luhuazhuce@163.com>
+Date:   Fri Aug 7 09:58:06 2015 +0800
+
+    Merge branch 'master' of https://github.com/ptjob/GoldAssistant2
+
+[33mcommit 6c07b0d0c349bc754e35c4434736f48677017fed[m
+Author: luhuajcdd <luhuazhuce@163.com>
+Date:   Fri Aug 7 09:57:56 2015 +0800
+
+    更新
+
+[33mcommit e555539c2971c1a1efaa71b8576e35e35a2b0f3c[m
+Author: Yeewoe <476904945@qq.com>
+Date:   Fri Aug 7 09:40:20 2015 +0800
+
+    分享功能UI修正，复制和群分享功能完成
+
+[33mcommit 59ae5bd4e313938a508f23192953382a62a9a31d[m
+Author: skydreaming <skydreamings@qq.com>
+Date:   Fri Aug 7 08:20:10 2015 +0800
+
+    广场首页
+
+[33mcommit 880d1acddd7d8fa85b9956bf7572ab02ec25df90[m
+Author: Yeewoe <476904945@qq.com>
+Date:   Fri Aug 7 07:41:42 2015 +0800
+
+    分享功能，扩招功能
+
+[33mcommit 4b40eb6de325578b428e14582d699b8437037a08[m
+Author: luhuajcdd <dehua@dehuadeMacBook-Pro.local>
+Date:   Fri Aug 7 07:22:11 2015 +0800
+
+    更新加人，选人UI
+
+[33mcommit 773d7f2dcd32d90af24a57cdafa402b901db5dfd[m
+Author: luhuajcdd <dehua@dehuadeMacBook-Pro.local>
+Date:   Fri Aug 7 06:16:13 2015 +0800
+
+    更新 加好友UI, 群通知UI
+
+[33mcommit a14d4bbe35090843639734c59e86d183d6da6fcc[m
+Author: skydreaming <skydreamings@qq.com>
+Date:   Thu Aug 6 23:54:40 2015 +0800
+
+    补回丢失的代码
+
+[33mcommit 30332e97f3232d0ed7799cbef21dd52cbf2d2c40[m
+Author: Yeewoe <476904945@qq.com>
+Date:   Thu Aug 6 23:50:27 2015 +0800
+
+    扩招页面功能完善
+
+[33mcommit 9b78ccffec3a843f7ff8eb4d37c1945190b33170[m
+Author: skydreaming <skydreamings@qq.com>
+Date:   Thu Aug 6 23:09:44 2015 +0800
+
+    拉黑界面 和启动界面UI
+
+[33mcommit 41073fac0e9355dac94b979aa2a3c3d80160635f[m
+Author: luhuajcdd <dehua@dehuadeMacBook-Pro.local>
+Date:   Thu Aug 6 22:37:26 2015 +0800
+
+    update
+
+[33mcommit 7bf92f45c9ea00e9d1b4fd802f131c72c270bacb[m
+Author: luhuajcdd <dehua@dehuadeMacBook-Pro.local>
+Date:   Thu Aug 6 21:32:34 2015 +0800
+
+    创建新主干
