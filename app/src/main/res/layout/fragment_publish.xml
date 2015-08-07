@@ -8,59 +8,204 @@
         android:layout_height="wrap_content"
         layout="@layout/common_guangchang" />
 
-    <ScrollView
+    <!--<ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent">-->
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="197dp">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <com.parttime.widget.StepView
+                android:id="@+id/sv_steps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:id="@+id/rl_left_top"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/iv_left_top"
+                        android:layout_width="41dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/fabu_big"
+                        android:scaleType="fitXY"/>
+                    <TextView
+                        android:id="@+id/tv_left_top"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="@color/txt_color_gray"
+                        android:layout_below="@id/iv_left_top"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/publish_job"/>
+
+                </RelativeLayout>
+                
+                <View
+                    android:id="@+id/top_verticle_divider"
+                    android:layout_width="@dimen/divider_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/form_divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_right_top"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/iv_right_top"
+                        android:layout_width="41dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/guanli"
+                        android:scaleType="fitXY"/>
+                    <TextView
+                        android:id="@+id/tv_right_top"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="16dp"
+                        android:textColor="@color/txt_color_gray"
+                        android:layout_below="@id/iv_right_top"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/manage_job"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_width"
+                android:background="@color/form_divider"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:id="@+id/rl_left_bottom"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/iv_left_bottom"
+                        android:layout_width="41dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/guangchang"
+                        android:scaleType="fitXY"/>
+                    <TextView
+                        android:id="@+id/tv_left_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="@color/txt_color_gray"
+                        android:layout_below="@id/iv_left_bottom"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/job_plaza"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bottom_verticle_divider"
+                    android:layout_width="@dimen/divider_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/form_divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_right_bottom"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/iv_right_bottom"
+                        android:layout_width="41dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/jingjiren"
+                        android:scaleType="fitXY"/>
+                    <TextView
+                        android:id="@+id/tv_right_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="16dp"
+                        android:textColor="@color/txt_color_gray"
+                        android:layout_below="@id/iv_right_bottom"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/broker_charts"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+       <!-- <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@drawable/login_logo" />
+
+        <Button
+            android:id="@+id/btn_publish_job"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/publish_job" />
+
+        <Button
+            android:id="@+id/btn_manage_job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/manage_job" />
+
+        <Button
+            android:id="@+id/btn_job_plaza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/job_plaza" />
+
+        <Button
+            android:id="@+id/btn_broker_charts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/broker_charts" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="11dp">
+            android:text="@string/publish_tip_about_publish" />-->
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:src="@drawable/login_logo" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_publish_job"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/publish_job" />
-
-            <Button
-                android:id="@+id/btn_manage_job"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/manage_job" />
-
-            <Button
-                android:id="@+id/btn_job_plaza"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/job_plaza" />
-
-            <Button
-                android:id="@+id/btn_broker_charts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/broker_charts" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_horizontal"
-                android:text="@string/publish_tip_about_publish" />
-
-        </LinearLayout>
-
-    </ScrollView>
+    <!--</ScrollView>-->
 </LinearLayout>

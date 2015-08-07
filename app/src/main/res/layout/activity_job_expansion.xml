@@ -17,7 +17,7 @@
     <EditText
         android:id="@+id/edittxt_expansion_num"
         style="@style/FormInput"
-        android:hint="@string/job_expansion_input_hint" />
+         />
 
     <ImageView style="@style/PublicLineH_1" />
 

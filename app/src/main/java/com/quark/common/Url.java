@@ -169,6 +169,10 @@ public class Url {
 	public static final String USER_jianli_scan_comment = HOST + SUBJECT
 			+ "/UserCenter/comment";
 
+
+	public static final String COMPANY_GET_BANNER = HOST + SUBJECT
+			+ "CompanyCenter/getBanner";
+
 	// 检查是否可以发布兼职
 	public static final String COMPANY_availability = HOST + SUBJECT
 			+ "/Activity/availability";

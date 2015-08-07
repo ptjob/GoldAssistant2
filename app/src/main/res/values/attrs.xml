@@ -132,4 +132,14 @@
         <attr name="ei_bottomDividerShow" format="boolean"/>
         <attr name="ei_nameShow" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="StepView">
+        <attr name="sv_itemWidth" format="dimension"/>
+        <attr name="sv_itemHeight" format="dimension"/>
+        <attr name="sv_itemMargin" format="dimension"/>
+        <attr name="sv_normalColor" format="color"/>
+        <attr name="sv_currentColor" format="color"/>
+        <attr name="sv_stepCount" format="integer"/>
+        <attr name="sv_defaultStep" format="integer"/>
+    </declare-styleable>
 </resources>
