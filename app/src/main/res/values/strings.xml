@@ -547,9 +547,6 @@
     <string name="job_detail_status_fail">已下架</string>
     <string name="job_detail_view_count_format">%1$d人次</string>
     <string name="job_detail_hand_count_format">%1$d人</string>
-    <string name="job_detail_share_format">活动标题%1$s\n工作区域：%2$s\n详细地点：%3$s\n工作时间：%4$s-%5$s\n结算方式：%6$s\n招募人数：%7$s\n工作要求：%8$s\n\n*联系我时请告诉我来自己兼职达人app谢谢\n\n【报名方式：%9$s】</string>
-    <string name="job_detail_share_sex_count_format">%1$d男，%2$d女</string>
-    <string name="job_detail_share_copy_success">已将活动消息添加至剪贴板</string>
 
     <!-- 管理兼职 -->
     <string name="job_manage_title">管理兼职</string>

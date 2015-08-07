@@ -1028,7 +1028,7 @@ public class ActivityDetialActivity extends BaseActivity implements
 			if (NetWorkCheck.isOpenNetwork(ActivityDetialActivity.this)) {
 				if (jianzhi != null) {
 					share = new SharePopupWindow(ActivityDetialActivity.this,
-							true, null);
+							true);
 					share.setPlatformActionListener(ActivityDetialActivity.this);
 					ShareModel model = new ShareModel();
 					model.setText(shareText.toString());
