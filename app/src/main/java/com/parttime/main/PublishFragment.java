@@ -5,11 +5,13 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,9 +28,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.carson.constant.ConstantForSaveList;
 import com.droid.carson.Activity01;
+import com.google.gson.Gson;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
+import com.parttime.pojo.BannerItem;
 import com.parttime.publish.JobBrokerChartsActivity;
 import com.parttime.publish.JobManageActivity;
 import com.parttime.publish.JobPlazaActivity;
@@ -41,6 +45,7 @@ import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
 import com.quark.volley.VolleySington;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * 招人主界面
@@ -91,7 +97,14 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     private PagerAdapter adapter;
 
     private StepView svSteps;
-    private int lastPos = Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % 4;
+    private int lastPos;
+
+    private AutoSlideManager autoSlideManager;
+    private Handler handler;
+
+
+    private List<ImageView> bannerIvs = new ArrayList<>();
+    private List<BannerItem> banners = new ArrayList<>();
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -126,6 +139,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                 SharedPreferenceConstants.USER_ID, "");
         city = spu.loadStringSharedPreference(SharedPreferenceConstants.CITY);
         loadBanners();
+        handler = new Handler();
     }
 
     private void initViews(View root){
@@ -189,6 +203,16 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             @Override
             public void success(Object obj) throws JSONException {
                 JSONObject json = (JSONObject) obj;
+                JSONArray bannerList = json.getJSONArray("bannerList");
+                if(bannerList != null){
+                    Gson gson = new Gson();
+                    for(int i = 0; i < bannerList.length(); ++i){
+                        String s = bannerList.getJSONObject(i).toString();
+                        BannerItem bannerItem = gson.fromJson(s, BannerItem.class);
+                        banners.add(bannerItem);
+                    }
+                }
+
             }
 
             @Override
@@ -209,35 +233,26 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         svSteps = (StepView) view.findViewById(R.id.sv_steps);
         svSteps.setStepCount(4);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        List<View> tvs = new ArrayList<>();
+        /*List<View> tvs = new ArrayList<>();
         for(int i = 0; i < 4; ++i){
             TextView tv = new TextView(getActivity());
+            tv.setBackgroundColor(0xaa000000 | (0xff << (i *8)));
             tv.setText("" + i);
             tv.setGravity(Gravity.CENTER);
             tvs.add(tv);
-        }
-        adapter = new BannerAdapter(tvs);
+        }*/
+        adapter = new BannerAdapter(bannerIvs);
         viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-                if (i - lastPos > 0) {
-                    svSteps.forward();
-                } else if (lastPos - i > 0) {
-                    svSteps.backward();
-                }
-                lastPos = i;
-            }
+        autoSlideManager = new AutoSlideManager(handler, viewPager, svSteps);
+        viewPager.setOnPageChangeListener(autoSlideManager);
 
-            @Override
-            public void onPageSelected(int i) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-            }
-        });
+        lastPos = Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % 4;
+        autoSlideManager.setInitPosition(lastPos);
+        viewPager.setOnTouchListener(autoSlideManager);
         viewPager.setCurrentItem(lastPos);
+        svSteps.current(lastPos);
+
+
 
 
         mRLCity = (RelativeLayout) view
@@ -248,6 +263,25 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
         return view;
     }
+
+    protected void startBanners(){
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        autoSlideManager.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        autoSlideManager.stop();
+
+    }
+
 
     private void initTitle(View view) {
         // 左侧文本框
@@ -354,6 +388,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                 1.0f));
     }
 
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -370,9 +405,9 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     }
 
     private class BannerAdapter extends PagerAdapter {
-        public List<View> views;
+        public List<ImageView> views;
 
-        public BannerAdapter(List<View> views) {
+        public BannerAdapter(List<ImageView> views) {
             this.views = views;
         }
 
@@ -397,6 +432,89 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         public void destroyItem(ViewGroup container, int position, Object object) {
 //            super.destroyItem(container, position, object);
             ((ViewPager)container).removeView(views.get(position % views.size()));
+        }
+    }
+
+    private class AutoSlideManager implements ViewPager.OnPageChangeListener, View.OnTouchListener{
+        private ViewPager pager;
+        private StepView stepView;
+        private long duration = 2000;
+        private Handler handler;
+
+        private boolean stop;
+
+        private AutoSlideManager(Handler handler, ViewPager pager, StepView stepView) {
+            this.pager = pager;
+            this.stepView = stepView ;
+            this.handler = handler;
+
+        }
+
+        public void setDuration(long millis){
+            duration = millis;
+        }
+
+        public void setInitPosition(int position){
+            lastPos = position;
+        }
+
+        public void start(){
+            stop = false;
+            if(handler != null){
+//                toDo = true;
+                handler.postDelayed(worker, duration);
+            }
+        }
+
+        public void stop(){
+            stop = true;
+        }
+
+        protected void post(){
+
+        }
+
+        private Runnable worker = new Runnable() {
+            @Override
+            public void run() {
+                if(!stop) {
+                    Log.e("test", "" + pager.getCurrentItem());
+                    int currentItem = viewPager.getCurrentItem();
+                    pager.setCurrentItem(currentItem + 1, true);
+                    stepView.current(currentItem + 1);
+                    handler.postDelayed(this, duration);
+                }
+            }
+        };
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            stepView.current(position);
+            lastPos = position;
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    handler.removeCallbacks(worker);
+                    break;
+                case MotionEvent.ACTION_UP:
+                        handler.postDelayed(worker, duration);
+                    break;
+            }
+            return false;
         }
     }
 }

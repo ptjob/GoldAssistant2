@@ -171,7 +171,7 @@ public class Url {
 
 
 	public static final String COMPANY_GET_BANNER = HOST + SUBJECT
-			+ "CompanyCenter/getBanner";
+			+ "/CompanyCenter/getBanner";
 
 	// 检查是否可以发布兼职
 	public static final String COMPANY_availability = HOST + SUBJECT

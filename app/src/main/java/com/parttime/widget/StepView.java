@@ -77,7 +77,7 @@ public class StepView extends LinearLayout{
         itemWidth = res.getDimensionPixelSize(R.dimen.sv_item_width_default);
         itemHeight = res.getDimensionPixelSize(R.dimen.sv_item_height_default);
         itemMargin = res.getDimensionPixelSize(R.dimen.sv_item_margin_default);
-        normalColor = res.getColor(R.color.gray_block);
+        normalColor = res.getColor(R.color.common_gray_4);
         currentColor = res.getColor(R.color.common_orange);
     }
 
@@ -155,5 +155,10 @@ public class StepView extends LinearLayout{
 
     public void move(int step){
 
+    }
+
+    public void current(int position){
+        curStep = position % count;
+        updateColor();
     }
 }
