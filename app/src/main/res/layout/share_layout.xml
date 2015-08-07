@@ -3,75 +3,75 @@
     android:id="@+id/pop_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <ImageView style="@style/PublicLineH" />
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:id="@+id/top_title_layout"
-        android:background="@color/head_color"
-        android:orientation="vertical" >
+        android:layout_height="35dp"
+        android:background="@color/bg_1"
+        android:gravity="center"
+        android:text="分享到"
+        android:textColor="@color/common_gray_5"
+        android:textSize="15dp" />
 
-        <Button
-            android:id="@+id/btn_cancel"
-            style="@style/imgTopLeft"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dip"
-            android:background="@drawable/nav_btn_back" />
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/bTopTitleCenter"
-            android:layout_width="fill_parent"
-            android:layout_height="45dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="活动详情" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/share_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dip"
-            android:text="分享到"
-            android:textColor="@color/head_color"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#B7B7B7" />
+    <ImageView style="@style/PublicLineH" />
 
     <GridView
         android:id="@+id/share_gridview"
         android:layout_width="wrap_content"
         android:layout_height="0dip"
         android:layout_weight="0.4"
+        android:background="@color/bg_0"
         android:numColumns="4"
         android:padding="10dip"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="20dip" />
+        android:verticalSpacing="23dp" />
 
-    <GridView
-        android:id="@+id/share_gridview1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dip"
-        android:layout_weight="0.5"
-        android:numColumns="3"
-        android:padding="10dip"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="20dip"
-        android:visibility="visible" />
+    <ImageView style="@style/PublicLineH" />
+
+    <LinearLayout
+        android:id="@+id/ll_copy"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/bg_1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/category" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="复制内容到粘贴板"
+            android:textColor="@color/common_gray_5"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <ImageView style="@style/PublicLineH" />
+
+    <View
+        style="@style/FormDivider_1"
+        android:background="@color/bg_0" />
+
+    <ImageView style="@style/PublicLineH" />
+
+    <TextView
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/bg_1"
+        android:gravity="center"
+        android:text="@string/back"
+        android:textColor="@color/common_gray_5"
+        android:textSize="15dp" />
+
+    <ImageView style="@style/PublicLineH" />
+
 
 </LinearLayout>

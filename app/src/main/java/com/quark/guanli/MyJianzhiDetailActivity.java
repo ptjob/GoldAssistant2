@@ -974,10 +974,10 @@ public class MyJianzhiDetailActivity extends BaseActivity implements
 					// status =2 ，4时可以分享 其它不能分享
 					if (jianzhi.getStatus() == 2 || jianzhi.getStatus() == 4) {
 						share = new SharePopupWindow(
-								MyJianzhiDetailActivity.this, true);
+								MyJianzhiDetailActivity.this, true, null);
 					} else {
 						share = new SharePopupWindow(
-								MyJianzhiDetailActivity.this, false);
+								MyJianzhiDetailActivity.this, false, null);
 					}
 					share.setPlatformActionListener(MyJianzhiDetailActivity.this);
 					ShareModel model = new ShareModel();

@@ -24,7 +24,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="11dp"
+        android:padding="5dp"
         android:textColor="@color/white"
-        android:text="sdgsdg"
         android:visibility="gone"/>
 </RelativeLayout>
