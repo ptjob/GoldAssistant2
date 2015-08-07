@@ -31,6 +31,14 @@
     <string name="gold_assistant">金牌助理</string>
     <string name="share">分享</string>
     <string name="none">无</string>
+    <string name="i_get_it">我知道了</string>
+    <string name="pay_tip">付费提示</string>
+    <string name="lack_of_money">余额不足</string>
+    <string name="aloud">批准</string>
+    <string name="to_recharge">去充值</string>
+    <string name="to_verify">去认证</string>
+    <string name="confirm">确认</string>
+
 
     <!-- 主界面 -->
     <string name="hiring">招人</string>
@@ -469,11 +477,17 @@
     <string name="real_name_line_3">*兼职达人承诺不会向外界泄露您的认证信息</string>
 
     <!-- 招人Tab -->
+    <string name="publish_title">招人</string>
     <string name="publish_job">发布兼职</string>
     <string name="manage_job">管理兼职</string>
     <string name="job_plaza">兼职广场</string>
     <string name="broker_charts">经纪人排行榜</string>
     <string name="publish_tip_about_publish">*请发布真实活动。\n若遭到用户投诉，我们可能会做封号处理。</string>
+    <string name="city_choose_title">城市列表</string>
+    <string name="publish_tab_verifying_tip">您的实名认证正在审核中</string>
+    <string name="publish_tab_should_verify_title">未完成实名认证提示</string>
+    <string name="publish_tab_should_verify_msg">尚未完成认证，完成认证才可以发布兼职活动</string>
+    <string name="publish_tab_pay_tip_msg">已使用完每日免费次数，需要付费</string>
 
     <!-- 发布兼职 -->
     <string name="publish_job_choose_type_label">请选择兼职类型</string>
@@ -559,6 +573,18 @@
     <string name="job_manage_view_count_format">%1$d次浏览</string>
     <string name="job_manage_hand_count_format">报名%1$d人</string>
     <string name="job_manage_hire_count_format">已招%1$d人</string>
+
+    <string name="job_refresh_success">刷新成功</string>
+    <string name="job_refresh_fail">刷新失败，请稍后再试</string>
+    <string name="job_refresh_free_msg">本次刷新免费，是否确认</string>
+    <string name="job_refresh_pay_msg">本次刷新将花费3元（余额：%1$d元），是否确认</string>
+    <string name="job_refresh_lack_of_money_msg">您的余额不足，请充值后再执行操作</string>
+    <string name="job_refresh_should_verify_msg">您还不是认证商家，认证过的商家才会有更多的权限</string>
+    <string name="job_shelve_msg">是否确认下架活动？</string>
+    <string name="job_shelve_success">下架成功？</string>
+    <string name="job_shelve_fail">下架失败</string>
+
+
     <string name="job_expedited_title">加急招人</string>
     <string name="job_expedited_label_reason">你遇到了哪种情况？</string>
     <string name="job_expedited_reason_1">人员变动，我要补招</string>
@@ -570,6 +596,7 @@
     <string name="job_expedited_success">加急成功</string>
     <string name="job_expansion_num_limited">扩招人数输入限制在50人以内</string>
     <string name="job_expansion_input_hint">请在此输入需要扩招的人数</string>
+
 
     <!-- 兼职广场 -->
     <string name="job_plaza_title">最新兼职</string>

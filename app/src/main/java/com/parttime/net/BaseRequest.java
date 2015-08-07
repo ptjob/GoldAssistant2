@@ -49,7 +49,7 @@ public class BaseRequest {
                 try {
                     JSONObject js = new JSONObject(response);
                     int status = js.getInt("status");
-                    if(BaseResponse.STATUS_SUCCESS == status) {
+                    if(BaseResponse.STATUS_SUCCESS <= status) {
                         callback.success(js);
                     }else{
                         ResponseBaseCommonError error = new Gson().fromJson(response, ResponseBaseCommonError.class);

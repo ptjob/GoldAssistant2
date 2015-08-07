@@ -80,10 +80,7 @@ public class JobBrokerDetailFragment extends BaseSupportFragment implements Adap
         @Override
         public void failed(Object obj) {
             showWait(false);
-            if (obj instanceof ResponseBaseCommonError) {
-                ResponseBaseCommonError error = (ResponseBaseCommonError) obj;
-                showToast(error.msg);
-            }
+            new ErrorHandler((com.quark.jianzhidaren.BaseActivity) getActivity(), obj);
         }
     };
 

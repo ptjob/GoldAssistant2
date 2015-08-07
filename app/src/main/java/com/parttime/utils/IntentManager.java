@@ -11,6 +11,7 @@ import com.parttime.common.Image.ImageShowActivity;
 import com.parttime.common.activity.ChooseListActivity;
 import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.main.MainTabActivity;
+import com.parttime.mine.RechargeActivity;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.pojo.PartJob;
 import com.parttime.publish.JobBrokerDetailActivity;
@@ -129,5 +130,22 @@ public class IntentManager {
         intent.putStringArrayListExtra(ActivityExtraAndKeys.USER_ID,userIds);
         intent.putStringArrayListExtra(ActivityExtraAndKeys.ImageShow.PICTURES,pictures);
         context.startActivity(intent);
+    }
+
+    /**
+     * 充值页面
+     * @param context
+     */
+    public static void intentToRecharge(Context context) {
+        context.startActivity(new Intent(context, RechargeActivity.class));
+    }
+
+    /**
+     * 编辑活动
+     * @param jobDetailActivity
+     * @param partJob
+     */
+    public static void intentToEditJob(Context jobDetailActivity, PartJob partJob) {
+
     }
 }

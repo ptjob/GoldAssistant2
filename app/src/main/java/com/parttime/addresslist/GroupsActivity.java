@@ -40,6 +40,9 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.activity.BaseActivity;
 import com.easemob.exceptions.EaseMobException;
 import com.parttime.IM.ChatActivity;
+import com.parttime.IM.activitysetting.ChatSendMsgHelper;
+import com.parttime.pojo.SalaryUnit;
+import com.parttime.publish.LabelUtils;
 import com.qingmu.jianzhidaren.R;
 import com.quark.citylistview.CharacterParser;
 import com.quark.common.ToastUtil;
@@ -122,56 +125,61 @@ public class GroupsActivity extends BaseActivity implements TextWatcher, View.On
                             groupAdapter.getItem(position).getGroupId());
                     startActivityForResult(intent, 0);
                 } else {
-                    conversation = EMChatManager.getInstance()
-                            .getConversation(
-                                    groupAdapter.getItem(position)
-                                            .getGroupId());
-                    EMMessage message = EMMessage
-                            .createSendMessage(EMMessage.Type.TXT);
-                    // 如果是群聊，设置chattype,默认是单聊
-                    message.setChatType(ChatType.GroupChat);
-                    TextMessageBody txtBody = new TextMessageBody(
-                            activityTitle);
-                    // 设置消息body
-                    message.addBody(txtBody);
-                    // 增加自定义的拓展消息属性
-                    message.setAttribute("activityExtra", "1");
-                    message.setAttribute("activityId", activityId);
-                    message.setAttribute("activityTitle", activityTitle);
-                    String temp = null;
-                    // 日薪(0),时薪(1)
-                    if (pay_type == 0) {
-                        temp = "元/天";
-                    } else if (pay_type == 1) {
-                        temp = "元/小时";
-                    }
-                    message.setAttribute("activityXinZi", pay + temp);
+                    new ChatSendMsgHelper().sendShareActivity(groupAdapter.getItem(position)
+                            .getGroupId(), activityId, job_place, activityTitle, LabelUtils.getSalary(GroupsActivity.this, SalaryUnit.parse(pay_type), pay));
+                    ToastUtil.showShortToast("活动分享成功^_^");
+                    GroupsActivity.this.finish();
 
-                    message.setAttribute("activityJobPlace", job_place);
-
-                    message.setAttribute("activityStartTime", startTime);
-                    message.setAttribute("leftCount",
-                            String.valueOf(leftcount));
-                    // 设置要发给谁,用户username或者群聊groupid
-                    message.setReceipt(groupAdapter.getItem(position)
-                            .getGroupId());
-                    // 把messgage加到conversation中
-                    conversation.addMessage(message);
-                    try {
-                        if (EMChatManager.getInstance() != null) {
-                            EMChatManager.getInstance()
-                                    .sendMessage(message);
-                            ToastUtil.showShortToast("活动分享成功^_^");
-                            GroupsActivity.this.finish();
-                        } else {
-                            ToastUtil.showShortToast("当前网络状态太差,请稍后再试^_^");
-                            GroupsActivity.this.finish();
-                        }
-                    } catch (EaseMobException e) {
-                        e.printStackTrace();
-                        ToastUtil.showShortToast("当前网络状态太差,请稍后再试^_^");
-                        GroupsActivity.this.finish();
-                    }
+//                    conversation = EMChatManager.getInstance()
+//                            .getConversation(
+//                                    groupAdapter.getItem(position)
+//                                            .getGroupId());
+//                    EMMessage message = EMMessage
+//                            .createSendMessage(EMMessage.Type.TXT);
+//                    // 如果是群聊，设置chattype,默认是单聊
+//                    message.setChatType(ChatType.GroupChat);
+//                    TextMessageBody txtBody = new TextMessageBody(
+//                            activityTitle);
+//                    // 设置消息body
+//                    message.addBody(txtBody);
+//                    // 增加自定义的拓展消息属性
+//                    message.setAttribute("activityExtra", "1");
+//                    message.setAttribute("activityId", activityId);
+//                    message.setAttribute("activityTitle", activityTitle);
+//                    String temp = null;
+//                    // 日薪(0),时薪(1)
+//                    if (pay_type == 0) {
+//                        temp = "元/天";
+//                    } else if (pay_type == 1) {
+//                        temp = "元/小时";
+//                    }
+//                    message.setAttribute("activityXinZi", pay + temp);
+//
+//                    message.setAttribute("activityJobPlace", job_place);
+//
+//                    message.setAttribute("activityStartTime", startTime);
+//                    message.setAttribute("leftCount",
+//                            String.valueOf(leftcount));
+//                    // 设置要发给谁,用户username或者群聊groupid
+//                    message.setReceipt(groupAdapter.getItem(position)
+//                            .getGroupId());
+//                    // 把messgage加到conversation中
+//                    conversation.addMessage(message);
+//                    try {
+//                        if (EMChatManager.getInstance() != null) {
+//                            EMChatManager.getInstance()
+//                                    .sendMessage(message);
+//                            ToastUtil.showShortToast("活动分享成功^_^");
+//                            GroupsActivity.this.finish();
+//                        } else {
+//                            ToastUtil.showShortToast("当前网络状态太差,请稍后再试^_^");
+//                            GroupsActivity.this.finish();
+//                        }
+//                    } catch (EaseMobException e) {
+//                        e.printStackTrace();
+//                        ToastUtil.showShortToast("当前网络状态太差,请稍后再试^_^");
+//                        GroupsActivity.this.finish();
+//                    }
                     //
                     setResult(RESULT_OK);
 

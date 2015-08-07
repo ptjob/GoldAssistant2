@@ -5,6 +5,7 @@ import android.util.Log;
 import com.android.volley.RequestQueue;
 import com.parttime.pojo.JobAuthType;
 import com.parttime.pojo.PartJob;
+import com.parttime.pojo.PublishAvailabilityStatus;
 import com.parttime.pojo.SalaryUnit;
 import com.parttime.publish.vo.JobBrokerChartsFragmentVo;
 import com.parttime.publish.vo.JobBrokerListVo;
@@ -421,4 +422,24 @@ public class PublishRequest extends BaseRequest {
         });
     }
 
+    public void publishAvailability(RequestQueue requestQueue, final DefaultCallback callback) {
+        HashMap<String, String> reqParams = new HashMap<>();
+        reqParams.put("company_id", String.valueOf(ApplicationUtils.getLoginId()));
+
+        String url = Url.COMPANY_availability;
+        request(url, reqParams, requestQueue, new Callback() {
+
+            @Override
+            public void success(Object obj) throws JSONException {
+                JSONObject jsonObject = (JSONObject) obj;
+                PublishAvailabilityStatus status = PublishAvailabilityStatus.parse(jsonObject.getInt("status"));
+                callback.success(status);
+            }
+
+            @Override
+            public void failed(Object obj) {
+                callback.failed(obj);
+            }
+        });
+    }
 }
