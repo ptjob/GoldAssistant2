@@ -4,11 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.android.volley.VolleyError;
 import com.parttime.common.head.ActivityHead;
 import com.parttime.net.DefaultCallback;
+import com.parttime.net.ErrorHandler;
 import com.parttime.net.PublishRequest;
-import com.parttime.net.ResponseBaseCommonError;
 import com.parttime.publish.adapter.JobPlazaListAdapter;
 import com.parttime.publish.vo.JobPlazaActivityListVo;
 import com.parttime.utils.IntentManager;
@@ -55,13 +54,7 @@ public class JobPlazaActivity extends BaseActivity implements AdapterView.OnItem
         @Override
         public void failed(Object obj) {
             showWait(false);
-            if (obj instanceof ResponseBaseCommonError) {
-                ResponseBaseCommonError error = (ResponseBaseCommonError) obj;
-                showToast(error.msg);
-            } else if (obj instanceof VolleyError) {
-                VolleyError error = (VolleyError) obj;
-                showToast(error.getMessage());
-            }
+            new ErrorHandler(JobPlazaActivity.this, obj);
         }
     };
 

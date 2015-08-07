@@ -17,6 +17,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easemob.chatuidemo.activity.ContactlistFragment;
+import com.parttime.IM.activitysetting.ChatSendMsgHelper;
+import com.parttime.addresslist.GroupPickContactsActivity;
 import com.parttime.addresslist.GroupsActivity;
 import com.parttime.pojo.PartJob;
 import com.qingmu.jianzhidaren.R;
@@ -422,6 +425,10 @@ public class SharePopupWindow extends PopupWindow {
      */
     private void shareToContact() {
 
+        Intent intent = new Intent(context, GroupPickContactsActivity.class);
+        intent.putExtra("isFromShare", true);
+
+        context.startActivity(intent);
     }
 
     /**

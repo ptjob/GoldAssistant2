@@ -1,18 +1,7 @@
 package com.droid.carson;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
@@ -32,19 +21,27 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.droid.carson.Activity02.LocateIn;
 import com.droid.carson.MyLetterListView.OnTouchingLetterChangedListener;
-import com.parttime.base.WithTitleActivity;
+import com.parttime.common.head.ActivityHead;
+import com.parttime.utils.CheckUtils;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.BaseActivity;
 
-public class Activity01 extends WithTitleActivity implements OnItemClickListener{
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Pattern;
+
+public class Activity01 extends BaseActivity implements OnItemClickListener{
     public static final String EXTRA_TITLE = "extra_title";
     public static final String EXTRA_CITYLIST_CITY = "citylist_city";
     public static final String EXTRA_CITY = "city";
@@ -64,23 +61,6 @@ public class Activity01 extends WithTitleActivity implements OnItemClickListener
     private ClearEditText clearEdt;
     WindowManager windowManager;
 
-
-
-    @Override
-    protected ViewGroup getLeftWrapper() {
-        return null;
-    }
-
-    @Override
-    protected ViewGroup getRightWrapper() {
-        return null;
-    }
-
-    @Override
-    protected TextView getCenter() {
-        return null;
-    }
-
     //    private RelativeLayout topLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,17 +72,15 @@ public class Activity01 extends WithTitleActivity implements OnItemClickListener
 //        topLayout = (RelativeLayout) findViewById(R.id.title);
 //        topLayout.setBackgroundColor(getResources().getColor(
 //                R.color.guanli_common_color));
+
+        ActivityHead activityHead = new ActivityHead(this);
+
         Intent intent = getIntent();
         if(intent != null){
             String title = intent.getStringExtra(EXTRA_TITLE);
             if(title != null){
-                center(title);
-                left(TextView.class, R.string.back);
-            }else {
-                left(ImageButton.class, R.drawable.back);
+                activityHead.setCenterTxt1(title);
             }
-        }else {
-            left(ImageButton.class, R.drawable.back);
         }
 
         lngCityName = getIntent().getExtras()
@@ -219,10 +197,15 @@ public class Activity01 extends WithTitleActivity implements OnItemClickListener
         try {
             dbHelper.createDataBase();
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery("select * from area", null);
+            Cursor cursor = db.rawQuery("select * from area where deep=1 or deep=2", null);
+            int indexName = cursor.getColumnIndex("name");
+            int indexPinyin = cursor.getColumnIndex("pinyin");
             City city;
             while (cursor.moveToNext()) {
-                city = new City(cursor.getString(1), cursor.getString(2));
+                city = new City(cursor.getString(indexName), cursor.getString(indexPinyin));
+                if (CheckUtils.isEmpty(city.getPinyi())) {
+                    city.setPinyi(" ");
+                }
                 list.add(city);
             }
             cursor.close();

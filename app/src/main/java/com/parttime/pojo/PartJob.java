@@ -80,13 +80,12 @@ public class PartJob implements Serializable {
         return result;
     }
 
-
     @Override
     public String toString() {
         return "PartJob{" +
                 "id=" + id +
                 ", companyId=" + companyId +
-                ", companyName=" + companyName +
+                ", companyName='" + companyName + '\'' +
                 ", type='" + type + '\'' +
                 ", title='" + title + '\'' +
                 ", beginTime='" + beginTime + '\'' +
@@ -103,6 +102,10 @@ public class PartJob implements Serializable {
                 ", femaleNum=" + femaleNum +
                 ", workRequire='" + workRequire + '\'' +
                 ", isShowTel=" + isShowTel +
+                ", jobAuthType=" + jobAuthType +
+                ", viewCount=" + viewCount +
+                ", handCount=" + handCount +
+                ", isStart=" + isStart +
                 ", healthProve=" + healthProve +
                 ", language='" + language + '\'' +
                 ", height=" + height +

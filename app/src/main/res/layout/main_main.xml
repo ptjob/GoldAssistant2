@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/title" />
+    <include layout="@layout/activity_common_head" />
 
     <RelativeLayout
         android:layout_width="fill_parent"

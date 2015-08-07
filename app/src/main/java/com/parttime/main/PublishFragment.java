@@ -2,13 +2,13 @@ package com.parttime.main;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,16 +33,25 @@ import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
 import com.parttime.pojo.BannerItem;
+import com.parttime.net.DefaultCallback;
+import com.parttime.net.ErrorHandler;
+import com.parttime.net.PublishRequest;
+import com.parttime.pojo.PublishAvailabilityStatus;
 import com.parttime.publish.JobBrokerChartsActivity;
 import com.parttime.publish.JobManageActivity;
 import com.parttime.publish.JobPlazaActivity;
 import com.parttime.publish.JobTypeActivity;
 import com.parttime.type.AccountType;
 import com.parttime.utils.ApplicationUtils;
+import com.parttime.utils.CheckUtils;
+import com.parttime.utils.IntentManager;
 import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.StepView;
 import com.qingmu.jianzhidaren.R;
+import com.quark.common.ToastUtil;
 import com.quark.common.Url;
+import com.quark.ui.widget.CustomDialog;
+import com.quark.utils.WaitDialog;
 import com.quark.volley.VolleySington;
 
 import org.json.JSONArray;
@@ -72,12 +81,14 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
+    private WaitDialog dialog;
+
     private TextView mTxtCity;
     private String city;
     private String user_id;
     private int userType;
     private RelativeLayout mRLCity;
-    protected RequestQueue queue = VolleySington.getInstance()
+    private RequestQueue queue = VolleySington.getInstance()
             .getRequestQueue();
 
 
@@ -159,7 +170,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         rlLeftTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), JobTypeActivity.class));
+                clickPublish();
             }
         });
         rlLeftBottom.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +204,117 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     startActivity(new Intent(getActivity(), JobBrokerChartsActivity.class));
                 }
             });
+        }
+    }
+
+    private void clickPublish() {
+        showWait(true);
+        new PublishRequest().publishAvailability(queue, new DefaultCallback() {
+            @Override
+            public void success(Object obj) {
+                showWait(false);
+                if (CheckUtils.isSafe(getActivity())) {
+                    if (obj instanceof PublishAvailabilityStatus) {
+                        PublishAvailabilityStatus status = (PublishAvailabilityStatus) obj;
+
+                        switch (status) {
+                            case SUCCESS:
+                                // 免费，直接成功
+                                startActivity(new Intent(getActivity(), JobTypeActivity.class));
+                                break;
+                            case SHOULD_VERIFY:
+                                // 未认证
+                                CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
+                                builder.setMessage(R.string.publish_tab_should_verify_msg);
+                                builder.setTitle(R.string.publish_tab_should_verify_title);
+
+                                builder.setPositiveButton(R.string.i_get_it,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                builder.create().show();
+                                break;
+                            case VERIFYING:
+                                // 认证中
+                                ToastUtil.showShortToast(R.string.publish_tab_verifying_tip);
+                                break;
+                            case LOCK_OF_MONEY:
+                                // 余额不足
+                                builder = new CustomDialog.Builder(getActivity());
+                                builder.setMessage(R.string.lack_of_money);
+                                builder.setTitle(R.string.prompt);
+
+                                builder.setPositiveButton(R.string.to_recharge,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                IntentManager.intentToRecharge(getActivity());
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.setNegativeButton(R.string.cancel,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                builder.create().show();
+                                break;
+                            case SHOULD_PAY:
+                                // 需付费
+                                builder = new CustomDialog.Builder(getActivity());
+                                builder.setMessage(R.string.publish_tab_pay_tip_msg);
+                                builder.setTitle(R.string.pay_tip);
+
+                                builder.setPositiveButton(R.string.aloud,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                startActivity(new Intent(getActivity(), JobTypeActivity.class));
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.setNegativeButton(R.string.cancel,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                builder.create().show();
+
+                                break;
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void failed(Object obj) {
+                showWait(false);
+                if (CheckUtils.isSafe(getActivity())) {
+                    new ErrorHandler((com.quark.jianzhidaren.BaseActivity) getActivity(), obj).showToast();
+                }
+            }
+        });
+
+    }
+
+    private void showWait(boolean isShow) {
+        if (isShow) {
+            if (null == dialog) {
+                dialog = new WaitDialog(getActivity());
+            }
+            dialog.show();
+        } else {
+            if (null != dialog) {
+                dialog.dismiss();
+            }
         }
     }
 
@@ -291,6 +413,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         LinearLayout right_layout = (LinearLayout) view
                 .findViewById(R.id.right_layout);
         right_layout.setVisibility(View.GONE);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        title.setText(R.string.publish_title);
         // 头部设置成灰色
         RelativeLayout reLayout = (RelativeLayout) view
                 .findViewById(R.id.home_common_guangchang_relayout);
@@ -329,6 +453,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra(Activity01.EXTRA_CITYLIST_CITY,
                         SharePreferenceUtil.getInstance(getActivity()).loadStringSharedPreference(
                                 SharedPreferenceConstants.DINGWEICITY, DEF_LOCATION_FAIL));
+                intent.putExtra(Activity01.EXTRA_TITLE, getString(R.string.city_choose_title));
                 intent.setClass(getActivity(), Activity01.class);
                 startActivityForResult(intent, REQUEST_CODE_LOCATION);
                 break;
@@ -478,7 +603,6 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 if(!stop) {
-                    Log.e("test", "" + pager.getCurrentItem());
                     int currentItem = viewPager.getCurrentItem();
                     pager.setCurrentItem(currentItem + 1, true);
                     stepView.current(currentItem + 1);

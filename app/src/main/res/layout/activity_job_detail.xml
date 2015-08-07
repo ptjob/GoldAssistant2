@@ -402,7 +402,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/bg_0"
+                android:background="@drawable/selector_job_action"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -418,8 +418,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/refresh"
-                    android:textColor="@color/black_1"
-                    android:textSize="10sp" />
+                    android:textColor="@color/common_gray_1"
+                    android:textSize="10dp" />
 
             </LinearLayout>
 
@@ -430,7 +430,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/bg_0"
+                android:background="@drawable/selector_job_action"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -444,8 +444,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/modify"
-                    android:textColor="@color/black_1"
-                    android:textSize="10sp" />
+                    android:textColor="@color/common_gray_1"
+                    android:textSize="10dp" />
 
             </LinearLayout>
 
@@ -456,7 +456,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/bg_0"
+                android:background="@drawable/selector_job_action"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -470,8 +470,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/shelves"
-                    android:textColor="@color/black_1"
-                    android:textSize="10sp" />
+                    android:textColor="@color/common_gray_1"
+                    android:textSize="10dp" />
 
             </LinearLayout>
 

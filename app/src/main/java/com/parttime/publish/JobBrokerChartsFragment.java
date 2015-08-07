@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 
 import com.android.volley.VolleyError;
 import com.parttime.net.DefaultCallback;
+import com.parttime.net.ErrorHandler;
 import com.parttime.net.PublishRequest;
 import com.parttime.net.ResponseBaseCommonError;
 import com.parttime.publish.adapter.JobBrokerListAdapter;
@@ -62,13 +63,7 @@ public class JobBrokerChartsFragment extends BaseSupportFragment implements Adap
         @Override
         public void failed(Object obj) {
             showWait(false);
-            if (obj instanceof ResponseBaseCommonError) {
-                ResponseBaseCommonError error = (ResponseBaseCommonError) obj;
-                showToast(error.msg);
-            } else if (obj instanceof VolleyError) {
-                VolleyError error = (VolleyError) obj;
-                showToast(error.getMessage());
-            }
+            new ErrorHandler((com.quark.jianzhidaren.BaseActivity) getActivity(), obj);
         }
     };
 
