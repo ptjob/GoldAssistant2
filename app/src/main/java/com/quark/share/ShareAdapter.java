@@ -27,12 +27,15 @@ import com.qingmu.jianzhidaren.R;
 
 public class ShareAdapter extends BaseAdapter {
 
-	private static String[] shareNames = new String[] { "微信", "QQ", "微博",
-			"朋友圈", "QQ空间", "我的群组" };
-	private int[] shareIcons = new int[] { R.drawable.sns_weixin_icon,
-			R.drawable.sns_qqfriends_icon, R.drawable.sns_sina_icon,
-			R.drawable.sns_weixin_timeline_icon, R.drawable.sns_qzone_icon,
-			R.drawable.share_to_group };
+	private static String[] shareNames = new String[] { "QQ好友", "QQ空间", "微信好友", "微信朋友圈", "分享好友", "分享到群" };
+	private int[] shareIcons = new int[] {
+            R.drawable.sns_qqfriends_icon,
+            R.drawable.sns_qzone_icon,
+            R.drawable.sns_weixin_icon,
+			R.drawable.sns_weixin_timeline_icon,
+			R.drawable.sns_to_contact,
+            R.drawable.sns_to_group
+    };
 
 	private LayoutInflater inflater;
 
@@ -66,8 +69,6 @@ public class ShareAdapter extends BaseAdapter {
 				.findViewById(R.id.share_title);
 		shareIcon.setImageResource(shareIcons[position]);
 		shareTitle.setText(shareNames[position]);
-		// 字体颜色
-		shareTitle.setTextColor(Color.rgb(119, 119, 119));
 
 		return convertView;
 	}
