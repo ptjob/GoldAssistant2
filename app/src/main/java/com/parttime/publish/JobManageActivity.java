@@ -79,7 +79,6 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     private void bindData() {

@@ -5,6 +5,7 @@
     android:paddingTop="11dp"
     android:paddingBottom="11dp"
     android:orientation="horizontal"
+    android:background="@drawable/item_selector"
     android:paddingRight="12dp"
     android:gravity="center_vertical">
 

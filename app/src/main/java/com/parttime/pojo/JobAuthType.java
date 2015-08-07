@@ -7,22 +7,27 @@ public enum JobAuthType {
     // 删除，下架
     DELETE,
     // 未审核
-    READY_TO_PASS,
+    READY,
     // 审核通过
     PASS,
     // 审核不通过
-    FAIL_TO_PASS;
+    FAIL_TO_PASS,
+    // 冻结
+    FROZEN;
+
 
     public static JobAuthType parse(int value) {
         switch (value) {
             case 0:
                 return DELETE;
             case 1:
-                return READY_TO_PASS;
+                return READY;
             case 2:
                 return PASS;
             case 3:
                 return FAIL_TO_PASS;
+            case 4:
+                return FROZEN;
             default:
                 return DELETE;
         }

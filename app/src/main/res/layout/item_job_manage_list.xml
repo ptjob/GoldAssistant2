@@ -1,89 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="14dp"
-    android:paddingLeft="17dp"
-    android:paddingRight="17dp"
-    android:paddingTop="14dp">
-
-    <TextView
-        android:id="@+id/txt_job_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="兼职名称"
-        android:textColor="@color/black_1"
-        android:textSize="17sp" />
+    android:background="@drawable/item_selector">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:orientation="horizontal">
+
+        android:orientation="vertical"
+        android:paddingBottom="14dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp"
+        android:paddingTop="14dp">
+
+        <TextView
+            android:id="@+id/txt_job_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="兼职名称"
+            android:textColor="@color/black_1"
+            android:textSize="17sp" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/view" />
-
-            <TextView
-                android:id="@+id/txt_view"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:textColor="#9d9aa6"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/view" />
+
+                <TextView
+                    android:id="@+id/txt_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:textColor="#9d9aa6"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/hand" />
-
-            <TextView
-                android:id="@+id/txt_hand"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:textColor="#9d9aa6"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center_vertical">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/hand" />
 
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/hire" />
+                <TextView
+                    android:id="@+id/txt_hand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:textColor="#9d9aa6"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/txt_hire"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:textColor="#9d9aa6"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center_vertical">
 
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/hire" />
+
+                <TextView
+                    android:id="@+id/txt_hire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:textColor="#9d9aa6"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
-
-</LinearLayout>
+    
+    <ImageView
+        android:id="@+id/imgvi_urgent_tag"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/urgent_tag"
+        android:layout_gravity="right|top"/>
+</FrameLayout>

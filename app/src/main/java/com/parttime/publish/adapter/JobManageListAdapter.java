@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parttime.publish.vo.JobManageListVo;
@@ -65,6 +66,7 @@ public class JobManageListAdapter extends BaseAdapter {
             viewHolder.mTxtView = (TextView) view.findViewById(R.id.txt_view);
             viewHolder.mTxtHand = (TextView) view.findViewById(R.id.txt_hand);
             viewHolder.mTxtHire = (TextView) view.findViewById(R.id.txt_hire);
+            viewHolder.mImgViUrgentTag = (ImageView) view.findViewById(R.id.imgvi_urgent_tag);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -75,6 +77,7 @@ public class JobManageListAdapter extends BaseAdapter {
         viewHolder.mTxtView.setText(mContext.getString(R.string.job_manage_view_count_format, jobManageListVo.view));
         viewHolder.mTxtHand.setText(mContext.getString(R.string.job_manage_hand_count_format, jobManageListVo.hand));
         viewHolder.mTxtHire.setText(mContext.getString(R.string.job_manage_hire_count_format, jobManageListVo.hire));
+        viewHolder.mImgViUrgentTag.setVisibility(jobManageListVo.isUrgent ? View.VISIBLE : View.GONE);
 
         return view;
     }
@@ -86,5 +89,6 @@ public class JobManageListAdapter extends BaseAdapter {
         private TextView mTxtView;
         private TextView mTxtHand;
         private TextView mTxtHire;
+        private ImageView mImgViUrgentTag;
     }
 }

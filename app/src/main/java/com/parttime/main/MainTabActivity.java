@@ -1667,35 +1667,39 @@ public class MainTabActivity extends BaseActivity implements
 					} else {
 						// 如果从没上传过个人位置
 						if (!"".equals(company_id)) {
-							// 切换到指定城市,访问后台传输城市
-							StringRequest request = new StringRequest(
-									Request.Method.POST, Url.CHANGE_CITY_CUSTOM
-											+ "?token="
-											+ MainTabActivity.token,
-									new Response.Listener<String>() {
-										@Override
-										public void onResponse(String response) {
+                            // 2015-8-8  wyw
+                            // 注释原因： 3.0接口取消了，城市切换上报功能
+                            //
 
-										}
-									}, new Response.ErrorListener() {
-										@Override
-										public void onErrorResponse(
-												VolleyError volleyError) {
-										}
-									}) {
-								@Override
-								protected Map<String, String> getParams()
-										throws AuthFailureError {
-									Map<String, String> map = new HashMap<>();
-									map.put("company_id", company_id);
-									map.put("city", thisCity);
-									return map;
-								}
-							};
-							queue.add(request);
-							request.setRetryPolicy(new DefaultRetryPolicy(
-									ConstantForSaveList.DEFAULTRETRYTIME * 1000,
-									1, 1.0f));
+//							// 切换到指定城市,访问后台传输城市
+//							StringRequest request = new StringRequest(
+//									Request.Method.POST, Url.CHANGE_CITY_CUSTOM
+//											+ "?token="
+//											+ MainTabActivity.token,
+//									new Response.Listener<String>() {
+//										@Override
+//										public void onResponse(String response) {
+//
+//										}
+//									}, new Response.ErrorListener() {
+//										@Override
+//										public void onErrorResponse(
+//												VolleyError volleyError) {
+//										}
+//									}) {
+//								@Override
+//								protected Map<String, String> getParams()
+//										throws AuthFailureError {
+//									Map<String, String> map = new HashMap<>();
+//									map.put("company_id", company_id);
+//									map.put("city", thisCity);
+//									return map;
+//								}
+//							};
+//							queue.add(request);
+//							request.setRetryPolicy(new DefaultRetryPolicy(
+//									ConstantForSaveList.DEFAULTRETRYTIME * 1000,
+//									1, 1.0f));
 
 						}
 					}
@@ -1745,34 +1749,38 @@ public class MainTabActivity extends BaseActivity implements
 						intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
 						intent.putExtra("changgecity", str3);
 						sendBroadcast(intent); // 发送广播
-						// 切换到指定城市,访问后台传输城市
-						StringRequest request = new StringRequest(
-								Request.Method.POST,
-								Url.CHANGE_CITY_CUSTOM + "?token="
-										+ MainTabActivity.token,
-								new Response.Listener<String>() {
-									@Override
-									public void onResponse(String response) {
-									}
-								}, new Response.ErrorListener() {
-									@Override
-									public void onErrorResponse(
-											VolleyError volleyError) {
-									}
-								}) {
-							@Override
-							protected Map<String, String> getParams()
-									throws AuthFailureError {
-								Map<String, String> map = new HashMap<String, String>();
-								map.put("company_id", company_id);
-								map.put("city", str3);
-								return map;
-							}
-						};
-						queue.add(request);
-						request.setRetryPolicy(new DefaultRetryPolicy(
-								ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
-								1.0f));
+
+                        // 2015-8-8  wyw
+                        // 注释原因： 3.0接口取消了，城市切换上报功能
+                        //
+//						// 切换到指定城市,访问后台传输城市
+//						StringRequest request = new StringRequest(
+//								Request.Method.POST,
+//								Url.CHANGE_CITY_CUSTOM + "?token="
+//										+ MainTabActivity.token,
+//								new Response.Listener<String>() {
+//									@Override
+//									public void onResponse(String response) {
+//									}
+//								}, new Response.ErrorListener() {
+//									@Override
+//									public void onErrorResponse(
+//											VolleyError volleyError) {
+//									}
+//								}) {
+//							@Override
+//							protected Map<String, String> getParams()
+//									throws AuthFailureError {
+//								Map<String, String> map = new HashMap<String, String>();
+//								map.put("company_id", company_id);
+//								map.put("city", str3);
+//								return map;
+//							}
+//						};
+//						queue.add(request);
+//						request.setRetryPolicy(new DefaultRetryPolicy(
+//								ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
+//								1.0f));
 
 					}
 				});

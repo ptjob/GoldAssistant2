@@ -10,10 +10,22 @@ import com.qingmu.jianzhidaren.R;
  */
 public class LabelUtils {
 
-    public static String getSalary(Context context, SalaryUnit unit, int salary) {
+    /**
+     * 获取薪酬标签，如XXX元/天，面议等
+     */
+    public static String getSalaryLabel(Context context, SalaryUnit unit, int salary) {
+        if (unit == SalaryUnit.FACE_TO_FACE) {
+            return context.getString(R.string.publish_job_salary_unit_face_to_face);
+        }
         return salary + " " + getSalaryUnit(context, unit);
     }
 
+    /**
+     * 获取薪酬单位（面议返回单位是"")
+     * @param context
+     * @param unit
+     * @return
+     */
     public static String getSalaryUnit(Context context, SalaryUnit unit) {
         String salaryUnit = "";
         if (unit != null) {

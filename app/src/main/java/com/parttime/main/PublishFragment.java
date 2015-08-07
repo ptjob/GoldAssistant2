@@ -480,40 +480,6 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void requestChangeCity() {
-        // 切换到指定城市,访问后台传输城市
-        String cityUrl;
-        cityUrl = Url.CHANGE_CITY_CUSTOM + "?token="
-                + MainTabActivity.token;
-
-        StringRequest request = new StringRequest(
-                Request.Method.POST, cityUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(
-                    VolleyError volleyError) {
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams()
-                    throws AuthFailureError {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("company_id", user_id);
-                map.put("city", city);
-                return map;
-            }
-        };
-        queue.add(request);
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
-                1.0f));
-    }
-
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -549,14 +515,20 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 //            return super.instantiateItem(container, position);
-            ((ViewPager)container).addView(views.get(position % views.size()), 0);
-            return views.get(position % views.size());
+            if (views.size() > 0) {
+                ((ViewPager) container).addView(views.get(position % views.size()), 0);
+                return views.get(position % views.size());
+            } else {
+                return null;
+            }
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
 //            super.destroyItem(container, position, object);
-            ((ViewPager)container).removeView(views.get(position % views.size()));
+            if (views.size() > 0) {
+                ((ViewPager) container).removeView(views.get(position % views.size()));
+            }
         }
     }
 

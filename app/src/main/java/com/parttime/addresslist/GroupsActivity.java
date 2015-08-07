@@ -30,15 +30,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
-import com.easemob.chat.EMMessage;
-import com.easemob.chat.EMMessage.ChatType;
-import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.activity.BaseActivity;
-import com.easemob.exceptions.EaseMobException;
 import com.parttime.IM.ChatActivity;
 import com.parttime.IM.activitysetting.ChatSendMsgHelper;
 import com.parttime.pojo.SalaryUnit;
@@ -126,7 +121,7 @@ public class GroupsActivity extends BaseActivity implements TextWatcher, View.On
                     startActivityForResult(intent, 0);
                 } else {
                     new ChatSendMsgHelper().sendShareActivity(groupAdapter.getItem(position)
-                            .getGroupId(), activityId, job_place, activityTitle, LabelUtils.getSalary(GroupsActivity.this, SalaryUnit.parse(pay_type), pay));
+                            .getGroupId(), activityId, job_place, activityTitle, LabelUtils.getSalaryLabel(GroupsActivity.this, SalaryUnit.parse(pay_type), pay));
                     ToastUtil.showShortToast("活动分享成功^_^");
                     GroupsActivity.this.finish();
 

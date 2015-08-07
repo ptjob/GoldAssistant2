@@ -1,22 +1,23 @@
 package com.parttime.pojo;
 
 /**
- * 发布条件状态
+ * 刷新，加急的前置状态
  * Created by wyw on 2015/8/7.
  */
-public enum PreRefreshStatus {
+public enum PreCheckStatus {
     FREE(1),
     LACK_OF_MONEY(2),
     SHOULD_PAY(3),
-    SHOULD_VERIFY(4);
+    SHOULD_VERIFY(4),
+    VERIFYING(5);
 
     int value;
 
-    PreRefreshStatus(int value) {
+    PreCheckStatus(int value) {
         this.value = value;
     }
 
-    public static PreRefreshStatus parse(int value) {
+    public static PreCheckStatus parse(int value) {
         switch (value) {
             case 2:
                 return LACK_OF_MONEY;
@@ -24,6 +25,8 @@ public enum PreRefreshStatus {
                 return SHOULD_PAY;
             case 4:
                 return SHOULD_VERIFY;
+            case 5:
+                return VERIFYING;
             default:
                 return FREE;
         }

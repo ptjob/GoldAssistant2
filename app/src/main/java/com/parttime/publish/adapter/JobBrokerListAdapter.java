@@ -92,17 +92,21 @@ public class JobBrokerListAdapter extends BaseAdapter {
             case 1:
                 viewHolder.mImgViRankPic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.broker_rank_1));
                 viewHolder.mImgViRankPic.setVisibility(View.VISIBLE);
+                viewHolder.mTxtRankNo.setTextColor(mContext.getResources().getColor(R.color.broker_rank_1));
                 break;
             case 2:
                 viewHolder.mImgViRankPic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.broker_rank_2));
                 viewHolder.mImgViRankPic.setVisibility(View.VISIBLE);
+                viewHolder.mTxtRankNo.setTextColor(mContext.getResources().getColor(R.color.broker_rank_2));
                 break;
             case 3:
                 viewHolder.mImgViRankPic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.broker_rank_3));
                 viewHolder.mImgViRankPic.setVisibility(View.VISIBLE);
+                viewHolder.mTxtRankNo.setTextColor(mContext.getResources().getColor(R.color.broker_rank_3));
                 break;
             default:
                 viewHolder.mImgViRankPic.setVisibility(View.GONE);
+                viewHolder.mTxtRankNo.setTextColor(mContext.getResources().getColor(R.color.common_gray_5));
                 break;
         }
         ContactImageLoader.loadNativePhoto(String.valueOf(jobBrokerListVo.companyId), jobBrokerListVo.picInfo, viewHolder.mImgViHead, queue);

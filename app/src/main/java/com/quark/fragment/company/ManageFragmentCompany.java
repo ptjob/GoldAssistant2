@@ -130,36 +130,39 @@ public class ManageFragmentCompany extends BaseFragment implements
 					edit.putString("city", city);
 					edit.commit();
 
-					// 切换到指定城市,访问后台传输城市
-					String cityUrl;
-					cityUrl = Url.CHANGE_CITY_CUSTOM + "?token="
-							+ MainTabActivity.token;
-
-					StringRequest request = new StringRequest(
-							Request.Method.POST, cityUrl,
-							new Response.Listener<String>() {
-								@Override
-								public void onResponse(String response) {
-								}
-							}, new Response.ErrorListener() {
-								@Override
-								public void onErrorResponse(
-										VolleyError volleyError) {
-								}
-							}) {
-						@Override
-						protected Map<String, String> getParams()
-								throws AuthFailureError {
-							Map<String, String> map = new HashMap<String, String>();
-							map.put("company_id", user_id);
-							map.put("city", city);
-							return map;
-						}
-					};
-					queue.add(request);
-					request.setRetryPolicy(new DefaultRetryPolicy(
-							ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
-							1.0f));
+                    // 2015-8-8  wyw
+                    // 注释原因： 3.0接口取消了，城市切换上报功能
+                    //
+//					// 切换到指定城市,访问后台传输城市
+//					String cityUrl;
+//					cityUrl = Url.CHANGE_CITY_CUSTOM + "?token="
+//							+ MainTabActivity.token;
+//
+//					StringRequest request = new StringRequest(
+//							Request.Method.POST, cityUrl,
+//							new Response.Listener<String>() {
+//								@Override
+//								public void onResponse(String response) {
+//								}
+//							}, new Response.ErrorListener() {
+//								@Override
+//								public void onErrorResponse(
+//										VolleyError volleyError) {
+//								}
+//							}) {
+//						@Override
+//						protected Map<String, String> getParams()
+//								throws AuthFailureError {
+//							Map<String, String> map = new HashMap<String, String>();
+//							map.put("company_id", user_id);
+//							map.put("city", city);
+//							return map;
+//						}
+//					};
+//					queue.add(request);
+//					request.setRetryPolicy(new DefaultRetryPolicy(
+//							ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
+//							1.0f));
 
 					// 获取区
 

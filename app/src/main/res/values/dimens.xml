@@ -163,7 +163,7 @@
     <dimen name="job_type_tip_text_size">12sp</dimen>
     <dimen name="job_type_item_margin_left_right">15dp</dimen>
     <dimen name="job_type_item_margin_top_bottom">10dp</dimen>
-
+    <dimen name="plaza_list_divider">6dp</dimen>
 
     <!-- 群成员界面 -->
     <dimen name="group_member_item_padding">10dp</dimen>

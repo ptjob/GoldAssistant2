@@ -30,6 +30,7 @@ public class PartJob implements Serializable {
     public int viewCount;
     public int handCount;
     public boolean isStart;
+    public boolean isEnd;
 
 
     /* 更多要求里面的 */
@@ -106,6 +107,7 @@ public class PartJob implements Serializable {
                 ", viewCount=" + viewCount +
                 ", handCount=" + handCount +
                 ", isStart=" + isStart +
+                ", isEnd=" + isEnd +
                 ", healthProve=" + healthProve +
                 ", language='" + language + '\'' +
                 ", height=" + height +

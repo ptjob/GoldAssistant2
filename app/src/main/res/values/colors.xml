@@ -264,4 +264,8 @@
     <color name="txt_color_gray">@color/common_gray_3</color>
     <color name="form_divider">@color/common_gray_2</color>
     <color name="edit_text_divider">@color/common_gray_3</color>
+
+    <color name="broker_rank_1">#ffc701</color>
+    <color name="broker_rank_2">#c7c7c7</color>
+    <color name="broker_rank_3">#e39660</color>
 </resources>

@@ -58,6 +58,7 @@ public class JobExpansionActivity extends BaseActivity {
     }
 
     public void expansion(View view) {
+        // 扩招
         if (CheckUtils.isEmpty(mEditExpansionNum.getText().toString())) {
             // 输入为空
             showToast("扩招人数不能为空");

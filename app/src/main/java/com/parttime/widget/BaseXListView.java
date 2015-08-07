@@ -32,6 +32,7 @@ public class BaseXListView extends XListView {
         setCacheColorHint(0);
         setPullRefreshEnable(true);
         setPullLoadEnable(true);
+
     }
 
     public void updateRefreshTime() {

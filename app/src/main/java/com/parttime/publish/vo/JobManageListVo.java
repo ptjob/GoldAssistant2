@@ -10,4 +10,5 @@ public class JobManageListVo {
     public int view;
     public int hand;
     public int hire;
+    public boolean isUrgent;
 }

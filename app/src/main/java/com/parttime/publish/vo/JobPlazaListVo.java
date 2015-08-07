@@ -1,7 +1,5 @@
 package com.parttime.publish.vo;
 
-import android.content.res.Resources;
-
 import com.parttime.pojo.SalaryUnit;
 import com.parttime.publish.LabelUtils;
 import com.parttime.utils.TimeUtils;
@@ -9,7 +7,6 @@ import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.ApplicationControl;
 
 import java.text.ParseException;
-import java.util.Date;
 
 /**
  * 兼职广场列表VO
@@ -40,7 +37,7 @@ public class JobPlazaListVo {
 
         public static String convertSalary(int salaryUnit, int salary) {
             SalaryUnit parse = SalaryUnit.parse(salaryUnit);
-            return LabelUtils.getSalary(ApplicationControl.getInstance(), parse, salary);
+            return LabelUtils.getSalaryLabel(ApplicationControl.getInstance(), parse, salary);
         }
 
         public static int convertTypeDrawableId(String type) {

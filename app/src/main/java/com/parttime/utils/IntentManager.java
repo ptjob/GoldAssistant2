@@ -16,7 +16,10 @@ import com.parttime.net.GroupSettingRequest;
 import com.parttime.pojo.PartJob;
 import com.parttime.publish.JobBrokerDetailActivity;
 import com.parttime.publish.JobDetailActivity;
+import com.parttime.publish.JobManageActivity;
+import com.parttime.publish.WriteJobActivity;
 import com.quark.jianzhidaren.ApplicationControl;
+import com.quark.jianzhidaren.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -125,6 +128,11 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
+    public static void goToJobManageActiviy(Context context)  {
+        Intent intent = new Intent(context, JobManageActivity.class);
+        context.startActivity(intent);
+    }
+
     public static void intentToImageShow(Context context,ArrayList<String> pictures, ArrayList<String> userIds) {
         Intent intent = new Intent(context, ImageShowActivity.class);
         intent.putStringArrayListExtra(ActivityExtraAndKeys.USER_ID,userIds);
@@ -142,10 +150,11 @@ public class IntentManager {
 
     /**
      * 编辑活动
-     * @param jobDetailActivity
-     * @param partJob
+     * @param partJob 编辑对象
      */
-    public static void intentToEditJob(Context jobDetailActivity, PartJob partJob) {
-
+    public static void intentToEditJob(BaseActivity context, int requestCode, PartJob partJob) {
+        Intent intent = new Intent(context, WriteJobActivity.class);
+        intent.putExtra(WriteJobActivity.EXTRA_PART_JOB, partJob);
+        context.startActivityForResult(intent, requestCode);
     }
 }

@@ -1,5 +1,6 @@
 package com.parttime.publish;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -91,6 +92,8 @@ public class JobPlazaActivity extends BaseActivity implements AdapterView.OnItem
         ActivityHead activityHead = new ActivityHead(this);
         activityHead.setCenterTxt1(R.string.job_plaza_title);
 
+        mListViewMain.setDivider(new ColorDrawable(getResources().getColor(R.color.bg_0)));
+        mListViewMain.setDividerHeight(getResources().getDimensionPixelOffset(R.dimen.plaza_list_divider));
     }
 
     // 刷新第一页

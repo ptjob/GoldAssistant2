@@ -33,6 +33,10 @@ public class CheckUtils {
         return false;
     }
 
+    public static boolean isNull(String charSequenc) {
+        return charSequenc != null && charSequenc.equals("null");
+    }
+
     public static boolean isSafe(Activity activity) {
         if (activity != null && !activity.isFinishing()) {
             return true;

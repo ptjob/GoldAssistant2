@@ -3,6 +3,7 @@ package com.parttime.net;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
+import com.lidroid.xutils.db.annotation.Check;
 import com.parttime.pojo.JobAuthType;
 import com.parttime.pojo.PartJob;
 import com.parttime.pojo.PublishAvailabilityStatus;
@@ -18,6 +19,7 @@ import com.parttime.utils.CheckUtils;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
 import com.quark.jianzhidaren.ApplicationControl;
+import com.quark.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,9 +74,9 @@ public class PublishRequest extends BaseRequest {
             }
             if (partJob.healthProve != null) {
                 int healthProveInt = partJob.healthProve ? 1 : 0;
-                reqParams.put("require_health_rec", String.valueOf(healthProveInt));
+                reqParams.put("require_health_record", String.valueOf(healthProveInt));
             }
-            if (CheckUtils.isEmpty(partJob.language)) {
+            if (!CheckUtils.isEmpty(partJob.language)) {
                 reqParams.put("require_language", partJob.language);
             }
         }
@@ -102,11 +104,11 @@ public class PublishRequest extends BaseRequest {
      * 已发布活动列表
      *
      * @param companyId 指定商家
-     * @param page  页码号
-     * @param count 分页大小
-     * @param type  类型（1-招人中，2-审核中，3已下架，null是全部）
+     * @param page      页码号
+     * @param count     分页大小
+     * @param type      类型（1-招人中，2-审核中，3已下架，null是全部）
      */
-    public void publishActivityList(int companyId, int page, int count, Integer type, RequestQueue requestQueue, final DefaultCallback callback) {
+    public void publishActivityList(int companyId, int page, int count, final Integer type, RequestQueue requestQueue, final DefaultCallback callback) {
         HashMap<String, String> reqParams = new HashMap<>();
         reqParams.put("company_id", String.valueOf(companyId));
         reqParams.put("pn", String.valueOf(page));
@@ -137,6 +139,10 @@ public class PublishRequest extends BaseRequest {
                         jobManageListVo.jobTitle = listItem.getString("title");
                         jobManageListVo.view = listItem.getInt("view_count");
                         jobManageListVo.hire = listItem.getInt("confirmed_count");
+
+                        // 招人中页面并且加急
+                        jobManageListVo.isUrgent = (listItem.getInt("urgent") == 1 && type != null && type == 1);
+
                         jobManageListVoList.add(jobManageListVo);
                     }
                 }
@@ -168,10 +174,12 @@ public class PublishRequest extends BaseRequest {
             @Override
             public void success(Object obj) throws JSONException {
                 JSONObject activityDetail = ((JSONObject) obj).getJSONObject("activityDetail");
+                Logger.i("[publishActivityDetailactivityDetail: " + activityDetail.toString());
                 PartJob partJob = new PartJob();
                 partJob.id = activityDetail.getInt("activity_id");
                 partJob.companyId = activityDetail.getInt("company_id");
                 partJob.isStart = activityDetail.getInt("isStart") != 0;
+                partJob.isEnd = activityDetail.getInt("isEnd") != 0;
                 partJob.companyName = activityDetail.getString("company_name");
                 partJob.type = activityDetail.getString("type");
                 partJob.title = activityDetail.getString("title");
@@ -194,6 +202,28 @@ public class PublishRequest extends BaseRequest {
                 partJob.jobAuthType = JobAuthType.parse(activityDetail.getInt("status"));
                 partJob.viewCount = activityDetail.getInt("view_count");
                 partJob.handCount = activityDetail.getInt("apply_count");
+                String require_language = activityDetail.getString("require_language");
+                if (!CheckUtils.isEmpty(require_language) && !CheckUtils.isNull(require_language)) {
+                    partJob.language = require_language;
+                }
+
+                int require_health_record = activityDetail.getInt("require_health_record");
+                if (require_health_record >= 0) {
+                    partJob.healthProve = require_health_record != 0;
+                }
+                int require_bust = activityDetail.getInt("require_bust");
+                if (require_bust >= 0) {
+                    partJob.bust = require_bust;
+                    partJob.beltline = activityDetail.getInt("require_beltline");
+                    partJob.hipline = activityDetail.getInt("require_hipline");
+                }
+
+                int require_height = activityDetail.getInt("require_height");
+                if (require_height >= 0) {
+                    partJob.height = require_height;
+                }
+
+
                 callback.success(partJob);
             }
 
@@ -248,7 +278,10 @@ public class PublishRequest extends BaseRequest {
     }
 
     public void modify(PartJob partJob, RequestQueue requestQueue, DefaultCallback callback) {
+        Logger.i("[modify]partJob: " + partJob.toString());
+
         HashMap<String, String> reqParams = new HashMap<>();
+        reqParams.put("activity_id", String.valueOf(partJob.id));
         reqParams.put("type", partJob.type);
         reqParams.put("title", partJob.title);
         reqParams.put("start_time", partJob.beginTime);
@@ -281,9 +314,9 @@ public class PublishRequest extends BaseRequest {
             }
             if (partJob.healthProve != null) {
                 int healthProveInt = partJob.healthProve ? 1 : 0;
-                reqParams.put("require_health_rec", String.valueOf(healthProveInt));
+                reqParams.put("require_health_record", String.valueOf(healthProveInt));
             }
-            if (CheckUtils.isEmpty(partJob.language)) {
+            if (!CheckUtils.isEmpty(partJob.language)) {
                 reqParams.put("require_language", partJob.language);
             }
         }

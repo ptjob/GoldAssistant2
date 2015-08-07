@@ -38,6 +38,7 @@
     <string name="to_recharge">去充值</string>
     <string name="to_verify">去认证</string>
     <string name="confirm">确认</string>
+    <string name="verifying">认证中</string>
 
 
     <!-- 主界面 -->
@@ -528,6 +529,8 @@
     <string name="publish_job_measurements_format">胸围%1$s、腰围%2$s、臀围%3$s</string>
     <string name="publish_job_success">发布成功</string>
     <string name="publish_job_fail">发布失败</string>
+    <string name="modify_job_success">修改成功</string>
+    <string name="modify_job_fail">修改失败</string>
     <string name="publish_job_salary_unit_day">元/天</string>
     <string name="publish_job_salary_unit_hour">元/时</string>
     <string name="publish_job_salary_unit_month">元/月</string>
@@ -555,7 +558,6 @@
     <string name="job_detail_apart_sex_format">男%1$d人，女%2$d人</string>
     <string name="job_detail_height_format">%1$dcm以上</string>
     <string name="job_detail_measurements_format">胸%1$dcm/腰%2$dcm/腿%3$dcm</string>
-    <string name="job_detail_status_start">已发布</string>
     <string name="job_detail_status_pass">招人中</string>
     <string name="job_detail_status_ready">待审核</string>
     <string name="job_detail_status_fail">已下架</string>
@@ -589,13 +591,19 @@
     <string name="job_expedited_label_reason">你遇到了哪种情况？</string>
     <string name="job_expedited_reason_1">人员变动，我要补招</string>
     <string name="job_expedited_reason_2">人招少了，我要扩招</string>
-    <string name="job_expedited_tip">加急招人是兼职大人为XX情况提供的XX服务\n第一次不要钱后面每次XX元\n它的作用是XX</string>
+    <string name="job_expedited_tip">加急招人是为应对缺人情况设计的应急方案。\n活动加急后会有加急标签，并置顶于活动列表。\n首次加急免费</string>
+    <string name="job_expedited_free_msg">本次加急免费，加急时长为8小时，是否确认</string>
+    <string name="job_expedited_pay_msg">本次加急将花费3元（余额：%1$d元），是否确认</string>
+    <string name="job_expedited_lack_of_money_msg">您的余额不足，请充值后再执行操作</string>
+    <string name="job_expedited_should_verify_msg">您还不是认证商家，认证过的商家才会有更多的权限</string>
+
     <string name="job_expansion_begin">开始加急招人</string>
     <string name="job_expansion_label_num">扩招人数</string>
     <string name="job_expantion_title">扩招</string>
     <string name="job_expedited_success">加急成功</string>
     <string name="job_expansion_num_limited">扩招人数输入限制在50人以内</string>
     <string name="job_expansion_input_hint">请在此输入需要扩招的人数</string>
+
 
 
     <!-- 兼职广场 -->
