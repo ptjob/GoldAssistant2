@@ -8,7 +8,7 @@ import com.quark.jianzhidaren.ApplicationControl;
  * Created by wyw on 2015/7/25.
  */
 public class ApplicationUtils {
-    public static final String DEF_CITY = "深圳";
+    public static String DEF_CITY = "深圳";
     private static final String DEF_CITY_VERSION = "0";
 
     public static String getLoginName() {

@@ -1,10 +1,12 @@
 package com.droid.carson;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -25,12 +27,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.droid.carson.Activity02.LocateIn;
 import com.droid.carson.MyLetterListView.OnTouchingLetterChangedListener;
 import com.parttime.common.head.ActivityHead;
+import com.parttime.constants.SharedPreferenceConstants;
+import com.parttime.utils.ApplicationUtils;
 import com.parttime.utils.CheckUtils;
+import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.BaseActivity;
+import com.quark.ui.widget.CustomDialog;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -41,7 +51,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Activity01 extends BaseActivity implements OnItemClickListener{
+public class Activity01 extends BaseActivity implements OnItemClickListener {
     public static final String EXTRA_TITLE = "extra_title";
     public static final String EXTRA_CITYLIST_CITY = "citylist_city";
     public static final String EXTRA_CITY = "city";
@@ -57,9 +67,10 @@ public class Activity01 extends BaseActivity implements OnItemClickListener{
     private ArrayList<City> city_lists;// 城市列表
     ListAdapter.TopViewHolder topViewHolder;
     private String lngCityName = "定位失败";
-//    private ImageButton backImb;// 返回
+    //    private ImageButton backImb;// 返回
     private ClearEditText clearEdt;
     WindowManager windowManager;
+    private LocationManagerProxy mLocationManagerProxy;
 
     //    private RelativeLayout topLayout;
     @Override
@@ -76,9 +87,9 @@ public class Activity01 extends BaseActivity implements OnItemClickListener{
         ActivityHead activityHead = new ActivityHead(this);
 
         Intent intent = getIntent();
-        if(intent != null){
+        if (intent != null) {
             String title = intent.getStringExtra(EXTRA_TITLE);
-            if(title != null){
+            if (title != null) {
                 activityHead.setCenterTxt1(title);
             }
         }
@@ -126,6 +137,25 @@ public class Activity01 extends BaseActivity implements OnItemClickListener{
         initOverlay();
         hotCityInit();
         setAdapter(allCity_lists);
+
+        initGaoDe();
+    }
+
+    /**
+     * 初始化定位
+     */
+    private void initGaoDe() {
+        // 初始化定位，只采用网络定位
+        mLocationManagerProxy = LocationManagerProxy.getInstance(this);
+        mLocationManagerProxy.setGpsEnable(false);
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用removeUpdates()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用destroy()方法
+        // 其中如果间隔时间为-1，则定位只定一次,
+        // 在单次定位情况下，定位无论成功与否，都无需调用removeUpdates()方法移除请求，定位sdk内部会移除
+        mLocationManagerProxy.requestLocationData(
+                LocationProviderProxy.AMapNetwork, 60 * 1000, 3, new MyLocationListener());
+
     }
 
     /**
@@ -531,5 +561,110 @@ public class Activity01 extends BaseActivity implements OnItemClickListener{
 
     public static interface DiyAction extends Serializable {
         void clicked(int index, String city, Serializable extra, BaseActivity activity);
+    }
+
+    private class MyLocationListener implements AMapLocationListener {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null
+                    && amapLocation.getAMapException().getErrorCode() == 0) {
+                // 定位成功回调信息，设置相关消息
+                if (amapLocation.getCity() != null) {
+                    mLocationManagerProxy.removeUpdates(this);
+                    boolean firstFlag = SharePreferenceUtil.getInstance(Activity01.this).loadBooleanSharedPreference(SharedPreferenceConstants.FIRST_LOCATION, true);
+                    String curCity = amapLocation.getCity();
+                    if (curCity.endsWith("市")) {
+                        curCity = curCity.substring(0, curCity.length() - 1);
+                    }
+                    SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.FIRST_LOCATION, false);
+                    SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.DINGWEICITY, curCity);
+                    final String thisCity = curCity;
+                    if (firstFlag) {
+                        // 弹出第一次定位的城市弹出框
+                        showAlertDialog(curCity, "温馨提示");
+                    } else {
+                        if (!ApplicationUtils.getCity().equals(thisCity)) {
+                            showAlertDialog2("您当前定位城市:" + curCity, "定位城市有改变",
+                                    thisCity);
+                        }
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+
+        /**
+         * 第一次弹出城市定位框
+         */
+        public void showAlertDialog(final String str, final String str2) {
+
+            CustomDialog.Builder builder = new CustomDialog.Builder(Activity01.this);
+            builder.setMessage("当前定位城市:" + str);
+            builder.setTitle(str2);
+
+            builder.setPositiveButton("我知道了",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.CITY, str);
+                            Intent intent = new Intent(); // Itent就是我们要发送的内容
+                            intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
+                            intent.putExtra("changgecity", str);
+                            sendBroadcast(intent); // 发送广播
+                        }
+                    });
+
+            builder.create().show();
+        }
+
+        /**
+         * 弹出城市改变弹出框 str3:city
+         */
+        public void showAlertDialog2(String str, final String str2,
+                                     final String str3) {
+            CustomDialog.Builder builder = new CustomDialog.Builder(Activity01.this);
+            builder.setMessage(str);
+            builder.setTitle(str2);
+            builder.setPositiveButton("现在切换",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.CITY, str3);
+                            Intent intent = new Intent(); // Itent就是我们要发送的内容
+                            intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
+                            intent.putExtra("changgecity", str3);
+                            sendBroadcast(intent); // 发送广播
+                        }
+                    });
+            builder.setNegativeButton("暂不切换",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int arg1) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            builder.create().show();
+        }
+
     }
 }
