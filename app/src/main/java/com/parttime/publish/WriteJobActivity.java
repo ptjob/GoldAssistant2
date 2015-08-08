@@ -120,13 +120,13 @@ public class WriteJobActivity extends BaseActivity implements
                 mTxtLanguage.setText(partJob.language);
 
                 if (partJob.height != null) {
-                    mTxtHeight.setText(partJob.height);
+                    mTxtHeight.setText("" + partJob.height);
                 }
 
                 if (partJob.isHasMeasurements()) {
                     mTxtMeasurements.setText(getString(
                             R.string.publish_job_measurements_format,
-                            partJob.bust, partJob.beltline, partJob.hipline)
+                            "" + partJob.bust, "" + partJob.beltline, "" + partJob.hipline)
                     );
                 }
             }

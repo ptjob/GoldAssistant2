@@ -90,6 +90,7 @@ import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.JsonUtil;
 import com.quark.common.Url;
+import com.quark.db.CityUpdator;
 import com.quark.fragment.company.ManageFragmentCompany;
 import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.jianzhidaren.BaseActivity;
@@ -98,6 +99,7 @@ import com.quark.jianzhidaren.LaheiPageActivity;
 import com.quark.model.Function;
 import com.quark.ui.widget.CustomDialog;
 import com.quark.utils.ConfigDataUtil;
+import com.quark.utils.Logger;
 import com.quark.utils.NetWorkCheck;
 import com.quark.utils.WaitDialog;
 import com.quark.volley.VolleySington;
@@ -2155,6 +2157,7 @@ public class MainTabActivity extends BaseActivity implements
 			if (status != null && "1".equals(status)) {
 				// 服务端获取的都是string类型,需要转换
 				JSONObject appInfo = js.getJSONObject("apkInfo");
+                Logger.i("[jsonjiexi]appInfo: " + appInfo.toString());
 				// String server_code_str = appInfo.getString("version");
 				// server_vercode = Integer.parseInt(server_code_str);
 				// update_contentStr = appInfo.getString("update_msg");
@@ -2166,8 +2169,20 @@ public class MainTabActivity extends BaseActivity implements
 				update_contentStr = appInfo.getString("agent_update_msg");
 				isForce = appInfo.getString("agent_is_force");// 是否强制更新1是强制更新
 				isAlert = appInfo.getString("agent_is_alert");// 是否弹出更新框
+
+                // 城市数据库版本，执行更新操作
 				server_apk_downloadUrl = appInfo.getString("agent_update_url");
-			}
+                try {
+                    new CityUpdator().update(appInfo.getString("database_version"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // 保存经纪人分享开关和分享链接
+                boolean allow_company_share = appInfo.getInt("allow_company_share") != 0;
+                SharePreferenceUtil.getInstance(this).saveSharedPreferences(SharedPreferenceConstants.ALLOW_COMPANY_SHARE, allow_company_share);
+                SharePreferenceUtil.getInstance(this).saveSharedPreferences(SharedPreferenceConstants.COMPANY_SHARE_URL, appInfo.getString("company_share_url"));
+            }
 
 		} catch (Exception e1) {
 			server_vercode = 1;

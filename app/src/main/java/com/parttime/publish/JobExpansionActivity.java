@@ -79,7 +79,6 @@ public class JobExpansionActivity extends BaseActivity {
                 public void success(Object obj) {
                     showWait(false);
                     showToast(R.string.job_expedited_success);
-                    IntentManager.openJobDetailActivity(JobExpansionActivity.this, jobId, "");
                     finish();
                 }
 

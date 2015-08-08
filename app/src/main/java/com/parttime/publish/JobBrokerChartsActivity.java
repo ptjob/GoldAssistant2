@@ -1,33 +1,43 @@
 package com.parttime.publish;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parttime.utils.ApplicationUtils;
 import com.qingmu.jianzhidaren.R;
+import com.quark.common.Url;
 import com.quark.jianzhidaren.BaseActivity;
+import com.quark.share.CompanySharePopupWindow;
+import com.quark.share.ShareModel;
+import com.quark.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.utils.UIHandler;
 
 /**
  * 经纪人排行榜
  * Created by wyw on 2015/8/2.
  */
-public class JobBrokerChartsActivity extends BaseActivity {
+public class JobBrokerChartsActivity extends BaseActivity implements Handler.Callback, PlatformActionListener {
     private ArrayList<Fragment> pageViews;
-    private Fragment jobBrokerChartsFragment;
-    private Fragment jobBrokerMeFragment;
-    private RelativeLayout topRelativeLayout;
     private TextView msgTv;
     private TextView contactsTv;
     private TextView mTxtShare;
     private ViewPager viewPager;
+    private CompanySharePopupWindow companySharePopupWindow;
+    private View mViewRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +51,42 @@ public class JobBrokerChartsActivity extends BaseActivity {
     private void bindListener() {
         msgTv.setOnClickListener(new TabButtonClickListener(0));
         contactsTv.setOnClickListener(new TabButtonClickListener(1));
+        mTxtShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                share();
+            }
+        });
+    }
+
+    private void share() {
+        String companyShareUrl = ApplicationUtils.getCompanyShareUrl(ApplicationUtils.getLoginId());
+        Logger.i(TAG, "[share]companyShareUrl=" + companyShareUrl);
+
+
+        companySharePopupWindow = new CompanySharePopupWindow(this, true);
+        ShareModel model = new ShareModel();
+        model.setUrl(companyShareUrl);
+        companySharePopupWindow.initShareParams(model, 0);
+        companySharePopupWindow.setPlatformActionListener(this);
+        String imageurl = Url.GETPIC + "pop_share_btn_jz.png";
+        model.setImageUrl(imageurl);
+        // 详细信息
+        companySharePopupWindow.showShareWindow();
+        // 显示窗口 (设置layout在PopupWindow中显示的位置)
+
+        companySharePopupWindow.showAtLocation(mViewRoot, Gravity.BOTTOM
+                | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
     private void intiControls() {
-
+        mViewRoot = findViewById(R.id.ll_root);
         pageViews = new ArrayList<>();
-        jobBrokerChartsFragment = JobBrokerChartsFragment.newInstance();
-        jobBrokerMeFragment = JobBrokerDetailFragment.newInstance(ApplicationUtils.getLoginId());
+        Fragment jobBrokerChartsFragment = JobBrokerChartsFragment.newInstance();
+        Fragment jobBrokerMeFragment = JobBrokerDetailFragment.newInstance(ApplicationUtils.getLoginId());
         pageViews.add(jobBrokerChartsFragment);
         pageViews.add(jobBrokerMeFragment);
 
-        topRelativeLayout = (RelativeLayout) findViewById(R.id.quanzi_top_relayout);
         msgTv = (TextView) findViewById(R.id.fragment_quanzi_msg_tv);
         contactsTv = (TextView) findViewById(R.id.fragment_quanzi_contacts_tv);
         mTxtShare = (TextView) findViewById(R.id.right_txt);
@@ -81,7 +116,7 @@ public class JobBrokerChartsActivity extends BaseActivity {
                 if (mTxtShare != null) {
                     mTxtShare.setVisibility(View.GONE);
                 }
-            } else if (index == 1) {
+            } else if (index == 1 && ApplicationUtils.allowCompanyShare()) {
                 if (mTxtShare != null) {
                     mTxtShare.setVisibility(View.VISIBLE);
                 }
@@ -145,8 +180,56 @@ public class JobBrokerChartsActivity extends BaseActivity {
                     .getDrawable(R.drawable.quanzi_btn_bar_right_on));
             contactsTv.setTextColor(getResources().getColor(
                     R.color.guanli_common_color));
-            mTxtShare.setVisibility(View.VISIBLE);
+            if (ApplicationUtils.allowCompanyShare()) {
+                mTxtShare.setVisibility(View.VISIBLE);
+            }
         }
 
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> stringObjectHashMap) {
+        Message msg = new Message();
+        msg.arg1 = 1;
+        msg.arg2 = i;
+        msg.obj = platform;
+        UIHandler.sendMessage(msg, this);
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+        Message msg = new Message();
+        msg.what = 1;
+        UIHandler.sendMessage(msg, this);
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+        Message msg = new Message();
+        msg.what = 0;
+        UIHandler.sendMessage(msg, this);
+    }
+
+    @Override
+    public boolean handleMessage(Message message) {
+        switch (message.arg1) {
+            case 1: {
+                // 成功
+                System.out.println("分享回调成功------------");
+            }
+            break;
+            case 2: {
+                // 失败
+            }
+            break;
+            case 3: {
+                // 取消
+            }
+            break;
+        }
+        if (companySharePopupWindow != null && companySharePopupWindow.isShowing()) {
+            companySharePopupWindow.dismiss();
+        }
+        return false;
     }
 }

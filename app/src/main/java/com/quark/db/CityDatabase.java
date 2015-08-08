@@ -13,9 +13,9 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class CityDatabase {
 
-	private final static String DATABASE_PATH = android.os.Environment
+	final static String DATABASE_PATH = android.os.Environment
 			.getExternalStorageDirectory().getAbsolutePath() + "/jianzhidaren";
-	private final static String DATABASE_FILENAME = "area.db";
+	final static String DATABASE_FILENAME = "area.db";
 
 	// @Override
 	// public void onCreate(Bundle savedInstanceState) {

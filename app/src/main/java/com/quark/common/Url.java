@@ -456,5 +456,7 @@ public class Url {
 	// 提现
 	public static final String USER_DRAW_MONEY = HOST2 + SUBJECT
 			+ "/UserCenter/draw_money";
-
+    // 更新DB文件
+    public static final String ACTIVITY_GET_CITY_DB = HOST + SUBJECT
+            + "/Activity/getCityDB";
 }

@@ -1010,7 +1010,6 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name="com.parttime.publish.JobDetailActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
 
@@ -1050,6 +1049,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
 
+        <!-- 下载管理器监听器 -->
+        <receiver android:name="com.parttime.receivers.DownloadManagerReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

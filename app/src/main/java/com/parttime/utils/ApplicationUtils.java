@@ -9,6 +9,7 @@ import com.quark.jianzhidaren.ApplicationControl;
  */
 public class ApplicationUtils {
     public static final String DEF_CITY = "深圳";
+    private static final String DEF_CITY_VERSION = "0";
 
     public static String getLoginName() {
         return SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadStringSharedPreference(SharedPreferenceConstants.COMPANY_NAME);
@@ -20,5 +21,21 @@ public class ApplicationUtils {
 
     public static String getCity() {
         return SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadStringSharedPreference(SharedPreferenceConstants.CITY, DEF_CITY);
+    }
+
+    public static String getCityVersion() {
+        return SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadStringSharedPreference(SharedPreferenceConstants.CITY_DATABASE_VARSION, "");
+    }
+
+    public static boolean allowCompanyShare() {
+        return SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadBooleanSharedPreference(SharedPreferenceConstants.ALLOW_COMPANY_SHARE);
+    }
+
+    public static String getCompanyShareUrl(int companyId) {
+        String url = SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadStringSharedPreference(SharedPreferenceConstants.COMPANY_SHARE_URL, "");
+        if (!CheckUtils.isEmpty(url)) {
+            url += companyId;
+        }
+        return url;
     }
 }

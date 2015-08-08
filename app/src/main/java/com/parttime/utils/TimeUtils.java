@@ -5,6 +5,7 @@ import com.quark.jianzhidaren.ApplicationControl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -23,7 +24,12 @@ public class TimeUtils {
 
     public static boolean beforeToday(String date, String dateFormatStr) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormatStr);
-        return simpleDateFormat.parse(date).before(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return simpleDateFormat.parse(date).before(calendar.getTime());
     }
 
     public static long getTime(String time, String pattern) {

@@ -82,6 +82,8 @@ public class JobExpeditedActivity extends BaseActivity {
     public void expansion(View view) {
         Intent intent = new Intent(this, JobExpansionActivity.class);
         intent.putExtra(JobExpeditedActivity.EXTRA_JOB_ID, jobId);
+        finish();
         startActivity(intent);
+
     }
 }
