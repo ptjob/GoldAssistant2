@@ -175,6 +175,7 @@ public class SetGenderActivity extends WithTitleActivity{
         public void clicked(int index, String city, Serializable extra, final BaseActivity activity) {
             RegParams regParams = (RegParams) extra;
             activity.showWait(true);
+            SharePreferenceUtil.getInstance(activity).saveSharedPreferences(SharedPreferenceConstants.INIT_CITY, city);
             Map<String, String> params = new HashMap<>();
             params.put("telephone", regParams.telephone);
             params.put("name", regParams.name);

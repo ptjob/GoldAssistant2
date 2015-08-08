@@ -10,6 +10,7 @@ public class SharedPreferenceConstants {
     public static final String CITY = "city";
     public static final String DINGWEICITY = "dingweicity";
     public static final String USER_ID = "user_id";
+    public static final String INIT_CITY = "init_city";
 
     public static final String USER_TYPE = "user_type";
     public static final String COMPANY_ID = "userId";

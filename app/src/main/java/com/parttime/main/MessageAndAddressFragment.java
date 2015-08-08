@@ -759,21 +759,6 @@ public class MessageAndAddressFragment extends Fragment {
     private class Addressbook {
         // **********************通讯录、联系人************************************
 
-        // 刷新ui
-        // public void ContactRefresh() {
-        // try {
-        // // 可能会在子线程中调到这方法
-        // getActivity().runOnUiThread(new Runnable() {
-        // public void run() {
-        // getContactList();
-        // contactAdapter.notifyDataSetChanged();
-        // }
-        // });
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // }
-
         public void dealdd() {
             // 保留缓存
             // usersNick.clear();
@@ -791,13 +776,13 @@ public class MessageAndAddressFragment extends Fragment {
                     }
                 }
 
-                if ("".equals(contactIdsStr)) {
+                if ("".equals(contactIdsStr.toString())) {
                     filledData();
                 } else {
                     // filledData();
                     if (ConstantForSaveList.usersNick != null
                             && ConstantForSaveList.usersNick.size() > 3) {
-                        // 去除前2个申请与通知、群聊、公共账号
+                        // 去除前3个申请与通知、群聊、公共账号
                         ConstantForSaveList.usersNick.remove(0);
                         ConstantForSaveList.usersNick.remove(0);
                         ConstantForSaveList.usersNick.remove(0);
