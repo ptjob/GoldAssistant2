@@ -722,7 +722,7 @@
         <!-- 高德地图apikey -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="1f74b3b1a6b20509df7a729fe6a2f317" />
+            android:value="8963d022ed8376c7efbb9c5e1f527748" />
 
         <!-- 支付宝 -->
         <activity
@@ -983,13 +983,21 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        CitySelectActivity
+
         <activity
             android:name="com.parttime.mine.RechargeActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+        <activity
+            android:name="com.parttime.common.activity.WebBrowserActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
 
         <!-- 发布兼职 -->
         <activity
