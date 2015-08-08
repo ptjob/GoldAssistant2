@@ -42,6 +42,8 @@
     <string name="success">成功</string>
     <string name="failed">失败</string>
     <string name="add">添加</string>
+    <string name="location_ing">定位中</string>
+    <string name="location_fail">定位失败</string>
 
 
     <!-- 主界面 -->

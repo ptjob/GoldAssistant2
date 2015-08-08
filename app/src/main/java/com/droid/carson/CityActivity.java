@@ -1,7 +1,6 @@
 package com.droid.carson;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,12 +34,11 @@ import com.droid.carson.Activity02.LocateIn;
 import com.droid.carson.MyLetterListView.OnTouchingLetterChangedListener;
 import com.parttime.common.head.ActivityHead;
 import com.parttime.constants.SharedPreferenceConstants;
-import com.parttime.utils.ApplicationUtils;
 import com.parttime.utils.CheckUtils;
 import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.BaseActivity;
-import com.quark.ui.widget.CustomDialog;
+import com.quark.utils.Logger;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -51,9 +49,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Activity01 extends BaseActivity implements OnItemClickListener {
+public class CityActivity extends BaseActivity implements OnItemClickListener {
+    private static final String TAG = "CityActivity";
     public static final String EXTRA_TITLE = "extra_title";
-    public static final String EXTRA_CITYLIST_CITY = "citylist_city";
     public static final String EXTRA_CITY = "city";
     private BaseAdapter adapter;
     private ListView personList;
@@ -66,7 +64,7 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
     protected ArrayList<City> allCity_lists; // 所有城市列表
     private ArrayList<City> city_lists;// 城市列表
     ListAdapter.TopViewHolder topViewHolder;
-    private String lngCityName = "定位失败";
+    private String lngCityName;
     //    private ImageButton backImb;// 返回
     private ClearEditText clearEdt;
     WindowManager windowManager;
@@ -94,8 +92,8 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
             }
         }
 
-        lngCityName = getIntent().getExtras()
-                .getString(EXTRA_CITYLIST_CITY, "定位失败");
+        // 若没有定位过，则显示定位中
+        lngCityName = SharePreferenceUtil.getInstance(this).loadStringSharedPreference(SharedPreferenceConstants.DINGWEICITY, getString(R.string.location_ing));
 //        backImb = (ImageButton) findViewById(R.id.backImb);
 //        backImb.setOnClickListener(new OnClickListener() {
 //            @Override
@@ -281,8 +279,8 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.putExtra(EXTRA_CITY, allCity_lists.get(position).getName());
-            Activity01.this.setResult(RESULT_OK, intent);
-            Activity01.this.finish();
+            CityActivity.this.setResult(RESULT_OK, intent);
+            CityActivity.this.finish();
         }
 
     }
@@ -370,7 +368,7 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
 
                     @Override
                     public void onClick(View arg0) {
-                        if (!"定位失败".equals(lngCityName)) {
+                        if (!getString(R.string.location_fail).equals(lngCityName)) {
                             // ToastUtil.showLongToast(lngCityName + "");
                             topViewHolder.name.setClickable(false);
                             Toast.makeText(getApplication(),
@@ -379,8 +377,8 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
                             Intent intent = new Intent();
                             // intent.putExtra("province", province);
                             intent.putExtra(EXTRA_CITY, lngCityName);
-                            Activity01.this.setResult(RESULT_OK, intent);
-                            Activity01.this.finish();
+                            CityActivity.this.setResult(RESULT_OK, intent);
+                            CityActivity.this.finish();
                         }
                     }
                 });
@@ -465,6 +463,10 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
         super.onDestroy();
         if (overlay != null && windowManager != null) {
             windowManager.removeView(overlay);
+        }
+        // 销毁定位
+        if (mLocationManagerProxy != null) {
+            mLocationManagerProxy.destroy();
         }
     }
 
@@ -571,24 +573,21 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
                 // 定位成功回调信息，设置相关消息
                 if (amapLocation.getCity() != null) {
                     mLocationManagerProxy.removeUpdates(this);
-                    boolean firstFlag = SharePreferenceUtil.getInstance(Activity01.this).loadBooleanSharedPreference(SharedPreferenceConstants.FIRST_LOCATION, true);
                     String curCity = amapLocation.getCity();
                     if (curCity.endsWith("市")) {
                         curCity = curCity.substring(0, curCity.length() - 1);
                     }
-                    SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.FIRST_LOCATION, false);
-                    SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.DINGWEICITY, curCity);
-                    final String thisCity = curCity;
-                    if (firstFlag) {
-                        // 弹出第一次定位的城市弹出框
-                        showAlertDialog(curCity, "温馨提示");
-                    } else {
-                        if (!ApplicationUtils.getCity().equals(thisCity)) {
-                            showAlertDialog2("您当前定位城市:" + curCity, "定位城市有改变",
-                                    thisCity);
-                        }
-                    }
+                    Logger.i(TAG, "[onLocationChanged]curCity=" + curCity);
+                    SharePreferenceUtil.getInstance(CityActivity.this).saveSharedPreferences(SharedPreferenceConstants.FIRST_LOCATION, false);
+                    SharePreferenceUtil.getInstance(CityActivity.this).saveSharedPreferences(SharedPreferenceConstants.DINGWEICITY, curCity);
+                    lngCityName = curCity;
+                    adapter.notifyDataSetChanged();
                 }
+            } else {
+                // 定位失败
+                Logger.i(TAG, "[onLocationChanged]location fail!");
+                lngCityName = getString(R.string.location_fail);
+                adapter.notifyDataSetChanged();
             }
         }
 
@@ -611,60 +610,5 @@ public class Activity01 extends BaseActivity implements OnItemClickListener {
         public void onProviderDisabled(String s) {
 
         }
-
-        /**
-         * 第一次弹出城市定位框
-         */
-        public void showAlertDialog(final String str, final String str2) {
-
-            CustomDialog.Builder builder = new CustomDialog.Builder(Activity01.this);
-            builder.setMessage("当前定位城市:" + str);
-            builder.setTitle(str2);
-
-            builder.setPositiveButton("我知道了",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.CITY, str);
-                            Intent intent = new Intent(); // Itent就是我们要发送的内容
-                            intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
-                            intent.putExtra("changgecity", str);
-                            sendBroadcast(intent); // 发送广播
-                        }
-                    });
-
-            builder.create().show();
-        }
-
-        /**
-         * 弹出城市改变弹出框 str3:city
-         */
-        public void showAlertDialog2(String str, final String str2,
-                                     final String str3) {
-            CustomDialog.Builder builder = new CustomDialog.Builder(Activity01.this);
-            builder.setMessage(str);
-            builder.setTitle(str2);
-            builder.setPositiveButton("现在切换",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            SharePreferenceUtil.getInstance(Activity01.this).saveSharedPreferences(SharedPreferenceConstants.CITY, str3);
-                            Intent intent = new Intent(); // Itent就是我们要发送的内容
-                            intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
-                            intent.putExtra("changgecity", str3);
-                            sendBroadcast(intent); // 发送广播
-                        }
-                    });
-            builder.setNegativeButton("暂不切换",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int arg1) {
-                            dialog.dismiss();
-                        }
-                    });
-
-            builder.create().show();
-        }
-
     }
 }

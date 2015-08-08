@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,15 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.carson.constant.ConstantForSaveList;
-import com.droid.carson.Activity01;
+import com.droid.carson.CityActivity;
 import com.google.gson.Gson;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.constants.SharedPreferenceConstants;
@@ -65,7 +58,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 /**
  * 招人主界面
@@ -516,11 +508,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             case R.id.home_page_city_relayout:
                 Intent intent = new Intent();
                 // 传值当前定位城市
-                intent.putExtra(Activity01.EXTRA_CITYLIST_CITY,
-                        SharePreferenceUtil.getInstance(getActivity()).loadStringSharedPreference(
-                                SharedPreferenceConstants.DINGWEICITY, DEF_LOCATION_FAIL));
-                intent.putExtra(Activity01.EXTRA_TITLE, getString(R.string.city_choose_title));
-                intent.setClass(getActivity(), Activity01.class);
+                intent.putExtra(CityActivity.EXTRA_TITLE, getString(R.string.city_choose_title));
+                intent.setClass(getActivity(), CityActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_LOCATION);
                 break;
             default:
@@ -534,7 +523,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             if (requestCode == REQUEST_CODE_LOCATION) {
                 // String province = data.getExtras().getString("province");
                 String oldCity = city;
-                city = data.getExtras().getString(Activity01.EXTRA_CITY);
+                city = data.getExtras().getString(CityActivity.EXTRA_CITY);
                 if ((city != null) && (!city.equals(""))) {
                     mTxtCity.setText(city);
                     // 跟原来保存的城市对比

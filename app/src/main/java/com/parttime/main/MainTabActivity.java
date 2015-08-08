@@ -84,6 +84,7 @@ import com.parttime.constants.ActionConstants;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.login.FindPJLoginActivity;
 import com.parttime.type.AccountType;
+import com.parttime.utils.ApplicationUtils;
 import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.AnimDialog;
 import com.qingmu.jianzhidaren.BuildConfig;
@@ -1682,19 +1683,19 @@ public class MainTabActivity extends BaseActivity implements
 			// 定位成功回调信息，设置相关消息
 			if (amapLocation.getCity() != null) {
 				mLocationManagerProxy.removeUpdates(this);
-				boolean flag = sp.loadBooleanSharedPreference("firstdingwei", true);
+				boolean flag = sp.loadBooleanSharedPreference(SharedPreferenceConstants.FIRST_LOCATION, true);
 				String curCity = amapLocation.getCity();
 				if (curCity.endsWith("市")) {
 					curCity = curCity.substring(0, curCity.length() - 1);
 				}
-                sp.saveSharedPreferences("firstdingwei", false);
-                sp.saveSharedPreferences("dingweicity", curCity);
+                sp.saveSharedPreferences(SharedPreferenceConstants.FIRST_LOCATION, false);
+                sp.saveSharedPreferences(SharedPreferenceConstants.DINGWEICITY, curCity);
 				final String thisCity = curCity;
 				if (flag) {
 					// 弹出第一次定位的城市弹出框
 					showAlertDialog(curCity, "温馨提示");
 				} else {
-					if (!sp.loadStringSharedPreference("city", "深圳").equals(thisCity)) {
+					if (!ApplicationUtils.getCity().equals(thisCity)) {
 						showAlertDialog2("您当前定位城市:" + curCity, "定位城市有改变",
 								thisCity);
 					} else {
@@ -1754,7 +1755,7 @@ public class MainTabActivity extends BaseActivity implements
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-                        sp.saveSharedPreferences("city", str);
+                        sp.saveSharedPreferences(SharedPreferenceConstants.CITY, str);
 						Intent intent = new Intent(); // Itent就是我们要发送的内容
 						intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
 						intent.putExtra("changgecity", str);
@@ -1777,7 +1778,7 @@ public class MainTabActivity extends BaseActivity implements
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-                        sp.saveSharedPreferences("city", str3);
+                        sp.saveSharedPreferences(SharedPreferenceConstants.CITY, str3);
 						Intent intent = new Intent(); // Itent就是我们要发送的内容
 						intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
 						intent.putExtra("changgecity", str3);

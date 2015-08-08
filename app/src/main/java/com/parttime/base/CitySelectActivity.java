@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.droid.carson.Activity01;
+import com.droid.carson.CityActivity;
 
 import java.io.Serializable;
 
 /**
  * Created by cjz on 2015/8/2.
  */
-public class CitySelectActivity extends Activity01{
+public class CitySelectActivity extends CityActivity {
     public static final String EXTRA_DIY_ACTION = "extra_diy_action";
     public static final String EXTRA_ACITON_EXTRA = "extra_action_extra";
     private DiyAction diyAction;

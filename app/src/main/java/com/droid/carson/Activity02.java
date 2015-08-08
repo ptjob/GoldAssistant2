@@ -29,7 +29,7 @@ public class Activity02 extends Activity {
     }
 
     public void go(View v) {
-        Intent intent = new Intent(Activity02.this, Activity01.class);
+        Intent intent = new Intent(Activity02.this, CityActivity.class);
         startActivity(intent);
         overlayThread = new OverlayThread();
         Handler handler = new Handler();

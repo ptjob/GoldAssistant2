@@ -20,7 +20,8 @@ public class ApplicationUtils {
     }
 
     public static String getCity() {
-        return SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadStringSharedPreference(SharedPreferenceConstants.CITY, DEF_CITY);
+        String initCity = SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadStringSharedPreference(SharedPreferenceConstants.INIT_CITY, DEF_CITY);
+        return SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).loadStringSharedPreference(SharedPreferenceConstants.CITY, initCity);
     }
 
     public static String getCityVersion() {

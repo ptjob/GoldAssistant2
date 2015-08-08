@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.droid.carson.Activity01;
+import com.droid.carson.CityActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.parttime.base.CitySelectActivity;
@@ -36,7 +36,6 @@ public class SetGenderActivity extends WithTitleActivity{
     public static  final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_NAME = "extra_name";
     public static final String EXTRA_PWD_ENCODED = "extra_pwd_encoded";
-    public static final String DEF_LOCATION_FAIL = "定位失败";
 
     private static final int REQUEST_CODE_LOCATION = 10001;
 
@@ -110,10 +109,6 @@ public class SetGenderActivity extends WithTitleActivity{
             }
         });*/
         Intent intent = new Intent();
-        // 传值当前定位城市
-        intent.putExtra(Activity01.EXTRA_CITYLIST_CITY,
-                SharePreferenceUtil.getInstance(this).loadStringSharedPreference(
-                        SharedPreferenceConstants.DINGWEICITY, DEF_LOCATION_FAIL));
         intent.setClass(this, CitySelectActivity.class);
 //        startActivityForResult(intent, REQUEST_CODE_LOCATION);
         intent.putExtra(CitySelectActivity.EXTRA_DIY_ACTION, new SelectCityAction());
@@ -126,7 +121,7 @@ public class SetGenderActivity extends WithTitleActivity{
         if(resultCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_LOCATION:
-                    String string = data.getExtras().getString(Activity01.EXTRA_CITY);
+                    String string = data.getExtras().getString(CityActivity.EXTRA_CITY);
                     showToast(string);
                     break;
                 default:
@@ -169,7 +164,7 @@ public class SetGenderActivity extends WithTitleActivity{
         }
     }
 
-    public static class SelectCityAction implements Activity01.DiyAction {
+    public static class SelectCityAction implements CityActivity.DiyAction {
 
         @Override
         public void clicked(int index, String city, Serializable extra, final BaseActivity activity) {

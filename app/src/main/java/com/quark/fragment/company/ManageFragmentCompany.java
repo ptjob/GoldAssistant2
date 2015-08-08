@@ -16,7 +16,8 @@ import com.carson.broker.BrokerActivity;
 import com.carson.broker.JiedanActivity;
 import com.carson.broker.MyFunsActivity;
 import com.carson.constant.ConstantForSaveList;
-import com.droid.carson.Activity01;
+import com.droid.carson.CityActivity;
+import com.parttime.constants.SharedPreferenceConstants;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.JsonUtil;
 import com.quark.common.ToastUtil;
@@ -198,10 +199,7 @@ public class ManageFragmentCompany extends BaseFragment implements
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				// 传值当前定位城市
-				intent.putExtra("citylist_city",
-						sp.getString("dingweicity", "定位失败"));
-				intent.setClass(getActivity(), Activity01.class);
+				intent.setClass(getActivity(), CityActivity.class);
 				startActivityForResult(intent, 100);
 
 			}
