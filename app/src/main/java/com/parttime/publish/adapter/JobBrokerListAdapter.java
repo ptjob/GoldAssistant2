@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by wyw on 2015/7/26.
  */
 public class JobBrokerListAdapter extends BaseAdapter {
@@ -70,7 +71,7 @@ public class JobBrokerListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (view == null) {
             view = mLayoutInflater.inflate(R.layout.item_job_broker_list, null);
             viewHolder = new ViewHolder();

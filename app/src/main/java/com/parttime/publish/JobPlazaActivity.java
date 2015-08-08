@@ -11,6 +11,7 @@ import com.parttime.net.ErrorHandler;
 import com.parttime.net.PublishRequest;
 import com.parttime.publish.adapter.JobPlazaListAdapter;
 import com.parttime.publish.vo.JobPlazaActivityListVo;
+import com.parttime.utils.CheckUtils;
 import com.parttime.utils.IntentManager;
 import com.parttime.widget.BaseXListView;
 import com.qingmu.jianzhidaren.R;
@@ -33,23 +34,25 @@ public class JobPlazaActivity extends BaseActivity implements AdapterView.OnItem
     private DefaultCallback mDefaultCallback = new DefaultCallback() {
         @Override
         public void success(Object obj) {
-            showWait(false);
-            mCurrentVo = (JobPlazaActivityListVo) obj;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mCurrentVo.pageNumber == 1) {
-                        mAdapterMain.setAll(mCurrentVo.jobPlazaListVoList);
-                        mListViewMain.updateRefreshTime();
-                    } else {
-                        mAdapterMain.addAll(mCurrentVo.jobPlazaListVoList);
-                    }
+            if (CheckUtils.isSafe(JobPlazaActivity.this)) {
+                showWait(false);
+                mCurrentVo = (JobPlazaActivityListVo) obj;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mCurrentVo.pageNumber == 1) {
+                            mAdapterMain.setAll(mCurrentVo.jobPlazaListVoList);
+                            mListViewMain.updateRefreshTime();
+                        } else {
+                            mAdapterMain.addAll(mCurrentVo.jobPlazaListVoList);
+                        }
 
-                    mListViewMain.setLoadOver(mCurrentVo.jobPlazaListVoList.size(), PAGE_COUNT);
-                    mListViewMain.stopRefresh();
-                    mListViewMain.stopLoadMore();
-                }
-            });
+                        mListViewMain.setLoadOver(mCurrentVo.jobPlazaListVoList.size(), PAGE_COUNT);
+                        mListViewMain.stopRefresh();
+                        mListViewMain.stopLoadMore();
+                    }
+                });
+            }
         }
 
         @Override

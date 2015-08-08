@@ -460,7 +460,6 @@ public class CityActivity extends BaseActivity implements OnItemClickListener {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (overlay != null && windowManager != null) {
             windowManager.removeView(overlay);
         }
@@ -468,6 +467,7 @@ public class CityActivity extends BaseActivity implements OnItemClickListener {
         if (mLocationManagerProxy != null) {
             mLocationManagerProxy.destroy();
         }
+        super.onDestroy();
     }
 
     private class LetterListViewListener implements

@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.android.volley.VolleyError;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.ErrorHandler;
 import com.parttime.net.PublishRequest;
-import com.parttime.net.ResponseBaseCommonError;
 import com.parttime.publish.adapter.JobBrokerListAdapter;
 import com.parttime.publish.vo.JobBrokerChartsFragmentVo;
 import com.parttime.utils.CheckUtils;
@@ -38,25 +36,27 @@ public class JobBrokerChartsFragment extends BaseSupportFragment implements Adap
     private DefaultCallback mDefaultCallback = new DefaultCallback() {
         @Override
         public void success(Object obj) {
-            showWait(false);
-            mCurrentVo = (JobBrokerChartsFragmentVo) obj;
-
             if (CheckUtils.isSafe(getActivity())) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mCurrentVo.pageNumber == 1) {
-                            mAdapterMain.setAll(mCurrentVo.jobBrokerListVos);
-                            mListViewMain.updateRefreshTime();
-                        } else {
-                            mAdapterMain.addAll(mCurrentVo.jobBrokerListVos);
-                        }
+                showWait(false);
+                mCurrentVo = (JobBrokerChartsFragmentVo) obj;
 
-                        mListViewMain.setLoadOver(mCurrentVo.jobBrokerListVos.size(), PAGE_COUNT);
-                        mListViewMain.stopRefresh();
-                        mListViewMain.stopLoadMore();
-                    }
-                });
+                if (CheckUtils.isSafe(getActivity())) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mCurrentVo.pageNumber == 1) {
+                                mAdapterMain.setAll(mCurrentVo.jobBrokerListVos);
+                                mListViewMain.updateRefreshTime();
+                            } else {
+                                mAdapterMain.addAll(mCurrentVo.jobBrokerListVos);
+                            }
+
+                            mListViewMain.setLoadOver(mCurrentVo.jobBrokerListVos.size(), PAGE_COUNT);
+                            mListViewMain.stopRefresh();
+                            mListViewMain.stopLoadMore();
+                        }
+                    });
+                }
             }
         }
 

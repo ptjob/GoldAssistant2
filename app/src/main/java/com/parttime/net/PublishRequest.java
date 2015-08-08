@@ -124,6 +124,7 @@ public class PublishRequest extends BaseRequest {
                 JSONObject jsonObject = (JSONObject) obj;
                 JSONObject activityPage = jsonObject.getJSONObject("activityPage");
                 PublishActivityListVo publishActivityListVo = new PublishActivityListVo();
+                publishActivityListVo.type = type;
                 publishActivityListVo.pageNumber = activityPage.getInt("pageNumber");
                 publishActivityListVo.pageSize = activityPage.getInt("pageSize");
                 publishActivityListVo.totlePage = activityPage.getInt("totalPage");

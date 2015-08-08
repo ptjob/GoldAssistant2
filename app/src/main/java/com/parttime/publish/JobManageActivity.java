@@ -4,17 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.RadioButton;
 
-import com.android.volley.VolleyError;
 import com.parttime.common.head.ActivityHead;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.ErrorHandler;
 import com.parttime.net.PublishRequest;
-import com.parttime.net.ResponseBaseCommonError;
 import com.parttime.publish.adapter.JobManageListAdapter;
 import com.parttime.publish.vo.PublishActivityListVo;
+import com.parttime.utils.CheckUtils;
 import com.parttime.utils.IntentManager;
 import com.parttime.widget.BaseXListView;
 import com.qingmu.jianzhidaren.R;
@@ -35,29 +33,37 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     private RadioButton mRadioRecruit;
     private RadioButton mRadioAuditing;
     private RadioButton mRadioUndercarriage;
-    private JobManageListAdapter mAdapterMain;
+    private JobManageListAdapter mAdapterRecruit;
+    private JobManageListAdapter mAdapterAuditing;
+    private JobManageListAdapter mAdapterUndercarriag;
+    private JobManageListAdapter mCurrentAdapter;
     private PublishActivityListVo mCurrentVo;
+    private int currentType;
 
     private DefaultCallback mDefaultCallback = new DefaultCallback() {
         @Override
         public void success(Object obj) {
-            showWait(false);
-            mCurrentVo = (PublishActivityListVo) obj;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mCurrentVo.pageNumber == 1) {
-                        mAdapterMain.setAll(mCurrentVo.jobManageListVoList);
-                        mListViewMain.updateRefreshTime();
-                    } else {
-                        mAdapterMain.addAll(mCurrentVo.jobManageListVoList);
-                    }
+            if (CheckUtils.isSafe(JobManageActivity.this)) {
+                showWait(false);
+                mCurrentVo = (PublishActivityListVo) obj;
+                if (mCurrentVo.type != null && mCurrentVo.type == currentType) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mCurrentVo.pageNumber == 1) {
+                                mCurrentAdapter.setAll(mCurrentVo.jobManageListVoList);
+                                mListViewMain.updateRefreshTime();
+                            } else {
+                                mCurrentAdapter.addAll(mCurrentVo.jobManageListVoList);
+                            }
 
-                    mListViewMain.setLoadOver(mCurrentVo.jobManageListVoList.size(), PAGE_COUNT);
-                    mListViewMain.stopRefresh();
-                    mListViewMain.stopLoadMore();
+                            mListViewMain.setLoadOver(mCurrentVo.jobManageListVoList.size(), PAGE_COUNT);
+                            mListViewMain.stopRefresh();
+                            mListViewMain.stopLoadMore();
+                        }
+                    });
                 }
-            });
+            }
         }
 
         @Override
@@ -82,8 +88,11 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     private void bindData() {
-        mAdapterMain = new JobManageListAdapter(this);
-        mListViewMain.setAdapter(mAdapterMain);
+        mAdapterRecruit = new JobManageListAdapter(this);
+        mAdapterAuditing = new JobManageListAdapter(this);
+        mAdapterUndercarriag = new JobManageListAdapter(this);
+        mListViewMain.setAdapter(mAdapterRecruit);
+        mCurrentAdapter = mAdapterRecruit;
 
         mRadioRecruit.setChecked(true);
         refreshFirstPage();
@@ -117,8 +126,8 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         int position = i - 1;
-        if (position < mAdapterMain.getCount()) {
-            long jobId = mAdapterMain.getItemId(position);
+        if (position < mCurrentAdapter.getCount()) {
+            long jobId = mCurrentAdapter.getItemId(position);
             IntentManager.openJobDetailActivity(this, (int) jobId, "");
         } else {
             showToast(R.string.error_date_and_refresh);
@@ -144,14 +153,22 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     private void refreshListView() {
         if (mRadioRecruit.isChecked()) {
             // 招人中
-            new PublishRequest().publishActivityList(getNextPageNumber(), PAGE_COUNT, PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_RECRUIT, queue, mDefaultCallback);
+            currentType = PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_RECRUIT;
+            mListViewMain.setAdapter(mAdapterRecruit);
+            mCurrentAdapter = mAdapterRecruit;
         } else if (mRadioAuditing.isChecked()) {
             // 待审核
-            new PublishRequest().publishActivityList(getNextPageNumber(), PAGE_COUNT, PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_AUDITING, queue, mDefaultCallback);
+            currentType = PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_AUDITING;
+            mListViewMain.setAdapter(mAdapterAuditing);
+            mCurrentAdapter = mAdapterAuditing;
         } else {
             // 已下架
-            new PublishRequest().publishActivityList(getNextPageNumber(), PAGE_COUNT, PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_UNDERCARRIAGE, queue, mDefaultCallback);
+            currentType = PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_UNDERCARRIAGE;
+            mListViewMain.setAdapter(mAdapterUndercarriag);
+            mCurrentAdapter = mAdapterUndercarriag;
         }
+        mCurrentAdapter.notifyDataSetChanged();
+        new PublishRequest().publishActivityList(getNextPageNumber(), PAGE_COUNT, currentType, queue, mDefaultCallback);
     }
 
     // 获取下一页页码

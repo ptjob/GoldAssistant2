@@ -7,6 +7,7 @@ import java.util.List;
  * Created by wyw on 2015/7/28.
  */
 public class PublishActivityListVo {
+    public Integer type;
     public int pageNumber;
     public int pageSize;
     public int totlePage;
