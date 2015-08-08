@@ -2,6 +2,7 @@ package com.parttime.base;
 
 import android.content.Intent;
 
+import com.parttime.common.activity.WebBrowserActivity;
 import com.parttime.login.FindPJLoginActivity;
 import com.parttime.main.MainTabActivity;
 import com.parttime.mine.BeforeCertedActivity;
@@ -42,6 +43,12 @@ public class IntentManager {
     public static void intentToAfterCertedActivity(BaseActivity activity, CertVo vo){
         Intent intent = new Intent(activity, AfterCertedActivity.class);
         intent.putExtra(AfterCertedActivity.EXTRA_CERT_VO, vo);
+        activity.startActivity(intent);
+    }
+
+    public static void intentToWebBrowser(BaseActivity activity, String url){
+        Intent intent = new Intent(activity, WebBrowserActivity.class);
+        intent.putExtra(WebBrowserActivity.EXTRA_URL, url);
         activity.startActivity(intent);
     }
 
