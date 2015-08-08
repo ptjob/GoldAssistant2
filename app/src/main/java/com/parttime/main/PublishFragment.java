@@ -114,6 +114,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
     private float density;
 
+    private Activity activity;
 
     private List<View> bannerIvs = new ArrayList<>();
     private List<BannerItem> banners = new ArrayList<>();
@@ -162,6 +163,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             this.density = activity.getResources().getDisplayMetrics().density;
         }
     }
+
+
 
     private void initViews(View root){
         rlLeftTop = (RelativeLayout) root.findViewById(R.id.rl_left_top);
@@ -430,10 +433,13 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     };
 
     protected void startBanners(){
+        if(activity.isFinishing()){
+            return;
+        }
         bannerIvs.clear();
         for(int i = 0 ; i < banners.size(); ++i){
             BannerItem bannerItem = banners.get(i);
-            ImageView imageView = new ImageView(getActivity());
+            ImageView imageView = new ImageView(activity);
             imageView.setTag(bannerItem);
             /*imageView.setOnClickListener(onBannerItemClick);*/
             ContactImageLoader.loadNativePhoto(null, bannerItem.pic, imageView, VolleySington.getInstance().getRequestQueue());
@@ -495,6 +501,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        this.activity = activity;
     }
 
     @Override

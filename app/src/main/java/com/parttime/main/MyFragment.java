@@ -107,6 +107,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
 	Function function;
 
+	private Activity activity;
+
 	public static MyFragment newInstance(String param1, String param2) {
 		MyFragment fragment = new MyFragment();
 
@@ -128,6 +130,12 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 		url = Url.COMPANY_function + "?token=" + MainTabActivity.token;
 		uploadAvatarUrl = Url.COMPANY_upload_avatar + "?token="
 				+ MainTabActivity.token;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		this.activity = activity;
 	}
 
 	@Override
@@ -157,6 +165,9 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private String getCertString(){
+		if(activity.isFinishing() || !isAdded()){
+			return "";
+		}
 		if(function != null){
 			int company_status = function.getCompany_status();
 			int type = function.getType();
@@ -197,6 +208,9 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 			public void success(Object obj) {
 				JSONObject json = (JSONObject) obj;
 				function = (Function) JsonUtil.jsonToBean(json, Function.class);
+				if(activity.isFinishing() || !isAdded()){
+					return;
+				}
 				updateView();
 				saveInfor();
 			}
@@ -750,10 +764,13 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void afterGetPhoto(Intent data){
+		if(activity.isFinishing()){
+			return;
+		}
 		if (data.getData() != null) {
 			startPhotoZoom(data.getData(), 300, 300);
 		} else {
-			Toast mToast = Toast.makeText(getActivity(), "获取图片失败。。。",
+			Toast mToast = Toast.makeText(activity, "获取图片失败。。。",
 					Toast.LENGTH_LONG);
 			mToast.setGravity(Gravity.CENTER, 0, 0);
 			mToast.show();
@@ -761,6 +778,9 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void afterTakePhoto(Intent data){
+		if(activity.isFinishing()){
+			return;
+		}
 		if (Util.hasSdcard()) {
 			File tempFile = new File(
 					Environment.getExternalStorageDirectory() + "/"
@@ -807,7 +827,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 				// Environment.getExternalStorageDirectory() + "/"
 				// + IMAGE_FILE_NAME, null, null));
 				tt_uri = Uri.parse(MediaStore.Images.Media.insertImage(
-						getActivity().getContentResolver(),
+						activity.getContentResolver(),
 						userPhotoBmp, null, null));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -816,14 +836,14 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 			if (tt_uri != null) {
 				startPhotoZoom(tt_uri, 300, 300);
 			} else {
-				Toast mToast = Toast.makeText(getActivity(),
+				Toast mToast = Toast.makeText(activity,
 						"未找到存储卡，无法存储照片！", Toast.LENGTH_LONG);
 				mToast.setGravity(Gravity.CENTER, 0, 0);
 				mToast.show();
 			}
 		} else {
 
-			Toast mToast = Toast.makeText(getActivity(),
+			Toast mToast = Toast.makeText(activity,
 					"未找到存储卡，无法存储照片！", Toast.LENGTH_LONG);
 			mToast.setGravity(Gravity.CENTER, 0, 0);
 			mToast.show();
@@ -873,9 +893,12 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //	}
 
 	protected void showWait(boolean isShow) {
+		if(activity.isFinishing()){
+			return;
+		}
 		if (isShow) {
 			if (null == dialog) {
-				dialog = new WaitDialog(getActivity());
+				dialog = new WaitDialog(activity);
 			}
 			dialog.show();
 		} else {
@@ -901,7 +924,10 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
 	public void showAlertDialog(String str, final String str2) {
 
-		CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
+		if(activity.isFinishing()){
+			return;
+		}
+		CustomDialog.Builder builder = new CustomDialog.Builder(activity);
 		builder.setMessage(str);
 		builder.setTitle(str2);
 
@@ -914,7 +940,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void goToActivity(Class activityClz){
-		Activity activity = getActivity();
+
 		if(activity != null && !activity.isFinishing() && isAdded()) {
 			Intent intent = new Intent(activity, activityClz);
 			activity.startActivity(intent);
