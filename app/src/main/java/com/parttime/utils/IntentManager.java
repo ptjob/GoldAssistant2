@@ -17,6 +17,7 @@ import com.parttime.pojo.PartJob;
 import com.parttime.publish.JobBrokerDetailActivity;
 import com.parttime.publish.JobDetailActivity;
 import com.parttime.publish.JobManageActivity;
+import com.parttime.publish.JobPlazaActivity;
 import com.parttime.publish.WriteJobActivity;
 import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.jianzhidaren.BaseActivity;
@@ -123,13 +124,30 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public static void goToMainTabActivity(Context context){
+    /**
+     * 跳往主TAB页
+     * @param context
+     */
+    public static void goToMainTab(Context context){
         Intent intent = new Intent(context, MainTabActivity.class);
         context.startActivity(intent);
     }
 
-    public static void goToJobManageActiviy(Context context)  {
+    /**
+     * 跳往兼职管理列表
+     * @param context
+     */
+    public static void goToJobManage(Context context)  {
         Intent intent = new Intent(context, JobManageActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳往活动列表
+     * @param context
+     */
+    public static void goToJobPlaza(Context context) {
+        Intent intent = new Intent(context, JobPlazaActivity.class);
         context.startActivity(intent);
     }
 

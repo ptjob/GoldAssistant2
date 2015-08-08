@@ -541,7 +541,7 @@ public class JobDetailActivity extends BaseActivity {
 
     private void jobExpedited() {
         showWait(true);
-        new PublishRequest().preRefresh(partJob.id, queue, new DefaultCallback() {
+        new PublishRequest().preUrgent(partJob.id, queue, new DefaultCallback() {
             @Override
             public void success(Object obj) {
                 showWait(false);
