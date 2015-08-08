@@ -120,8 +120,11 @@ public class GroupsActivity extends BaseActivity implements TextWatcher, View.On
                             groupAdapter.getItem(position).getGroupId());
                     startActivityForResult(intent, 0);
                 } else {
-                    new ChatSendMsgHelper().sendShareActivity(groupAdapter.getItem(position)
-                            .getGroupId(), activityId, job_place, activityTitle, LabelUtils.getSalaryLabel(GroupsActivity.this, SalaryUnit.parse(pay_type), pay));
+                    new ChatSendMsgHelper().sendShareActivity(groupAdapter.getItem(position).getGroupId(),
+                            activityId,
+                            job_place,
+                            activityTitle,
+                            LabelUtils.getSalaryLabel(GroupsActivity.this, SalaryUnit.parse(pay_type), pay));
                     ToastUtil.showShortToast("活动分享成功^_^");
                     GroupsActivity.this.finish();
 

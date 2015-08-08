@@ -19,11 +19,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,9 +40,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.carson.constant.ConstantForSaveList;
 import com.easemob.chat.EMChatManager;
@@ -73,7 +68,6 @@ import com.parttime.widget.SetItem;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
 import com.quark.http.image.LoadImage;
-import com.quark.image.UploadImg;
 import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.model.HuanxinUser;
 import com.quark.ui.widget.CustomDialog;
@@ -82,9 +76,6 @@ import com.quark.volley.VolleySington;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -133,6 +124,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
     private MessageSet messageSet;
     private EMGroup group;
     private ArrayList<HuanxinUser> huanXinUsers;
+    private ArrayList<String> userIds = new ArrayList<>();
 
     private String exportUrl;
     String longClickUsername = null;
@@ -158,6 +150,10 @@ public class NormalGroupSettingActivity extends BaseActivity implements
     }
 
     private void bindData() {
+
+        adapter = new GridAdapter(this, R.layout.grid, userIds);
+        userGridview.setAdapter(adapter);
+
         // 获取传过来的groupid
         groupId = getIntent().getStringExtra("groupId");
         group = EMGroupManager.getInstance().getGroup(groupId);
@@ -247,6 +243,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
         top = (SetItem)findViewById(R.id.top);
         undisturb = (SetItem)findViewById(R.id.undisturb);
         gag = (SetItem)findViewById(R.id.gag);
+
     }
 
     @Override
@@ -478,6 +475,11 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 					}
 					runOnUiThread(new Runnable() {
 						public void run() {
+                            for(String newUId : newmembers){
+                                if(! userIds.contains(newUId)) {
+                                    userIds.add(newUId);
+                                }
+                            }
 							adapter.notifyDataSetChanged();
 							((TextView) findViewById(R.id.group_name))
 									.setText(group.getGroupName() + "("
@@ -582,7 +584,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
     }
 
     class ViewHold {
-		ImageView avatar;
+		ImageView avatar, delete;
         TextView name;
 	}
 
@@ -596,12 +598,10 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 
 		private int res;
 		public boolean isInDeleteMode;
-		private ArrayList<String> objects;
 
 		public GridAdapter(Context context, int textViewResourceId,
 				List<String> objects) {
 			super(context, textViewResourceId, objects);
-			this.objects = new ArrayList<>(objects);
 			res = textViewResourceId;
 			isInDeleteMode = false;
 		}
@@ -609,6 +609,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 		@Override
 		public View getView(final int position, View convertView,
 				final ViewGroup parent) {
+            Log.i(TAG,"count = " + getCount());
 			ViewHold viewhold;
 			if (convertView == null) {
 				viewhold = new ViewHold();
@@ -617,6 +618,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 				viewhold.avatar = (ImageView) convertView
 						.findViewById(R.id.avatar);
                 viewhold.name = (TextView) convertView.findViewById(R.id.name);
+                viewhold.delete = (ImageView) convertView.findViewById(R.id.badge_delete);
 				convertView.setTag(viewhold);
 			} else {
 				viewhold = (ViewHold) convertView.getTag();
@@ -626,11 +628,10 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 			if (position == getCount() - 1) {
 				viewhold.name.setText("");
 				// 设置成删除按钮
-				viewhold.avatar.setBackgroundResource(
-                        R.drawable.smiley_minus_btn);
+                viewhold.avatar.setTag("delete");
+				viewhold.avatar.setBackgroundResource(R.drawable.smiley_minus_btn);
 				// 如果不是创建者或者没有相应权限，不提供加减人按钮
-				if (!group.getOwner().equals(
-						EMChatManager.getInstance().getCurrentUser())) {
+				if (!group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
 					// if current user is not group admin, hide add/remove avatar
 					convertView.setVisibility(View.INVISIBLE);
 				} else { // 显示删除按钮
@@ -640,8 +641,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 					} else {
 						// 正常模式
 						convertView.setVisibility(View.VISIBLE);
-						convertView.findViewById(R.id.badge_delete)
-								.setVisibility(View.INVISIBLE);
+                        viewhold.delete.setVisibility(View.INVISIBLE);
 					}
 					viewhold.avatar.setOnClickListener(new OnClickListener() {
                         @Override
@@ -654,13 +654,12 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 				}
 			} else if (position == getCount() - 2) { // 添加群组成员按钮
                 viewhold.name.setText("");
-                // 设置成删除按钮
-                viewhold.avatar.setBackgroundResource(
-                        R.drawable.smiley_add_btn);
+                // 设置成加入按钮
+                viewhold.avatar.setTag("add");
+                viewhold.avatar.setBackgroundResource(R.drawable.smiley_add_btn);
 				// 如果不是创建者或者没有相应权限
 				if (!group.isAllowInvites()
-						&& !group.getOwner().equals(
-								EMChatManager.getInstance().getCurrentUser())) {
+						&& !group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
 					// if current user is not group admin, hide add/remove avatar
 					convertView.setVisibility(View.INVISIBLE);
 				} else {
@@ -669,28 +668,25 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 						convertView.setVisibility(View.INVISIBLE);
 					} else {
 						convertView.setVisibility(View.VISIBLE);
-						convertView.findViewById(R.id.badge_delete)
-								.setVisibility(View.INVISIBLE);
+                        viewhold.delete.setVisibility(View.INVISIBLE);
 					}
 					viewhold.avatar.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EMLog.d(TAG, "添加按钮被点击");
                             // 进入选人页面
-                            startActivityForResult((new Intent(
-                                    NormalGroupSettingActivity.this,
-                                    GroupPickContactsActivity.class).putExtra(
-                                    "groupId", groupId)), REQUEST_CODE_ADD_USER);
+                            Intent intent  = new Intent(NormalGroupSettingActivity.this,GroupPickContactsActivity.class);
+                            intent.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID, groupId);
+                            intent.putExtra(ActivityExtraAndKeys.FROM_WHERE, GroupPickContactsActivity.FROM_NORMAL_GROUP_SETTING);
+                            startActivityForResult(intent, REQUEST_CODE_ADD_USER);
                         }
                     });
 				}
 			} else {
-				if (objects != null && position < objects.size()) {
+				if (userIds != null && position < userIds.size()) {
 					// 普通item，显示群组成员
 					// final String username = getItem(position);
-					final String username = objects.get(position);
-					// 给button设置tag,防止复用
-					viewhold.avatar.setTag(objects.get(position));
+					final String username = userIds.get(position);
 					convertView.setVisibility(View.VISIBLE);
 					viewhold.avatar.setVisibility(View.VISIBLE);
 
@@ -700,33 +696,54 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 								username + "realname", ""));
 					}
 
-
                     // 加载本地图片
                     Bitmap bitmap = ContactImageLoader.get(username);
 
                     if (bitmap != null) {
                         if (viewhold.name != null) {
-                            viewhold.name.setText(sp.loadStringSharedPreference(username
-                                    + "realname", ""));
-                            viewhold.avatar.setTag(username);
+                            viewhold.name.setText(sp.loadStringSharedPreference(username + "realname", ""));
                         }
                         viewhold.avatar.setBackgroundDrawable(LoadImage.bitmapToDrawable(bitmap));
                     } else {
                         getNick(username, viewhold.avatar,viewhold.name);
                     }
 
-					// button.setText(username);
-
 					// demo群组成员的头像都用默认头像，需由开发者自己去设置头像
 					if (isInDeleteMode) {
 						// 如果是删除模式下，显示减人图标
-						convertView.findViewById(R.id.badge_delete)
-								.setVisibility(View.VISIBLE);
+                        viewhold.delete.setVisibility(View.VISIBLE);
 					} else {
-						convertView.findViewById(R.id.badge_delete)
-								.setVisibility(View.INVISIBLE);
+                        viewhold.delete.setVisibility(View.INVISIBLE);
 					}
-					viewhold.avatar.setOnClickListener(new OnClickListener() {
+
+                    viewhold.avatar.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!NetUtils
+                                    .hasNetwork(getApplicationContext())) {
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        getString(R.string.network_unavailable),
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (EMChatManager.getInstance().getCurrentUser().equals(username)) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "您点击了自己", Toast.LENGTH_SHORT).show();
+                                } else {
+
+                                    ArrayList<String> uIds = new ArrayList<>(userIds);
+                                    String uId = EMChatManager.getInstance().getCurrentUser();
+                                    //去掉自己
+                                    uIds.remove(uId);
+                                    // 正常情况下点击user，可以进入用户详情
+                                    IntentManager.intentToUseDetail(NormalGroupSettingActivity.this, username, groupId, uIds, group.getOwner());
+                                }
+                            }
+                        }
+                    });
+
+                    viewhold.delete.setTag(username);
+					viewhold.delete.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             String userId = (String) v.getTag();
@@ -751,30 +768,6 @@ public class NormalGroupSettingActivity extends BaseActivity implements
                                 EMLog.d("group", "remove user from group:"
                                         + userId);
                                 deleteMembersFromGroup(userId);
-                            } else {
-
-                                if (!NetUtils
-                                        .hasNetwork(getApplicationContext())) {
-                                    Toast.makeText(
-                                            getApplicationContext(),
-                                            getString(R.string.network_unavailable),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    if (EMChatManager.getInstance()
-                                            .getCurrentUser().equals(userId)) {
-                                        Toast.makeText(getApplicationContext(),
-                                                "您点击了自己", Toast.LENGTH_SHORT).show();
-                                    } else {
-
-                                        ArrayList<String> userIds = new ArrayList<>(objects);
-                                        String uId = EMChatManager.getInstance().getCurrentUser();
-                                        //去掉自己
-                                        userIds.remove(uId);
-                                        // 正常情况下点击user，可以进入用户详情
-                                        IntentManager.intentToUseDetail(NormalGroupSettingActivity.this, username, groupId, userIds, group.getOwner());
-                                    }
-                                }
-
                             }
                         }
 
@@ -803,6 +796,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
                                             @Override
                                             public void run() {
                                                 deleteDialog.dismiss();
+                                                userIds.remove(username);
                                                 notifyDataSetChanged();
                                                 carsonRemoveFromGroup(username);
                                                 ((TextView) findViewById(R.id.group_name)).setText(group
@@ -859,7 +853,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 
         @Override
 		public int getCount() {
-			return super.getCount() + 2;
+			return super.getCount() == 0 ? 0 : (super.getCount() + 2);
 		}
 	}
 
@@ -880,11 +874,16 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 											+ group.getAffiliationsCount()
 											+ ")");
 							loadingPB.setVisibility(View.INVISIBLE);
-							adapter = new GridAdapter(
-									NormalGroupSettingActivity.this, R.layout.grid,
-									group.getMembers());
-							userGridview.setAdapter(adapter);
-							// adapter.notifyDataSetChanged();
+							List<String> members = group.getMembers();
+                            if(members != null && members.size() > 0){
+                                Log.i(TAG, "after add member and size is = " + members.size());
+                                for(String member : members) {
+                                    if(! userIds.contains(member)){
+                                        userIds.add(member);
+                                    }
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
 							if (EMChatManager.getInstance().getCurrentUser()
 									.equals(group.getOwner())) {
 								// 显示解散按钮
@@ -932,12 +931,12 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 
 	// =============================================================
 	public void getNick(final String id, final ImageView avatar, final TextView name) {
-        new HuanXinRequest().getHuanxinUserList(String.valueOf(id), queue, new DefaultCallback(){
+        new HuanXinRequest().getHuanxinUserList(id, queue, new DefaultCallback(){
             @Override
             public void success(Object obj) {
                 super.success(obj);
                 if(obj instanceof ArrayList){
-                    @SuppressLint("Unchecked")
+                    @SuppressLint("unchecked")
                     ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>)obj;
                     huanXinUsers = list;
                     if(list.size() == 1) {
@@ -954,15 +953,13 @@ public class NormalGroupSettingActivity extends BaseActivity implements
                                 name.setText("");
                             }
                         }
-                        if ((us.getAvatar() != null)
-                                && (!us.getAvatar().equals(""))) {
+                        if ((us.getAvatar() != null) && (!us.getAvatar().equals("")) && avatar != null) {
                             loadpersonPic(id, us.getAvatar(), avatar, 1);
-
-                        } else {
+                        }/* else {
                             if(avatar != null) {
                                 avatar.setBackgroundResource(R.drawable.default_avatar);
                             }
-                        }
+                        }*/
                     }
                 }
             }
@@ -973,64 +970,18 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 	 * @Description: 加载图片
 	 * @author howe
 	 * @date 2014-7-30 下午5:57:52
-	 * 
+	 *
 	 */
 	public void loadpersonPic(final String id, final String url,
 			final ImageView avatar, final int isRound) {
-		ImageRequest imgRequest = new ImageRequest(Url.GETPIC + url,
-				new Response.Listener<Bitmap>() {
-					@Override
-					public void onResponse(Bitmap arg0) {
-						if (isRound == 1) {
-							Bitmap bit = UploadImg.toRoundCorner(arg0, 2);
-
-							if (avatar.getTag() != null
-									&& avatar.getTag().equals(id) && bit != null) {
-
-								avatar.setBackgroundDrawable(LoadImage.bitmapToDrawable(bit));
-							}
-							OutputStream output = null;
-							try {
-								File mePhotoFold = new File(
-										Environment
-												.getExternalStorageDirectory()
-												+ "/" + "jzdr/" + "image");
-								if (!mePhotoFold.exists()) {
-									mePhotoFold.mkdirs();
-								}
-								output = new FileOutputStream(
-										Environment
-												.getExternalStorageDirectory()
-												+ "/"
-												+ "jzdr/"
-												+ "image/"
-												+ url);
-								arg0.compress(Bitmap.CompressFormat.JPEG, 100,
-										output);
-								output.flush();
-								output.close();
-								sp.saveSharedPreferences(id + "_photo", url);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}, 300, 200, Config.ARGB_8888, new ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError arg0) {
-
-					}
-				});
-		queue.add(imgRequest);
-		imgRequest.setRetryPolicy(new DefaultRetryPolicy(
-				ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1, 1.0f));
-
+        avatar.setTag(url);
+        ContactImageLoader.loadpersonPic(queue,id, url, avatar,isRound);
 	}
 
 	// ================howe end==================
 	/**
 	 * 群主踢人或者解散群组给推送
-	 * 
+	 *
 	 */
 	private void carsonRemoveFromGroup(final String userName) {
 		StringRequest request = new StringRequest(Request.Method.POST,
@@ -1052,7 +1003,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 				}) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
-				Map<String, String> map = new HashMap<String, String>();
+				Map<String, String> map = new HashMap<>();
 				map.put("group_name", group.getGroupName());
 				map.put("user_id", userName);
 				return map;

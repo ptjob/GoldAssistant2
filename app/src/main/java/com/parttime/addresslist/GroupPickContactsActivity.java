@@ -13,11 +13,6 @@
  */
 package com.parttime.addresslist;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -40,19 +36,28 @@ import com.easemob.chatuidemo.Constant;
 import com.easemob.chatuidemo.activity.BaseActivity;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.widget.Sidebar;
+import com.parttime.IM.activitysetting.ChatSendMsgHelper;
 import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.main.PinyinComparator;
 import com.parttime.main.PinyinComparatorByHeader;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.HuanXinRequest;
+import com.parttime.pojo.SalaryUnit;
+import com.parttime.publish.LabelUtils;
 import com.qingmu.jianzhidaren.R;
 import com.quark.citylistview.CharacterParser;
+import com.quark.common.ToastUtil;
 import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.model.HuanxinUser;
 import com.quark.utils.NetWorkCheck;
 import com.quark.utils.WaitDialog;
 import com.quark.volley.VolleySington;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -63,6 +68,10 @@ import com.quark.volley.VolleySington;
  * 
  */
 public class GroupPickContactsActivity extends BaseActivity {
+
+    public static final String FROM_NORMAL_GROUP_SETTING = "normal_group_setting";
+    public static final String FROM_ACTIVITY_DETAIL = "activity_detail";
+
 	private ListView listView;
 	/** 是否为一个新建的群组 */
 	protected boolean isCreatingNewGroup;
@@ -79,6 +88,11 @@ public class GroupPickContactsActivity extends BaseActivity {
 	List<User> alluserList;
 	// =========转拼音========
 	private CharacterParser characterParser;
+    private String fromWhere;
+
+    boolean isFromShare;// 是否是从分享跳转过来的
+    private String activityId, activityTitle, job_place, startTime;
+    private int pay, pay_type, leftcount;
 
 	/**
 	 * 根据拼音来排列ListView里面的数据类
@@ -97,7 +111,8 @@ public class GroupPickContactsActivity extends BaseActivity {
 		pinyinComparatorTwo = new PinyinComparatorByHeader();
 
 		// String groupName = getIntent().getStringExtra("groupName");
-		String groupId = getIntent().getStringExtra("groupId");
+		fromWhere = getIntent().getStringExtra(ActivityExtraAndKeys.FROM_WHERE);
+		String groupId = getIntent().getStringExtra(ActivityExtraAndKeys.GroupSetting.GROUPID);
 		if (groupId == null) {// 创建群组
 			isCreatingNewGroup = true;
 		} else {
@@ -105,8 +120,26 @@ public class GroupPickContactsActivity extends BaseActivity {
 			EMGroup group = EMGroupManager.getInstance().getGroup(groupId);
 			exitingMembers = group.getMembers();
 		}
-		if (exitingMembers == null)
-			exitingMembers = new ArrayList<>();
+		if (exitingMembers == null) {
+            exitingMembers = new ArrayList<>();
+        }
+
+        if(FROM_NORMAL_GROUP_SETTING.equals(fromWhere)){
+            Button create = (Button)findViewById(R.id.create_group);
+            create.setText(R.string.done);
+        }
+
+        isFromShare = getIntent().getExtras().getBoolean("isFromShare", false);
+        if (isFromShare) {
+            activityId = getIntent().getExtras().getString("activityId");
+            activityTitle = getIntent().getExtras().getString("title");
+            job_place = getIntent().getExtras().getString("job_place");
+            startTime = getIntent().getExtras().getString("start_time");
+            pay = getIntent().getExtras().getInt("pay");
+            pay_type = getIntent().getExtras().getInt("pay_type");
+            leftcount = getIntent().getExtras().getInt("left_count");
+        }
+
 		// 获取好友列表
 		alluserList = new ArrayList<>();
 		for (User user : ApplicationControl.getInstance().getContactList()
@@ -119,14 +152,6 @@ public class GroupPickContactsActivity extends BaseActivity {
 				}
 			}
 		}
-		// 对list进行排序
-		// Collections.sort(alluserList, new Comparator<User>() {
-		// @Override
-		// public int compare(User lhs, User rhs) {
-		// return (lhs.getUsername().compareTo(rhs.getUsername()));
-		//
-		// }
-		// });
 
 		contactIds = new ArrayList<>();
 		for (int i = 0; i < alluserList.size(); i++) {
@@ -222,6 +247,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 			View view = super.getView(position, convertView, parent);
 			// if (position > 0) {
 			final String username = getItem(position).getUsername();
+            view.setTag(username);
 			// 选择框checkbox
 			final CheckBox checkBox = (CheckBox) view
 					.findViewById(R.id.checkbox);
@@ -286,9 +312,20 @@ public class GroupPickContactsActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
-				checkBox.toggle();
-
+                if (!isFromShare) {
+                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
+                    checkBox.toggle();
+                }else{
+                    String userId = (String)view.getTag();
+                    new ChatSendMsgHelper().sendShareActivity(userId,
+                            activityId,
+                            job_place,
+                            activityTitle,
+                            LabelUtils.getSalaryLabel(GroupPickContactsActivity.this, SalaryUnit.parse(pay_type), pay));
+                    ToastUtil.showShortToast("活动分享成功^_^");
+                    GroupPickContactsActivity.this.finish();
+                    setResult(RESULT_OK);
+                }
 			}
 		});
 	}

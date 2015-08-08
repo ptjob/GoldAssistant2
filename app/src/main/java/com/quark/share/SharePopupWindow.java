@@ -1,6 +1,5 @@
 package com.quark.share;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,8 +16,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.chatuidemo.activity.ContactlistFragment;
-import com.parttime.IM.activitysetting.ChatSendMsgHelper;
 import com.parttime.addresslist.GroupPickContactsActivity;
 import com.parttime.addresslist.GroupsActivity;
 import com.parttime.pojo.PartJob;
@@ -427,6 +424,13 @@ public class SharePopupWindow extends PopupWindow {
 
         Intent intent = new Intent(context, GroupPickContactsActivity.class);
         intent.putExtra("isFromShare", true);
+        intent.putExtra("activityId", activityId);
+        intent.putExtra("title", activityTitle);
+        intent.putExtra("pay", pay);
+        intent.putExtra("pay_type", pay_type);
+        intent.putExtra("job_place", job_place);
+        intent.putExtra("start_time", startTime);
+        intent.putExtra("left_count", leftcount);
 
         context.startActivity(intent);
     }
