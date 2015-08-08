@@ -32,33 +32,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.carson.constant.ConstantForSaveList;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.db.InviteMessgeDao;
 import com.easemob.chatuidemo.domain.InviteMessage;
 import com.easemob.chatuidemo.domain.InviteMessage.InviteMesageStatus;
+import com.easemob.chatuidemo.domain.User;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.HuanXinRequest;
 import com.qingmu.jianzhidaren.R;
-import com.quark.common.JsonUtil;
 import com.quark.common.Url;
 import com.quark.http.image.CircularImage;
+import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.model.HuanxinUser;
 import com.quark.volley.VolleySington;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +72,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 	private Context context;
 	private InviteMessgeDao messgeDao;
 	RequestQueue queue = VolleySington.getInstance().getRequestQueue();
+    private HashMap<String,HuanxinUser> cache = new HashMap<>();
 
 	public NewFriendsMsgAdapter(Context context, int textViewResourceId,
 			List<InviteMessage> objects) {
@@ -209,6 +204,17 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 						EMChatManager.getInstance().acceptInvitation(
 								msg.getFrom());
 					} else {
+                        HuanxinUser huanxinUser = cache.get(msg.getFrom());
+                        if(huanxinUser != null){
+                            Map<String,User> map = ApplicationControl.getInstance().getContactList();
+                            if(map != null){
+                                User user = new User();
+                                user.setUsername(huanxinUser.getUid());
+                                user.setNamePinyin(huanxinUser.getNamePinyin());
+                                user.setHeader(huanxinUser.getAvatar());
+                                map.put(user.getEid(),user);
+                            }
+                        }
 						// 同意加群申请
 						EMGroupManager.getInstance().acceptApplication(
 								msg.getFrom(), msg.getGroupId());
@@ -318,18 +324,20 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
             public void success(Object obj) {
                 super.success(obj);
                 if(obj instanceof ArrayList){
-                    @SuppressLint("Unchecked")
+                    @SuppressLint("unchecked")
                     ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>)obj;
                     if(list.size() == 1) {
                         HuanxinUser us = list.get(0);
-                        name.setText(us.getName());
-                        Log.e("erros", "返bean=" + us.toString());
-                        if ((us.getAvatar() != null)
-                                && (!us.getAvatar().equals(""))) {
-                            loadpersonPic(Url.GETPIC + us.getAvatar(),
-                                    avatar, 1);
-                        } else {
-                            avatar.setImageResource(R.drawable.default_avatar);
+                        if(us != null) {
+                            cache.put(us.getUid(), us);
+                            name.setText(us.getName());
+                            Log.e("erros", "返bean=" + us.toString());
+                            if ((us.getAvatar() != null)
+                                    && (!us.getAvatar().equals(""))) {
+                                loadpersonPic(Url.GETPIC + us.getAvatar(), avatar, 1);
+                            } else {
+                                avatar.setImageResource(R.drawable.default_avatar);
+                            }
                         }
                     }
                 }

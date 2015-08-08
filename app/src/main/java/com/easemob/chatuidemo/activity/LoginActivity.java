@@ -177,7 +177,7 @@ public class LoginActivity extends BaseActivity {
 
 							// demo中简单的处理成每次登陆都去获取好友username，开发者自己根据情况而定
 							List<String> usernames = EMContactManager.getInstance().getContactUserNames();
-							Map<String, User> userlist = new HashMap<String, User>();
+							Map<String, User> userlist = new HashMap<>();
 							for (String username : usernames) {
 								User user = new User();
 								user.setUsername(username);

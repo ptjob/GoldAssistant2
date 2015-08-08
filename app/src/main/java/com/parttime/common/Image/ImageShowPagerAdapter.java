@@ -1,24 +1,30 @@
 package com.parttime.common.Image;
 
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
-import com.parttime.net.DefaultCallback;
-import com.parttime.net.UserDetailRequest;
-import com.parttime.pojo.UserDetailVO;
 import com.qingmu.jianzhidaren.R;
 import com.quark.volley.VolleySington;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  *
@@ -56,7 +62,7 @@ public class ImageShowPagerAdapter extends FragmentPagerAdapter {
         return pictures.size();
     }
 
-    public static class UserDetailFragment extends Fragment{
+    public static class UserDetailFragment extends Fragment implements View.OnClickListener{
         private static final String ARG_PICTURE = "picture";
         private static final String ARG_USER_ID = "userId";
         protected String picture;
@@ -101,6 +107,60 @@ public class ImageShowPagerAdapter extends FragmentPagerAdapter {
             return rootView;
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+
+                case R.id.save:
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            File file = new File(ContactImageLoader.Image_Path, picture);
+                            save(file);
+                        }
+                    });
+
+                    break;
+            }
+        }
+
+        private void save(File file) {
+            String path = file.getPath();
+            if (!TextUtils.isEmpty(file.getPath())
+                    && Environment.getExternalStorageState().equals(
+                    Environment.MEDIA_MOUNTED)) {
+                try {
+                    String timeStamp = new SimpleDateFormat(
+                            "yyyyMMdd_HHmmss", Locale.CHINA)
+                            .format(new Date());
+                    String imageFileName = "IMG" + timeStamp + ".jpg";
+                    String url = MediaStore.Images.Media.insertImage(
+                            getActivity().getContentResolver(), path,
+                            imageFileName, "");
+                    if (!TextUtils.isEmpty(url)) {
+                        String[] proj = {MediaStore.Images.Media.DATA};
+                        Cursor actualimagecursor = getActivity()
+                                .managedQuery(Uri
+                                                .parse(url),
+                                        proj, null,
+                                        null, null);
+                        if(actualimagecursor.isClosed()){
+                            return ;
+                        }
+                        int actual_image_column_index = actualimagecursor
+                                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        actualimagecursor.moveToFirst();
+                        String mSaveFilePath = actualimagecursor
+                                .getString(actual_image_column_index);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } catch (OutOfMemoryError e) {
+                    System.gc();
+                }
+
+            }
+        }
     }
 
 }
