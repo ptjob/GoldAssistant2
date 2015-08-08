@@ -58,7 +58,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
-import com.carson.constant.ConstantForSaveList;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
@@ -102,7 +101,6 @@ import com.parttime.utils.IntentManager;
 import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
-import com.quark.company.function.PersonAssessDetailActivity;
 import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.model.HuanxinUser;
 import com.quark.quanzi.UserInfo;
@@ -249,9 +247,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                 }
             }
         }
-        if(ConstantForSaveList.groupAppliantCache.get(toChatUsername) == null
-                && chatType != CHATTYPE_SINGLE //群聊
-                ){
+//        ConstantForSaveList.groupAppliantCache.get(toChatUsername) == null
+        if(chatType != CHATTYPE_SINGLE ){ //群聊
+
 
             try {
                 if (groupDescription != null && (groupDescription.type == GroupDescription.ACTIVITY_GROUP ||
