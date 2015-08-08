@@ -508,8 +508,8 @@ public class MessageAndAddressFragment extends Fragment {
 		} else if (v == contactlistView) {
 			// 长按前两个不弹menu
 			if (((AdapterContextMenuInfo) menuInfo).position >= 2) {
-				getActivity().getMenuInflater().inflate(
-						R.menu.context_contact_list, menu);
+				/*getActivity().getMenuInflater().inflate(
+						R.menu.context_contact_list, menu);*/
 			}
 		}
 	}
