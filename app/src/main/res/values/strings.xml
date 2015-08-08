@@ -39,6 +39,8 @@
     <string name="to_verify">去认证</string>
     <string name="confirm">确认</string>
     <string name="verifying">认证中</string>
+    <string name="success">成功</string>
+    <string name="failed">失败</string>
 
 
     <!-- 主界面 -->

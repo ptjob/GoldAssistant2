@@ -340,6 +340,12 @@ public class Url {
 	// 评价用户 3.0
 	public static final String COMMENT_REQUIRE = HOST + SUBJECT
 			+ "/Activity/commentRequire";
+	// 设置用户禁言 3.0
+	public static final String COMMENT_MODIFY_USER_BAN = HOST + SUBJECT
+			+ "/Activity/modifyUserBan";
+	// 设置禁言列表 3.0
+	public static final String COMMENT_GROUP_BAN_LIST = HOST + SUBJECT
+			+ "/Activity/groupBanList";
 	// 评价用户获取分页接口 3.0
 	public static final String COMMENT_DETAIL_PAGER = HOST + SUBJECT
 			+ "/UserCenter/comment";

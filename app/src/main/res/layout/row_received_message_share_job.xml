@@ -49,9 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2dp"
-                android:maxWidth="215.0dip"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:singleLine="true"
+                android:minWidth="160dp"
                 android:text="荷尔美试吃促销 110元/日"
                 android:textColor="#ff000000"
                 android:textSize="15sp" />
@@ -60,8 +59,8 @@
                 android:id="@+id/tv_job_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:singleLine="true"
+                android:minWidth="160dp"
                 android:text="工作地点:全深圳"
                 android:textColor="#ff000000"
                 android:textSize="12sp" />
@@ -70,16 +69,14 @@
                 android:id="@+id/tv_job_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:singleLine="true"
+                android:minWidth="160dp"
                 android:text="工作时间:04-24至05-26"
                 android:textColor="#ff000000"
                 android:textSize="12sp" />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:background="@drawable/line_item_dividing"/>
             <TextView
                 android:id="@+id/tv_activity_detail"
@@ -87,6 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
+                android:singleLine="true"
+                android:minWidth="160dp"
                 android:text="请点击查看兼职详情"
                 android:gravity="center"
                 android:textColor="@color/color_selector_orange"

@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+android:layout_width="wrap_content"
+android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/button_avatar"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginRight="6dp"
-        android:background="@android:color/transparent"
-        android:drawableTop="@drawable/smiley_add_btn_nor"
-        android:drawablePadding="5dp"
-        android:ellipsize="end"/>
-    <ImageView
-        android:id="@+id/badge_delete"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/appitem_del_btn"
-        android:visibility="visible"
-        android:layout_alignParentRight="true"/>
+        android:orientation="vertical"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/default_avatar"
+            android:drawablePadding="5dp"
+            android:ellipsize="end"/>
+        <TextView android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            android:text="ss"
+            android:ellipsize="end"
+            android:singleLine="true"/>
+        </LinearLayout>
+
+<ImageView
+    android:id="@+id/badge_delete"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:src="@drawable/appitem_del_btn"
+    android:visibility="gone"
+    android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

@@ -218,40 +218,35 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
                         R.drawable.job_photo);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
-                Bitmap bit = UploadImg.toRoundCorner(bitmap, 2);
-                holder.avatar.setImageBitmap(bit);
+                holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.CAIWU)) {
                 holder.name.setText("财务小管家");
                 Drawable draw1 = tcontext.getResources().getDrawable(
                         R.drawable.custom_caiwu);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
-                Bitmap bit = UploadImg.toRoundCorner(bitmap, 2);
-                holder.avatar.setImageBitmap(bit);
+                holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.DINGYUE)) {
                 holder.name.setText("订阅小助手");
                 Drawable draw1 = tcontext.getResources().getDrawable(
                         R.drawable.custom_xiaozhushou);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
-                Bitmap bit = UploadImg.toRoundCorner(bitmap, 2);
-                holder.avatar.setImageBitmap(bit);
+                holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.KEFU)) {
                 holder.name.setText("兼职达人客服");
                 Drawable draw1 = tcontext.getResources().getDrawable(
                         R.drawable.custom_kefu);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
-                Bitmap bit = UploadImg.toRoundCorner(bitmap, 2);
-                holder.avatar.setImageBitmap(bit);
+                holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.TONGZHI)) {
                 holder.name.setText("通知中心");
                 Drawable draw1 = tcontext.getResources().getDrawable(
                         R.drawable.custom_tongzhi);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
-                Bitmap bit = UploadImg.toRoundCorner(bitmap, 2);
-                holder.avatar.setImageBitmap(bit);
+                holder.avatar.setImageBitmap(bitmap);
             } else {
                 loadNativePhoto(username, holder.avatar, holder.name);
             }

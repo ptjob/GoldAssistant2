@@ -132,6 +132,7 @@ public class MessageAdapter extends BaseAdapter {
 	private SharePreferenceUtil sp;
 	// reference to conversation object in chatsdk
 	private EMConversation conversation;
+    private int activityIsEnd = -1;
 
 	private ChatActivity context;
 	RequestQueue queue = VolleySington.getInstance().getRequestQueue();
@@ -164,6 +165,7 @@ public class MessageAdapter extends BaseAdapter {
                 messageData.add(data);
             }
         }else{
+            activityIsEnd = appliantResult.isEnd;
             List<GroupSettingRequest.UserVO> userVOList = appliantResult.userList;
             Map<String, GroupSettingRequest.UserVO> temp = new HashMap<>();
             for(GroupSettingRequest.UserVO vo : userVOList){
@@ -561,7 +563,7 @@ public class MessageAdapter extends BaseAdapter {
             if(gd != null && (gd.type == GroupDescription.ACTIVITY_GROUP || gd.type == GroupDescription.ACTIVITY_CONSULTATION_GROUP)){
                 if(holder.resumeStatus != null) {
                     holder.resumeStatus.setVisibility(View.VISIBLE);
-                    if (messageData.ableComment == GroupSettingRequest.UserVO.ABLECOMMENT_OK) {
+                    if (messageData.ableComment == GroupSettingRequest.UserVO.ABLECOMMENT_OK && activityIsEnd == GroupSettingRequest.AppliantResult.NO_END) {
                         if (messageData.apply == GroupSettingRequest.UserVO.APPLY_OK) {
                             holder.resumeStatus.setText(R.string.already_resume);
 							holder.resumeStatus.setSelected(true);
@@ -570,7 +572,7 @@ public class MessageAdapter extends BaseAdapter {
                             holder.resumeStatus.setText(R.string.unresume);
 							holder.resumeStatus.setSelected(false);
                         }
-                    } else if (messageData.ableComment == GroupSettingRequest.UserVO.ABLECOMMENT_NO) {
+                    } else if (messageData.ableComment == GroupSettingRequest.UserVO.ABLECOMMENT_NO && activityIsEnd == GroupSettingRequest.AppliantResult.YES_END) {
                         if (messageData.isCommented == GroupSettingRequest.UserVO.ISCOMMENT_NO) {
                             holder.resumeStatus.setText(R.string.uncomment);
 							holder.resumeStatus.setSelected(false);
@@ -852,7 +854,13 @@ public class MessageAdapter extends BaseAdapter {
                         userVO = vo;
                     }
                 }
+                if(userVO == null){
+                    userVO = userVOs.get(0);
+                }
             }
+
+
+            //userVO == null 时， 用户有报名活动，但是后来取消报名，或者被拒绝，或者取消录用
             if(userIds != null && userIds.size() > 0 && activity.group != null && userVO != null) {
                 IntentManager.toUserDetailFromActivityGroup(activity,
                         appliantResult.isEnd,
@@ -2012,7 +2020,7 @@ public class MessageAdapter extends BaseAdapter {
             public void success(Object obj) {
                 super.success(obj);
                 if(obj instanceof ArrayList){
-                    @SuppressLint("Unchecked")
+                    @SuppressLint("unchecked")
                     ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>)obj;
                     if(list.size() == 1) {
                         HuanxinUser us = list.get(0);
@@ -2025,6 +2033,7 @@ public class MessageAdapter extends BaseAdapter {
                         }
                         if ((us.getAvatar() != null)
                                 && (!us.getAvatar().equals(""))) {
+                            avatar.setTag(us.getAvatar());
                             ContactImageLoader.loadpersonPic(queue, id, us.getAvatar(), avatar, 1);
 
                         } else {
@@ -2048,6 +2057,7 @@ public class MessageAdapter extends BaseAdapter {
         public String userId ;
         public String picture; //头像
         public String name;     //姓名
+        public int isEnd;
         public int apply = -1 ;      //录取状态（0-没查看，1-已录取，2-、已拒绝，3-已查看）
         public int ableComment; //是否可评价（0-否，1-是)
         public int isCommented; //评价状态（0-未评价，1-已评价）

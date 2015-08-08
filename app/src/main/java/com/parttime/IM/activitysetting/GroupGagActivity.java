@@ -22,6 +22,7 @@ import com.parttime.common.head.ActivityHead;
 import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.HuanXinRequest;
+import com.parttime.net.UserDetailRequest;
 import com.parttime.pojo.BaseUser;
 import com.qingmu.jianzhidaren.R;
 import com.quark.model.HuanxinUser;
@@ -29,9 +30,7 @@ import com.quark.utils.NetWorkCheck;
 import com.quark.volley.VolleySington;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GroupGagActivity extends BaseActivity {
@@ -71,72 +70,74 @@ public class GroupGagActivity extends BaseActivity {
         new Thread(new Runnable() {
 
             public void run() {
-                try {
-                    final List<String> blockedList = EMGroupManager.getInstance()
-                            .getBlockedUsers(groupId);
-                    if (blockedList != null) {
-                        Collections.sort(blockedList);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Map<String, BaseUser> userIdPictureMap = ConstantForSaveList.userIdUserCache;
-                                StringBuilder requestData = new StringBuilder();
-                                final HashMap<String , AdapterVO> temp = new HashMap<>();
-                                for(String userId : blockedList) {
-                                    AdapterVO vo = new AdapterVO();
-                                    vo.userId = userId;
-                                    if(userIdPictureMap != null){
-                                        BaseUser baseUser = userIdPictureMap.get(userId);
-                                        if(baseUser != null) {
-                                            vo.picture = baseUser.picture;
-                                            vo.name = baseUser.name;
+                //获取禁言列表
+                new UserDetailRequest().getGagList(groupId,queue,new DefaultCallback(){
+                    @Override
+                    public void success(Object obj) {
+                        @SuppressWarnings("unchecked")
+                        final ArrayList<UserDetailRequest.GagUser> gagUsers = (ArrayList<UserDetailRequest.GagUser>) obj;
+                        if (gagUsers != null) {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Map<String, BaseUser> userIdPictureMap = ConstantForSaveList.userIdUserCache;
+                                    StringBuilder requestData = new StringBuilder();
+                                    final HashMap<String , AdapterVO> temp = new HashMap<>();
+                                    for(UserDetailRequest.GagUser gagUser : gagUsers) {
+                                        if(gagUser == null){
+                                            continue;
+                                        }
+                                        String userId = gagUser.userId;
+                                        AdapterVO vo = new AdapterVO();
+                                        vo.userId = userId;
+                                        if(userIdPictureMap != null){
+                                            BaseUser baseUser = userIdPictureMap.get(userId);
+                                            if(baseUser != null) {
+                                                vo.picture = baseUser.picture;
+                                                vo.name = gagUser.alias;
+                                            }else{
+                                                requestData.append(userId).append(",");
+                                            }
                                         }else{
                                             requestData.append(userId).append(",");
                                         }
-                                    }else{
-                                        requestData.append(userId).append(",");
-                                    }
-                                    if(TextUtils.isEmpty(vo.name)){
-                                        temp.put(userId, vo);
-                                    }else {
-                                        adapterVOs.add(vo);
-                                    }
-                                }
-                                //从普通群组过来的数据可能存在没有用户信息的情况
-                                if(requestData.length() > 0){
-                                    String requestD = requestData.subSequence(0, requestData.length() - 1).toString();
-                                    //获取环信用户信息
-                                    new HuanXinRequest().getHuanxinUserList(requestD, queue , new DefaultCallback(){
-                                        @Override
-                                        public void success(Object obj) {
-                                            ArrayList<HuanxinUser> huanxinUsers = (ArrayList<HuanxinUser>)obj;
-                                            if(huanxinUsers != null && huanxinUsers.size() > 0){
-                                                for(HuanxinUser huanxinUser : huanxinUsers){
-                                                    String userId = huanxinUser.getUid();
-                                                    AdapterVO vo = temp.get(userId);
-                                                    if(vo != null){
-                                                        vo.name = huanxinUser.getName();
-                                                        vo.picture = huanxinUser.getAvatar();
-                                                        adapterVOs.add(vo);
-                                                    }
-                                                }
-                                                adapter.notifyDataSetChanged();
-                                            }
+                                        if(TextUtils.isEmpty(vo.name)){
+                                            temp.put(userId, vo);
+                                        }else {
+                                            adapterVOs.add(vo);
                                         }
-                                    });
-                                }else {
-                                    adapter.notifyDataSetChanged();
+                                    }
+                                    //从普通群组过来的数据可能存在没有用户信息的情况
+                                    if(requestData.length() > 0){ //本地不存在用户信息，直接请求网络数据
+                                        String requestD = requestData.subSequence(0, requestData.length() - 1).toString();
+                                        //获取环信用户信息
+                                        new HuanXinRequest().getHuanxinUserList(requestD, queue , new DefaultCallback(){
+                                            @Override
+                                            public void success(Object obj) {
+                                                @SuppressWarnings("unchecked")
+                                                ArrayList<HuanxinUser> huanxinUsers = (ArrayList<HuanxinUser>)obj;
+                                                if(huanxinUsers != null && huanxinUsers.size() > 0){
+                                                    for(HuanxinUser huanxinUser : huanxinUsers){
+                                                        String userId = huanxinUser.getUid();
+                                                        AdapterVO vo = temp.get(userId);
+                                                        if(vo != null){
+                                                            vo.name = huanxinUser.getName();
+                                                            vo.picture = huanxinUser.getAvatar();
+                                                            adapterVOs.add(vo);
+                                                        }
+                                                    }
+                                                    adapter.notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+                                    }else {
+                                        adapter.notifyDataSetChanged();
+                                    }
                                 }
-                            }
-                        });
-                    }
-                } catch (EaseMobException e) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "获取失败,请检查网络或稍后再试", Toast.LENGTH_LONG).show();
+                            });
                         }
-                    });
-                }
+                    }
+                });
+
             }
         }).start();
     }
@@ -197,6 +198,7 @@ public class GroupGagActivity extends BaseActivity {
             //设置头像
             String head = itemVo.picture;
             if (! TextUtils.isEmpty(head)) {
+                holder.picture.setTag(itemVo.picture);
                 // 默认加载本地图片
                 ContactImageLoader.loadNativePhoto(String.valueOf(itemVo.userId),
                         head, holder.picture, queue);
@@ -210,38 +212,38 @@ public class GroupGagActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View v) {
-                    if (! NetWorkCheck.isOpenNetwork(GroupGagActivity.this)) {
-                        Toast.makeText(getApplicationContext(), getString(R.string.no_net_tip), Toast.LENGTH_SHORT).show();
-                    }
+                if (! NetWorkCheck.isOpenNetwork(GroupGagActivity.this)) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.no_net_tip), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                    int position = (int)v.getTag();
-                    final AdapterVO itemVo = getItem(position);
-                    final String tobeRemoveUser = itemVo.userId;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                // 移出禁言
-                                EMGroupManager.getInstance().unblockUser(groupId, tobeRemoveUser);
-                                EMGroupManager.getInstance().addUsersToGroup(groupId,
-                                        new String[]{tobeRemoveUser});
-                            } catch (EaseMobException ignore) {
+                int position = (int)v.getTag();
+                final AdapterVO itemVo = getItem(position);
+                final String tobeRemoveUser = itemVo.userId;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new UserDetailRequest().setUserGag(groupId,tobeRemoveUser, UserDetailRequest.GagStatus.OFF, queue, new DefaultCallback(){
+                            @Override
+                            public void success(Object obj) {
                                 runOnUiThread(new Runnable() {
+                                    @Override
                                     public void run() {
-                                        Toast.makeText(getApplicationContext(), R.string.action_failed, Toast.LENGTH_SHORT).show();
+                                        adapterVOs.remove(itemVo);
+                                        adapter.notifyDataSetChanged();
                                     }
                                 });
                             }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    adapterVOs.remove(itemVo);
-                                    adapter.notifyDataSetChanged();
-                                }
-                            });
 
-                        }
-                    }).start();
+                            @Override
+                            public void failed(Object obj) {
+                                Toast.makeText(GroupGagActivity.this, getString(R.string.failed),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    }
+                }).start();
 
 
                 }

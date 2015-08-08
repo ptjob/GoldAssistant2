@@ -22,6 +22,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
@@ -85,6 +86,19 @@ public class RecorderVideoActivity extends BaseActivity implements
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
 		// 选择支持半透明模式，在有surfaceview的activity中使用
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+            attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            getWindow().setAttributes(attrs);
+            getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+            attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setAttributes(attrs);
+            getWindow().clearFlags(
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
 		setContentView(R.layout.recorder_activity);
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK,

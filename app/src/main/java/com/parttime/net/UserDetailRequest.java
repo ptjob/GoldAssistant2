@@ -8,9 +8,11 @@ import com.parttime.pojo.UserDetailVO;
 import com.parttime.utils.ApplicationUtils;
 import com.quark.common.Url;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +64,116 @@ public class UserDetailRequest extends BaseRequest {
             }
         });
     }
+
+
+    public static enum GagStatus{
+        OFF,
+        ON
+    }
+
+    /**
+     * 设置禁言
+     * @param groupId String
+     * @param userId String
+     * @param status GagStatus
+     * @param queue RequestQueue
+     * @param callback Callback
+     */
+    public void setUserGag(String groupId, String userId,GagStatus status , RequestQueue queue ,final Callback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("group_id", groupId);
+        map.put("ban_status", String.valueOf(status.ordinal()));
+
+        request(Url.COMMENT_MODIFY_USER_BAN, map, queue, new Callback() {
+
+            @Override
+            public void success(Object obj) throws JSONException {
+                callback.success(obj);
+            }
+
+            @Override
+            public void failed(Object obj) {
+                callback.failed(obj);
+            }
+        });
+    }
+
+    /**
+     * 获取禁言列表
+     * @param groupId String
+     * @param queue RequestQueue
+     * @param callback Callback
+     */
+    public void getGagList(String groupId, RequestQueue queue ,final Callback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("group_id", groupId);
+
+        request(Url.COMMENT_GROUP_BAN_LIST, map, queue, new Callback() {
+
+            @Override
+            public void success(Object obj) throws JSONException {
+                JSONObject js = null;
+                if (obj instanceof JSONObject) {
+                    js = (JSONObject) obj;
+                }
+                if (js == null) {
+                    callback.failed("");
+                    return;
+                }
+                JSONArray array = js.getJSONArray("banList");
+                if(array != null) {
+                    int length = array.length();
+                    ArrayList<GagUser> gagUsers = new ArrayList<>();
+                    for (int i = 0; i < length; i ++){
+                        GagUser gagUser = new GagUser();
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        gagUser.alias = jsonObject.getString("alias");
+                        gagUser.userId = jsonObject.getString("user_id");
+                        gagUsers.add(gagUser);
+                    }
+                    callback.success(gagUsers);
+                }else {
+                    callback.success(new ArrayList<GagUser>());
+                }
+            }
+
+            @Override
+            public void failed(Object obj) {
+                callback.failed(obj);
+            }
+        });
+    }
+
+    /**
+     * 禁言的用户
+
+     */
+    public static class GagUser{
+        public String alias;
+        public String userId;
+
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GagUser)) return false;
+
+            GagUser gagUser = (GagUser) o;
+
+            if (userId != null ? !userId.equals(gagUser.userId) : gagUser.userId != null)
+                return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return userId != null ? userId.hashCode() : 0;
+        }
+    }
+
+
 
     /**
      * 评论人员
@@ -184,5 +296,4 @@ public class UserDetailRequest extends BaseRequest {
             }
         });
     }
-
 }

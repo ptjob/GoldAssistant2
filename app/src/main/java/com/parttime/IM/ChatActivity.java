@@ -1218,7 +1218,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 						.putExtra("msg", "是否清空所有聊天记录")
                         .putExtra("cancel", true),
 				REQUEST_CODE_EMPTY_HISTORY);*/
-        startActivity(new Intent(this, PersonAssessDetailActivity.class));
+        //startActivity(new Intent(this, PersonAssessDetailActivity.class));
+        ArrayList<String> userIds = new ArrayList<>();
+        userIds.add(toChatUsername);
+        IntentManager.intentToUseDetail(ChatActivity.this, toChatUsername,null,userIds,null);
 
     }
 

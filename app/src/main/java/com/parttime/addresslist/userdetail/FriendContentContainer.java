@@ -72,7 +72,7 @@ public class FriendContentContainer implements View.OnClickListener{
             if(contain){
                 //初始化好友界面
                 toMsg.setVisibility(View.VISIBLE);
-                deleteFriend.setVisibility(View.GONE);
+                deleteFriend.setVisibility(View.VISIBLE);
                 friendContainer.setVisibility(View.VISIBLE);
             }else{
                 //初始化加入好友界面

@@ -32,6 +32,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -147,13 +148,9 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 		setContentView(R.layout.activity_group_details);
 		sp = SharePreferenceUtil.getInstance(ApplicationControl.getInstance());
 		exportUrl = Url.EXPORT_GROUP_LIST;
-
+        
         initView();
 
-		Drawable referenceDrawable = getResources().getDrawable(
-				R.drawable.smiley_add_btn);
-		referenceWidth = referenceDrawable.getIntrinsicWidth();
-		referenceHeight = referenceDrawable.getIntrinsicHeight();
 
         isExcuteOnCreate = true;
         bindData();
@@ -585,7 +582,8 @@ public class NormalGroupSettingActivity extends BaseActivity implements
     }
 
     class ViewHold {
-		Button btn;
+		ImageView avatar;
+        TextView name;
 	}
 
 	/**
@@ -616,8 +614,9 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 				viewhold = new ViewHold();
 				convertView = LayoutInflater.from(getContext()).inflate(res,
 						null);
-				viewhold.btn = (Button) convertView
-						.findViewById(R.id.button_avatar);
+				viewhold.avatar = (ImageView) convertView
+						.findViewById(R.id.avatar);
+                viewhold.name = (TextView) convertView.findViewById(R.id.name);
 				convertView.setTag(viewhold);
 			} else {
 				viewhold = (ViewHold) convertView.getTag();
@@ -625,14 +624,14 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 
 			// 最后一个item，减人按钮
 			if (position == getCount() - 1) {
-				viewhold.btn.setText("");
+				viewhold.name.setText("");
 				// 设置成删除按钮
-				viewhold.btn.setCompoundDrawablesWithIntrinsicBounds(0,
-						R.drawable.smiley_minus_btn, 0, 0);
+				viewhold.avatar.setBackgroundResource(
+                        R.drawable.smiley_minus_btn);
 				// 如果不是创建者或者没有相应权限，不提供加减人按钮
 				if (!group.getOwner().equals(
 						EMChatManager.getInstance().getCurrentUser())) {
-					// if current user is not group admin, hide add/remove btn
+					// if current user is not group admin, hide add/remove avatar
 					convertView.setVisibility(View.INVISIBLE);
 				} else { // 显示删除按钮
 					if (isInDeleteMode) {
@@ -644,24 +643,25 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 						convertView.findViewById(R.id.badge_delete)
 								.setVisibility(View.INVISIBLE);
 					}
-					viewhold.btn.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							EMLog.d(TAG, "删除按钮被点击");
-							isInDeleteMode = true;
-							notifyDataSetChanged();
-						}
-					});
+					viewhold.avatar.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EMLog.d(TAG, "删除按钮被点击");
+                            isInDeleteMode = true;
+                            notifyDataSetChanged();
+                        }
+                    });
 				}
 			} else if (position == getCount() - 2) { // 添加群组成员按钮
-				viewhold.btn.setText("");
-				viewhold.btn.setCompoundDrawablesWithIntrinsicBounds(0,
-						R.drawable.smiley_add_btn, 0, 0);
+                viewhold.name.setText("");
+                // 设置成删除按钮
+                viewhold.avatar.setBackgroundResource(
+                        R.drawable.smiley_add_btn);
 				// 如果不是创建者或者没有相应权限
 				if (!group.isAllowInvites()
 						&& !group.getOwner().equals(
 								EMChatManager.getInstance().getCurrentUser())) {
-					// if current user is not group admin, hide add/remove btn
+					// if current user is not group admin, hide add/remove avatar
 					convertView.setVisibility(View.INVISIBLE);
 				} else {
 					// 正处于删除模式下,隐藏添加按钮
@@ -672,17 +672,17 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 						convertView.findViewById(R.id.badge_delete)
 								.setVisibility(View.INVISIBLE);
 					}
-					viewhold.btn.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							EMLog.d(TAG, "添加按钮被点击");
-							// 进入选人页面
-							startActivityForResult((new Intent(
-									NormalGroupSettingActivity.this,
-									GroupPickContactsActivity.class).putExtra(
-									"groupId", groupId)), REQUEST_CODE_ADD_USER);
-						}
-					});
+					viewhold.avatar.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EMLog.d(TAG, "添加按钮被点击");
+                            // 进入选人页面
+                            startActivityForResult((new Intent(
+                                    NormalGroupSettingActivity.this,
+                                    GroupPickContactsActivity.class).putExtra(
+                                    "groupId", groupId)), REQUEST_CODE_ADD_USER);
+                        }
+                    });
 				}
 			} else {
 				if (objects != null && position < objects.size()) {
@@ -690,16 +690,13 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 					// final String username = getItem(position);
 					final String username = objects.get(position);
 					// 给button设置tag,防止复用
-					viewhold.btn.setTag(objects.get(position));
+					viewhold.avatar.setTag(objects.get(position));
 					convertView.setVisibility(View.VISIBLE);
-					viewhold.btn.setVisibility(View.VISIBLE);
-					Drawable avatar = getResources().getDrawable(
-							R.drawable.default_avatar);
-					avatar.setBounds(0, 0, referenceWidth, referenceHeight);
-					viewhold.btn.setCompoundDrawables(null, avatar, null, null);
+					viewhold.avatar.setVisibility(View.VISIBLE);
+
 					// 加载缓存头像、名称
-					if (viewhold.btn != null) {
-						viewhold.btn.setText(sp.loadStringSharedPreference(
+					if (viewhold.name != null) {
+						viewhold.name.setText(sp.loadStringSharedPreference(
 								username + "realname", ""));
 					}
 
@@ -708,18 +705,14 @@ public class NormalGroupSettingActivity extends BaseActivity implements
                     Bitmap bitmap = ContactImageLoader.get(username);
 
                     if (bitmap != null) {
-                        if (viewhold.btn != null) {
-                            viewhold.btn.setText(sp.loadStringSharedPreference(username
+                        if (viewhold.name != null) {
+                            viewhold.name.setText(sp.loadStringSharedPreference(username
                                     + "realname", ""));
+                            viewhold.avatar.setTag(username);
                         }
-                        Drawable drawable = new BitmapDrawable(
-                                LoadImage.toRoundBitmap(bitmap));
-                        drawable.setBounds(0, 0, referenceWidth,
-                                referenceHeight);
-                        viewhold.btn.setCompoundDrawables(null, drawable,
-                                null, null);
+                        viewhold.avatar.setBackgroundDrawable(LoadImage.bitmapToDrawable(bitmap));
                     } else {
-                        getNick(username, viewhold.btn);
+                        getNick(username, viewhold.avatar,viewhold.name);
                     }
 
 					// button.setText(username);
@@ -733,105 +726,111 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 						convertView.findViewById(R.id.badge_delete)
 								.setVisibility(View.INVISIBLE);
 					}
-					viewhold.btn.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							if (isInDeleteMode) {
-								// 如果是删除自己，return
-								if (EMChatManager.getInstance()
-										.getCurrentUser().equals(username)) {
-									startActivity(new Intent(
-											NormalGroupSettingActivity.this,
-											AlertDialog.class).putExtra("msg",
-											"不能删除自己"));
-									return;
-								}
-								if (!NetUtils
-										.hasNetwork(getApplicationContext())) {
-									Toast.makeText(
-											getApplicationContext(),
-											getString(R.string.network_unavailable),
+					viewhold.avatar.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String userId = (String) v.getTag();
+                            if (isInDeleteMode) {
+                                // 如果是删除自己，return
+                                if (EMChatManager.getInstance()
+                                        .getCurrentUser().equals(userId)) {
+                                    startActivity(new Intent(
+                                            NormalGroupSettingActivity.this,
+                                            AlertDialog.class).putExtra("msg",
+                                            "不能删除自己"));
+                                    return;
+                                }
+                                if (!NetUtils
+                                        .hasNetwork(getApplicationContext())) {
+                                    Toast.makeText(
+                                            getApplicationContext(),
+                                            getString(R.string.network_unavailable),
                                             Toast.LENGTH_SHORT).show();
-									return;
-								}
-								EMLog.d("group", "remove user from group:"
-										+ username);
-								deleteMembersFromGroup(username);
-							} else {
+                                    return;
+                                }
+                                EMLog.d("group", "remove user from group:"
+                                        + userId);
+                                deleteMembersFromGroup(userId);
+                            } else {
 
-								if (!NetUtils
-										.hasNetwork(getApplicationContext())) {
-									Toast.makeText(
-											getApplicationContext(),
-											getString(R.string.network_unavailable),
+                                if (!NetUtils
+                                        .hasNetwork(getApplicationContext())) {
+                                    Toast.makeText(
+                                            getApplicationContext(),
+                                            getString(R.string.network_unavailable),
                                             Toast.LENGTH_SHORT).show();
-								} else {
-									if (EMChatManager.getInstance()
-											.getCurrentUser().equals(username)) {
-										Toast.makeText(getApplicationContext(),
-												"您点击了自己", Toast.LENGTH_SHORT).show();
-									} else {
-										// 正常情况下点击user，可以进入用户详情
-                                        IntentManager.intentToUseDetail(NormalGroupSettingActivity.this,username,groupId,objects,group.getOwner());
-									}
-								}
+                                } else {
+                                    if (EMChatManager.getInstance()
+                                            .getCurrentUser().equals(userId)) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "您点击了自己", Toast.LENGTH_SHORT).show();
+                                    } else {
 
-							}
-						}
+                                        ArrayList<String> userIds = new ArrayList<>(objects);
+                                        String uId = EMChatManager.getInstance().getCurrentUser();
+                                        //去掉自己
+                                        userIds.remove(uId);
+                                        // 正常情况下点击user，可以进入用户详情
+                                        IntentManager.intentToUseDetail(NormalGroupSettingActivity.this, username, groupId, userIds, group.getOwner());
+                                    }
+                                }
 
-						/**
-						 * 删除群成员
-						 * 
-						 * @param username String
-						 */
-						protected void deleteMembersFromGroup(
-								final String username) {
-							final ProgressDialog deleteDialog = new ProgressDialog(
-									NormalGroupSettingActivity.this);
-							deleteDialog.setMessage("正在移除...");
-							deleteDialog.setCanceledOnTouchOutside(false);
-							deleteDialog.show();
-							new Thread(new Runnable() {
-								@Override
-								public void run() {
-									try {
-										// 删除被选中的成员
-										EMGroupManager.getInstance()
-												.removeUserFromGroup(groupId,
-														username);
-										isInDeleteMode = false;
-										runOnUiThread(new Runnable() {
-											@Override
-											public void run() {
-												deleteDialog.dismiss();
-												notifyDataSetChanged();
-												carsonRemoveFromGroup(username);
-												((TextView) findViewById(R.id.group_name)).setText(group
-														.getGroupName()
-														+ "("
-														+ group.getAffiliationsCount()
-														+ ")");
-											}
-										});
-									} catch (final Exception e) {
-										deleteDialog.dismiss();
-										runOnUiThread(new Runnable() {
-											public void run() {
-												Toast.makeText(
-														getApplicationContext(),
-														"删除失败："
-																+ e.getMessage(),
-														Toast.LENGTH_LONG).show();
-											}
-										});
-									}
+                            }
+                        }
 
-								}
-							}).start();
-						}
-					});
+                        /**
+                         * 删除群成员
+                         *
+                         * @param username String
+                         */
+                        protected void deleteMembersFromGroup(
+                                final String username) {
+                            final ProgressDialog deleteDialog = new ProgressDialog(
+                                    NormalGroupSettingActivity.this);
+                            deleteDialog.setMessage("正在移除...");
+                            deleteDialog.setCanceledOnTouchOutside(false);
+                            deleteDialog.show();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        // 删除被选中的成员
+                                        EMGroupManager.getInstance()
+                                                .removeUserFromGroup(groupId,
+                                                        username);
+                                        isInDeleteMode = false;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                deleteDialog.dismiss();
+                                                notifyDataSetChanged();
+                                                carsonRemoveFromGroup(username);
+                                                ((TextView) findViewById(R.id.group_name)).setText(group
+                                                        .getGroupName()
+                                                        + "("
+                                                        + group.getAffiliationsCount()
+                                                        + ")");
+                                            }
+                                        });
+                                    } catch (final Exception e) {
+                                        deleteDialog.dismiss();
+                                        runOnUiThread(new Runnable() {
+                                            public void run() {
+                                                Toast.makeText(
+                                                        getApplicationContext(),
+                                                        "删除失败："
+                                                                + e.getMessage(),
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
 
-					/*viewhold.btn
+                                }
+                            }).start();
+                        }
+                    });
+
+					/*viewhold.avatar
 							.setOnLongClickListener(new OnLongClickListener() {
 
 								@Override
@@ -932,7 +931,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 	}
 
 	// =============================================================
-	public void getNick(final String id, final Button button) {
+	public void getNick(final String id, final ImageView avatar, final TextView name) {
         new HuanXinRequest().getHuanxinUserList(String.valueOf(id), queue, new DefaultCallback(){
             @Override
             public void success(Object obj) {
@@ -943,30 +942,25 @@ public class NormalGroupSettingActivity extends BaseActivity implements
                     huanXinUsers = list;
                     if(list.size() == 1) {
                         HuanxinUser us = list.get(0);
-                        if (button != null) {
+                        if (avatar != null) {
                             if (us.getName() != null
                                     && !"".equals(us.getName())) {
-                                if (button.getTag() != null
-                                        && button.getTag().equals(id)) {
-                                    button.setText(us.getName());
+                                if (avatar.getTag() != null
+                                        && avatar.getTag().equals(id)) {
+                                    name.setText(us.getName());
                                 }
                                 sp.saveSharedPreferences(id + "realname", us.getName());
                             } else {
-                                button.setText("");
+                                name.setText("");
                             }
                         }
                         if ((us.getAvatar() != null)
                                 && (!us.getAvatar().equals(""))) {
-                            loadpersonPic(id, us.getAvatar(), button, 1);
+                            loadpersonPic(id, us.getAvatar(), avatar, 1);
 
                         } else {
-                            Drawable avatar = getResources().getDrawable(
-                                    R.drawable.default_avatar);
-                            avatar.setBounds(0, 0, referenceWidth,
-                                    referenceHeight);
-                            if(button != null) {
-                                button.setCompoundDrawables(null, avatar, null,
-                                        null);
+                            if(avatar != null) {
+                                avatar.setBackgroundResource(R.drawable.default_avatar);
                             }
                         }
                     }
@@ -982,21 +976,18 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 	 * 
 	 */
 	public void loadpersonPic(final String id, final String url,
-			final Button button, final int isRound) {
+			final ImageView avatar, final int isRound) {
 		ImageRequest imgRequest = new ImageRequest(Url.GETPIC + url,
 				new Response.Listener<Bitmap>() {
 					@Override
 					public void onResponse(Bitmap arg0) {
 						if (isRound == 1) {
 							Bitmap bit = UploadImg.toRoundCorner(arg0, 2);
-							Drawable drawable = new BitmapDrawable(bit);
-							drawable.setBounds(0, 0, referenceWidth,
-									referenceHeight);
-							if (button.getTag() != null
-									&& button.getTag().equals(id)) {
 
-								button.setCompoundDrawables(null, drawable,
-										null, null);
+							if (avatar.getTag() != null
+									&& avatar.getTag().equals(id) && bit != null) {
+
+								avatar.setBackgroundDrawable(LoadImage.bitmapToDrawable(bit));
 							}
 							OutputStream output = null;
 							try {

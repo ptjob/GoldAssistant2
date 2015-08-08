@@ -22,6 +22,8 @@ import com.easemob.exceptions.EaseMobException;
 import com.parttime.addresslist.GroupUpdateRemarkActivity;
 import com.parttime.base.WithTitleActivity;
 import com.parttime.constants.ActivityExtraAndKeys;
+import com.parttime.net.DefaultCallback;
+import com.parttime.net.UserDetailRequest;
 import com.qingmu.jianzhidaren.R;
 import com.quark.volley.VolleySington;
 
@@ -44,6 +46,7 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
     public UserDetailPagerAdapter adapter ;
 
     private LinkedHashSet<String> set;
+    private List<UserDetailRequest.GagUser> blockedList;
 
     public RequestQueue queue;
 
@@ -62,6 +65,7 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
         right(TextView.class, R.string.more ,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(TextUtils.isEmpty(groupId)){return;}
                 showMore();
             }
         });
@@ -121,30 +125,40 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
     }
 
     public void initUserBlock(final String userId){
+        if(TextUtils.isEmpty(groupId)){
+            return ;
+        }
         this.userId = userId;
-        new Thread(new Runnable() {
+        if(blockedList == null) {
+            new Thread(new Runnable() {
 
-            public void run() {
-                try {
-                    List<String> blockedList = EMGroupManager.getInstance()
-                            .getBlockedUsers(groupId);
-                    if (blockedList != null ) {
-                        if(blockedList.contains(userId)){
-                            forbiddenValue = 1;
-                        }else{
-                            forbiddenValue = 2;
+                public void run() {
+                    new UserDetailRequest().getGagList(groupId, queue, new DefaultCallback() {
+                        @Override
+                        public void success(Object obj) {
+                            @SuppressWarnings("unchecked")
+                            ArrayList<UserDetailRequest.GagUser> gagUsers = (ArrayList<UserDetailRequest.GagUser>) obj;
+                            blockedList = gagUsers;
+                            if (blockedList != null) {
+                                UserDetailRequest.GagUser gu = new UserDetailRequest.GagUser();
+                                gu.userId = userId;
+                                if (blockedList.contains(gu)) {
+                                    forbiddenValue = 1;
+                                } else {
+                                    forbiddenValue = 2;
+                                }
+                            } else {
+                                forbiddenValue = 2;
+                            }
                         }
-                    }
-                } catch (EaseMobException e) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "获取失败,请检查网络或稍后再试", Toast.LENGTH_LONG).show();
+
+                        @Override
+                        public void failed(Object obj) {
                         }
                     });
                 }
-            }
-        }).start();
+            }).start();
+        }
     }
 
     @Override
@@ -214,13 +228,19 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            EMGroupManager.getInstance().blockUser(groupId,
-                                    userId);
-                            forbiddenValue = 1;
-                        } catch (EaseMobException e) {
-                            e.printStackTrace();
-                        }
+
+                        new UserDetailRequest().setUserGag(groupId,userId, UserDetailRequest.GagStatus.ON, queue, new DefaultCallback(){
+                            @Override
+                            public void success(Object obj) {
+                                forbiddenValue = 1;
+                                Toast.makeText(UserDetailActivity.this, getString(R.string.success),Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void failed(Object obj) {
+                                Toast.makeText(UserDetailActivity.this, getString(R.string.failed),Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         showWait(false);
                     }
                 }).start();
@@ -239,13 +259,19 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            EMGroupManager.getInstance().unblockUser(groupId,
-                                    userId);
-                            forbiddenValue = 2;
-                        } catch (EaseMobException e) {
-                            e.printStackTrace();
-                        }
+
+                        new UserDetailRequest().setUserGag(groupId,userId, UserDetailRequest.GagStatus.OFF, queue, new DefaultCallback(){
+                            @Override
+                            public void success(Object obj) {
+                                forbiddenValue = 2;
+                                Toast.makeText(UserDetailActivity.this, getString(R.string.success),Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void failed(Object obj) {
+                                Toast.makeText(UserDetailActivity.this, getString(R.string.failed),Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         showWait(false);
                     }
                 }).start();
