@@ -124,8 +124,8 @@ public class GroupPickContactsActivity extends BaseActivity {
             exitingMembers = new ArrayList<>();
         }
 
+        Button create = (Button)findViewById(R.id.create_group);
         if(FROM_NORMAL_GROUP_SETTING.equals(fromWhere)){
-            Button create = (Button)findViewById(R.id.create_group);
             create.setText(R.string.done);
         }
 
@@ -138,6 +138,8 @@ public class GroupPickContactsActivity extends BaseActivity {
             pay = getIntent().getExtras().getInt("pay");
             pay_type = getIntent().getExtras().getInt("pay_type");
             leftcount = getIntent().getExtras().getInt("left_count");
+
+            create.setVisibility(View.GONE);
         }
 
 		// 获取好友列表
@@ -251,7 +253,10 @@ public class GroupPickContactsActivity extends BaseActivity {
 			// 选择框checkbox
 			final CheckBox checkBox = (CheckBox) view
 					.findViewById(R.id.checkbox);
-			if (exitingMembers != null && exitingMembers.contains(username)) {
+            if (isFromShare){
+                checkBox.setVisibility(View.GONE);
+            }
+            if (exitingMembers != null && exitingMembers.contains(username)) {
 				checkBox.setChecked(true);
 			} else {
 				checkBox.setChecked(false);
