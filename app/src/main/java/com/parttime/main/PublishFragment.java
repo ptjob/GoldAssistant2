@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -399,7 +400,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
         adapter = new BannerAdapter(bannerIvs);
         viewPager.setAdapter(adapter);
-        autoSlideManager = new AutoSlideManager(handler, viewPager, svSteps);
+        autoSlideManager = new AutoSlideManager(handler, viewPager, svSteps, bannerIvs);
         viewPager.setOnPageChangeListener(autoSlideManager);
         viewPager.setOnTouchListener(autoSlideManager);
 
@@ -423,9 +424,14 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                 if(item.click_type == BannerClickType.WEB){
                     com.parttime.base.IntentManager.intentToWebBrowser((com.quark.jianzhidaren.BaseActivity) getActivity(), item.para);
                 }else if(item.click_type == BannerClickType.ACTIVITY_DETAIL){
-
+                    try {
+                        int jobId = Integer.parseInt(item.para);
+                        IntentManager.openJobDetailActivity(getActivity(), jobId, null);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }else if(item.click_type == BannerClickType.FILTER){
-
+                    IntentManager.goToJobPlaza(getActivity());
                 }
             }
         }
@@ -437,7 +443,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             BannerItem bannerItem = banners.get(i);
             ImageView imageView = new ImageView(getActivity());
             imageView.setTag(bannerItem);
-            imageView.setOnClickListener(onBannerItemClick);
+            /*imageView.setOnClickListener(onBannerItemClick);*/
             ContactImageLoader.loadNativePhoto(null, bannerItem.pic, imageView, VolleySington.getInstance().getRequestQueue());
             bannerIvs.add(imageView);
         }
@@ -448,13 +454,13 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         viewPager.setCurrentItem(lastPos);
         svSteps.setStepCount(banners.size());
         svSteps.current(lastPos);
+        autoSlideManager.start();
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        autoSlideManager.start();
     }
 
     @Override
@@ -602,15 +608,17 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         private long duration = 2000;
         private Handler handler;
 
+        private List<View> views;
+
         private boolean stop;
 
         private int position;
 
-        private AutoSlideManager(Handler handler, ViewPager pager, StepView stepView) {
+        private AutoSlideManager(Handler handler, ViewPager pager, StepView stepView, List<View> views) {
             this.pager = pager;
             this.stepView = stepView ;
             this.handler = handler;
-
+            this.views = views;
         }
 
         public void setDuration(long millis){
@@ -618,7 +626,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }
 
         public void setInitPosition(int position){
-            lastPos = position;
+            this.position = position;
         }
 
         public void start(){
@@ -640,9 +648,14 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 if(!stop) {
-                    int currentItem = viewPager.getCurrentItem();
-                    pager.setCurrentItem(currentItem + 1, true);
-                    stepView.current(currentItem + 1);
+
+                    if(views.size() <= 0){
+                        return;
+                    }
+                    int currentItem = (pager.getCurrentItem() + 1) % views.size();
+                    Log.e("test", "currentItem = " + currentItem);
+                    pager.setCurrentItem(currentItem , true);
+                    stepView.current(currentItem );
                     handler.postDelayed(this, duration);
                 }
             }
@@ -650,7 +663,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+//            lastPos = position;
+            this.position = position;
         }
 
         @Override
@@ -660,24 +674,39 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if(state == ViewPager.SCROLL_STATE_IDLE){
-                lastPos = position;
+            if(state == pager.SCROLL_STATE_IDLE){
+
                 stepView.current(position);
             }
         }
 
+        private boolean moved;
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
+            Log.e("test", "touch " + event.getAction());
             switch (event.getAction()){
+
                 case MotionEvent.ACTION_DOWN:
+                    moved = false;
+                    handler.removeCallbacks(worker);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    moved = true;
                     handler.removeCallbacks(worker);
                     break;
                 case MotionEvent.ACTION_UP:
                         handler.postDelayed(worker, duration);
+                    if(!moved) {
+                        int currentItem = pager.getCurrentItem();
+                        if (currentItem < views.size()) {
+                            onBannerItemClick.onClick(views.get(currentItem));
+                        }
+                    }
                     break;
             }
             return false;
         }
     }
+
+
 }
