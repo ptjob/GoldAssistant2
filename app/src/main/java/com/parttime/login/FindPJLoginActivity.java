@@ -120,7 +120,7 @@ public class FindPJLoginActivity extends BaseActivity {
 			if (carson_user_id != null && !"".equals(carson_user_id)) {
 				autoLogin = true;
 				int accountType = SharePreferenceUtil.getInstance(FindPJLoginActivity.this).loadIntSharedPreference(SharedPreferenceConstants.USER_TYPE);
-				if(accountType == AccountType.AGENT){
+				if(/*accountType == AccountType.AGENT*/false){
 					startActivity(new Intent(FindPJLoginActivity.this, ShowAnimActivity.class));
 				}else {
 					startActivity(new Intent(FindPJLoginActivity.this,
@@ -488,7 +488,7 @@ public class FindPJLoginActivity extends BaseActivity {
 							edit.putString("remember_pwd", passwordStr);
 							edit.commit();
 
-							if(showAnim){
+							if(/*showAnim*/false){
 								startActivity(new Intent(FindPJLoginActivity.this, ShowAnimActivity.class));
 							}else {
 								Intent intent = new Intent();

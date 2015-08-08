@@ -144,11 +144,17 @@ public class StepView extends LinearLayout{
     }
 
     public void forward(){
+        if(count <= 0){
+            return;
+        }
         curStep = ++curStep % count;
         updateColor();
     }
 
     public void backward(){
+        if(count <= 0){
+            return;
+        }
         curStep = (--curStep + count) % count;
         updateColor();
     }
@@ -158,6 +164,9 @@ public class StepView extends LinearLayout{
     }
 
     public void current(int position){
+        if(count <= 0){
+            return;
+        }
         curStep = position % count;
         updateColor();
     }

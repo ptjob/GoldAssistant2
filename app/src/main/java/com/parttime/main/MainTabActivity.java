@@ -81,8 +81,11 @@ import com.parttime.IM.ChatActivity;
 import com.parttime.addresslist.GroupsActivity;
 import com.parttime.common.update.UpdateUtils;
 import com.parttime.constants.ActionConstants;
+import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.login.FindPJLoginActivity;
+import com.parttime.type.AccountType;
 import com.parttime.utils.SharePreferenceUtil;
+import com.parttime.widget.AnimDialog;
 import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.JsonUtil;
@@ -324,7 +327,35 @@ public class MainTabActivity extends BaseActivity implements
 
         mainBroadCastReceiver = new MainBroadCastReceiver();
         registerReceiver(mainBroadCastReceiver, new IntentFilter(ActionConstants.ACTION_MESSAGE_TO_TOP));
+        checkAnim();
 	}
+
+    AnimDialog animDialog;
+    private void checkAnim(){
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int type = SharePreferenceUtil.getInstance(MainTabActivity.this).loadIntSharedPreference(SharedPreferenceConstants.USER_TYPE);
+                if(type == AccountType.AGENT){
+                    animDialog = new AnimDialog(MainTabActivity.this, R.drawable.agent_anim);
+                    animDialog.setCanceledOnTouchOutside(false);
+                    animDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog) {
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    animDialog.dismiss();
+                                }
+                            }, 2010);
+                        }
+                    });
+                    animDialog.show();
+                }
+            }
+        }, 500);
+
+    }
 
 
 	private void initUrl() {
@@ -1373,7 +1404,7 @@ public class MainTabActivity extends BaseActivity implements
 	 * 获取商家信息
 	 *
 	 */
-	private void initMy() {
+	/*private void initMy() {
 		showWait(true);
 		StringRequest stringRequest = new StringRequest(Method.POST,
 				company_infor_url, new Response.Listener<String>() {
@@ -1407,7 +1438,7 @@ public class MainTabActivity extends BaseActivity implements
 		queue.add(stringRequest);
 		stringRequest.setRetryPolicy(new DefaultRetryPolicy(
 				ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1, 1.0f));
-	}
+	}*/
 
 	@Override
 	protected void onResume() {
@@ -1418,7 +1449,7 @@ public class MainTabActivity extends BaseActivity implements
 		}
 		MobclickAgent.onPause(this);// 友盟
 		updateUnreadMsg();// 刷新圈子
-		initMy();// 刷新功能小红点
+//		initMy();// 刷新功能小红点
 	}
 
 	@Override

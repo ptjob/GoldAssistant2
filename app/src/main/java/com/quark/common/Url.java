@@ -169,6 +169,9 @@ public class Url {
 	public static final String USER_jianli_scan_comment = HOST + SUBJECT
 			+ "/UserCenter/comment";
 
+    public static final String COMPANY_INTRO_LIST = HOST + SUBJECT
+            + "/CompanyCenter/introList";
+
 
 	public static final String COMPANY_GET_BANNER = HOST + SUBJECT
 			+ "/CompanyCenter/getBanner";

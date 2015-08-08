@@ -38,6 +38,30 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <RelativeLayout
+                    android:id="@+id/rl_left_top2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/iv_left_top2"
+                        android:layout_width="49dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/fabu_small"
+                        android:scaleType="fitXY"/>
+                    <TextView
+                        android:id="@+id/tv_left_top2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="21dp"
+                        android:textColor="@color/txt_color_gray"
+                        android:layout_toRightOf="@id/iv_left_top2"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="38dp"
+                        android:text="@string/publish_job"/>
+                    </RelativeLayout>
+                <RelativeLayout
                     android:id="@+id/rl_left_top"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -48,7 +72,7 @@
                         android:layout_width="41dp"
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/fabu_big"
+                        android:src="@drawable/fabu_small"
                         android:scaleType="fitXY"/>
                     <TextView
                         android:id="@+id/tv_left_top"

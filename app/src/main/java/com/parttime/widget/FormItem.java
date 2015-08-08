@@ -136,6 +136,12 @@ public class FormItem extends FrameLayout{
         }
     }
 
+    public void hideIcon(){
+        if(ivIcon != null){
+            ivIcon.setVisibility(View.GONE);
+        }
+    }
+
     public void showTopDivider(){
         if(topDivider == null){
             topDivider = makeTopDivider();
@@ -264,6 +270,12 @@ public class FormItem extends FrameLayout{
     public void setValue(int txtId){
         if(tvValue != null){
             tvValue.setText(txtId);
+        }
+    }
+
+    public void setTitle(String txt){
+        if(tvTitle != null){
+            tvTitle.setText(txt);
         }
     }
 }
