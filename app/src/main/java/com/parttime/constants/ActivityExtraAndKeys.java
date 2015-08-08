@@ -7,6 +7,7 @@ package com.parttime.constants;
 public class ActivityExtraAndKeys {
 
     public static final String USER_ID = "user_id";
+    public static final String FROM_WHERE = "from_where";
 
     public static final int LOAD_PICTURE = 0x0010;
 
