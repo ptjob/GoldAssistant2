@@ -90,34 +90,10 @@ public class GroupSettingUtils {
                     });
 
                 }else if(action == Action.RESUME){
-                    ArrayList<Integer> userIds = new ArrayList<>();
-                    userIds.add(userVO.userId);
-                    new GroupSettingRequest().approve(userIds , groupId, queue, new DefaultCallback(){
-                        @Override
-                        public void success(Object obj) {
-                            super.success(obj);
-                            userVO.apply = GroupSettingRequest.UserVO.APPLY_OK;
-                            GroupSettingRequest.AppliantResult appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
-                            if(appliantResult != null){
-                                appliantResult.approvedCount++;
-                                appliantResult.unApprovedCount --;
-                            }
-                            callback.success(null);
-                            activity.showWait(false);
-                        }
-
-                        @Override
-                        public void failed(Object obj) {
-                            super.failed(obj);
-                            activity.showWait(false);
-                            Toast.makeText(ApplicationControl.getInstance(),
-                                    ApplicationControl.getInstance().getString(R.string.action_failed),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    approveResume(activity, userVO, groupId, queue, callback);
                 }
             }
+
         });
 
         builder.setNegativeButton(negativeRes, new DialogInterface.OnClickListener() {
@@ -128,6 +104,37 @@ public class GroupSettingUtils {
         builder.create().show();
     }
 
+    public void approveResume(final BaseActivity activity,
+                               final GroupSettingRequest.UserVO userVO,
+                               final String groupId, final RequestQueue queue,
+                               final DefaultCallback callback) {
+        activity.showWait(true);
+        ArrayList<Integer> userIds = new ArrayList<>();
+        userIds.add(userVO.userId);
+        new GroupSettingRequest().approve(userIds , groupId, queue, new DefaultCallback(){
+            @Override
+            public void success(Object obj) {
+                super.success(obj);
+                userVO.apply = GroupSettingRequest.UserVO.APPLY_OK;
+                GroupSettingRequest.AppliantResult appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
+                if(appliantResult != null){
+                    appliantResult.approvedCount++;
+                    appliantResult.unApprovedCount --;
+                }
+                callback.success(null);
+                activity.showWait(false);
+            }
+
+            @Override
+            public void failed(Object obj) {
+                super.failed(obj);
+                activity.showWait(false);
+                Toast.makeText(ApplicationControl.getInstance(),
+                        ApplicationControl.getInstance().getString(R.string.action_failed),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 }

@@ -59,8 +59,8 @@
             android:layout_below="@+id/resume_status"
             android:layout_toRightOf="@+id/head_container"
             android:layout_toEndOf="@+id/head_container"
-            android:textSize="12sp"
-            android:textColor="@color/color_selected_gray5_unselected_gray3"/>
+            android:textSize="12dp"
+            android:textColor="@color/color_selected_black_unselected_gray3"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,8 +71,8 @@
             android:layout_toRightOf="@+id/money_status"
             android:layout_toEndOf="@+id/money_status"
             android:layout_marginLeft="10dp"
-            android:textSize="12sp"
-            android:textColor="@color/color_selected_gray5_unselected_gray3"/>
+            android:textSize="12dp"
+            android:textColor="@color/color_selected_black_unselected_gray3"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

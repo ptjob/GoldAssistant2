@@ -44,6 +44,7 @@
     <string name="add">添加</string>
     <string name="location_ing">定位中</string>
     <string name="location_fail">定位失败</string>
+    <string name="get_failed">获取失败</string>
 
 
     <!-- 主界面 -->
@@ -150,8 +151,8 @@
     <string name="go_comment">去评价</string>
     <string name="cancel_resume">取消录取</string>
     <string name="group_setting_batch">批量管理</string>
-    <string name="no_money">未交诚意金/</string>
-    <string name="had_money">已交诚意金</string>
+    <string name="no_money">未交诚意金 </string>
+    <string name="had_money">已交诚意金 </string>
     <string name="no_certification">未实名认证</string>
     <string name="submit_certification">已提交认证</string>
     <string name="had_certification">已实名认证</string>
@@ -174,6 +175,7 @@
     <string name="pls_check_first">请先选择</string>
     <string name="update_success">更新成功</string>
     <string name="check_all">全选</string>
+    <string name="uncheck_all">取消全选</string>
 
     <!-- 通讯录 -->
     <string name="create_new_group">创建群</string>
@@ -223,6 +225,7 @@
     <string name="loading_more">加载更多</string>
     <string name="group_remark">群备注</string>
     <string name="update_group_remark">修改群备注</string>
+    <string name="no_picture_tips">没有头像</string>
 
     <!-- Just use standard Pull Down String when pulling up. These can be set for languages which require it -->
     <string name="pull_to_refresh_from_bottom_pull_label">@string/pull_to_refresh_pull_label</string>
