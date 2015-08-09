@@ -566,7 +566,7 @@
     <string name="job_detail_head_sum_format">%1$d人</string>
     <string name="job_detail_apart_sex_format">男%1$d人，女%2$d人</string>
     <string name="job_detail_height_format">%1$dcm以上</string>
-    <string name="job_detail_measurements_format">胸%1$dcm/腰%2$dcm/腿%3$dcm</string>
+    <string name="job_detail_measurements_format">胸%1$dcm/腰%2$dcm/臀%3$dcm</string>
     <string name="job_detail_status_pass">招人中</string>
     <string name="job_detail_status_ready">待审核</string>
     <string name="job_detail_status_fail">已下架</string>
