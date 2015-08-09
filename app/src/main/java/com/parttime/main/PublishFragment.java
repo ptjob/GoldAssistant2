@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.carson.constant.ConstantForSaveList;
 import com.droid.carson.CityActivity;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.BaseRequest;
@@ -118,6 +120,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
     private List<View> bannerIvs = new ArrayList<>();
     private List<BannerItem> banners = new ArrayList<>();
+    Gson gson = new Gson();
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -151,8 +154,9 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         user_id = spu.loadStringSharedPreference(
                 SharedPreferenceConstants.USER_ID, "");
         city = spu.loadStringSharedPreference(SharedPreferenceConstants.CITY);
-        loadBanners();
         handler = new Handler();
+        loadBanners();
+
     }
 
     @Override
@@ -344,22 +348,46 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void loadFromNative(){
+        String s = SharePreferenceUtil.getInstance(activity).loadStringSharedPreference(SharedPreferenceConstants.BANNERS_INFO);
+        if(!TextUtils.isEmpty(s)) {
+            try {
+                List<BannerItem> bis = gson.fromJson(s, new TypeToken<List<BannerItem>>() {
+                }.getType());
+                if(bis != null){
+                    banners.clear();
+                    banners.addAll(bis);
+                    startBanners();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void loadBanners(){
+        loadFromNative();
         Map<String, String> params = new HashMap<>();
         params.put("city", city);
         new BaseRequest().request(Url.COMPANY_GET_BANNER, params, VolleySington.getInstance().getRequestQueue(), new Callback() {
             @Override
             public void success(Object obj) throws JSONException {
+                if(activity.isFinishing() || !isAdded()){
+                    return;
+                }
                 JSONObject json = (JSONObject) obj;
                 JSONArray bannerList = json.getJSONArray("bannerList");
-                if(bannerList != null){
-                    banners.clear();
-                    Gson gson = new Gson();
-                    for(int i = 0; i < bannerList.length(); ++i){
+                if (bannerList != null) {
+                    List<BannerItem> bis = new ArrayList<BannerItem>();
+
+                    for (int i = 0; i < bannerList.length(); ++i) {
                         String s = bannerList.getJSONObject(i).toString();
                         BannerItem bannerItem = gson.fromJson(s, BannerItem.class);
-                        banners.add(bannerItem);
+                        bis.add(bannerItem);
                     }
+                    banners.clear();
+                    banners.addAll(bis);
+                    SharePreferenceUtil.getInstance(activity).saveSharedPreferences(SharedPreferenceConstants.BANNERS_INFO, gson.toJson(bis));
                     startBanners();
                 }
 
@@ -395,6 +423,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
         adapter = new BannerAdapter(bannerIvs);
         viewPager.setAdapter(adapter);
+        svSteps.setStepCount(bannerIvs.size());
+        svSteps.current(viewPager.getCurrentItem());
         autoSlideManager = new AutoSlideManager(handler, viewPager, svSteps, bannerIvs);
         viewPager.setOnPageChangeListener(autoSlideManager);
         viewPager.setOnTouchListener(autoSlideManager);
@@ -452,13 +482,14 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         viewPager.setCurrentItem(lastPos);
         svSteps.setStepCount(banners.size());
         svSteps.current(lastPos);
-        autoSlideManager.start();
+
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        autoSlideManager.start();
     }
 
     @Override
@@ -511,6 +542,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.home_page_city_relayout:
                 Intent intent = new Intent();

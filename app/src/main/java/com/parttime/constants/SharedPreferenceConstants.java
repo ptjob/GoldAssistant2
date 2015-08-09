@@ -21,4 +21,6 @@ public class SharedPreferenceConstants {
     public static final String ALLOW_COMPANY_SHARE = "allow_company_share";
     public static final String COMPANY_SHARE_URL = "company_share_url";
     public static final String FIRST_LOCATION = "firstdingwei";
+
+    public static final String BANNERS_INFO = "banners_info";
 }
