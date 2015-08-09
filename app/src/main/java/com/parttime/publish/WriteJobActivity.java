@@ -539,7 +539,7 @@ public class WriteJobActivity extends BaseActivity implements
             public void success(Object obj) {
                 showWait(false);
                 showToast(R.string.publish_job_success);
-                IntentManager.goToMainTab(WriteJobActivity.this);
+                IntentManager.goToJobManage(WriteJobActivity.this);
             }
 
             @Override

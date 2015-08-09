@@ -1022,6 +1022,7 @@
         <activity
             android:name="com.parttime.publish.JobManageActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name="com.parttime.publish.JobExpeditedActivity"
