@@ -375,14 +375,18 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 				digest = txtBody.getMessage();
 				if (digest.endsWith("邀请你加入了群聊")) {
 					digest = "欢迎加入群聊";
-				}
+				}else if(digest.endsWith(ApplicationConstants.ADD_FRIEND)) {
+                    digest = "我们已经是好友了，聊聊吧";
+                }
 			} else {
 				TextMessageBody txtBody = (TextMessageBody) message.getBody();
 				digest = getStrng(context, R.string.voice_call)
 						+ txtBody.getMessage();
 				if (digest.endsWith("邀请你加入了群聊")) {
 					digest = "欢迎加入群聊";
-				}
+				}else if(digest.endsWith(ApplicationConstants.ADD_FRIEND)) {
+                    digest = "我们已经是好友了，聊聊吧";
+                }
 			}
 			break;
 		case FILE: // 普通文件消息

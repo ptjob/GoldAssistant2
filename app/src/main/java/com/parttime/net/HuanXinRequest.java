@@ -54,8 +54,9 @@ public class HuanXinRequest extends BaseRequest{
                         if (us.getName() == null
                                 || us.getName().equals("")) {
                             us.setName("未知好友");
+                        }else {
+                            usersNick.add(us);
                         }
-                        usersNick.add(us);
                     }
 
                     callback.success(usersNick);
@@ -104,8 +105,9 @@ public class HuanXinRequest extends BaseRequest{
                     if (us.getName() == null
                             || us.getName().equals("")) {
                         us.setName("未知好友");
+                    }else {
+                        usersNick.add(us);
                     }
-                    usersNick.add(us);
                     callback.success(usersNick);
                 } catch (JSONException e) {
                     callback.failed(e);

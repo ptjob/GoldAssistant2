@@ -1,7 +1,9 @@
 package com.parttime.common.Image;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +15,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.qingmu.jianzhidaren.R;
@@ -96,13 +100,15 @@ public class ImageShowPagerAdapter extends FragmentPagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            ImageView rootView = (ImageView)inflater.inflate(R.layout.image_show_item, container, false);
+            FrameLayout rootView = (FrameLayout)inflater.inflate(R.layout.image_show_item, container, false);
 
+            ImageView image = (ImageView)rootView.findViewById(R.id.image);
             Bitmap bitmap = imageShowPagerAdapter.cache.get(picture);
+            rootView.findViewById(R.id.save).setOnClickListener(this);
             if(bitmap != null){
-                rootView.setImageBitmap(bitmap);
+                image.setImageBitmap(bitmap);
             }else {
-                ContactImageLoader.loadNativePhoto(userId,picture,rootView, imageShowPagerAdapter.queue);
+                ContactImageLoader.loadNativePhoto(userId,picture,image, imageShowPagerAdapter.queue);
             }
             return rootView;
         }
@@ -118,7 +124,7 @@ public class ImageShowPagerAdapter extends FragmentPagerAdapter {
                             File file = new File(ContactImageLoader.Image_Path, picture);
                             save(file);
                         }
-                    });
+                    }).start();
 
                     break;
             }
@@ -130,28 +136,26 @@ public class ImageShowPagerAdapter extends FragmentPagerAdapter {
                     && Environment.getExternalStorageState().equals(
                     Environment.MEDIA_MOUNTED)) {
                 try {
-                    String timeStamp = new SimpleDateFormat(
-                            "yyyyMMdd_HHmmss", Locale.CHINA)
-                            .format(new Date());
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
                     String imageFileName = "IMG" + timeStamp + ".jpg";
                     String url = MediaStore.Images.Media.insertImage(
-                            getActivity().getContentResolver(), path,
-                            imageFileName, "");
+                            getActivity().getContentResolver(),
+                            path,
+                            imageFileName,
+                            "jzdr");
                     if (!TextUtils.isEmpty(url)) {
-                        String[] proj = {MediaStore.Images.Media.DATA};
-                        Cursor actualimagecursor = getActivity()
-                                .managedQuery(Uri
-                                                .parse(url),
-                                        proj, null,
-                                        null, null);
-                        if(actualimagecursor.isClosed()){
-                            return ;
-                        }
-                        int actual_image_column_index = actualimagecursor
-                                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        actualimagecursor.moveToFirst();
-                        String mSaveFilePath = actualimagecursor
-                                .getString(actual_image_column_index);
+                        final String filePath = path+imageFileName;
+                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + filePath)));
+                        MediaScannerConnection.scanFile(getActivity(),
+                                new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath() + "/" + path},
+                                null,
+                                null);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(),"保存成功"+filePath,Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

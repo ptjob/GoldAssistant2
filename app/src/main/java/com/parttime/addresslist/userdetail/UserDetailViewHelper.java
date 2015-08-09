@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.pojo.UserDetailVO;
@@ -235,10 +236,17 @@ public class UserDetailViewHelper implements View.OnClickListener {
             case R.id.head:
                 ArrayList<String> userIds = new ArrayList<>();
                 int size = pictures.size();
-                for(int i = 0 ; i < size; i ++){
-                    userIds.add(userDetailFragment.userId);
+                if(size > 0) {
+                    for (int i = 0; i < size; i++) {
+                        userIds.add(userDetailFragment.userId);
+                    }
+                    IntentManager.intentToImageShow(userDetailFragment.userDetailPagerAdapter.userDetailActivity, pictures, userIds);
+                }else{
+                    Toast.makeText(userDetailPagerAdapter.userDetailActivity,
+                            userDetailPagerAdapter.userDetailActivity.getString(R.string.no_picture_tips),
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
-                IntentManager.intentToImageShow(userDetailFragment.userDetailPagerAdapter.userDetailActivity,pictures,userIds);
                 break;
         }
     }
