@@ -12,14 +12,15 @@
         android:fillViewport="true">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="83dp"
                 android:src="@drawable/my_intro_bg"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginTop="18dp"
                 android:gravity="center_horizontal">
@@ -33,7 +34,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textSize="16sp"
+                    android:textColor="@color/txt_color_black"
+                    android:textSize="16dp"
                     android:gravity="center"/>
 
                 <LinearLayout
@@ -44,14 +46,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/c_C7C8CD"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14dp"
+                        android:textColor="@color/txt_color_gray"
                         android:text="@string/scores"/>
                     <com.parttime.widget.RankView
                         android:id="@+id/rv_rank"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="9dp"
+                        app:rv_item_width="16dp"
+                        app:rv_item_height="16dp"
                         app:rv_inner_margin="2dp"/>
                 </LinearLayout>
 
@@ -72,7 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
+                    android:textColor="@color/txt_color_gray"
                     android:layout_marginTop="10dp"/>
                 <include layout="@layout/view_divider"
                     android:layout_width="match_parent"
@@ -81,13 +88,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:textSize="15sp"
+                    android:textSize="15dp"
+                    android:textColor="@color/txt_color_black"
                     android:gravity="center"
                     android:text="@string/brief_intro"/>
                 <include layout="@layout/view_divider"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider_width"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_height="@dimen/divider_width" />
 
                 <!--<TextView
                     android:id="@+id/tv_work_types_intro"
@@ -99,10 +106,14 @@
                 <TextView
                     android:id="@+id/tv_main_intro"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:textSize="15sp"/>
+                    android:layout_height="match_parent"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="20dp"
+                    android:gravity="top|left"
+                    android:textSize="15dp"
+                    android:textColor="@color/txt_color_black"
+                    android:background="@color/gray_block"/>
             </LinearLayout>
         </FrameLayout>
 

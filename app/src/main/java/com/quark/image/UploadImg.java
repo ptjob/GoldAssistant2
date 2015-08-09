@@ -185,23 +185,38 @@ public class UploadImg {
 						if (loadProBar != null) {
 							loadProBar.setVisibility(View.INVISIBLE);
 						}
-						// context.sendBroadcast(new
-						// Intent("com.carson.uploadpic"));
-						if(uploadListener != null){
-							uploadListener.success();
-						}
-						Toast mToast = Toast.makeText(context, "上传成功", 0);
-						mToast.setGravity(Gravity.CENTER, 0, 0);
-						mToast.show();
-						Bitmap bitm = BitmapFactory.decodeFile(pathstr);
-						// Bitmap bitm = MyResumeActivity.zoomImg(
-						// new File(pathstr), 300, 300);
-						imageView.setImageBitmap(bitm);
-						// 保存上传后的图片url,下载到本地
-						OutputStream output = null;
 						try {
 							JSONObject json = new JSONObject(
 									responseInfo.result);
+							// context.sendBroadcast(new
+							// Intent("com.carson.uploadpic"));
+							int status = json.getInt("status");
+							if(status != 1){
+								if(uploadListener != null){
+									uploadListener.fail();
+
+								}else {
+									Toast mToast = Toast.makeText(context, "上传失败", 0);
+									mToast.setGravity(Gravity.CENTER, 0, 0);
+									mToast.show();
+								}
+								return;
+							}
+							if(uploadListener != null){
+								uploadListener.success();
+							}else {
+								Toast mToast = Toast.makeText(context, "上传成功", 0);
+								mToast.setGravity(Gravity.CENTER, 0, 0);
+								mToast.show();
+							}
+							Bitmap bitm = BitmapFactory.decodeFile(pathstr);
+							// Bitmap bitm = MyResumeActivity.zoomImg(
+							// new File(pathstr), 300, 300);
+							imageView.setImageBitmap(bitm);
+							// 保存上传后的图片url,下载到本地
+							OutputStream output = null;
+
+
 							String pic = (String) json.get("pic");
 							File mePhotoFold = new File(Environment
 									.getExternalStorageDirectory()
