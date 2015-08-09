@@ -484,6 +484,7 @@
     <string name="real_name_line_1">*实名认证将有助于您更快速地</string>
     <string name="real_name_line_2">找到合适的兼职人员</string>
     <string name="real_name_line_3">*兼职达人承诺不会向外界泄露您的认证信息</string>
+    <string name="agreement">注册协议</string>
 
     <!-- 招人Tab -->
     <string name="publish_title">招人</string>

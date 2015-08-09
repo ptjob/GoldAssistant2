@@ -742,7 +742,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 			@Override
 			public void success(Object obj) {
 				showWait(false);
-				btnNext.setEnabled(true);
+//				btnNext.setEnabled(true);
 				countDownTimer = new CountDownTimer(ApplicationConstants.PERIOD_FOR_GET_CODE / 1000, RegisterActivity.this);
 				lastTime = System.currentTimeMillis();
 				countDownTimer.start();

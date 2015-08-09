@@ -38,14 +38,16 @@
             android:id="@+id/cb_agree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:button="@drawable/selector_plain_checkbox"/>
         <TextView
             android:id="@+id/tv_agreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/cb_agree"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:text="@string/agree_to"/>
     </RelativeLayout>
 

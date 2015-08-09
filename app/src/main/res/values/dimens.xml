@@ -119,7 +119,7 @@
     <dimen name="form_item_icon_width">22dp</dimen>
     <dimen name="form_item_icon_height">22.5dp</dimen>
 
-    <dimen name="title_height">49dp</dimen>
+    <dimen name="title_height">46dp</dimen>
     <dimen name="title_padding">10dp</dimen>
     <dimen name="head_img_edge">83dp</dimen>
 

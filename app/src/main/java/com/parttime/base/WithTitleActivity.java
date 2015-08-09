@@ -121,6 +121,7 @@ public abstract class WithTitleActivity extends BaseActivity {
     protected TextView mkTv(int resId){
         TextView tv = new TextView(this);
         tv.setGravity(Gravity.CENTER);
+        tv.setTextColor(getResources().getColor(R.color.bottom_text_color_normal));
         tv.setText(resId);
         return tv;
     }
