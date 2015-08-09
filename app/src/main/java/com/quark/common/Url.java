@@ -349,6 +349,12 @@ public class Url {
 	// 设置禁言列表 3.0
 	public static final String COMMENT_GROUP_BAN_LIST = HOST + SUBJECT
 			+ "/Activity/groupBanList";
+	// 设置群备注 3.0
+	public static final String COMMENT_GROUP_MODIFY_USER_ALIAS = HOST + SUBJECT
+			+ "/Activity/modifyUserAlias";
+	// 获取备注列表 3.0
+	public static final String COMMENT_GROUP_ALIAS_LIST = HOST + SUBJECT
+			+ "/Activity/groupAliasList";
 	// 评价用户获取分页接口 3.0
 	public static final String COMMENT_DETAIL_PAGER = HOST + SUBJECT
 			+ "/UserCenter/comment";

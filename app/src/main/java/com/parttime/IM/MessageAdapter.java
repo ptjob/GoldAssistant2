@@ -22,6 +22,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,8 @@ import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.model.HuanxinUser;
 import com.quark.volley.VolleySington;
 import com.umeng.analytics.MobclickAgent;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -195,6 +198,23 @@ public class MessageAdapter extends BaseAdapter {
         }
     }
 
+    public void reflashAliasName(Map<String,String> map){
+        if(map == null || map.size() == 0){
+            return;
+        }
+        for(MessageData md : messageData){
+            String userId = md.userId;
+            if(TextUtils.isEmpty(userId) || !(userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR) ||
+                    userId.contains(ApplicationConstants.SPECIAL_USER_PREFIX_CHAR))){
+                userId = md.message.getFrom();
+            }
+            String name = map.get(userId);
+            if(! TextUtils.isEmpty(name)) {
+                md.name = name;
+            }
+        }
+        notifyDataSetChanged();
+    }
 
     /**
 	 * 获取item数
@@ -554,7 +574,8 @@ public class MessageAdapter extends BaseAdapter {
 				if(holder.resumeStatus != null) {
 					holder.resumeStatus.setVisibility(View.VISIBLE);
 				}
-				loadNativePhoto(message.getFrom(), holder.head_iv,
+
+				loadNativePhoto(messageData, holder.head_iv,
 						holder.tv_userId);
 			}
 
@@ -648,7 +669,7 @@ public class MessageAdapter extends BaseAdapter {
 
 				holder.head_iv.setImageBitmap(bitmap);
 			} else {
-				loadNativePhoto(message.getFrom(), holder.head_iv, null);
+				loadNativePhoto(messageData, holder.head_iv, null);
 			}
 		} else {
 			// 如果是文本或者地图消息并且不是group messgae，显示的时候给对方发送已读回执
@@ -699,7 +720,7 @@ public class MessageAdapter extends BaseAdapter {
 				Bitmap bitmap = bd.getBitmap();
 				holder.head_iv.setImageBitmap(bitmap);
 			} else {
-				loadNativePhoto(message.getFrom(), holder.head_iv, null);
+				loadNativePhoto(messageData, holder.head_iv, null);
 			}
 		}
 
@@ -1992,12 +2013,15 @@ public class MessageAdapter extends BaseAdapter {
 	/**
 	 * 加载本地头像和名字
 	 */
-	private void loadNativePhoto(final String id, final ImageView avatar,
+	private void loadNativePhoto(MessageData msgData , final ImageView avatar,
 			final TextView name) {
+        final String id = msgData.message.getFrom();
 		// 先获取本地名字和头像
 		String nativeName = sp.loadStringSharedPreference(id + "realname", "");
 		if (name != null) {
-			if (!"".equals(nativeName)) {
+            if(! TextUtils.isEmpty(msgData.name)){
+                name.setText(msgData.name);
+            }else if (!"".equals(nativeName)) {
 				name.setText(nativeName);
 			}
 		}
@@ -2007,7 +2031,7 @@ public class MessageAdapter extends BaseAdapter {
             // getNick2(id);// 更新本地数据
         } else {
             avatar.setImageResource(R.drawable.default_avatar);
-            getNick(id, avatar, name);
+            getNick(id, avatar, name, msgData);
         }
 
 
@@ -2015,7 +2039,7 @@ public class MessageAdapter extends BaseAdapter {
 
 	// ================================================
 	public void getNick(final String id, final ImageView avatar,
-			final TextView name) {
+			final TextView name, final MessageData msgData) {
 
         new HuanXinRequest().getHuanxinUserList(String.valueOf(id), queue, new DefaultCallback(){
             @Override
@@ -2027,7 +2051,11 @@ public class MessageAdapter extends BaseAdapter {
                     if(list.size() == 1) {
                         HuanxinUser us = list.get(0);
                         if (name != null) {
-                            name.setText(us.getName());
+                            if(! TextUtils.isEmpty(msgData.name)){
+                                name.setText(msgData.name);
+                            }else {
+                                name.setText(us.getName());
+                            }
                             if (us.getName() != null
                                     && !"".equals(us.getName())) {
                                 sp.loadStringSharedPreference(id + "realname", us.getName());

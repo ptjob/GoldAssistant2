@@ -42,4 +42,5 @@ public class ConstantForSaveList {
     public static Map<String, BaseUser> userIdUserCache = new HashMap<>();
     //缓存群组的类型
     public static Map<String, GroupDescription> groupDescriptionMapCache = new HashMap<>();
+    public static HashMap<String , Map<String , String >> aliasCache = new HashMap<>();
 }

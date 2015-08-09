@@ -14,6 +14,9 @@ public class ApplicationConstants {
 
     public static final String ADD_FRIEND = "add_friend_()_"; // 加好友特殊字符
 
+    public static final String NORMALI_USER_PREFIX_CHAR = "u";
+    public static final String SPECIAL_USER_PREFIX_CHAR = "c";
+
     public static final int PERIOD_FOR_GET_CODE = 60 * 1000;
 
 }
