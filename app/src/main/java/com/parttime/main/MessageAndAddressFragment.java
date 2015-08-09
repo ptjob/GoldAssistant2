@@ -508,8 +508,8 @@ public class MessageAndAddressFragment extends Fragment {
 		} else if (v == contactlistView) {
 			// 长按前两个不弹menu
 			if (((AdapterContextMenuInfo) menuInfo).position >= 2) {
-				/*getActivity().getMenuInflater().inflate(
-						R.menu.context_contact_list, menu);*/
+				getActivity().getMenuInflater().inflate(
+						R.menu.context_contact_list, menu);
 			}
 		}
 	}
@@ -555,7 +555,7 @@ public class MessageAndAddressFragment extends Fragment {
 			InviteMessgeDao dao = new InviteMessgeDao(getActivity());
 			dao.deleteMessage(user.getUid());
 			return true;
-		} else if (item.getItemId() == R.id.add_to_blacklist) {
+		/*} else if (item.getItemId() == R.id.add_to_blacklist) {
 			// User user = contactAdapter.getItem(((AdapterContextMenuInfo) item
 			// .getMenuInfo()).position);
 			// moveToBlacklist(user.getUsername());
@@ -563,7 +563,7 @@ public class MessageAndAddressFragment extends Fragment {
 			HuanxinUser user = usersNick.get(((AdapterContextMenuInfo) item
 					.getMenuInfo()).position);
             addressbook.moveToBlacklist(user.getUid());
-			return true;
+			return true;*/
 		} else if (item.getItemId() == R.id.to_top){
             EMConversation tobeddInSetCons = messageAdapter
                     .getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);

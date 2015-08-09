@@ -190,12 +190,12 @@ public class ContactlistFragment extends Fragment {
 			InviteMessgeDao dao = new InviteMessgeDao(getActivity());
 			dao.deleteMessage(tobeDeleteUser.getUsername());
 			return true;
-		} else if (item.getItemId() == R.id.add_to_blacklist) {
+		} /*else if (item.getItemId() == R.id.add_to_blacklist) {
 			User user = adapter.getItem(((AdapterContextMenuInfo) item
 					.getMenuInfo()).position);
 			moveToBlacklist(user.getUsername());
 			return true;
-		}
+		}*/
 		return super.onContextItemSelected(item);
 	}
 
