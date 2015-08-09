@@ -404,13 +404,16 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
             if (toChatUsername != null && !"".equals(toChatUsername)) {
                 if (ApplicationConstants.JZDR.equals(toChatUsername)) {
                     sp.saveSharedPreferences(ApplicationConstants.JZDR + "realname", "兼职达人团队");
-
+                    findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                 } else if (ApplicationConstants.CAIWU.equals(toChatUsername)) {
                     sp.saveSharedPreferences(ApplicationConstants.CAIWU + "realname", "财务小管家");
+                    findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                 } else if (ApplicationConstants.DINGYUE.equals(toChatUsername)) {
                     sp.saveSharedPreferences(ApplicationConstants.DINGYUE + "realname", "订阅小助手");
+                    findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                 } else if (ApplicationConstants.KEFU.equals(toChatUsername)) {
                     sp.saveSharedPreferences(ApplicationConstants.KEFU + "realname", "兼职达人客服");
+                    findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                     chatBottomBarHelper = new ChatBottomBarHelper(this);
                 } else if (ApplicationConstants.TONGZHI.equals(toChatUsername)) {
                     sp.saveSharedPreferences(ApplicationConstants.TONGZHI + "realname", "通知中心");
