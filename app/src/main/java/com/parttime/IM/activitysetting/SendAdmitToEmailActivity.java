@@ -99,6 +99,7 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
 
         if(! ValidateUtils.isEmail(emailStr)){
             Toast.makeText(getApplicationContext(), getString(R.string.format_error), Toast.LENGTH_SHORT).show();
+            done.setEnabled(true);
             return ;
         }
 
@@ -106,6 +107,7 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
         //5分钟之内不能对同一个邮箱重复发
         if(emailStr.equals(emailValue) && System.currentTimeMillis() - lastTime < 5 * 60 * 1000){
             Toast.makeText(getApplicationContext(), getString(R.string.send_times_tips), Toast.LENGTH_SHORT).show();
+            done.setEnabled(true);
             return ;
         }
 

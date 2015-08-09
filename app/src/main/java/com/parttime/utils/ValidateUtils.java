@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class ValidateUtils {
 
     public static boolean isEmail(String email){
-        String regex = "[a-zA-Z_]{1,}[0-9]{0,}@(([a-zA-z0-9]-*){1,}\\.){1,3}[a-zA-z\\-]{1,}" ;
+        String regex = "[a-zA-Z_]{0,}[0-9]{0,}@(([a-zA-z0-9]-*){1,}\\.){1,3}[a-zA-z\\-]{1,}" ;
         return match( regex ,email );
     }
 
