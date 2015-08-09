@@ -21,6 +21,7 @@
     <string name="refused">拒绝</string>
     <string name="no_net_tip">网络连接失败，请确认网络连接</string>
     <string name="format_error">格式不正确</string>
+    <string name="send_times_tips">5分钟内，不能重复发</string>
     <string name="action_failed">操作失败</string>
     <string name="refresh">刷新</string>
     <string name="modify">修改</string>

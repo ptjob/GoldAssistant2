@@ -28,11 +28,13 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
 
 
     private final String EMAIL_KEY = "send_to_email";
+    private final String LAST_SEND_TIME = "last_send_email_time";
 
     private EditText email;
     private Button done;
 
     private String groupId;
+    private String emailValue;
 
     private SharePreferenceUtil sp = SharePreferenceUtil.getInstance(ApplicationControl.getInstance());
 
@@ -50,7 +52,7 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
 
         groupId = getIntent().getStringExtra(ActivityExtraAndKeys.GroupSetting.GROUPID);
 
-        String emailValue = sp.loadStringSharedPreference(EMAIL_KEY);
+        emailValue = sp.loadStringSharedPreference(EMAIL_KEY);
         if(! TextUtils.isEmpty(emailValue)){
             email.setText(emailValue);
         }
@@ -99,6 +101,14 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
             return ;
         }
 
+        long lastTime = sp.loadLongSharedPreference(LAST_SEND_TIME);
+        //5分钟之内不能对同一个邮箱重复发
+        if(emailStr.equals(emailValue) && System.currentTimeMillis() - lastTime < 5 * 60 * 1000){
+            Toast.makeText(getApplicationContext(), getString(R.string.send_times_tips), Toast.LENGTH_SHORT).show();
+            return ;
+        }
+
+
         sp.saveSharedPreferences(EMAIL_KEY,emailStr);
         EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
         String groupName ;
@@ -113,6 +123,7 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
             @Override
             public void success(Object obj) {
                 super.success(obj);
+                sp.saveSharedPreferences(LAST_SEND_TIME, System.currentTimeMillis());
                 Toast.makeText(SendAdmitToEmailActivity.this, R.string.already_send_to_email,Toast.LENGTH_SHORT).show();
             }
 
