@@ -402,6 +402,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                 holder.resumeStatus = (TextView) view.findViewById(R.id.resume_status);
                 holder.moneyStatus = (TextView) view.findViewById(R.id.money_status);
                 holder.accountStatus = (TextView) view.findViewById(R.id.account_status);
+
                 holder.rankView = (RankView) view.findViewById(R.id.reputation_value_star_container);
                 holder.resumeButton = (Button) view.findViewById(R.id.button);
 
@@ -477,17 +478,14 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             holder.head.setTag(userVO);
 
             //设置诚意金和认证
-//            StringBuilder moneyAndCertification = new StringBuilder();
             int moneyStatus = userVO.earnestMoney;
             int accountStatus = userVO.certification;
             if(moneyStatus == 0) {
-//                moneyAndCertification.append(getString(R.string.no_money));
                 holder.moneyStatus.setText(getString(R.string.no_money));
                 holder.moneyStatus.setSelected(false);
             }else {
-//                moneyAndCertification.append(getString(R.string.had_money));
                 holder.moneyStatus.setText(getString(R.string.had_money));
-                holder.moneyStatus.setSelected(false);
+                holder.moneyStatus.setSelected(true);
             }
 //            moneyAndCertification.append("/");
 
@@ -512,8 +510,11 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             //设置信誉
             String creditworthiness = userVO.creditworthiness;
 //            Utils.addStars(creditworthiness, holder.reputationValueStar, GroupResumeSettingActivity.this, R.drawable.ee_27);
+            if(holder.rankView != null){
+                holder.rankView.setFullResId(R.drawable.icon_heart);
+            }
             holder.rankView.setTotalScore(Integer.valueOf(creditworthiness) / 10);
-            holder.rankView.rank(0);
+            holder.rankView.rank(Integer.valueOf(creditworthiness) / 10);
 
             if(holder.reject != null){
                 holder.reject.setTag(userVO);
@@ -551,7 +552,18 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                                         });
                             } else if (apply == GroupSettingRequest.UserVO.APPLY_UNLOOK || apply == GroupSettingRequest.UserVO.APPLY_LOOKED) {
                                 //录取   确认后可取消录用该用户，信息中心会提醒用户‘已被商家取消录用’。同时该用户也将被移除聊天群组
-                                new GroupSettingUtils().showAlertDialog( GroupResumeSettingActivity.this,
+                                new GroupSettingUtils().approveResume(GroupResumeSettingActivity.this,
+                                        userVO,
+                                        groupId, queue,
+                                        new DefaultCallback(){
+                                            @Override
+                                            public void success(Object obj) {
+                                                userVO.apply = GroupSettingRequest.UserVO.APPLY_OK;
+                                                updateTip();
+                                                notifyDataSetChanged();
+                                            }
+                                        });
+                                /*new GroupSettingUtils().showAlertDialog( GroupResumeSettingActivity.this,
                                         null ,
                                         getString(R.string.cacel_resume_or_not),
                                         Action.RESUME, userVO,
@@ -564,7 +576,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                                                 updateTip();
                                                 notifyDataSetChanged();
                                             }
-                                        });
+                                        });*/
                             }
                         }else{
                             int isCommented = userVO.isCommented;

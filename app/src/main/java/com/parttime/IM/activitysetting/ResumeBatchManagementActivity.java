@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ResumeBatchManagementActivity extends BaseActivity implements View.OnClickListener {
 
@@ -53,6 +54,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
 
     private ArrayList<BatchUserVO> data = new ArrayList<>();
     private HashMap<Integer,BatchUserVO> checkedMap = new HashMap<>();
+    private AtomicBoolean selectAll = new AtomicBoolean(false);
 
     private String groupId;
 
@@ -136,18 +138,33 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                 showAlertDialog(null , getString(R.string.reject_resume_or_not_and_remove_from_group), R.string.ok, R.string.cancel);
                 break;
             case R.id.img_right2:
-                //全选
-                int size = data.size();
-                int checkNum = checkedMap.size() ;
-                if(size == checkNum) {
-                    return;
+                if(selectAll.get()){
+                    selectAll.set(false);
+                    int size = data.size();
+                    for (int i = 0; i < size; i++) {
+                        BatchUserVO batchUserVO = data.get(i);
+                        batchUserVO.checked = false;
+                        checkedMap.remove(i);
+                    }
+                    adapter.notifyDataSetChanged();
+                    headView.setTxtRight2Text(R.string.check_all);
+                }else {
+
+                    selectAll.set(true);
+                    //全选
+                    int size = data.size();
+                    int checkNum = checkedMap.size();
+                    if (size == checkNum) {
+                        return;
+                    }
+                    for (int i = 0; i < size; i++) {
+                        BatchUserVO batchUserVO = data.get(i);
+                        batchUserVO.checked = true;
+                        checkedMap.put(i, batchUserVO);
+                    }
+                    adapter.notifyDataSetChanged();
+                    headView.setTxtRight2Text(R.string.uncheck_all);
                 }
-                for(int i = 0 ; i < size ; i ++ ){
-                    BatchUserVO batchUserVO = data.get(i);
-                    batchUserVO.checked = true;
-                    checkedMap.put(i, batchUserVO);
-                }
-                adapter.notifyDataSetChanged();
                 break;
         }
     }

@@ -153,7 +153,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
 				nameTextview.setText(user.getNick());
 				avatar.setImageResource(R.drawable.peoplephoto);
 			} else {
-				// 设置昵称 头像 头两条是群和通知 所以从联系人进来的 usersNick真实数据应该从第三条开始（开始两条为空）
+				// 设置昵称 头像 头两条是群和通知 所以从联系人进来的 usersNick真实数据应该从第四条开始（开始三条为空）
 				// 2.从群设置进来 无通知和群聊，真实数据从第二个开始（第一个未空值）
 				if (usersNick.size() > position) {
 					nameTextview.setText(usersNick.get(position).getName());

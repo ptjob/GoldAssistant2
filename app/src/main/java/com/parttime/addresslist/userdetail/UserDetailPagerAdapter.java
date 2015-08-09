@@ -10,7 +10,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.carson.constant.ConstantForSaveList;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.HuanXinRequest;
 import com.parttime.net.UserDetailRequest;
@@ -178,7 +180,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter {
                         public void success(Object obj) {
                             super.success(obj);
                             if (obj instanceof ArrayList) {
-                                @SuppressLint("Unchecked")
+                                @SuppressLint("unchecked")
                                 ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>) obj;
                                 if (list.size() == 1) {
                                     for (HuanxinUser huanxinUser : list) {
@@ -200,6 +202,37 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter {
                                     }
                                 }
                             }
+                        }
+
+                        @Override
+                        public void failed(Object obj) {
+                            ArrayList<HuanxinUser> huanxinUsers = ConstantForSaveList.usersNick;
+                            if(huanxinUsers != null){
+                                for (HuanxinUser huanxinUser : huanxinUsers){
+                                    if(huanxinUser == null){
+                                        continue;
+                                    }
+                                    if(huanxinUser.getUid()!= null && huanxinUser.getUid().equals(userId)){
+                                        UserDetailVO udVO = new UserDetailVO();
+                                        if(TextUtils.isEmpty(huanxinUser.getUid())) {
+                                            udVO.userId = userId;
+                                        }else{
+                                            udVO.userId = huanxinUser.getUid();
+                                        }
+                                        udVO.name = huanxinUser.getName();
+                                        udVO.picture_1 = huanxinUser.getAvatar();
+                                        udVO.sex = huanxinUser.sex;
+                                        udVO.creditworthiness = huanxinUser.creditworthiness;
+                                        udVO.earnest_money = huanxinUser.earnest_money;
+                                        udVO.certification = huanxinUser.certification;
+                                        udVO.age = huanxinUser.age;
+
+                                        helper.reflesh(udVO, initContent);
+                                        return;
+                                    }
+                                }
+                            }
+                            Toast.makeText(getActivity(), getString(R.string.get_failed),Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

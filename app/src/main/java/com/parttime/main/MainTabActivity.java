@@ -81,6 +81,7 @@ import com.parttime.IM.ChatActivity;
 import com.parttime.addresslist.GroupsActivity;
 import com.parttime.common.update.UpdateUtils;
 import com.parttime.constants.ActionConstants;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.login.FindPJLoginActivity;
 import com.parttime.type.AccountType;
@@ -476,21 +477,21 @@ public class MainTabActivity extends BaseActivity implements
 		initPush();// 初始化
 		ConstantForSaveList.userId = "c" + company_id;// 记录用户名
 		JPushInterface.setAlias(getApplicationContext(), "c" + company_id,
-				new TagAliasCallback() {
-					@Override
-					public void gotResult(int code, String arg1,
-							Set<String> arg2) {
-						switch (code) {
-						case 0:
-							break;
-						case 6002:
-							break;
-						default:
-							break;
-						}
+                new TagAliasCallback() {
+                    @Override
+                    public void gotResult(int code, String arg1,
+                                          Set<String> arg2) {
+                        switch (code) {
+                            case 0:
+                                break;
+                            case 6002:
+                                break;
+                            default:
+                                break;
+                        }
 
-					}
-				});
+                    }
+                });
 	}
 
 	/**
@@ -1010,10 +1011,25 @@ public class MainTabActivity extends BaseActivity implements
 				// 添加好友时可能会回调added方法两次
 				if (!localUsers.containsKey(username)) {
 					userDao.saveContact(user);
+
+                    // 被邀请
+                    EMMessage msg = EMMessage.createReceiveMessage(Type.TXT);
+                    msg.setChatType(ChatType.Chat);
+                    msg.setFrom(user.getUsername());
+                    msg.setTo(EMChatManager.getInstance().getCurrentUser());
+                    msg.setMsgId(UUID.randomUUID().toString());
+                    msg.addBody(new TextMessageBody(user.getUsername() + ApplicationConstants.ADD_FRIEND));
+                    // 保存邀请消息
+                    EMChatManager.getInstance().saveMessage(msg);
 				}
 				toAddUsers.put(username, user);
+
 			}
 			localUsers.putAll(toAddUsers);
+
+
+            // 提醒新消息
+            EMNotifier.getInstance(getApplicationContext()).notifyOnNewMsg();
 			// 刷新ui
 			// if (currentTabIndex == 1)
 			// contactListFragment.refresh();

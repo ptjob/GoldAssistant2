@@ -2,8 +2,11 @@ package com.parttime.main;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +29,7 @@ import com.droid.carson.CityActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.parttime.common.Image.ContactImageLoader;
+import com.parttime.constants.ActionConstants;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
@@ -121,6 +125,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     private List<View> bannerIvs = new ArrayList<>();
     private List<BannerItem> banners = new ArrayList<>();
     Gson gson = new Gson();
+    private CityChangeReceiver cityChangeReceiver;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -158,6 +164,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         loadBanners();
 
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -526,8 +533,19 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+
+        // 注册城市切换监听器
+        cityChangeReceiver = new CityChangeReceiver();
+        getActivity().registerReceiver(cityChangeReceiver, new IntentFilter(ActionConstants.ACTION_CITY_CHANGE));
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (cityChangeReceiver != null) {
+            getActivity().unregisterReceiver(cityChangeReceiver);
+        }
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -736,5 +754,15 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    class CityChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(ActionConstants.ACTION_CITY_CHANGE)) {
+                String city = intent.getStringExtra(ActionConstants.EXTRA_CITY_CHANGE);
+                mTxtCity.setText(city);
+            }
+        }
+    }
 
 }

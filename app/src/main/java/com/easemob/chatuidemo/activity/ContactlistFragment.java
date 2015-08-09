@@ -219,7 +219,7 @@ public class ContactlistFragment extends Fragment {
 	/**
 	 * 删除联系人
 	 * 
-	 * @param toDeleteUser
+	 * @param tobeDeleteUser
 	 */
 	public void deleteContact(final User tobeDeleteUser) {
 		final ProgressDialog pd = new ProgressDialog(getActivity());
@@ -249,7 +249,7 @@ public class ContactlistFragment extends Fragment {
 						public void run() {
 							pd.dismiss();
 							Toast.makeText(getActivity(),
-									"删除失败: " + e.getMessage(), 1).show();
+									"删除失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
 						}
 					});
 
@@ -277,7 +277,7 @@ public class ContactlistFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(getActivity(), "移入黑名单成功", 0).show();
+							Toast.makeText(getActivity(), "移入黑名单成功", Toast.LENGTH_SHORT).show();
 							refresh();
 						}
 					});
@@ -286,7 +286,7 @@ public class ContactlistFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(getActivity(), "移入黑名单失败", 0).show();
+							Toast.makeText(getActivity(), "移入黑名单失败", Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -324,6 +324,7 @@ public class ContactlistFragment extends Fragment {
 			Entry<String, User> entry = iterator.next();
 			if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME)
 					&& !entry.getKey().equals(Constant.GROUP_USERNAME)
+                    && !entry.getKey().equals(Constant.PUBLIC_COUNT)
 					&& !blackList.contains(entry.getKey()))
 				contactList.add(entry.getValue());
 		}
@@ -338,6 +339,8 @@ public class ContactlistFragment extends Fragment {
 
 		// 加入"申请与通知"和"群聊"
 		contactList.add(0, users.get(Constant.GROUP_USERNAME));
+        //添加官方账号
+        contactList.add(0, users.get(Constant.PUBLIC_COUNT));
 		// 把"申请与通知"添加到首位
 		contactList.add(0, users.get(Constant.NEW_FRIENDS_USERNAME));
 	}

@@ -12,6 +12,8 @@ public class ApplicationConstants {
     public static final String KEFU = "kefu";
     public static final String TONGZHI = "tongzhi";
 
+    public static final String ADD_FRIEND = "add_friend_()_"; // 加好友特殊字符
+
     public static final int PERIOD_FOR_GET_CODE = 60 * 1000;
 
 }
