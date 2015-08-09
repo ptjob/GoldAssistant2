@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -108,6 +109,13 @@ public class GroupResumeSettingActivity extends BaseActivity implements
         tip = (TextView) findViewById(R.id.tip);
         listView = (SwipeListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intentToUserDetail(data.get(position));
+            }
+        });
     }
 
     private void bindView(){
@@ -608,27 +616,9 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             holder.head.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     GroupSettingRequest.UserVO userVO = (GroupSettingRequest.UserVO)v.getTag();
-
-                    ArrayList<String> userIds = null;
-                    if(data != null && data.size() > 0){
-                        userIds = new ArrayList<>();
-                        for (GroupSettingRequest.UserVO vo : data){
-                            if(vo == null){
-                                continue;
-                            }
-                            userIds.add(String.valueOf(vo.userId));
-                        }
-                    }
-
-                    if(userIds != null && userIds.size() > 0) {
-                        IntentManager.toUserDetailFromActivityGroup(GroupResumeSettingActivity.this,
-                                isEnd,
-                                groupId,
-                                userVO,
-                                userIds,
-                                group.getOwner());
-                    }
+                    intentToUserDetail(userVO);
                 }
             });
 
@@ -657,6 +647,29 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             }
         }
 
+    }
+
+    private void intentToUserDetail(GroupSettingRequest.UserVO userVO) {
+
+        ArrayList<String> userIds = null;
+        if(data != null && data.size() > 0){
+            userIds = new ArrayList<>();
+            for (GroupSettingRequest.UserVO vo : data){
+                if(vo == null){
+                    continue;
+                }
+                userIds.add(String.valueOf(vo.userId));
+            }
+        }
+
+        if(userIds != null && userIds.size() > 0) {
+            IntentManager.toUserDetailFromActivityGroup(this,
+                    isEnd,
+                    groupId,
+                    userVO,
+                    userIds,
+                    group.getOwner());
+        }
     }
 
     public static enum  Action{
