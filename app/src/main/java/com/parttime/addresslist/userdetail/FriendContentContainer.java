@@ -3,13 +3,17 @@ package com.parttime.addresslist.userdetail;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
+import com.easemob.chatuidemo.db.InviteMessgeDao;
 import com.easemob.chatuidemo.domain.User;
+import com.easemob.exceptions.EaseMobException;
 import com.parttime.IM.ChatActivity;
 import com.parttime.pojo.UserDetailVO;
 import com.qingmu.jianzhidaren.R;
@@ -54,6 +58,7 @@ public class FriendContentContainer implements View.OnClickListener{
 
         toMsg.setOnClickListener(this);
         sendAddFriend.setOnClickListener(this);
+        deleteFriend.setOnClickListener(this);
 
     }
 
@@ -156,7 +161,12 @@ public class FriendContentContainer implements View.OnClickListener{
     }
 
     private void deleteFriend() {
-
+        try {
+            EMContactManager.getInstance().deleteContact(userDetailFragment.userId);//需异步处理
+            activity.finish();
+        } catch (EaseMobException e) {
+            e.printStackTrace();
+        }
 
     }
 }

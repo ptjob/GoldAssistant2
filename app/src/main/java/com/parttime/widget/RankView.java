@@ -128,7 +128,11 @@ public class RankView extends LinearLayout{
             ivs[i].setImageResource(fullResId);
         }
         for(; i < ivs.length; ++i){
-            ivs[i].setImageResource(emptyResId);
+            if(emptyResId > 0) {
+                ivs[i].setImageResource(emptyResId);
+            }else{
+                ivs[i].setImageBitmap(null);
+            }
         }
     }
 
@@ -136,4 +140,13 @@ public class RankView extends LinearLayout{
         this.totalScore = totalScore;
         establishIvs();
     }
+
+    public void setFullResId(int fullResId){
+        this.fullResId = fullResId;
+    }
+
+    public void setEmptyResId(int emptyResId){
+        this.emptyResId = emptyResId;
+    }
+
 }

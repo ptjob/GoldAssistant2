@@ -100,7 +100,7 @@ public class MessageAndAddressFragment extends Fragment {
 	private ContactAdapter contactAdapter;
 	private List<User> contactList;
 	private List<String> contactIds;
-	private StringBuilder contactIdsStr = new StringBuilder("");
+	private StringBuilder contactIdsStr;
 	private ListView contactlistView;
 	private Sidebar sidebar;
 	private List<String> blackList;
@@ -768,6 +768,7 @@ public class MessageAndAddressFragment extends Fragment {
 
             if (contactIds.size() > 0) {
                 int size = contactIds.size();
+                contactIdsStr = new StringBuilder();
                 for (int i = 0; i < size; i++) {
                     if(i < size -1 ) {
                         contactIdsStr.append(contactIds.get(i)).append(",");
@@ -813,8 +814,7 @@ public class MessageAndAddressFragment extends Fragment {
             // UserDao ud = new UserDao(getActivity());
             // ApplicationControl.getInstance().setContactList(ud.getContactList());
             // 获取本地好友列表
-            Map<String, User> users = ApplicationControl.getInstance()
-                    .getContactList();
+            Map<String, User> users = ApplicationControl.getInstance().getContactList();
             Iterator<Entry<String, User>> iterator = users.entrySet().iterator();
             while (iterator.hasNext()) {
                 Entry<String, User> entry = iterator.next();
@@ -826,11 +826,13 @@ public class MessageAndAddressFragment extends Fragment {
                     if (!entry.getKey().equals(ApplicationConstants.JZDR)) {
                         // userName ==nick 都是u661或者c221之类的
                         // head 是u或者c
-                        contactList.add(entry.getValue());
+                        User user = entry.getValue();
+                        contactList.add(user);
                     }
                 }
             }
             for (int i = 0; i < contactList.size(); i++) {
+                Log.i(TAG,"username = "+ contactList.get(i).getUsername());
                 contactIds.add(contactList.get(i).getUsername());
             }
 

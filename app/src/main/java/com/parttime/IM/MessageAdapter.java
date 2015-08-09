@@ -906,7 +906,9 @@ public class MessageAdapter extends BaseAdapter {
 				.getSmiledText(context, txtBody.getMessage());
 		// 设置内容
 		if (span.toString().endsWith("邀请你加入了群聊")) {
-			holder.tv.setText("欢迎加入群聊", BufferType.SPANNABLE);
+            holder.tv.setText("欢迎加入群聊", BufferType.SPANNABLE);
+        } else if(span.toString().endsWith(ApplicationConstants.ADD_FRIEND)){
+            holder.tv.setText("我们已经是好友了，聊聊吧", BufferType.SPANNABLE);
 		} else {
 			holder.tv.setText(span, BufferType.SPANNABLE);
 		}
