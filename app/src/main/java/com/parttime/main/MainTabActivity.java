@@ -84,6 +84,7 @@ import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.login.FindPJLoginActivity;
+import com.parttime.net.PublishRequest;
 import com.parttime.type.AccountType;
 import com.parttime.utils.ApplicationUtils;
 import com.parttime.utils.SharePreferenceUtil;
@@ -1717,40 +1718,8 @@ public class MainTabActivity extends BaseActivity implements
 					} else {
 						// 如果从没上传过个人位置
 						if (!"".equals(company_id)) {
-                            // 2015-8-8  wyw
-                            // 注释原因： 3.0接口取消了，城市切换上报功能
-                            //
-
-//							// 切换到指定城市,访问后台传输城市
-//							StringRequest request = new StringRequest(
-//									Request.Method.POST, Url.CHANGE_CITY_CUSTOM
-//											+ "?token="
-//											+ MainTabActivity.token,
-//									new Response.Listener<String>() {
-//										@Override
-//										public void onResponse(String response) {
-//
-//										}
-//									}, new Response.ErrorListener() {
-//										@Override
-//										public void onErrorResponse(
-//												VolleyError volleyError) {
-//										}
-//									}) {
-//								@Override
-//								protected Map<String, String> getParams()
-//										throws AuthFailureError {
-//									Map<String, String> map = new HashMap<>();
-//									map.put("company_id", company_id);
-//									map.put("city", thisCity);
-//									return map;
-//								}
-//							};
-//							queue.add(request);
-//							request.setRetryPolicy(new DefaultRetryPolicy(
-//									ConstantForSaveList.DEFAULTRETRYTIME * 1000,
-//									1, 1.0f));
-
+							// 切换到指定城市,访问后台传输城市
+						    new PublishRequest().changeCity(thisCity, queue);
 						}
 					}
 				}
@@ -1783,10 +1752,10 @@ public class MainTabActivity extends BaseActivity implements
 	}
 
 	/**
-	 * 弹出城市改变弹出框 str3:city
+	 * 弹出城市改变弹出框 city:city
 	 */
 	public void showAlertDialog2(String str, final String str2,
-			final String str3) {
+			final String city) {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this);
 		builder.setMessage(str);
 		builder.setTitle(str2);
@@ -1794,58 +1763,28 @@ public class MainTabActivity extends BaseActivity implements
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-                        sp.saveSharedPreferences(SharedPreferenceConstants.CITY, str3);
+                        sp.saveSharedPreferences(SharedPreferenceConstants.CITY, city);
 						Intent intent = new Intent(); // Itent就是我们要发送的内容
 						intent.setAction("com.carson.company.changgecity"); // 设置你这个广播的action
-						intent.putExtra("changgecity", str3);
+						intent.putExtra("changgecity", city);
 						sendBroadcast(intent); // 发送广播
-
-                        // 2015-8-8  wyw
-                        // 注释原因： 3.0接口取消了，城市切换上报功能
-                        //
-//						// 切换到指定城市,访问后台传输城市
-//						StringRequest request = new StringRequest(
-//								Request.Method.POST,
-//								Url.CHANGE_CITY_CUSTOM + "?token="
-//										+ MainTabActivity.token,
-//								new Response.Listener<String>() {
-//									@Override
-//									public void onResponse(String response) {
-//									}
-//								}, new Response.ErrorListener() {
-//									@Override
-//									public void onErrorResponse(
-//											VolleyError volleyError) {
-//									}
-//								}) {
-//							@Override
-//							protected Map<String, String> getParams()
-//									throws AuthFailureError {
-//								Map<String, String> map = new HashMap<String, String>();
-//								map.put("company_id", company_id);
-//								map.put("city", str3);
-//								return map;
-//							}
-//						};
-//						queue.add(request);
-//						request.setRetryPolicy(new DefaultRetryPolicy(
-//								ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
-//								1.0f));
-
-					}
+                        new PublishRequest().changeCity(city, queue);
+                    }
 				});
 		builder.setNegativeButton("暂不切换",
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int arg1) {
-						dialog.dismiss();
-					}
-				});
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        dialog.dismiss();
+                    }
+                });
 
 		builder.create().show();
 	}
 
-	// ************************弹出提示更新的pop框***********************************
+
+
+    // ************************弹出提示更新的pop框***********************************
 	/**
 	 * 弹出更新日志
 	 */

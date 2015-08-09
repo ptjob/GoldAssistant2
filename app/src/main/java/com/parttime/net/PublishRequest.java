@@ -2,8 +2,16 @@ package com.parttime.net;
 
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.carson.constant.ConstantForSaveList;
 import com.lidroid.xutils.db.annotation.Check;
+import com.parttime.main.MainTabActivity;
 import com.parttime.pojo.JobAuthType;
 import com.parttime.pojo.PartJob;
 import com.parttime.pojo.PublishAvailabilityStatus;
@@ -28,6 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 发布相关接口
@@ -475,5 +484,40 @@ public class PublishRequest extends BaseRequest {
                 callback.failed(obj);
             }
         });
+    }
+
+    /**
+     * 切换城市
+     * @param city 新城市
+     */
+    public void changeCity(final String city, final RequestQueue queue) {
+        // 切换到指定城市,访问后台传输城市
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Url.CHANGE_CITY_CUSTOM + "?token="
+                        + MainTabActivity.token,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(
+                    VolleyError volleyError) {
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams()
+                    throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("company_id", String.valueOf(ApplicationUtils.getLoginId()));
+                map.put("city", city);
+                return map;
+            }
+        };
+        queue.add(request);
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
+                1.0f));
     }
 }

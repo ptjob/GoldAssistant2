@@ -590,6 +590,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     // requestChangeCity();
                     if(!city.equals(oldCity)){
                         loadBanners();
+                        new PublishRequest().changeCity(city, queue);
                     }
                 }
             }
