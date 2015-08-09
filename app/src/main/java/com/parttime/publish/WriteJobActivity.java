@@ -428,6 +428,20 @@ public class WriteJobActivity extends BaseActivity implements
             return false;
         }
 
+        char[] titleChars = verifyStr.toCharArray();
+        boolean isDigit = true;
+        for (int i = 0; i < titleChars.length; i++) {
+            if (!Character.isDigit(titleChars[i])) {
+                isDigit = false ;
+                break;
+            }
+        }
+
+        if (isDigit) {
+            showToast(R.string.publish_job_title_digit_warn);
+            return false;
+        }
+
         String beginTime;
         beginTime = verifyStr = mTxtBeginTime.getText().toString();
         if (CheckUtils.isEmpty(verifyStr)) {

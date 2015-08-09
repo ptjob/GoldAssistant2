@@ -83,6 +83,12 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     @Override
+    public void finish() {
+        IntentManager.goToMainTab(this);
+        super.finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
