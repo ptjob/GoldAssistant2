@@ -502,6 +502,24 @@ public class WriteJobActivity extends BaseActivity implements
             return false;
         }
 
+        int sum = 0;
+        if (mRadioSexLimited.isChecked()) {
+            String maleNumStr = mEditMaleNum.getText().toString();
+            sum = CheckUtils.isEmpty(maleNumStr) ? 0 : FormatUtils.parseToInt(maleNumStr);
+
+            String femaleNumStr = mEditFemaleNum.getText().toString();
+            sum += CheckUtils.isEmpty(femaleNumStr) ? 0 : FormatUtils.parseToInt(femaleNumStr);
+        } else {
+            String headSumStr = mEditHeadSum.getText().toString();
+            sum = CheckUtils.isEmpty(headSumStr) ? 0 : FormatUtils.parseToInt(headSumStr);
+        }
+
+        // 招人人数为0
+        if (sum == 0) {
+            showToast(R.string.publish_job_hint_head_sum_zero);
+            return false;
+        }
+
         verifyStr = mEditWorkRequire.getText().toString();
         if (CheckUtils.isEmpty(verifyStr) ||
                 verifyStr.length() < getResources().getInteger(R.integer.work_require_min_length)) {

@@ -519,6 +519,7 @@
     <string name="publish_job_label_measurements">三围</string>
     <string name="publish_job_hint_work_address">请输入4到20字详细地点</string>
     <string name="publish_job_hint_salary_unit">请输入薪酬单位</string>
+    <string name="publish_job_hint_head_sum_zero">招人数量不能为0</string>
     <string name="publish_job_hint_work_require">请输入10到1000字的工作内容和要求</string>
     <string name="publish_job_hint_is_show_tel">是否显示您的手机号</string>
     <string name="publish_job_checkbox_sex_unlimited">不限性别</string>
