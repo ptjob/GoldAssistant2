@@ -43,6 +43,8 @@ import com.quark.citylistview.CharacterParser;
 import com.quark.common.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -225,13 +227,32 @@ public class GroupsActivity extends BaseActivity implements TextWatcher, View.On
 	public void onResume() {
 		super.onResume();
 		grouplist = EMGroupManager.getInstance().getAllGroups();
+        ArrayList<EMGroup> groups = new ArrayList<>(grouplist);
+        sortGroups(groups);
 		groupAdapter = new GroupAdapter(this, 1);
-        groupAdapter.updateData(new ArrayList<>(grouplist));
+        groupAdapter.updateData(groups);
 		groupListView.setAdapter(groupAdapter);
 		groupAdapter.notifyDataSetChanged();
 	}
 
-	@Override
+    private void sortGroups(ArrayList<EMGroup> groups) {
+        Collections.sort(groups, new Comparator<EMGroup>() {
+            @Override
+            public int compare(EMGroup lhs, EMGroup rhs) {
+                if(lhs == null || rhs == null){
+                    return 0;
+                }
+                if(lhs.getLastModifiedTime() > rhs.getLastModifiedTime()){
+                    return -1;
+                }else if(lhs.getLastModifiedTime() < rhs.getLastModifiedTime()){
+                    return 1;
+                }
+                return 0;
+            }
+        });
+    }
+
+    @Override
 	protected void onDestroy() {
 		super.onDestroy();
 		instance = null;
