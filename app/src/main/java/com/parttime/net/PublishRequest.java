@@ -251,7 +251,21 @@ public class PublishRequest extends BaseRequest {
 
         String url = Url.COMPANY_MyJianzhi_previewReflesh;
 
-        request(url, reqParams, requestQueue, callback);
+        request(url, reqParams, requestQueue, new Callback() {
+            @Override
+            public void success(Object obj) throws JSONException {
+                callback.success(obj);
+            }
+
+            @Override
+            public void failed(Object obj) {
+                if (obj instanceof ResponseBaseCommonError) {
+                    callback.success(((ResponseBaseCommonError) obj).responseJsonObj);
+                } else {
+                    callback.failed(obj);
+                }
+            }
+        });
     }
 
     public void refresh(int jobId, RequestQueue requestQueue, final DefaultCallback callback) {
@@ -271,7 +285,21 @@ public class PublishRequest extends BaseRequest {
 
         String url = Url.COMPANY_MyJianzhi_preUrgent;
 
-        request(url, reqParams, requestQueue, callback);
+        request(url, reqParams, requestQueue, new Callback() {
+            @Override
+            public void success(Object obj) throws JSONException {
+                callback.success(obj);
+            }
+
+            @Override
+            public void failed(Object obj) {
+                if (obj instanceof ResponseBaseCommonError) {
+                    callback.success(((ResponseBaseCommonError) obj).responseJsonObj);
+                } else {
+                    callback.failed(obj);
+                }
+            }
+        });
     }
 
     public void setUrgent(int jobId, int addCount, RequestQueue requestQueue, final DefaultCallback callback) {
@@ -481,7 +509,12 @@ public class PublishRequest extends BaseRequest {
 
             @Override
             public void failed(Object obj) {
-                callback.failed(obj);
+                if (obj instanceof ResponseBaseCommonError) {
+                    PublishAvailabilityStatus status = PublishAvailabilityStatus.parse(((ResponseBaseCommonError) obj).status);
+                    callback.success(status);
+                } else {
+                    callback.failed(obj);
+                }
             }
         });
     }

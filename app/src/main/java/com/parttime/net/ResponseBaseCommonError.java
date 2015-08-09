@@ -1,5 +1,7 @@
 package com.parttime.net;
 
+import org.json.JSONObject;
+
 /**
  *
  * Created by luhua on 15/7/14.
@@ -13,5 +15,6 @@ public class ResponseBaseCommonError extends BaseResponse{
     public String title;
     public String confirm;
     public String cancel;
+    public JSONObject responseJsonObj;
 
 }

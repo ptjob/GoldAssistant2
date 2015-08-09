@@ -53,6 +53,7 @@ public class BaseRequest {
                         callback.success(js);
                     }else{
                         ResponseBaseCommonError error = new Gson().fromJson(response, ResponseBaseCommonError.class);
+                        error.responseJsonObj = js;
                         callback.failed(error);
                     }
 
