@@ -122,7 +122,7 @@ public class EditGroupNoticeActivity extends BaseActivity implements View.OnClic
                                         }
                                     }
                                 }).start();
-
+                                finish();
                                 Toast.makeText(EditGroupNoticeActivity.this,R.string.update_success , Toast.LENGTH_SHORT).show();
 
                             }

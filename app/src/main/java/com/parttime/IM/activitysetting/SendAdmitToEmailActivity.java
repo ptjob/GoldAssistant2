@@ -87,6 +87,7 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.done:
+                v.setEnabled(false);
                 Editable emailStr = email.getText();
                 sendAdmitUserToEmail(emailStr.toString());
                 break;
@@ -123,6 +124,7 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
             @Override
             public void success(Object obj) {
                 super.success(obj);
+                done.setEnabled(true);
                 sp.saveSharedPreferences(LAST_SEND_TIME, System.currentTimeMillis());
                 Toast.makeText(SendAdmitToEmailActivity.this, R.string.already_send_to_email,Toast.LENGTH_SHORT).show();
             }
@@ -130,6 +132,7 @@ public class SendAdmitToEmailActivity extends BaseActivity implements View.OnCli
             @Override
             public void failed(Object obj) {
                 super.failed(obj);
+                done.setEnabled(true);
                 Toast.makeText(SendAdmitToEmailActivity.this, R.string.send_to_email_failed ,Toast.LENGTH_SHORT).show();
             }
         });
