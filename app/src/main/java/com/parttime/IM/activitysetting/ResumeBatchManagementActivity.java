@@ -254,7 +254,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
         }
 
         final Collection<BatchUserVO> batchUserVOs = checkedMap.values();
-        ArrayList<Integer> userIds = new ArrayList<>();
+        ArrayList<Object> userIds = new ArrayList<>();
         for(BatchUserVO batchUserVO : batchUserVOs){
             if(batchUserVO == null){
                 continue;
