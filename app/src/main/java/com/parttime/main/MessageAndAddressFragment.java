@@ -827,6 +827,7 @@ public class MessageAndAddressFragment extends Fragment {
                         // userName ==nick 都是u661或者c221之类的
                         // head 是u或者c
                         User user = entry.getValue();
+                        Log.i(TAG,"user.username = "+ user.getUsername());
                         contactList.add(user);
                     }
                 }

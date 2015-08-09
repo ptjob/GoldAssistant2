@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ *
  * Created by luhua on 2015/7/31.
  */
 public class UserDetailRequest extends BaseRequest {
@@ -173,6 +174,85 @@ public class UserDetailRequest extends BaseRequest {
         }
     }
 
+    /**
+     * 设置群备注
+     * @param groupId String
+     * @param userId String
+     * @param alias GagStatus
+     * @param queue RequestQueue
+     * @param callback Callback
+     */
+    public void setUserAlias(String groupId, String userId,String alias , RequestQueue queue ,final Callback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("group_id", groupId);
+        map.put("alias", alias);
+
+        request(Url.COMMENT_GROUP_MODIFY_USER_ALIAS, map, queue, new Callback() {
+
+            @Override
+            public void success(Object obj) throws JSONException {
+                callback.success(obj);
+            }
+
+            @Override
+            public void failed(Object obj) {
+                callback.failed(obj);
+            }
+        });
+    }
+
+
+    /**
+     * 获取备注列表
+     * @param groupId String
+     * @param queue RequestQueue
+     * @param callback Callback
+     */
+    public void getUserRemarkList(String groupId, RequestQueue queue ,final Callback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("group_id", groupId);
+
+        request(Url.COMMENT_GROUP_ALIAS_LIST, map, queue, new Callback() {
+
+            @Override
+            public void success(Object obj) throws JSONException {
+                JSONObject js = null;
+                if (obj instanceof JSONObject) {
+                    js = (JSONObject) obj;
+                }
+                if (js == null) {
+                    callback.failed("");
+                    return;
+                }
+                JSONArray array = js.getJSONArray("aliasList");
+                if(array != null) {
+                    int length = array.length();
+                    ArrayList<AliasVO> aliasVOs = new ArrayList<>();
+                    for (int i = 0; i < length; i ++){
+                        AliasVO aliasVO = new AliasVO();
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        aliasVO.alias = jsonObject.getString("alias");
+                        aliasVO.userId = jsonObject.getString("user_id");
+                        aliasVOs.add(aliasVO);
+                    }
+                    callback.success(aliasVOs);
+                }else {
+                    callback.success(new ArrayList<GagUser>());
+                }
+            }
+
+            @Override
+            public void failed(Object obj) {
+                callback.failed(obj);
+            }
+        });
+    }
+
+    public static class AliasVO{
+        public String userId;
+        public String alias;
+    }
 
 
     /**

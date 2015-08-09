@@ -37,10 +37,10 @@ public class GroupSettingUtils {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 activity.showWait(true);
-                if(action == Action.UNRESUME || action == Action.REJECT){
+                if(action == Action.UNRESUME) {
                     ArrayList<Object> userIds = new ArrayList<>();
                     userIds.add(userId);
-                    new GroupSettingRequest().cancelResume(userIds , groupId, queue, new DefaultCallback(){
+                    new GroupSettingRequest().cancelResume(userIds, groupId, queue, new DefaultCallback() {
                         @Override
                         public void success(Object obj) {
                             super.success(obj);
@@ -54,13 +54,11 @@ public class GroupSettingUtils {
                                             public void run() {
 
                                                 GroupSettingRequest.AppliantResult appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
-                                                if(appliantResult != null){
+                                                if (appliantResult != null) {
                                                     appliantResult.userList.remove(userVO);
-                                                    if(action == Action.UNRESUME) {
-                                                        appliantResult.approvedCount--;
-                                                    }else{
-                                                        appliantResult.unApprovedCount --;
-                                                    }
+
+                                                    appliantResult.approvedCount--;
+
                                                 }
                                                 callback.success(userId);
                                                 activity.showWait(false);
@@ -84,7 +82,55 @@ public class GroupSettingUtils {
                             super.failed(obj);
                             activity.showWait(false);
                             Toast.makeText(ApplicationControl.getInstance(),
-                                    ApplicationControl.getInstance().getString(R.string.action_failed) ,
+                                    ApplicationControl.getInstance().getString(R.string.action_failed),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }else if(action == Action.REJECT){
+                    ArrayList<Object> userIds = new ArrayList<>();
+                    userIds.add(userId);
+                    new GroupSettingRequest().reject(userIds, groupId, queue, new DefaultCallback() {
+                        @Override
+                        public void success(Object obj) {
+                            super.success(obj);
+                            new Thread(new Runnable() {
+                                public void run() {
+                                    try {
+                                            /*EMGroupManager.getInstance()
+                                                    .removeUserFromGroup(groupId,
+                                                            String.valueOf(userVO.userId));*/
+                                        activity.runOnUiThread(new Runnable() {
+                                            public void run() {
+
+                                                GroupSettingRequest.AppliantResult appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
+                                                if (appliantResult != null) {
+                                                    appliantResult.userList.remove(userVO);
+                                                    appliantResult.unApprovedCount--;
+                                                }
+                                                callback.success(userId);
+                                                activity.showWait(false);
+                                            }
+                                        });
+                                    } catch (final Exception e) {
+                                        activity.runOnUiThread(new Runnable() {
+                                            public void run() {
+                                                activity.showWait(false);
+                                                Toast.makeText(ApplicationControl.getInstance(),
+                                                        "退出群聊失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }
+                            }).start();
+                        }
+
+                        @Override
+                        public void failed(Object obj) {
+                            super.failed(obj);
+                            activity.showWait(false);
+                            Toast.makeText(ApplicationControl.getInstance(),
+                                    ApplicationControl.getInstance().getString(R.string.action_failed),
                                     Toast.LENGTH_SHORT).show();
                         }
                     });

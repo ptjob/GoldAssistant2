@@ -58,6 +58,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.carson.constant.ConstantForSaveList;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
@@ -96,6 +97,7 @@ import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.net.HuanXinRequest;
+import com.parttime.net.UserDetailRequest;
 import com.parttime.pojo.GroupDescription;
 import com.parttime.utils.IntentManager;
 import com.parttime.utils.SharePreferenceUtil;
@@ -114,6 +116,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -261,6 +264,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
             }catch(IllegalStateException | JsonSyntaxException ignore){
             }
         }
+
+
     }
 
     /**
@@ -1607,6 +1612,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         super.onResume();
         if (group != null){
             setGroupChatTitle();
+            if(group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())){
+                //获取群成员的别名列表
+                getGroupAlias();
+            }
         }
         adapter.refresh();
     }
@@ -1865,5 +1874,30 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         }
 
     }
+
+
+    private void getGroupAlias() {
+        new UserDetailRequest().getUserRemarkList(toChatUsername,queue,new DefaultCallback(){
+            @Override
+            public void success(Object obj) {
+               if(obj != null){
+                   @SuppressWarnings("unchecked")
+                   ArrayList<UserDetailRequest.AliasVO> aliasVOs = (ArrayList<UserDetailRequest.AliasVO>)obj;
+                   if(aliasVOs.size() > 0){
+                       HashMap<String, String> tempMap = new HashMap<>();
+                       for(UserDetailRequest.AliasVO aliasVO : aliasVOs){
+                           if(aliasVO == null){
+                               continue;
+                           }
+                           tempMap.put(aliasVO.userId,aliasVO.alias);
+                       }
+                       ConstantForSaveList.aliasCache.put(toChatUsername, tempMap);
+                       adapter.reflashAliasName(tempMap);
+                   }
+               }
+            }
+        });
+    }
+
 
 }

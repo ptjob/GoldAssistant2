@@ -246,11 +246,11 @@ public class GroupSettingRequest extends BaseRequest {
      * @param queue RequestQueue
      * @param callback DefaultCallback
      */
-    public void reject(List<Integer> userIds, String groupId,  RequestQueue queue , final DefaultCallback callback){
+    public void reject(List<Object> userIds, String groupId,  RequestQueue queue , final DefaultCallback callback){
         StringBuilder stringBuilder = new StringBuilder();
         int size = userIds.size();
         for(int i= 0 ; i < size; i ++){
-            int userId = userIds.get(i);
+            Object userId = userIds.get(i);
             if(i < size - 1){
                 stringBuilder.append(userId).append(",");
             }else{
