@@ -725,9 +725,15 @@
         android:value="1f74b3b1a6b20509df7a729fe6a2f317" />-->
 
         <!-- 高德debug key-->
-        <meta-data
+        <!--<meta-data
         android:name="com.amap.api.v2.apikey"
-        android:value="8963d022ed8376c7efbb9c5e1f527748" />
+        android:value="8963d022ed8376c7efbb9c5e1f527748" />-->
+
+
+        <!-- 高德debug key com.qingmu.jianzhidaren-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="c41c7e906217c78d5dc359f7602ab658" />
 
         <!-- 支付宝 -->
         <activity

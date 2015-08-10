@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,6 +32,7 @@ import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.net.ResponseBaseCommonError;
+import com.parttime.utils.IntentManager;
 import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.RankView;
 import com.qingmu.jianzhidaren.R;
@@ -58,6 +60,8 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
     private AtomicBoolean selectAll = new AtomicBoolean(false);
 
     private String groupId;
+    private int isEnd;
+    private EMGroup group;
 
     protected RequestQueue queue = VolleySington.getInstance().getRequestQueue();
     private SharePreferenceUtil sp;
@@ -84,6 +88,15 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
         refused = (Button)findViewById(R.id.refused);
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BatchUserVO batchUserVO = data.get(position);
+                if(batchUserVO != null) {
+                    intentToUserDetail(batchUserVO);
+                }
+            }
+        });
 
         pass.setOnClickListener(this);
         refused.setOnClickListener(this);
@@ -91,8 +104,10 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
 
     private void bindData() {
         groupId = getIntent().getStringExtra(ActivityExtraAndKeys.GroupSetting.GROUPID);
+        group = EMGroupManager.getInstance().getGroup(groupId);
         GroupSettingRequest.AppliantResult appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
         if(appliantResult != null){
+            isEnd = appliantResult.isEnd;
             for(GroupSettingRequest.UserVO userVO : appliantResult.userList){
                 if(userVO == null){
                     continue;
@@ -451,22 +466,36 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                 @Override
                 public void onClick(View v) {
                     BatchUserVO batchUserVO = (BatchUserVO)v.getTag();
-                    Intent intent = new Intent(ResumeBatchManagementActivity.this, UserDetailActivity.class);
-                    intent.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID , groupId);
-                    if(batchUserVO != null) {
-                        intent.putExtra(ActivityExtraAndKeys.USER_ID, String.valueOf(batchUserVO.userId));
-                    }
-                    EMGroup group = EMGroupManager.getInstance().getGroup(groupId);
-                    if(EMChatManager.getInstance().getCurrentUser()
-                            .equals(group.getOwner())){
-                        intent.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPOWNER, true);
-                    }
-
-                    startActivity(intent);
+                    intentToUserDetail(batchUserVO);
                 }
             });
         }
     }
+
+
+    private void intentToUserDetail(GroupSettingRequest.UserVO userVO) {
+
+        ArrayList<String> userIds = null;
+        if(data != null && data.size() > 0){
+            userIds = new ArrayList<>();
+            for (GroupSettingRequest.UserVO vo : data){
+                if(vo == null){
+                    continue;
+                }
+                userIds.add(String.valueOf(vo.userId));
+            }
+        }
+
+        if(userIds != null && userIds.size() > 0) {
+            IntentManager.toUserDetailFromActivityGroup(this,
+                    isEnd,
+                    groupId,
+                    userVO,
+                    userIds,
+                    group.getOwner());
+        }
+    }
+
 
     private View.OnClickListener checkBoxClick = new View.OnClickListener() {
         @Override

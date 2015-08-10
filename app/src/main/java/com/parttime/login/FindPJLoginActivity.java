@@ -17,6 +17,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -406,6 +407,9 @@ public class FindPJLoginActivity extends BaseActivity {
 									user.setUsername(username);
 									setUserHearder(username, user);
 									userlist.put(username, user);
+                                    if(BuildConfig.DEBUG) {
+                                        Log.i("loginIM", "username = " + username);
+                                    }
 								}
 								// 添加user"申请与通知"
 								com.easemob.chatuidemo.domain.User newFriends = new com.easemob.chatuidemo.domain.User();
