@@ -565,7 +565,6 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             case R.id.home_page_city_relayout:
                 Intent intent = new Intent();
                 // 传值当前定位城市
-                intent.putExtra(CityActivity.EXTRA_TITLE, getString(R.string.city_choose_title));
                 intent.setClass(getActivity(), CityActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_LOCATION);
                 break;

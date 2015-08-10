@@ -87,9 +87,10 @@ public class CityActivity extends BaseActivity implements OnItemClickListener {
         Intent intent = getIntent();
         if (intent != null) {
             String title = intent.getStringExtra(EXTRA_TITLE);
-            if (title != null) {
-                activityHead.setCenterTxt1(title);
+            if (CheckUtils.isEmpty(title)) {
+                title = getString(R.string.city_choose_title);
             }
+            activityHead.setCenterTxt1(title);
         }
 
         // 若没有定位过，则显示定位中

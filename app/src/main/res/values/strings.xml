@@ -495,7 +495,7 @@
     <string name="job_plaza">兼职广场</string>
     <string name="broker_charts">经纪人排行榜</string>
     <string name="publish_tip_about_publish">*请发布真实活动。\n若遭到用户投诉，我们可能会做封号处理。</string>
-    <string name="city_choose_title">城市列表</string>
+    <string name="city_choose_title">选择城市</string>
     <string name="publish_tab_verifying_tip">您的实名认证正在审核中</string>
     <string name="publish_tab_should_verify_title">未完成实名认证提示</string>
     <string name="publish_tab_should_verify_msg">尚未完成认证，完成认证才可以发布兼职活动</string>
