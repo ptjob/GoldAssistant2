@@ -49,6 +49,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
     private ActivityHead2 headView;
     private ListView listView ;
     private Button pass, refused;
+    private TextView noDataTip;
 
     private BatchAdapter adapter = new BatchAdapter();
 
@@ -78,6 +79,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
         headView.setCenterTxt1(R.string.group_setting_batch);
         headView.setTxtRight2Text(R.string.check_all);
         headView.txtRight2.setOnClickListener(this);
+        noDataTip = (TextView) findViewById(R.id.no_data_tip);
         pass = (Button)findViewById(R.id.pass);
         refused = (Button)findViewById(R.id.refused);
         listView = (ListView) findViewById(R.id.listView);
@@ -102,6 +104,11 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                 }
             }
             adapter.notifyDataSetChanged();
+        }
+        if(data.size() == 0){
+            noDataTip.setVisibility(View.VISIBLE);
+        }else{
+            noDataTip.setVisibility(View.GONE);
         }
     }
 
@@ -135,6 +142,11 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                 pass();
                 break;
             case R.id.refused:
+                //检查选中数量
+                if(checkedMap.size() == 0){
+                    Toast.makeText(this,R.string.pls_check_first,Toast.LENGTH_LONG).show();
+                    return ;
+                }
                 showAlertDialog(null , getString(R.string.reject_resume_or_not_and_remove_from_group), R.string.ok, R.string.cancel);
                 break;
             case R.id.img_right2:
@@ -208,6 +220,11 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                 //成功之后，刷新列表
                 data.removeAll(batchUserVOs);
                 checkedMap.clear();
+                if(data.size() == 0){
+                    noDataTip.setVisibility(View.VISIBLE);
+                }else{
+                    noDataTip.setVisibility(View.GONE);
+                }
                 adapter.notifyDataSetChanged();
                 showWait(false);
             }
@@ -283,6 +300,11 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                 checkedMap.clear();
                 //成功之后，刷新列表
                 data.removeAll(batchUserVOs);
+                if(data.size() == 0){
+                    noDataTip.setVisibility(View.VISIBLE);
+                }else{
+                    noDataTip.setVisibility(View.GONE);
+                }
                 adapter.notifyDataSetChanged();
                 showWait(false);
             }
@@ -413,8 +435,11 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
             //设置信誉
             String creditworthiness = batchUserVO.creditworthiness;
             //Utils.addStars(creditworthiness, holder.reputationValueStar, ResumeBatchManagementActivity.this, R.drawable.ee_27);
+            if(holder.reputationValueStar != null){
+                holder.reputationValueStar.setFullResId(R.drawable.icon_heart);
+            }
             holder.reputationValueStar.setTotalScore(Integer.valueOf(creditworthiness) / 10);
-            holder.reputationValueStar.rank(0);
+            holder.reputationValueStar.rank(Integer.valueOf(creditworthiness) / 10);
 
             if(checkedMap.get(position) != null){
                 holder.checkBox.setChecked(true);

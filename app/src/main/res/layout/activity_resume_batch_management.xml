@@ -6,13 +6,27 @@
 
     <include layout="@layout/activity_common_head2" android:id="@+id/title"/>
 
-    <ListView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title"
-        android:layout_above="@+id/bottom"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_above="@+id/bottom">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/no_data_tip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:textColor="@color/c_C7C8CD"
+            android:text="暂时没有可以录用或拒绝的人员哦"
+            android:visibility="gone"/>
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/bottom"

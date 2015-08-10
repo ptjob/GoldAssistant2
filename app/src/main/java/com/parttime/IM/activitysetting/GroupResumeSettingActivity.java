@@ -68,7 +68,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
     public static GroupResumeSettingActivity instance;
 
     private ActivityHead2 headView;
-    private TextView tip; //显示已录取和待处理的人数
+    private TextView tip,noDataTip; //显示已录取和待处理的人数
     private SwipeListView listView ;
 
     private SettingAdapter adapter = new SettingAdapter();
@@ -107,6 +107,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
 
 
         tip = (TextView) findViewById(R.id.tip);
+        noDataTip = (TextView) findViewById(R.id.no_data_tip);
         listView = (SwipeListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
@@ -135,12 +136,12 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                 tip.setText(getString(R.string.admitted_pending_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
                 data.clear();
                 data.addAll(appliantResult.userList);
-                adapter.notifyDataSetChanged();
+                notifyDataSetChanged();
             }else if(isEnd == GroupSettingRequest.AppliantResult.YES_END){ //活动结束
                 tip.setText(getString(R.string.admitted_pending_finished_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
                 data.clear();
                 data.addAll(appliantResult.userList);
-                adapter.notifyDataSetChanged();
+                notifyDataSetChanged();
             }
         }
         getGroupApliantResult(groupId);
@@ -178,7 +179,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                     if(result.userList != null) {
                         data.clear();
                         data.addAll(userVOs);
-                        adapter.notifyDataSetChanged();
+                        notifyDataSetChanged();
                     }
                 }
             }
@@ -555,7 +556,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                                             public void success(Object obj) {
                                                 data.remove(userVO);
                                                 updateTip();
-                                                adapter.notifyDataSetChanged();
+                                                GroupResumeSettingActivity.this.notifyDataSetChanged();
                                             }
                                         });
                             } else if (apply == GroupSettingRequest.UserVO.APPLY_UNLOOK || apply == GroupSettingRequest.UserVO.APPLY_LOOKED) {
@@ -639,7 +640,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                                     public void success(Object obj) {
                                         data.remove(userVO);
                                         updateTip();
-                                        adapter.notifyDataSetChanged();
+                                        notifyDataSetChanged();
                                     }
                                 });
                     }
@@ -647,6 +648,15 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             }
         }
 
+    }
+
+    private void notifyDataSetChanged() {
+        if(data.size() == 0){
+            noDataTip.setVisibility(View.VISIBLE);
+        }else{
+            noDataTip.setVisibility(View.GONE);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void intentToUserDetail(GroupSettingRequest.UserVO userVO) {

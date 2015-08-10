@@ -16,11 +16,24 @@
         android:background="@color/public_button_hollow_pressed_solod"
         android:textColor="@android:color/white" />
 
-    <com.parttimejob.swipe.SwipeListView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="match_parent">
+        <com.parttimejob.swipe.SwipeListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/no_data_tip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:textColor="@color/c_C7C8CD"
+            android:text="暂时没有可以录用或拒绝的人员哦"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 
 </LinearLayout>
