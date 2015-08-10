@@ -125,16 +125,17 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/form_bg"
                     android:layout_weight="1">
 
                     <EditText
                         android:id="@+id/edittxt_salary"
                         style="@style/FormInput"
-                        android:layout_width="40dp"
+                        android:layout_width="75dp"
                         android:layout_height="match_parent"
                         android:hint="@string/uninput"
                         android:inputType="number"
-                        android:maxLength="11"
+                        android:maxLength="9"
                         android:text="200" />
 
                     <TextView
@@ -199,7 +200,6 @@
                 <TextView
                     style="@style/FormLabel"
                     android:layout_weight="1"
-                    android:maxLength="8"
                     android:text="@string/publish_job_label_head_sum" />
 
 
@@ -211,6 +211,7 @@
                     android:layout_weight="1"
                     android:hint="@string/canblank"
                     android:inputType="number"
+                    android:maxLength="9"
                     android:text="12" />
 
                 <ImageView style="@style/PublicLineH" />
@@ -232,13 +233,11 @@
                     <TextView
                         style="@style/FormLabel"
                         android:layout_weight="1"
-                        android:maxLength="11"
                         android:text="@string/publish_job_label_male_num" />
 
                     <TextView
                         style="@style/FormLabel"
                         android:layout_weight="1"
-                        android:maxLength="11"
                         android:text="@string/publish_job_label_female_num" />
 
                 </LinearLayout>
@@ -256,7 +255,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:hint="@string/canblank"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="9" />
 
                     <ImageView style="@style/PublicLineV" />
 
@@ -266,7 +266,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:hint="@string/canblank"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="9" />
 
                 </LinearLayout>
 
