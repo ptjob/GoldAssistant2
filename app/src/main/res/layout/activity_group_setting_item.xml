@@ -17,15 +17,15 @@
         <LinearLayout
             android:id="@+id/head_container"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
             android:onClick="back"
             android:layout_marginRight="10dp">
 
             <ImageView
                 android:layout_width="46dp"
                 android:layout_height="46dp"
-                android:id="@+id/head"
-                android:scaleType="center"/>
+                android:id="@+id/head"/>
             <!--android:background="@drawable/contact_list_selected"-->
         </LinearLayout>
 
@@ -36,6 +36,7 @@
             android:text="name"
             android:id="@+id/name"
             android:textSize="17sp"
+            android:gravity="top"
             android:textColor="@color/txt_color_black"
             android:layout_toRightOf="@+id/head_container"
             android:layout_toEndOf="@+id/head_container"/>
