@@ -157,24 +157,35 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     private void refreshListView() {
+        int nextPageNumber = getNextPageNumber();
+
         if (mRadioRecruit.isChecked()) {
             // 招人中
             currentType = PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_RECRUIT;
-            mListViewMain.setAdapter(mAdapterRecruit);
-            mCurrentAdapter = mAdapterRecruit;
+            if (nextPageNumber == 1) {
+                mListViewMain.setAdapter(mAdapterRecruit);
+                mCurrentAdapter = mAdapterRecruit;
+            }
         } else if (mRadioAuditing.isChecked()) {
             // 待审核
             currentType = PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_AUDITING;
-            mListViewMain.setAdapter(mAdapterAuditing);
-            mCurrentAdapter = mAdapterAuditing;
+            if (nextPageNumber == 1) {
+                mListViewMain.setAdapter(mAdapterAuditing);
+                mCurrentAdapter = mAdapterAuditing;
+            }
         } else {
             // 已下架
             currentType = PublishRequest.PUBLISH_ACTIVITY_LIST_TYPE_UNDERCARRIAGE;
-            mListViewMain.setAdapter(mAdapterUndercarriag);
-            mCurrentAdapter = mAdapterUndercarriag;
+            if (nextPageNumber == 1) {
+                mListViewMain.setAdapter(mAdapterUndercarriag);
+                mCurrentAdapter = mAdapterUndercarriag;
+            }
         }
-        mCurrentAdapter.notifyDataSetChanged();
-        new PublishRequest().publishActivityList(getNextPageNumber(), PAGE_COUNT, currentType, queue, mDefaultCallback);
+
+        if (nextPageNumber == 1) {
+            mCurrentAdapter.notifyDataSetChanged();
+        }
+        new PublishRequest().publishActivityList(nextPageNumber, PAGE_COUNT, currentType, queue, mDefaultCallback);
     }
 
     // 获取下一页页码

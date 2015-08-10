@@ -66,13 +66,13 @@ public class JobDetailActivity extends BaseActivity {
     private TextView mTxtType, mTxtTitle, mTxtSalary, mTxtCompany, mTxtWorkArea, mTxtWorkTime;
     private TextView mTxtPayType, mTxtHeadSum, mTxtWorkAddress, mTxtWorkRequire;
     private TextView mTxtHeight, mTxtMeasurements, mTxtHealthProve, mTxtLanguage;
-    private TextView mTxtRefreshOrExpedited;
+    private TextView mTxtRefreshOrExpedited, mTxtShelvesOrRepublish;
 
-    private ImageView mImgViRefreshOrExpedited;
+    private ImageView mImgViRefreshOrExpedited, mImgViShelvesOrRepublish;
 
     private LinearLayout mLLDeclareContainer, mLLCompanyContainer, mLLMoreRequireContainer, mLLActionContainer;
     private LinearLayout mLLHeightContainer, mLLMeasurementsContainer, mLLLanguageContainer, mLLHealthProveContainer;
-    private LinearLayout mLLJobRefreshOrExpedited, mLLJobModify, mLLJobShelves;
+    private LinearLayout mLLJobRefreshOrExpedited, mLLJobModify, mLLJobShelvesOrRepublish;
 
     private ActivityHead activityHead;
     private SharePopupWindow sharePopupWindow;
@@ -157,10 +157,14 @@ public class JobDetailActivity extends BaseActivity {
             }
         });
 
-        mLLJobShelves.setOnClickListener(new View.OnClickListener() {
+        mLLJobShelvesOrRepublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jobShelves();
+                if (mTxtShelvesOrRepublish.getText().equals(getString(R.string.shelves))) {
+                    jobShelves();
+                } else {
+                    jobRepublish();
+                }
             }
         });
     }
@@ -188,7 +192,9 @@ public class JobDetailActivity extends BaseActivity {
         mTxtHealthProve = (TextView) findViewById(R.id.txt_health_prove);
         mTxtLanguage = (TextView) findViewById(R.id.txt_language);
         mTxtRefreshOrExpedited = (TextView) findViewById(R.id.txt_refresh_or_expedited);
+        mTxtShelvesOrRepublish = (TextView) findViewById(R.id.txt_shelves_or_republish);
         mImgViRefreshOrExpedited = (ImageView) findViewById(R.id.imgvi_refresh_or_expedited);
+        mImgViShelvesOrRepublish = (ImageView) findViewById(R.id.imgvi_shelves_or_republish);
         mLLDeclareContainer = (LinearLayout) findViewById(R.id.ll_job_declare_container);
         mLLCompanyContainer = (LinearLayout) findViewById(R.id.ll_company_container);
         mLLMoreRequireContainer = (LinearLayout) findViewById(R.id.ll_more_require_container);
@@ -199,7 +205,7 @@ public class JobDetailActivity extends BaseActivity {
         mLLHealthProveContainer = (LinearLayout) findViewById(R.id.ll_health_prove_container);
         mLLJobRefreshOrExpedited = (LinearLayout) findViewById(R.id.ll_job_refresh_or_expedited);
         mLLJobModify = (LinearLayout) findViewById(R.id.ll_job_mofify);
-        mLLJobShelves = (LinearLayout) findViewById(R.id.ll_job_shelves);
+        mLLJobShelvesOrRepublish = (LinearLayout) findViewById(R.id.ll_job_shelves_or_republish);
 
         activityHead = new ActivityHead(this);
         activityHead.initHead(this);
@@ -214,7 +220,7 @@ public class JobDetailActivity extends BaseActivity {
         mLLActionContainer.setVisibility(View.GONE);
         switchRefreshOrExpedited(true, false);
         switchModify(false);
-        switchShelve(false);
+        switchShelveOrRepublish(false, true);
     }
 
     private void initIntent() {
@@ -307,7 +313,7 @@ public class JobDetailActivity extends BaseActivity {
             status = getString(R.string.job_detail_status_fail);
             switchRefreshOrExpedited(false, false);
             switchModify(false);
-            switchShelve(false);
+            switchShelveOrRepublish(false, true);
         } else {
             // 活动未结束
             switch (partJob.jobAuthType) {
@@ -317,13 +323,13 @@ public class JobDetailActivity extends BaseActivity {
                     // 如果活动结束，则按钮显示为加急，且为不可按状态
                     switchRefreshOrExpedited(false, false);
                     switchModify(true);
-                    switchShelve(false);
+                    switchShelveOrRepublish(true, false);
                     break;
                 case FROZEN:
                     status = getString(R.string.job_detail_status_fail);
                     switchRefreshOrExpedited(true, false);
                     switchModify(false);
-                    switchShelve(false);
+                    switchShelveOrRepublish(false, true);
                     break;
                 case PASS:
                     status = getString(R.string.job_detail_status_pass);
@@ -335,7 +341,7 @@ public class JobDetailActivity extends BaseActivity {
                         switchRefreshOrExpedited(true, true);
                     }
                     switchModify(true);
-                    switchShelve(true);
+                    switchShelveOrRepublish(true, true);
                     break;
                 case READY:
                     status = getString(R.string.job_detail_status_ready);
@@ -347,7 +353,7 @@ public class JobDetailActivity extends BaseActivity {
                         switchRefreshOrExpedited(true, false);
                     }
                     switchModify(true);
-                    switchShelve(false);
+                    switchShelveOrRepublish(false, true);
                     break;
             }
         }
@@ -369,8 +375,16 @@ public class JobDetailActivity extends BaseActivity {
         mLLJobRefreshOrExpedited.setEnabled(isEnable);
     }
 
-    private void switchShelve(boolean isEnable) {
-        mLLJobShelves.setEnabled(isEnable);
+    private void switchShelveOrRepublish(boolean isEnable, boolean isShelve) {
+        if (isShelve) {
+            mTxtShelvesOrRepublish.setText(R.string.shelves);
+            mImgViShelvesOrRepublish.setImageDrawable(getResources().getDrawable(R.drawable.expired));
+        } else {
+            mTxtShelvesOrRepublish.setText(R.string.republish);
+            mImgViShelvesOrRepublish.setImageDrawable(getResources().getDrawable(R.drawable.expired));
+        }
+
+        mLLJobShelvesOrRepublish.setEnabled(isEnable);
     }
 
     private void switchModify(boolean isEnable) {
@@ -683,6 +697,47 @@ public class JobDetailActivity extends BaseActivity {
                             public void success(Object obj) {
                                 showWait(false);
                                 showToast(R.string.job_shelve_success);
+                                bindData();
+                            }
+
+                            @Override
+                            public void failed(Object obj) {
+                                showWait(false);
+                                new ErrorHandler(JobDetailActivity.this, obj);
+                            }
+                        });
+
+                    }
+                });
+        builder.setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        builder.create().show();
+    }
+
+    /**
+     * 重新上架
+     */
+    public void jobRepublish() {
+        CustomDialog.Builder builder = new CustomDialog.Builder(JobDetailActivity.this);
+        builder.setMessage(R.string.job_republish_msg);
+        builder.setTitle(R.string.prompt);
+
+        builder.setPositiveButton(R.string.confirm,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        showWait(true);
+                        new PublishRequest().republish(partJob.id, queue, new DefaultCallback() {
+                            @Override
+                            public void success(Object obj) {
+                                showWait(false);
+                                showToast(R.string.job_republish_success);
                                 bindData();
                             }
 

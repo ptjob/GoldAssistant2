@@ -521,36 +521,39 @@ public class PublishRequest extends BaseRequest {
 
     /**
      * 切换城市
+     *
      * @param city 新城市
      */
     public void changeCity(final String city, final RequestQueue queue) {
         // 切换到指定城市,访问后台传输城市
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                Url.CHANGE_CITY_CUSTOM + "?token="
-                        + MainTabActivity.token,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                    }
-                }, new Response.ErrorListener() {
+        Map<String, String> map = new HashMap<>();
+        map.put("company_id", String.valueOf(ApplicationUtils.getLoginId()));
+        map.put("city", city);
+
+        request(Url.CHANGE_CITY_CUSTOM, map, queue, new Callback() {
             @Override
-            public void onErrorResponse(
-                    VolleyError volleyError) {
+            public void success(Object obj) throws JSONException {
+
             }
-        }) {
+
             @Override
-            protected Map<String, String> getParams()
-                    throws AuthFailureError {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("company_id", String.valueOf(ApplicationUtils.getLoginId()));
-                map.put("city", city);
-                return map;
+            public void failed(Object obj) {
+
             }
-        };
-        queue.add(request);
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1,
-                1.0f));
+        });
+    }
+
+    /**
+     * 重新上架
+     * @param activity_id
+     * @param queue
+     * @param callback
+     */
+    public void republish(int activity_id, RequestQueue queue, final DefaultCallback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("company_id", String.valueOf(ApplicationUtils.getLoginId()));
+        map.put("activity_id", String.valueOf(activity_id));
+
+        request(Url.COMPANY_MyJianzhi_republish, map, queue, callback);
     }
 }

@@ -26,6 +26,7 @@
     <string name="refresh">刷新</string>
     <string name="modify">修改</string>
     <string name="shelves">下架</string>
+    <string name="republish">上架</string>
     <string name="expedited">加急</string>
     <string name="business">商家</string>
     <string name="activity_group">活动群</string>
@@ -595,8 +596,11 @@
     <string name="job_refresh_lack_of_money_msg">您的余额不足，请充值后再执行操作</string>
     <string name="job_refresh_should_verify_msg">您还不是认证商家，认证过的商家才会有更多的权限</string>
     <string name="job_shelve_msg">是否确认下架活动？</string>
-    <string name="job_shelve_success">下架成功？</string>
+    <string name="job_shelve_success">下架成功</string>
     <string name="job_shelve_fail">下架失败</string>
+    <string name="job_republish_msg">是否确认上架活动？</string>
+    <string name="job_republish_success">上架成功</string>
+    <string name="job_republish_fail">上架失败</string>
 
 
     <string name="job_expedited_title">加急招人</string>
