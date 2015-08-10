@@ -130,9 +130,11 @@
                     <EditText
                         android:id="@+id/edittxt_salary"
                         style="@style/FormInput"
+                        android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:hint="@string/uninput"
                         android:inputType="number"
+                        android:maxLength="11"
                         android:text="200" />
 
                     <TextView
@@ -197,6 +199,7 @@
                 <TextView
                     style="@style/FormLabel"
                     android:layout_weight="1"
+                    android:maxLength="8"
                     android:text="@string/publish_job_label_head_sum" />
 
 
@@ -229,11 +232,13 @@
                     <TextView
                         style="@style/FormLabel"
                         android:layout_weight="1"
+                        android:maxLength="11"
                         android:text="@string/publish_job_label_male_num" />
 
                     <TextView
                         style="@style/FormLabel"
                         android:layout_weight="1"
+                        android:maxLength="11"
                         android:text="@string/publish_job_label_female_num" />
 
                 </LinearLayout>
