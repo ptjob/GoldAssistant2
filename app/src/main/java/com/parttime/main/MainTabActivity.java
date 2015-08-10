@@ -301,6 +301,9 @@ public class MainTabActivity extends BaseActivity implements
 							user.setUsername(username);
 							setUserHearder(username, user);
 							userlist.put(username, user);
+                            if(BuildConfig.DEBUG) {
+                                Log.i("oncreate", "username = " + username);
+                            }
 						}
 
                         addCustomerDefinedItem(userlist);
@@ -573,7 +576,6 @@ public class MainTabActivity extends BaseActivity implements
 		public void onReceive(Context context, Intent intent) {
 			if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
 				int target = 0;
-				// String messge = intent.getStringExtra(KEY_MESSAGE);
 				String extras = intent.getStringExtra(KEY_EXTRAS);
 				String activity_id = null;
 				String comment_activity_id = null;// 花名册小红点
@@ -1006,7 +1008,7 @@ public class MainTabActivity extends BaseActivity implements
 			// 保存增加的联系人
 			Map<String, User> localUsers = ApplicationControl.getInstance()
 					.getContactList();
-			Map<String, User> toAddUsers = new HashMap<String, User>();
+			Map<String, User> toAddUsers = new HashMap<>();
 			for (String username : usernameList) {
 				User user = setUserHead(username);
 				// 添加好友时可能会回调added方法两次
@@ -1982,6 +1984,9 @@ public class MainTabActivity extends BaseActivity implements
 						user.setUsername(username);
 						setUserHearder(username, user);
 						userlist.put(username, user);
+                        if(BuildConfig.DEBUG) {
+                            Log.i("updateFriendFromServer", "username = " + username);
+                        }
 					}
                     addCustomerDefinedItem(userlist);
 
@@ -1990,7 +1995,7 @@ public class MainTabActivity extends BaseActivity implements
 					ApplicationControl.getInstance().setContactList(userlist);
 					// 存入db
 					UserDao dao = new UserDao(MainTabActivity.this);
-					List<com.easemob.chatuidemo.domain.User> users = new ArrayList<com.easemob.chatuidemo.domain.User>(
+					List<com.easemob.chatuidemo.domain.User> users = new ArrayList<>(
 							userlist.values());
 					dao.saveContactList(users);
 					//

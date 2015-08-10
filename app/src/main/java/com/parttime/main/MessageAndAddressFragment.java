@@ -842,42 +842,6 @@ public class MessageAndAddressFragment extends Fragment {
         /**
          * 删除联系人
          *
-         * @param tobeDeleteUser User
-         */
-        public void deleteContact(final User tobeDeleteUser) {
-            final ProgressDialog pd = new ProgressDialog(getActivity());
-            pd.setMessage("正在删除...");
-            pd.setCanceledOnTouchOutside(false);
-            pd.show();
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        EMContactManager.getInstance().deleteContact(
-                                tobeDeleteUser.getUsername());
-                        // 删除db和内存中此用户的数据
-                        UserDao dao = new UserDao(getActivity());
-                        dao.deleteContact(tobeDeleteUser.getUsername());
-                        ApplicationControl.getInstance().getContactList()
-                                .remove(tobeDeleteUser.getUsername());
-                        getActivity().runOnUiThread(new Runnable() {
-                            public void run() {
-                                pd.dismiss();
-                                contactAdapter.remove(tobeDeleteUser);
-                                contactAdapter.notifyDataSetChanged();
-                                dealdd();// 长按删除联系人要刷新当前页面
-
-                            }
-                        });
-                    } catch (final Exception ignore) {
-
-                    }
-                }
-            }).start();
-        }
-
-        /**
-         * 删除联系人
-         *
          * @param uid  String
          */
         public void deleteContact(final String uid) {
@@ -958,7 +922,7 @@ public class MessageAndAddressFragment extends Fragment {
                 public void success(Object obj) {
                     super.success(obj);
                     if(obj instanceof ArrayList){
-                        @SuppressLint("Unchecked")
+                        @SuppressLint("nchecked")
                         ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>)obj;
                         usersNick.clear();
                         usersNick.addAll(list);
