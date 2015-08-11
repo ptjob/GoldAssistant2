@@ -112,6 +112,7 @@ public class EditMyIntroActivity extends LocalInitActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditMyIntroActivity.this, PreviewMyIntroActivity.class);
+                accountInfo.introduction = cetIntro.getText().toString().trim();
                 intent.putExtra(PreviewMyIntroActivity.EXTRA_ACCOUNT_INFO, accountInfo);
                 startActivity(intent);
             }
