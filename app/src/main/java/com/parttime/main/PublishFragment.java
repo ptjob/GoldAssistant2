@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -122,11 +124,13 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
     private Activity activity;
 
-    private List<View> bannerIvs = new ArrayList<>();
+    private List<ImageView> bannerIvs = new ArrayList<>();
     private List<BannerItem> banners = new ArrayList<>();
     Gson gson = new Gson();
     private CityChangeReceiver cityChangeReceiver;
 
+    //    private List<Bitmap> bannerPics = new ArrayList<>();
+    private Map<Integer, Bitmap> bannerPics = new HashMap<>();
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -161,7 +165,6 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                 SharedPreferenceConstants.USER_ID, "");
         city = spu.loadStringSharedPreference(SharedPreferenceConstants.CITY);
         handler = new Handler();
-        loadBanners();
 
     }
 
@@ -355,16 +358,19 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private boolean hasNativeBanner;
+
     private void loadFromNative(){
         String s = SharePreferenceUtil.getInstance(activity).loadStringSharedPreference(SharedPreferenceConstants.BANNERS_INFO);
         if(!TextUtils.isEmpty(s)) {
             try {
                 List<BannerItem> bis = gson.fromJson(s, new TypeToken<List<BannerItem>>() {
                 }.getType());
-                if(bis != null){
+                if(bis != null && bis.size() > 0){
+                    hasNativeBanner = true;
                     banners.clear();
                     banners.addAll(bis);
-                    startBanners();
+                    startBanners(false);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -375,7 +381,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     private void loadBanners(){
         loadFromNative();
         Map<String, String> params = new HashMap<>();
-        params.put("city", city);
+
+        params.put("city", city != null ? city : "深圳");
         new BaseRequest().request(Url.COMPANY_GET_BANNER, params, VolleySington.getInstance().getRequestQueue(), new Callback() {
             @Override
             public void success(Object obj) throws JSONException {
@@ -395,7 +402,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     banners.clear();
                     banners.addAll(bis);
                     SharePreferenceUtil.getInstance(activity).saveSharedPreferences(SharedPreferenceConstants.BANNERS_INFO, gson.toJson(bis));
-                    startBanners();
+                    Log.e("test", "cur " + Thread.currentThread().getId());
+                    startBanners(true);
                 }
 
             }
@@ -429,9 +437,9 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }*/
 
         adapter = new BannerAdapter(bannerIvs);
-        viewPager.setAdapter(adapter);
-        svSteps.setStepCount(bannerIvs.size());
-        svSteps.current(viewPager.getCurrentItem());
+
+//        svSteps.setStepCount(bannerIvs.size());
+//        svSteps.current(viewPager.getCurrentItem());
         autoSlideManager = new AutoSlideManager(handler, viewPager, svSteps, bannerIvs);
         viewPager.setOnPageChangeListener(autoSlideManager);
         viewPager.setOnTouchListener(autoSlideManager);
@@ -469,20 +477,89 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }
     };
 
-    protected void startBanners(){
+    private ImageView mkIv(int index){
+        ImageView imageView = new ImageView(activity);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        if (index % banners.size() < banners.size()){
+            imageView.setTag(banners.get(index % banners.size()));
+        }
+        return imageView;
+
+    }
+
+    protected void startBanners(final boolean net){
         if(activity.isFinishing()){
             return;
         }
-        bannerIvs.clear();
-        for(int i = 0 ; i < banners.size(); ++i){
-            BannerItem bannerItem = banners.get(i);
-            ImageView imageView = new ImageView(activity);
-            imageView.setTag(bannerItem);
+        int oldSize = bannerIvs.size();
+        int need = banners.size() <= 3 ? banners.size() * 2 : banners.size();
+        if(oldSize > need){
+            do {
+                bannerIvs.remove(bannerIvs.size() - 1);
+            }while(bannerIvs.size() == need);
+        }else if(oldSize < need){
+            for(int i = 0; i < need - oldSize; ++i){
+                ImageView imageView = mkIv(i + oldSize);
+                bannerIvs.add(imageView);
+            }
+        }
+//        for(int i = 0;)
+//        bannerIvs.clear();
+//        for(int i = 0 ; i < (banners.size() <= 3 ? banners.size() * 2 : banners.size()) ; ++i){
+
+
+//            ImageView imageView = mkIv(i);
+//            if(net && !hasNativeBanner) {
+//                imageView.setImageResource(R.drawable.banner_loading);
+//            }
             /*imageView.setOnClickListener(onBannerItemClick);*/
-            ContactImageLoader.loadNativePhoto(null, bannerItem.pic, imageView, VolleySington.getInstance().getRequestQueue());
-            bannerIvs.add(imageView);
+//            ContactImageLoader.loadNativePhoto(null, bannerItem.pic, imageView, VolleySington.getInstance().getRequestQueue());
+
+//            bannerIvs.add(imageView);
+//        }
+        if(viewPager.getAdapter() == null){
+            viewPager.setAdapter(adapter);
         }
         adapter.notifyDataSetChanged();
+        for(int i = 0 ; i < banners.size(); ++i){
+            BannerItem bannerItem = banners.get(i);
+            ContactImageLoader.loadImage(bannerItem.pic, net, VolleySington.getInstance().getRequestQueue(), new ContactImageLoader.ImageCallback() {
+                @Override
+                public void imageLoaded(final Bitmap bm, final int tag) {
+                    bannerPics.put(tag, bm);
+                    if (activity.isFinishing() || !isAdded()) {
+                        return;
+                    }
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(!net && bm == null){
+                                bannerIvs.get(tag).setImageResource(R.drawable.banner_loading);
+
+                                if(bannerIvs.size() == banners.size() * 2){
+                                    bannerIvs.get(tag + banners.size()).setImageResource(R.drawable.banner_loading);
+                                }
+                                return;
+                            }
+                            bannerIvs.get(tag).setImageBitmap(bm);
+
+                            if(bannerIvs.size() == banners.size() * 2){
+                                bannerIvs.get(tag + banners.size()).setImageBitmap(bm);
+                            }
+
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+
+                @Override
+                public void failed(int tag) {
+
+                }
+            }, i);
+        }
 
         autoSlideManager.setInitPosition(lastPos);
 
@@ -496,14 +573,15 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        autoSlideManager.start();
+        loadBanners();
+//        autoSlideManager.start();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         autoSlideManager.stop();
-
+        hasNativeBanner = false;
     }
 
 
@@ -612,15 +690,15 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     }
 
     private class BannerAdapter extends PagerAdapter {
-        public List<View> views;
+        public List<ImageView> views;
 
-        public BannerAdapter(List<View> views) {
+        public BannerAdapter(List<ImageView> views) {
             this.views = views;
         }
 
         @Override
         public int getCount() {
-            return views.size()/*Integer.MAX_VALUE*/;
+            return views.size() <= 0 ? 0 : Integer.MAX_VALUE;
         }
 
         @Override
@@ -631,12 +709,29 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 //            return super.instantiateItem(container, position);
-            if (views.size() > 0) {
+//            if (views.size() > 0) {
+//                try {
+//                views.get(position % views.size()).setImageBitmap(bannerPics.get(position % views.size()));
+            if(views.size() > 0) {
                 ((ViewPager) container).addView(views.get(position % views.size()), 0);
                 return views.get(position % views.size());
-            } else {
+            }else {
                 return null;
             }
+//                }catch (IllegalStateException e){
+//                    Log.e("test", "exception");
+//                    int count = views.size();
+//                    for(int i = 0; i < count; ++i){
+//                        ImageView imageView = mkIv(i);
+//                        imageView.setImageDrawable(views.get(i).getDrawable());
+//                        views.add(imageView);
+//                    }
+//                    ((ViewPager) container).addView(views.get(position % views.size()), 0);
+//                    return views.get(position % views.size());
+//                }
+//            } else {
+//                return null;
+//            }
         }
 
         @Override
@@ -651,16 +746,16 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     private class AutoSlideManager implements ViewPager.OnPageChangeListener, View.OnTouchListener{
         private ViewPager pager;
         private StepView stepView;
-        private long duration = 2000;
+        private long duration = 3000;
         private Handler handler;
 
-        private List<View> views;
+        private List<ImageView> views;
 
         private boolean stop;
 
         private int position;
 
-        private AutoSlideManager(Handler handler, ViewPager pager, StepView stepView, List<View> views) {
+        private AutoSlideManager(Handler handler, ViewPager pager, StepView stepView, List<ImageView> views) {
             this.pager = pager;
             this.stepView = stepView ;
             this.handler = handler;
@@ -698,8 +793,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     if(views.size() <= 0){
                         return;
                     }
-                    int currentItem = (pager.getCurrentItem() + 1) % views.size();
-                    Log.e("test", "currentItem = " + currentItem);
+                    int currentItem = (pager.getCurrentItem() + 1)/* % views.size()*/;
                     pager.setCurrentItem(currentItem , true);
                     stepView.current(currentItem );
                     handler.postDelayed(this, duration);
@@ -729,7 +823,6 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         private boolean moved;
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            Log.e("test", "touch " + event.getAction());
             switch (event.getAction()){
 
                 case MotionEvent.ACTION_DOWN:
@@ -741,12 +834,15 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     handler.removeCallbacks(worker);
                     break;
                 case MotionEvent.ACTION_UP:
-                        handler.postDelayed(worker, duration);
+                    handler.postDelayed(worker, duration);
                     if(!moved) {
                         int currentItem = pager.getCurrentItem();
-                        if (currentItem < views.size()) {
-                            onBannerItemClick.onClick(views.get(currentItem));
+                        if(views.size() > 0){
+                            onBannerItemClick.onClick(views.get(currentItem % views.size()));
                         }
+//                        if (currentItem < views.size()) {
+//                            onBannerItemClick.onClick(views.get(currentItem));
+//                        }
                     }
                     break;
             }

@@ -27,6 +27,11 @@
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"/>
+            <!--<ImageView
+                android:id="@+id/iv_preloading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/banner_loading"/>-->
         </RelativeLayout>
 
         <LinearLayout

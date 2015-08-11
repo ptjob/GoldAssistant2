@@ -169,6 +169,76 @@ public class ContactImageLoader {
 
     }
 
+    public static void loadImageNative(final String imageName, final ImageCallback cb, final int tag){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                Bitmap bitmap = get(null, imageName);
+                cb.imageLoaded(bitmap, tag);
+            }
+        }.start();
+    }
+
+    public static void loadImage(final String imageName, final boolean net, final RequestQueue queue, final ImageCallback cb, final int tag){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                Bitmap bitmap = get(null, imageName);
+                if(!net || bitmap != null){
+                    cb.imageLoaded(bitmap, tag);
+                    return;
+                }
+                ImageRequest imgRequest = new ImageRequest(Url.GETPIC + imageName,
+                        new Response.Listener<Bitmap>() {
+                            @Override
+                            public void onResponse(Bitmap arg0) {
+                                cb.imageLoaded(arg0, tag);
+
+                                boolean sdCardExist = Environment.getExternalStorageState()
+                                        .equals(android.os.Environment.MEDIA_MOUNTED); //判断sd卡是否存在
+                                if (! sdCardExist){
+                                    return;
+                                }
+                                OutputStream output = null;
+                                try {
+                                    File mePhotoFold = new File(Image_Path);
+                                    if (!mePhotoFold.exists()) {
+                                        mePhotoFold.mkdirs();
+                                    }
+                                    output = new FileOutputStream(new File(Image_Path,  imageName));
+                                    arg0.compress(Bitmap.CompressFormat.JPEG, 100,
+                                            output);
+                                    output.flush();
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    cb.failed(tag);
+                                } finally{
+                                    if(output != null){
+                                        try {
+                                            output.close();
+                                        } catch (IOException ignore) {
+                                        }
+                                    }
+                                }
+
+                            }
+                        }, 300, 200, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError arg0) {
+                        cb.failed(tag);
+                    }
+                });
+                queue.add(imgRequest);
+                imgRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1, 1.0f));
+
+            }
+        }.start();
+    }
+
     public static long getCacheSize(){
         if(!Environment.getExternalStorageState()
                 .equals(android.os.Environment.MEDIA_MOUNTED)) {
@@ -210,6 +280,11 @@ public class ContactImageLoader {
 
     public static Drawable bitmapToDrawable(Bitmap bitmap){
         return new BitmapDrawable(ApplicationControl.getInstance().getResources(),  bitmap);
+    }
+
+    public static interface ImageCallback {
+        void imageLoaded(Bitmap bm, int tag);
+        void failed(int tag);
     }
 
 }
