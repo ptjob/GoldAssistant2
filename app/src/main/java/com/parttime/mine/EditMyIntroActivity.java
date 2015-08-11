@@ -157,6 +157,7 @@ public class EditMyIntroActivity extends LocalInitActivity {
     }
 
     protected void loadData(){
+        showWait(true);
         Map<String, String> params = new HashMap<>();
         params.put("company_id", getCompanyId());
         new BaseRequest().request(Url.COMPANY_SHOW_INTRO, params, VolleySington.getInstance().getRequestQueue(), new Callback() {
@@ -166,10 +167,12 @@ public class EditMyIntroActivity extends LocalInitActivity {
                 JSONObject companyInfo = json.getJSONObject("companyInfo");
                 accountInfo = new Gson().fromJson(companyInfo.toString(), AccountInfo.class);
                 updateViews();
+                showWait(false);
             }
 
             @Override
             public void failed(Object obj) {
+                showWait(false);
                 new ErrorHandler(EditMyIntroActivity.this, obj).showToast();
             }
         });
