@@ -145,7 +145,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_select"
             android:gravity="center"
-            android:text="话务员"
+            android:text="话务"
             android:textColor="@color/black_1"
             android:textSize="@dimen/myjianli" />
     </LinearLayout>
