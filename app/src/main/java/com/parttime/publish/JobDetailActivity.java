@@ -381,7 +381,7 @@ public class JobDetailActivity extends BaseActivity {
             mImgViShelvesOrRepublish.setImageDrawable(getResources().getDrawable(R.drawable.expired));
         } else {
             mTxtShelvesOrRepublish.setText(R.string.republish);
-            mImgViShelvesOrRepublish.setImageDrawable(getResources().getDrawable(R.drawable.expired));
+            mImgViShelvesOrRepublish.setImageDrawable(getResources().getDrawable(R.drawable.republish));
         }
 
         mLLJobShelvesOrRepublish.setEnabled(isEnable);
