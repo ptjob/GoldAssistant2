@@ -22,6 +22,7 @@ import com.parttime.base.WithTitleActivity;
 import com.parttime.widget.EditItem;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.AgreementActivity;
+import com.quark.utils.Util;
 
 /**
  * Created by cjz on 2015/7/28.
@@ -100,6 +101,10 @@ public class RegisterInfoActivity extends WithTitleActivity{
         pwd = eiPwd.getValue();
         if(name.length() <= 0){
             showToast(R.string.please_enter_real_name);
+            return false;
+        }
+        if(!Util.isName(name)){
+            showToast(R.string.name_should_be_chinese);
             return false;
         }
         if(pwd.length() <= 0){
