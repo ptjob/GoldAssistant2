@@ -76,6 +76,8 @@
     <dimen name="header_footer_left_right_padding">24dp</dimen>
     <dimen name="header_footer_top_bottom_padding">12dp</dimen>
 
+    <dimen name="star_width">20dp</dimen>
+
     <dimen name="chengyijin">16sp</dimen>
     <dimen name="center_big">18sp</dimen>
     <dimen name="name">18sp</dimen>

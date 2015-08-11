@@ -81,7 +81,7 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
         Serializable serializable = getIntent().getSerializableExtra(ActivityExtraAndKeys.UserDetail.FROM_AND_STATUS);
         userId = getIntent().getStringExtra(ActivityExtraAndKeys.UserDetail.SELECTED_USER_ID);
         isGroupOwner = getIntent().getBooleanExtra(ActivityExtraAndKeys.GroupSetting.GROUPOWNER,false);
-        ArrayList<String> userIds = getIntent().getStringArrayListExtra(ActivityExtraAndKeys.USER_ID);
+        final ArrayList<String> userIds = getIntent().getStringArrayListExtra(ActivityExtraAndKeys.USER_ID);
 
         if(isGroupOwner && userIds != null && userIds.size() > 0){
             rightWrapper.setVisibility(View.VISIBLE);
@@ -116,6 +116,24 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
         adapter.setData(set);
         adapter.fromAndStatus = fromAndStatus;
         viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(userIds != null && position < userIds.size()) {
+                    initUserBlock(userIds.get(position));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         //设置当前页显示的user
         if(viewPagerCurrentItem > -1){
             viewPager.setCurrentItem(viewPagerCurrentItem);
@@ -158,6 +176,14 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
                     });
                 }
             }).start();
+        }else{
+            UserDetailRequest.GagUser gu = new UserDetailRequest.GagUser();
+            gu.userId = userId;
+            if (blockedList.contains(gu)) {
+                forbiddenValue = 1;
+            } else {
+                forbiddenValue = 2;
+            }
         }
     }
 

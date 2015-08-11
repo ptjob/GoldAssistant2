@@ -15,6 +15,7 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.carson.broker.JiedanActivity;
 import com.carson.constant.ConstantForSaveList;
+import com.parttime.utils.SharePreferenceUtil;
 import com.quark.guanli.BaomingListActivity;
 import com.parttime.main.MainTabActivity;
 import com.parttime.login.StartUpActivity;
@@ -26,11 +27,11 @@ import com.parttime.login.StartUpActivity;
  */
 public class MyReceiver extends BroadcastReceiver {
 	private static final String TAG = "JPush";
-	private SharedPreferences sp;
+	private SharePreferenceUtil sp;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		sp = context.getSharedPreferences("jrdr.setting", Context.MODE_PRIVATE);
+		sp = SharePreferenceUtil.getInstance(context);
 		Bundle bundle = intent.getExtras();
 		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction()
 				+ ", extras: " + printBundle(bundle));
@@ -43,7 +44,6 @@ public class MyReceiver extends BroadcastReceiver {
 
 		} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
 				.getAction())) {
-			Editor edt = sp.edit();
 			int target = 0;
 			Log.e(TAG,
 					"[MyReceiver] 接收到推送下来的自定义消息: "
@@ -64,7 +64,7 @@ public class MyReceiver extends BroadcastReceiver {
 				if (null != todo) {
 					try {
 						target = Integer.parseInt(todo);
-						edt.putInt(ConstantForSaveList.userId + "todo", target);
+                        sp.saveSharedPreferences(ConstantForSaveList.userId + "todo", target);
 					} catch (Exception e) {
 					}
 				} else {
@@ -72,7 +72,7 @@ public class MyReceiver extends BroadcastReceiver {
 				}
 				if (null != comment_activity_id) {
 					try {
-						edt.putBoolean(ConstantForSaveList.userId
+                        sp.saveSharedPreferences(ConstantForSaveList.userId
 								+ comment_activity_id, true);
 					} catch (Exception e) {
 
@@ -83,7 +83,7 @@ public class MyReceiver extends BroadcastReceiver {
 				if (null != myJob) {
 					try {
 						target = Integer.parseInt(myJob);
-						edt.putInt(ConstantForSaveList.userId + "myJob", target);
+                        sp.saveSharedPreferences(ConstantForSaveList.userId + "myJob", target);
 					} catch (Exception e) {
 
 					}
@@ -93,7 +93,7 @@ public class MyReceiver extends BroadcastReceiver {
 				if (null != myComment) {
 					try {
 						target = Integer.parseInt(myComment);
-						edt.putInt(ConstantForSaveList.userId + "myComment",
+                        sp.saveSharedPreferences(ConstantForSaveList.userId + "myComment",
 								target);
 					} catch (Exception e) {
 
@@ -101,7 +101,6 @@ public class MyReceiver extends BroadcastReceiver {
 				} else {
 
 				}
-				edt.commit();
 			} catch (Exception e) {
 				return;
 			}
@@ -112,7 +111,6 @@ public class MyReceiver extends BroadcastReceiver {
 			// 报名极光通知
 			int notifactionId = bundle
 					.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-			Editor edt = sp.edit();
 			int target = 0;
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 			String activity_id = null;// 花名册小红点 推送过来的是活动id,若是有已录取人取消报名会有极光推送
@@ -126,12 +124,12 @@ public class MyReceiver extends BroadcastReceiver {
 				if (null != todo) {
 					try {
 						target = Integer.parseInt(todo);
-						edt.putInt(ConstantForSaveList.userId + "todo", target);
+                        sp.saveSharedPreferences(ConstantForSaveList.userId + "todo", target);
 						if ("2".equals(type)) {
-							edt.putBoolean(ConstantForSaveList.userId + "type",
+                            sp.saveSharedPreferences(ConstantForSaveList.userId + "type",
 									true);
 						} else if ("1".equals(type)) {
-							edt.putBoolean(ConstantForSaveList.userId + "type",
+                            sp.saveSharedPreferences(ConstantForSaveList.userId + "type",
 									false);
 						}
 					} catch (Exception e) {
@@ -149,7 +147,6 @@ public class MyReceiver extends BroadcastReceiver {
 				} else {
 
 				}
-				edt.commit();
 			} catch (Exception e) {
 				return;
 			}
@@ -159,7 +156,7 @@ public class MyReceiver extends BroadcastReceiver {
 				.getAction())) {
 			// 用户点击报名,点击通知弹出用户详情界面
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-			if (!"".equals(sp.getString("userId", ""))) {
+			if (!"".equals(sp.loadStringSharedPreference("userId", ""))) {
 				String activity_id, titile;
 				String female_count, male_count;
 				String extrassss = bundle.getString(JPushInterface.EXTRA_EXTRA);

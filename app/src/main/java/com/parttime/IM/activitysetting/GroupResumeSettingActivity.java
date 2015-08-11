@@ -36,6 +36,7 @@ import com.carson.constant.ConstantForSaveList;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.activity.BaseActivity;
+import com.parttime.addresslist.Utils;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.common.head.ActivityHead2;
 import com.parttime.constants.ActivityExtraAndKeys;
@@ -160,6 +161,9 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             }else if(isEnd == GroupSettingRequest.AppliantResult.YES_END) { //活动结束
                 tip.setText(getString(R.string.admitted_pending_finished_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
             }
+            //更新成员数
+            int count = appliantResult.approvedCount + appliantResult.unApprovedCount + 1;
+            headView.setCenterTxt2(getString(R.string.group_member_number, count > 0 ? count : 1));
         }
     }
 
@@ -236,7 +240,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             public void success(Object obj) {
                 super.success(obj);
                 if(obj instanceof ArrayList){
-                    @SuppressLint("Unchecked")
+                    @SuppressLint("unchecked")
                     ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>)obj;
 
                     if (list.size() > 0) {
@@ -520,10 +524,17 @@ public class GroupResumeSettingActivity extends BaseActivity implements
             String creditworthiness = userVO.creditworthiness;
 //            Utils.addStars(creditworthiness, holder.reputationValueStar, GroupResumeSettingActivity.this, R.drawable.ee_27);
             if(holder.rankView != null){
-                holder.rankView.setFullResId(R.drawable.icon_heart);
+                int num = Integer.valueOf(creditworthiness);
+                num = (int)Math.round(num * 1.0 / 10);
+                if(num < 10){
+                    holder.rankView.setFullResId(R.drawable.icon_heart);
+                    holder.rankView.setTotalScore(Integer.valueOf(creditworthiness) / 10);
+                    holder.rankView.rank(Integer.valueOf(creditworthiness) / 10);
+                }else{
+                    holder.rankView.removeAllViews();
+                    Utils.addStars(num, holder.rankView, GroupResumeSettingActivity.this);
+                }
             }
-            holder.rankView.setTotalScore(Integer.valueOf(creditworthiness) / 10);
-            holder.rankView.rank(Integer.valueOf(creditworthiness) / 10);
 
             if(holder.reject != null){
                 holder.reject.setTag(userVO);

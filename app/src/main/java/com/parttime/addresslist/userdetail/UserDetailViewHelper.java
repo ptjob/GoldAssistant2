@@ -8,11 +8,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parttime.addresslist.Utils;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.pojo.UserDetailVO;
 import com.parttime.utils.IntentManager;
 import com.parttime.utils.TimeUtils;
 import com.parttime.widget.RankView;
+import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.ApplicationControl;
 
@@ -219,7 +221,15 @@ public class UserDetailViewHelper implements View.OnClickListener {
         //化信誉值
         //Utils.addStars(vo.creditworthiness, reputationValueContainer, userDetailPagerAdapter.userDetailActivity, R.drawable.ee_27);
         int num = (int)Math.round(vo.creditworthiness * 1.0 / 10);
-        reputationValueContainer.rank(num);
+
+        if(num < 10) {
+            reputationValueContainer.setFullResId(R.drawable.icon_heart);
+            reputationValueContainer.setTotalScore(num);
+            reputationValueContainer.rank(num);
+        }else{
+            reputationValueContainer.removeAllViews();
+            Utils.addStars(num,reputationValueContainer,userDetailPagerAdapter.userDetailActivity);
+        }
 
         if(initContent == InitContent.INIT_RESUME){//初始化简历
             resumeContentContainer.reflesh(vo);

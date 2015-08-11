@@ -449,12 +449,19 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
 
             //设置信誉
             String creditworthiness = batchUserVO.creditworthiness;
-            //Utils.addStars(creditworthiness, holder.reputationValueStar, ResumeBatchManagementActivity.this, R.drawable.ee_27);
+
             if(holder.reputationValueStar != null){
-                holder.reputationValueStar.setFullResId(R.drawable.icon_heart);
+                int num = Integer.valueOf(creditworthiness);
+                num = (int)Math.round(num * 1.0 / 10);
+                if(num < 10){
+                    holder.reputationValueStar.setFullResId(R.drawable.icon_heart);
+                    holder.reputationValueStar.setTotalScore(Integer.valueOf(creditworthiness) / 10);
+                    holder.reputationValueStar.rank(Integer.valueOf(creditworthiness) / 10);
+                }else{
+                    holder.reputationValueStar.removeAllViews();
+                    Utils.addStars(num, holder.reputationValueStar, ResumeBatchManagementActivity.this);
+                }
             }
-            holder.reputationValueStar.setTotalScore(Integer.valueOf(creditworthiness) / 10);
-            holder.reputationValueStar.rank(Integer.valueOf(creditworthiness) / 10);
 
             if(checkedMap.get(position) != null){
                 holder.checkBox.setChecked(true);

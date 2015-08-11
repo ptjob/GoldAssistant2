@@ -29,7 +29,7 @@ import java.util.LinkedHashSet;
  *
  * Created by dehua on 15/7/28.
  */
-public class UserDetailPagerAdapter extends FragmentPagerAdapter {
+public class UserDetailPagerAdapter extends FragmentPagerAdapter{
 
     public ArrayList<String> userIds;
     public HashMap<String, UserDetailVO> cache = new HashMap<>();
@@ -53,7 +53,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         String userId = userIds.get(position);
-        userDetailActivity.initUserBlock(userId);
+        //userDetailActivity.initUserBlock(userId);
         UserDetailFragment fragment = UserDetailFragment.newInstance(userId);
         fragment.userDetailPagerAdapter = this;
         return fragment;

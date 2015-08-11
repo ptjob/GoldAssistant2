@@ -5,7 +5,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.qingmu.jianzhidaren.R;
+
 /**
+ *
  * Created by dehua on 15/7/31.
  */
 public class Utils {
@@ -24,12 +27,39 @@ public class Utils {
         }
     }
 
+    /**
+     * 不清除已经加入的view
+     */
+    public static void addStarsNotRemoveChildView(int cre, LinearLayout container, Activity activity, int drawableResId) {
+        for(int i = 0 ; i < cre; i ++){
+            container.addView(newStar(activity,drawableResId));
+        }
+    }
+
+    /**
+     * 不清除已经加入的view
+     */
+    public static void addStars(int num, LinearLayout container, Activity activity) {
+        int crown = num / 10;
+        int heart = num % 10;
+        int crownDrawable = R.drawable.huangguan;
+        int heartDrawable = R.drawable.icon_heart;
+        for(int i = 0 ; i < crown; i ++){
+            container.addView(newStar(activity,crownDrawable));
+        }
+        for(int i = 0 ; i < heart; i ++){
+            container.addView(newStar(activity,heartDrawable));
+        }
+    }
+
 
     private static ImageView newStar(Activity activity, int drawableResId){
         ImageView star = new ImageView(activity);
+        float width = activity.getResources().getDimension(R.dimen.star_width);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+                (int)width,
+                (int)width);
+        params.rightMargin = 10;
         star.setLayoutParams(params);
         star.setImageResource(drawableResId);
         return star;

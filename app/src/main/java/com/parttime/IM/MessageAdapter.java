@@ -891,12 +891,23 @@ public class MessageAdapter extends BaseAdapter {
                         activity.group.getOwner());
             }
         }else{
+            ArrayList<String> userIds;
+            String currentUser = null;
+            String groupId = null;
+            if(activity.group != null){
+                userIds = new ArrayList<>(activity.group.getMembers());
+                currentUser = activity.group.getOwner();
+                groupId = username;
+            }else {
+                userIds = new ArrayList<>();
+                userIds.add(message.getFrom());
+            }
 
             IntentManager.intentToUseDetail(activity,
                     message.getFrom(),
-                    username,
-                    new ArrayList<>(activity.group.getMembers()),
-                    activity.group.getOwner());
+                    groupId,
+                    userIds,
+                    currentUser);
         }
 
         /*GroupDescription groupDescription = activity.groupDescription;

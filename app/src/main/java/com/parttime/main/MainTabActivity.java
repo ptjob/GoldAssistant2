@@ -1991,14 +1991,13 @@ public class MainTabActivity extends BaseActivity implements
 	/**
 	 * 重新加载本地db和内存中的好友列表 同步服务器最新数据
 	 */
-	private void updateFriendFromServer(final List<String> serverList) {
+	private void updateFriendFromServer(final List<User> serverList) {
 		new Thread() {
 			public void run() {
 				try {
 					Map<String, com.easemob.chatuidemo.domain.User> userlist = new HashMap<>();
-					for (String username : serverList) {
-						com.easemob.chatuidemo.domain.User user = new com.easemob.chatuidemo.domain.User();
-						user.setUsername(username);
+					for (User user : serverList) {
+                        String username = user.getUsername();
 						setUserHearder(username, user);
 						userlist.put(username, user);
                         if(BuildConfig.DEBUG) {
@@ -2064,11 +2063,11 @@ public class MainTabActivity extends BaseActivity implements
 										.getJSONArray("userList");
 								if (friendListArray != null
 										&& friendListArray.length() > 0) {
-									List<String> serverFriendList = new ArrayList<>();
+									List<User> serverFriendList = new ArrayList<>();
 									for (int i = 0; i < friendListArray
 											.length(); i++) {
-										serverFriendList.add(friendListArray
-												.getString(i));
+										serverFriendList.add(gson.fromJson(friendListArray
+												.getString(i),User.class));
 									}
 									if (usernames != null) {
 										if (serverFriendList.size() > usernames
@@ -2159,7 +2158,9 @@ public class MainTabActivity extends BaseActivity implements
                 // 保存经纪人分享开关和分享链接
                 boolean allow_company_share = appInfo.getInt("allow_company_share") != 0;
                 SharePreferenceUtil.getInstance(this).saveSharedPreferences(SharedPreferenceConstants.ALLOW_COMPANY_SHARE, allow_company_share);
-                SharePreferenceUtil.getInstance(this).saveSharedPreferences(SharedPreferenceConstants.COMPANY_SHARE_URL, appInfo.getString("company_share_url"));
+                String companyShareUrl = appInfo.getString("company_share_url");
+                if(! TextUtils.isEmpty(companyShareUrl))
+                    SharePreferenceUtil.getInstance(this).saveSharedPreferences(SharedPreferenceConstants.COMPANY_SHARE_URL, companyShareUrl);
             }
 
 		} catch (Exception e1) {

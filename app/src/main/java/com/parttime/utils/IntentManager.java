@@ -49,6 +49,7 @@ public class IntentManager {
             }
         }
         if(userIds != null){
+            userIds.remove(EMChatManager.getInstance().getCurrentUser());
             intent.putStringArrayListExtra(ActivityExtraAndKeys.USER_ID, userIds);
         }
         if(EMChatManager.getInstance().getCurrentUser()
@@ -71,6 +72,9 @@ public class IntentManager {
                                    String groupId, ArrayList<String> objects,String groupOwner) {
         Intent intent = new Intent(activity,UserDetailActivity.class);
         intent.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID , groupId);
+        if(objects != null){
+            objects.remove(EMChatManager.getInstance().getCurrentUser());
+        }
         intent.putStringArrayListExtra(ActivityExtraAndKeys.USER_ID, objects);
         intent.putExtra(ActivityExtraAndKeys.UserDetail.SELECTED_USER_ID,username );
         if(EMChatManager.getInstance().getCurrentUser()
