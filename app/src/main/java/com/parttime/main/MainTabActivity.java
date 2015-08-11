@@ -77,6 +77,8 @@ import com.easemob.util.EMLog;
 import com.easemob.util.EasyUtils;
 import com.easemob.util.HanziToPinyin;
 import com.easemob.util.NetUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.parttime.IM.ChatActivity;
 import com.parttime.addresslist.GroupsActivity;
 import com.parttime.common.update.UpdateUtils;
@@ -91,7 +93,6 @@ import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.AnimDialog;
 import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
-import com.quark.common.JsonUtil;
 import com.quark.common.Url;
 import com.quark.db.CityUpdator;
 import com.quark.fragment.company.ManageFragmentCompany;
@@ -125,6 +126,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -177,6 +179,7 @@ public class MainTabActivity extends BaseActivity implements
 	private String getFriendListUrl;// 获取服务端好友列表url
 	List<String> usernames = new ArrayList<>();// 好友列表显示的是uid
 														// u1007或者c100之类
+    private Gson gson = new Gson();
     private MainBroadCastReceiver mainBroadCastReceiver;
 
 	/**
@@ -227,6 +230,8 @@ public class MainTabActivity extends BaseActivity implements
 		initGaoDe();
 
 		initJiGuangPush();
+
+        initData();
 
 		selectedFragment(PAGER.MESSAGE);
 		updatebNav(PAGER.MESSAGE.getResId());
@@ -337,6 +342,18 @@ public class MainTabActivity extends BaseActivity implements
         registerReceiver(mainBroadCastReceiver, new IntentFilter(ActionConstants.ACTION_MESSAGE_TO_TOP));
         checkAnim();
 	}
+
+    private void initData() {
+        if(ConstantForSaveList.disturbCache == null || ConstantForSaveList.disturbCache.size() == 0){
+            String disturbStr = sp.loadStringSharedPreference(SharedPreferenceConstants.DISTURB_CONFIGGURE);
+            if(!TextUtils.isEmpty(disturbStr)){
+                HashSet<String> data = gson.fromJson(disturbStr, new TypeToken<HashSet<String>>(){}.getType());
+                if(data != null && data.size() > 0){
+                    ConstantForSaveList.disturbCache.addAll(data);
+                }
+            }
+        }
+    }
 
     AnimDialog animDialog;
     private void checkAnim(){
@@ -859,8 +876,8 @@ public class MainTabActivity extends BaseActivity implements
 			abortBroadcast();
 			// message.getTo表示消息来自对象(单聊是uid,群聊是群组id)
 			// 解决消息免打扰时还是弹出通知栏的bug
-			if (!sp.loadBooleanSharedPreference(ConstantForSaveList.userId + message.getTo()
-                    + "pingbi")) {
+
+			if (!ConstantForSaveList.disturbCache.contains(message.getTo())) {
 				// 显示群聊通知
 				notifyNewMessage(message);
 			}

@@ -20,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,11 +54,14 @@ import com.easemob.chatuidemo.db.MessageSetDao;
 import com.easemob.chatuidemo.widget.ExpandGridView;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.parttime.IM.ChatActivity;
 import com.parttime.IM.activitysetting.GroupGagActivity;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ActivityExtraAndKeys;
+import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.HuanXinRequest;
 import com.parttime.pojo.BaseUser;
@@ -78,6 +82,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -133,6 +138,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 
     private MessageSetDao dao = new MessageSetDao(ApplicationControl.getInstance());
     protected RequestQueue queue = VolleySington.getInstance().getRequestQueue();
+    private Gson gson = new Gson();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -178,9 +184,16 @@ public class NormalGroupSettingActivity extends BaseActivity implements
             top.setRightImage(R.drawable.settings_btn_switch_on);
         }
 
-        List<String> disturbListGroup = EMChatManager.getInstance()
-                .getChatOptions().getReceiveNoNotifyGroup();
-        if(disturbListGroup.contains(groupId)){
+        if(ConstantForSaveList.disturbCache == null || ConstantForSaveList.disturbCache.size() == 0){
+            String disturbStr = sp.loadStringSharedPreference(SharedPreferenceConstants.DISTURB_CONFIGGURE);
+            if(!TextUtils.isEmpty(disturbStr)){
+                HashSet<String> data = gson.fromJson(disturbStr, new TypeToken<HashSet<String>>(){}.getType());
+                if(data != null && data.size() > 0){
+                    ConstantForSaveList.disturbCache.addAll(data);
+                }
+            }
+        }
+        if(ConstantForSaveList.disturbCache.contains(groupId)){
             undisturb.setRightImage(R.drawable.settings_btn_switch_on);
             isDisturb = true;
         }else{
@@ -555,23 +568,11 @@ public class NormalGroupSettingActivity extends BaseActivity implements
     public void disturbSet(){
 
         if(isDisturb){
-            List<String> pingbiListGroup = EMChatManager.getInstance()
-                    .getChatOptions().getReceiveNoNotifyGroup();
-            if (pingbiListGroup != null) {
-                if (pingbiListGroup.contains(groupId)) {
-                    pingbiListGroup.remove(groupId);
-                }
-            }
-            EMChatManager.getInstance().getChatOptions()
-                    .setReceiveNotNoifyGroup(pingbiListGroup);
+            ConstantForSaveList.disturbCache.remove(groupId);
             isDisturb = false;
             undisturb.setRightImage(R.drawable.settings_btn_switch_off);
         }else{
-            List<String> pingbiListGroup = EMChatManager.getInstance()
-                    .getChatOptions().getReceiveNoNotifyGroup();
-            pingbiListGroup.add(groupId);
-            EMChatManager.getInstance().getChatOptions()
-                    .setReceiveNotNoifyGroup(pingbiListGroup);
+            ConstantForSaveList.disturbCache.add(groupId);
             isDisturb = true;
             undisturb.setRightImage(R.drawable.settings_btn_switch_on);
         }
@@ -581,6 +582,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
     protected void onStop() {
         super.onStop();
         isExcuteOnCreate = false;
+        sp.saveSharedPreferences(SharedPreferenceConstants.DISTURB_CONFIGGURE,gson.toJson(ConstantForSaveList.disturbCache));
     }
 
     class ViewHold {

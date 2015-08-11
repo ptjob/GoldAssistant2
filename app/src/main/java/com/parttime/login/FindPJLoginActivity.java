@@ -1,13 +1,5 @@
 package com.parttime.login;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -46,6 +38,7 @@ import com.easemob.chatuidemo.db.UserDao;
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.main.MainTabActivity;
@@ -66,6 +59,15 @@ import com.quark.jianzhidaren.RegisterActivity;
 import com.quark.utils.Util;
 import com.quark.volley.VolleySington;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 登陆
@@ -443,6 +445,18 @@ public class FindPJLoginActivity extends BaseActivity {
 								// 获取群聊列表(群聊里只有groupid和groupname等简单信息，不包含members),sdk会把群组存入到内存和db中
 								EMGroupManager.getInstance()
 										.getGroupsFromServer();
+
+                                //初始化禁言列表
+                                if(ConstantForSaveList.disturbCache == null || ConstantForSaveList.disturbCache.size() == 0){
+                                    String disturbStr = SharePreferenceUtil.getInstance(FindPJLoginActivity.this)
+                                            .loadStringSharedPreference(SharedPreferenceConstants.DISTURB_CONFIGGURE);
+                                    if(!TextUtils.isEmpty(disturbStr)){
+                                        HashSet<String> data = new Gson().fromJson(disturbStr, new TypeToken<HashSet<String>>(){}.getType());
+                                        if(data != null && data.size() > 0){
+                                            ConstantForSaveList.disturbCache.addAll(data);
+                                        }
+                                    }
+                                }
 							} catch (Exception e) {
 								e.printStackTrace();
 								runOnUiThread(new Runnable() {

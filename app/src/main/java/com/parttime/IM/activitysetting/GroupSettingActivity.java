@@ -2,6 +2,7 @@ package com.parttime.IM.activitysetting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -13,20 +14,23 @@ import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.activity.BaseActivity;
 import com.easemob.chatuidemo.db.MessageSetDao;
-import com.easemob.exceptions.EaseMobException;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.parttime.common.head.ActivityHead;
 import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ActivityExtraAndKeys;
+import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.pojo.BaseUser;
 import com.parttime.pojo.MessageSet;
+import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.SetItem;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.volley.VolleySington;
 
+import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 
 public class GroupSettingActivity extends BaseActivity implements View.OnClickListener {
@@ -45,6 +49,8 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private boolean isDisturb;
 
     protected RequestQueue queue = VolleySington.getInstance().getRequestQueue();
+    private SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+    private Gson gson = new Gson();
 
     private MessageSetDao dao = new MessageSetDao(ApplicationControl.getInstance());
 
@@ -88,6 +94,16 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 //查询置顶
                 messageSet = dao.getMessageSet(groupId, groupType);
             }
+
+            if(ConstantForSaveList.disturbCache == null || ConstantForSaveList.disturbCache.size() == 0){
+                String disturbStr = sp.loadStringSharedPreference(SharedPreferenceConstants.DISTURB_CONFIGGURE);
+                if(!TextUtils.isEmpty(disturbStr)){
+                    HashSet<String> data = gson.fromJson(disturbStr, new TypeToken <HashSet<String>>(){}.getType());
+                    if(data != null && data.size() > 0){
+                        ConstantForSaveList.disturbCache.addAll(data);
+                    }
+                }
+            }
         }
 
         headView.setCenterTxt1(R.string.group_setting);
@@ -95,9 +111,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
             top.setRightImage(R.drawable.settings_btn_switch_on);
         }
 
-        List<String> disturbListGroup = EMChatManager.getInstance()
-                .getChatOptions().getReceiveNoNotifyGroup();
-        if(disturbListGroup != null && disturbListGroup.contains(groupId)){
+        if(ConstantForSaveList.disturbCache != null && ConstantForSaveList.disturbCache.contains(groupId)){
             undisturb.setRightImage(R.drawable.settings_btn_switch_on);
             isDisturb = true;
         }else{
@@ -166,50 +180,20 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     public void disturbSet(){
 
         if(isDisturb){
-           /* new Thread(new Runnable(){
-
-                @Override
-                public void run() {
-                    try {
-                        EMGroupManager.getInstance().unblockGroupMessage(groupId);
-                    } catch (EaseMobException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();*/
-
-            List<String> pingbiListGroup = EMChatManager.getInstance()
-                    .getChatOptions().getReceiveNoNotifyGroup();
-            if (pingbiListGroup != null) {
-                if (pingbiListGroup.contains(groupId)) {
-                    pingbiListGroup.remove(groupId);
-                }
-            }
-            EMChatManager.getInstance().getChatOptions()
-                    .setReceiveNotNoifyGroup(pingbiListGroup);
+            ConstantForSaveList.disturbCache.remove(groupId);
             isDisturb = false;
             undisturb.setRightImage(R.drawable.settings_btn_switch_off);
         }else{
-            /*new Thread(new Runnable(){
-
-                @Override
-                public void run() {
-                    try {
-                        EMGroupManager.getInstance().unblockGroupMessage(groupId);
-                    } catch (EaseMobException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();*/
-
-            List<String> pingbiListGroup = EMChatManager.getInstance()
-                    .getChatOptions().getReceiveNoNotifyGroup();
-            pingbiListGroup.add(groupId);
-            EMChatManager.getInstance().getChatOptions()
-                    .setReceiveNotNoifyGroup(pingbiListGroup);
+            ConstantForSaveList.disturbCache.add(groupId);
             isDisturb = true;
             undisturb.setRightImage(R.drawable.settings_btn_switch_on);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sp.saveSharedPreferences(SharedPreferenceConstants.DISTURB_CONFIGGURE,gson.toJson(ConstantForSaveList.disturbCache));
     }
 
     @Override

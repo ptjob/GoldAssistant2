@@ -13,14 +13,6 @@
  */
 package com.parttime.main.adapter;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -48,7 +40,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.carson.constant.ConstantForSaveList;
-import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContact;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
@@ -68,9 +59,16 @@ import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
 import com.quark.http.image.CircularImage;
 import com.quark.http.image.LoadImage;
-import com.quark.image.UploadImg;
 import com.quark.model.HuanxinUser;
 import com.quark.volley.VolleySington;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 显示所有聊天记录adpater
@@ -159,10 +157,9 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
                 break;
             }
         }
-        List<String> pingbiListGroup = EMChatManager.getInstance()
-                .getChatOptions().getReceiveNoNotifyGroup();
-        if (pingbiListGroup != null) {
-            if (pingbiListGroup.contains(username)) {
+
+        if (ConstantForSaveList.disturbCache != null) {
+            if (ConstantForSaveList.disturbCache.contains(username)) {
                 isMsgGag = true;
             }
         }
