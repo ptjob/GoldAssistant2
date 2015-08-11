@@ -76,7 +76,13 @@ public class SuggestionActivity extends LocalInitActivity implements Callback, T
     @Override
     public void success(Object obj) {
         showWait(false);
-        finish();
+        showToast(R.string.sent);
+        btnSend.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 500);
     }
 
     @Override

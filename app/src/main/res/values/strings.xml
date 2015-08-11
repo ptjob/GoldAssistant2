@@ -462,6 +462,7 @@
     <string name="change_pwd">变更密码</string>
     <string name="telephone_num">手机号</string>
     <string name="operation_success">操作成功</string>
+    <string name="sent">发送成功</string>
 
     <!-- 注册 -->
     <string name="acquire_again">再次获取</string>
