@@ -11,11 +11,11 @@
         android:dividerHeight="@dimen/divider_width"
         android:layout_weight="1"/>
     
-    <Button
+    <!--<Button
         android:id="@+id/btn_contact_service"
         style="@style/CommonButton.Orange"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/contact_customer_service"/>
+        android:text="@string/contact_customer_service"/>-->
 </LinearLayout>

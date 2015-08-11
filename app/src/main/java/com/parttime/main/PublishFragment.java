@@ -402,7 +402,6 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     banners.clear();
                     banners.addAll(bis);
                     SharePreferenceUtil.getInstance(activity).saveSharedPreferences(SharedPreferenceConstants.BANNERS_INFO, gson.toJson(bis));
-                    Log.e("test", "cur " + Thread.currentThread().getId());
                     startBanners(true);
                 }
 

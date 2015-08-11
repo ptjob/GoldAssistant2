@@ -45,8 +45,8 @@ import java.util.Map;
 public class FreshManGuideActivity extends WithTitleActivity {
     @ViewInject(R.id.lv_helps)
     private ListView lv;
-    @ViewInject(R.id.btn_contact_service)
-    private Button btnHelp;
+//    @ViewInject(R.id.btn_contact_service)
+//    private Button btnHelp;
 
     private CustomDialog dlg;
 
@@ -70,7 +70,7 @@ public class FreshManGuideActivity extends WithTitleActivity {
         loadData();
     }
 
-    @OnClick(R.id.btn_contact_service)
+    /*@OnClick(R.id.btn_contact_service)
     public void contactCustmService(View v){
         dlg = createDialog(getString(R.string.friendly_tips), "确认拨号",
                 getString(R.string.contact_customer_service), new DialogInterface.OnClickListener() {
@@ -92,7 +92,7 @@ public class FreshManGuideActivity extends WithTitleActivity {
                     }
                 });
         dlg.show();
-    }
+    }*/
 
     protected void loadData(){
         showWait(true);
