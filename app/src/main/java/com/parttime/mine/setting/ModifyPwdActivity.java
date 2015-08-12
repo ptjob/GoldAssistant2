@@ -1,6 +1,7 @@
 package com.parttime.mine.setting;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,6 +51,8 @@ public class ModifyPwdActivity extends LocalInitActivity implements Callback{
         super.initViews();
         center(R.string.modify_pwd);
         left(TextView.class, R.string.back);
+        eiOldPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+        eiNewPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
     }
 
     @OnClick(R.id.btn_finish)

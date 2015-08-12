@@ -196,4 +196,10 @@ public class EditItem extends FrameLayout{
             etValue.setEnabled(enabled);
         }
     }
+
+    public void setInputType(int type){
+        if(etValue != null){
+            etValue.setInputType(type);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.parttime.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -61,6 +62,7 @@ public class SetPwdActivity extends WithTitleActivity implements Callback{
     protected void initViews() {
         super.initViews();
         center(R.string.change_pwd);
+        eiNewPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
     }
 
     @OnClick(R.id.btn_finish)

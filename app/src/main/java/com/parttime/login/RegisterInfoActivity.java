@@ -2,6 +2,7 @@ package com.parttime.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -81,6 +82,7 @@ public class RegisterInfoActivity extends WithTitleActivity{
         ssb.setSpan(span, 7, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvAgreement.setText(ssb);
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
+        eiPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
     }
 
     @OnClick(R.id.btn_next)
