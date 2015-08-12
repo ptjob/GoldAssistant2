@@ -1,6 +1,7 @@
 package com.parttime.net;
 
 import com.android.volley.VolleyError;
+import com.parttime.exceptions.NoNetException;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.BaseActivity;
 
@@ -35,7 +36,11 @@ public class ErrorHandler {
 
     public void showToast(){
         if(activity != null){
-            activity.showToast(getErrorMsg());
+            if(error instanceof NoNetException){
+
+            }else {
+                activity.showToast(getErrorMsg());
+            }
         }
     }
 

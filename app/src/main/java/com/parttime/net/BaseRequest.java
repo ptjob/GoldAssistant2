@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.carson.constant.ConstantForSaveList;
 import com.google.gson.Gson;
+import com.parttime.exceptions.NoNetException;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
 import com.quark.jianzhidaren.ApplicationControl;
@@ -39,6 +40,7 @@ public class BaseRequest {
         //检查网络状态
         if (! NetWorkCheck.isOpenNetwork(ApplicationControl.getInstance())) {
             Toast.makeText(ApplicationControl.getInstance(), ApplicationControl.getInstance().getString(R.string.no_net_tip), Toast.LENGTH_SHORT).show();
+            callback.failed(new NoNetException());
             return ;
         }
         StringRequest request = new StringRequest(Request.Method.POST,url

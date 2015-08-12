@@ -189,10 +189,11 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		eiCode.addTextChangeListener(this);
 
 		if(System.currentTimeMillis() - lastTime < ApplicationConstants.PERIOD_FOR_GET_CODE){
+			btnGetCode.setEnabled(false);
 			if(countDownTimer != null){
 				countDownTimer.cancel();
 			}
-			countDownTimer = new CountDownTimer((int) (ApplicationConstants.PERIOD_FOR_GET_CODE - System.currentTimeMillis() + lastTime), this);
+			countDownTimer = new CountDownTimer((int) ((ApplicationConstants.PERIOD_FOR_GET_CODE - System.currentTimeMillis() + lastTime) / 1000), this);
 			countDownTimer.start();
 		}
 	}
@@ -756,7 +757,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 			}
 		});
 
-		StringRequest request2 = new StringRequest(Request.Method.POST,
+		/*StringRequest request2 = new StringRequest(Request.Method.POST,
 				sendMSMUrl, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -795,7 +796,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		queue.add(request2);
 		request2.setRetryPolicy(new DefaultRetryPolicy(
 				ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1, 1.0f));
-
+*/
 	}
 
 	private void verifyCode(){
