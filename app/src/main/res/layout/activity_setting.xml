@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_item_height"
         android:background="@drawable/item_selector"
+        app:form_icon_show="false"
         app:topLine_shown="false"
         app:form_title="@string/account_setting"/>
 
@@ -18,6 +19,7 @@
         android:layout_height="@dimen/form_item_height"
         android:background="@drawable/item_selector"
         android:layout_marginTop="@dimen/form_items_margin"
+        app:form_icon_show="false"
         app:form_title="@string/clear_cache"/>
 
     <!--<com.parttime.widget.FormItem
@@ -34,6 +36,7 @@
         android:layout_height="@dimen/form_item_height"
         android:background="@drawable/item_selector"
         android:layout_marginTop="@dimen/form_items_margin"
+        app:form_icon_show="false"
         app:form_title="@string/about"/>
 
     <com.parttime.widget.FormButton

@@ -469,12 +469,12 @@
     <style name="FormItem_Common.FormItem_Icon">
         <item name="android:layout_width">@dimen/form_item_icon_width</item>
         <item name="android:layout_height">@dimen/form_item_icon_height</item>
-        <item name="android:layout_marginLeft">@dimen/form_item_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/form_item_title_margin_left</item>
         <item name="android:layout_alignParentLeft">true</item>
     </style>
 
     <style name="FormItem_Common.FormItem_Title">
-        <item name="android:layout_marginLeft">@dimen/form_item_title_margin_left</item>
+        <!--<item name="android:layout_marginLeft"></item>-->
         <item name="android:textSize">15dp</item>
         <item name="android:textColor">@color/txt_color_black</item>
     </style>

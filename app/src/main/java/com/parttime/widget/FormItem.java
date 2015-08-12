@@ -47,6 +47,7 @@ public class FormItem extends FrameLayout{
     protected int topDividerRightIndentValue;
     protected int bottomDividerLeftIndentValue;
     protected int bottomDividerRightIndentValue;
+    protected boolean iconShow = true;
 
     public FormItem(Context context) {
         super(context);
@@ -95,6 +96,9 @@ public class FormItem extends FrameLayout{
 
         assignXmlAttrs(attrs);
         checkDividers();
+        if(!iconShow){
+            ivIcon.setVisibility(View.GONE);
+        }
 
         addView(content);
         setClickable(true);
@@ -224,6 +228,7 @@ public class FormItem extends FrameLayout{
             bottomDividerLeftIndentValue = typedArray.getDimensionPixelSize(R.styleable.FormItem_bottomLine_leftIndentValue, bottomDividerLeftIndentValue);
             bottomDividerRightIndentValue = typedArray.getDimensionPixelSize(R.styleable.FormItem_bottomLine_rightIndentValue, bottomDividerRightIndentValue);
 
+            iconShow = typedArray.getBoolean(R.styleable.FormItem_form_icon_show, iconShow);
         }
     }
 

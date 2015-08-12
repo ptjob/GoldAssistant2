@@ -76,6 +76,7 @@
         <attr name="bottomLine_leftIndentValue" format="dimension"/>
         <attr name="bottomLine_rightIndentValue" format="dimension"/>
         <attr name="indentValue" format="dimension"/>
+        <attr name="form_icon_show" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="FormSetting">
