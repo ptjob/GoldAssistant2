@@ -17,6 +17,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
+import com.parttime.net.ErrorHandler;
 import com.parttime.pojo.CertVo;
 import com.parttime.type.AccountType;
 import com.parttime.type.CertStatus;
@@ -243,6 +244,7 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
             @Override
             public void failed(Object obj) {
                 showWait(false);
+                new ErrorHandler(BeforeCertedActivity.this, obj).showToast();
             }
         });
     }
