@@ -1,7 +1,6 @@
 package com.parttime.IM.activitysetting;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -13,19 +12,16 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.carson.constant.ConstantForSaveList;
-import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.activity.BaseActivity;
 import com.parttime.addresslist.Utils;
-import com.parttime.addresslist.userdetail.UserDetailActivity;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.common.head.ActivityHead2;
 import com.parttime.constants.ActivityExtraAndKeys;
@@ -205,7 +201,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
         }
 
         final Collection<BatchUserVO> batchUserVOs = checkedMap.values();
-        ArrayList<Integer> userIds = new ArrayList<>();
+        ArrayList<Long> userIds = new ArrayList<>();
         for(BatchUserVO batchUserVO : batchUserVOs){
             if(batchUserVO == null){
                 continue;
@@ -390,6 +386,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
             BatchUserVO batchUserVO = getItem(position);
             if(batchUserVO == null){
                 view.setVisibility(View.GONE);
+                return ;
             }else{
                 view.setVisibility(View.VISIBLE);
             }

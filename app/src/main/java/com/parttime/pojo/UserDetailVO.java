@@ -1,7 +1,5 @@
 package com.parttime.pojo;
 
-import android.text.TextUtils;
-
 import com.parttime.net.GroupSettingRequest;
 
 /**
@@ -36,7 +34,7 @@ public class UserDetailVO {
     public String picture_6; //: ,varchar(255) COMMENT '我的简历第6张照片,任意个照'
             //shoe_weight: 0,int(11) COMMENT '鞋码：33-45间'
             //tip: 1,int(11) COMMENT '每日活动提醒：0-关，1-开'
-    public int id; //: 100000724, int(11) COMMENT '用户id，作为数据库id以及环信用户系统id'
+    public long id; //: 100000724, int(11) COMMENT '用户id，作为数据库id以及环信用户系统id'
     public String userId; //在获取环信数据的情况下使用
     public int earnest_money;//: 0, int(11) COMMENT '诚意金,0-未交，1-已交'
     public int height ;//: 180,int(11) COMMENT '身高:140cm-200cm'

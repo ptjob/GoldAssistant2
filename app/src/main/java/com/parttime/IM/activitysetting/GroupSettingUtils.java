@@ -155,7 +155,7 @@ public class GroupSettingUtils {
                                final String groupId, final RequestQueue queue,
                                final DefaultCallback callback) {
         activity.showWait(true);
-        ArrayList<Integer> userIds = new ArrayList<>();
+        ArrayList<Long> userIds = new ArrayList<>();
         userIds.add(userVO.userId);
         new GroupSettingRequest().approve(userIds , groupId, queue, new DefaultCallback(){
             @Override

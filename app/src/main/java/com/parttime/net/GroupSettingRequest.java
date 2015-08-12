@@ -116,7 +116,7 @@ public class GroupSettingRequest extends BaseRequest {
         public static int ISCOMMENT_NO = 0;
         public static int ISCOMMENT_OK = 1;
 
-        public int userId;  //环信ID
+        public long userId;  //环信ID
         public String creditworthiness; //信誉值  对10取整
         public String picture; //头像
         public String name;     //姓名
@@ -143,7 +143,7 @@ public class GroupSettingRequest extends BaseRequest {
 
         @Override
         public int hashCode() {
-            return userId;
+            return (int) (userId ^ (userId >>> 32));
         }
     }
 
@@ -154,11 +154,11 @@ public class GroupSettingRequest extends BaseRequest {
      * @param queue RequestQueue
      * @param callback DefaultCallback
      */
-    public void approve(List<Integer> userIds, String groupId,  RequestQueue queue , final DefaultCallback callback){
+    public void approve(List<Long> userIds, String groupId,  RequestQueue queue , final DefaultCallback callback){
         StringBuilder stringBuilder = new StringBuilder();
         int size = userIds.size();
         for(int i= 0 ; i < size; i ++){
-            int userId = userIds.get(i);
+            long userId = userIds.get(i);
             if(i < size - 1){
                 stringBuilder.append(userId).append(",");
             }else{

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.carson.constant.ConstantForSaveList;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.HuanXinRequest;
 import com.parttime.net.UserDetailRequest;
@@ -166,7 +166,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
             return rootView;
         }
 
-        private void initHuanxinUserData(final String userId, final UserDetailViewHelper helper, final UserDetailViewHelper.InitContent initContent) {
+        private void initHuanxinUserData(final String userId, UserDetailViewHelper helper, UserDetailViewHelper.InitContent initContent) {
 
 
             if (userId != null) {
@@ -174,69 +174,83 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
                 if(userDetailVO != null){
                     helper.reflesh(userDetailVO, initContent);
                 }else {
-
-                    new HuanXinRequest().getHuanxinUserDetailList(userId, userDetailPagerAdapter.userDetailActivity.queue, new DefaultCallback() {
-                        @Override
-                        public void success(Object obj) {
-                            super.success(obj);
-                            if (obj instanceof ArrayList) {
-                                @SuppressLint("unchecked")
-                                ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>) obj;
-                                if (list.size() == 1) {
-                                    for (HuanxinUser huanxinUser : list) {
-                                        UserDetailVO userDetailVO = new UserDetailVO();
-                                        if(TextUtils.isEmpty(huanxinUser.getUid())) {
-                                            userDetailVO.userId = userId;
-                                        }else{
-                                            userDetailVO.userId = huanxinUser.getUid();
-                                        }
-                                        userDetailVO.name = huanxinUser.getName();
-                                        userDetailVO.picture_1 = huanxinUser.getAvatar();
-                                        userDetailVO.sex = huanxinUser.sex;
-                                        userDetailVO.creditworthiness = huanxinUser.creditworthiness;
-                                        userDetailVO.earnest_money = huanxinUser.earnest_money;
-                                        userDetailVO.certification = huanxinUser.certification;
-                                        userDetailVO.age = huanxinUser.age;
-                                        userDetailPagerAdapter.cache.put(huanxinUser.getUid(), userDetailVO);
-                                        helper.reflesh(userDetailVO, initContent);
-                                    }
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void failed(Object obj) {
-                            ArrayList<HuanxinUser> huanxinUsers = ConstantForSaveList.usersNick;
-                            if(huanxinUsers != null){
-                                for (HuanxinUser huanxinUser : huanxinUsers){
-                                    if(huanxinUser == null){
-                                        continue;
-                                    }
-                                    if(huanxinUser.getUid()!= null && huanxinUser.getUid().equals(userId)){
-                                        UserDetailVO udVO = new UserDetailVO();
-                                        if(TextUtils.isEmpty(huanxinUser.getUid())) {
-                                            udVO.userId = userId;
-                                        }else{
-                                            udVO.userId = huanxinUser.getUid();
-                                        }
-                                        udVO.name = huanxinUser.getName();
-                                        udVO.picture_1 = huanxinUser.getAvatar();
-                                        udVO.sex = huanxinUser.sex;
-                                        udVO.creditworthiness = huanxinUser.creditworthiness;
-                                        udVO.earnest_money = huanxinUser.earnest_money;
-                                        udVO.certification = huanxinUser.certification;
-                                        udVO.age = huanxinUser.age;
-
-                                        helper.reflesh(udVO, initContent);
-                                        return;
-                                    }
-                                }
-                            }
-                            Toast.makeText(getActivity(), getString(R.string.get_failed),Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    DetailInfoCallback callback = new DetailInfoCallback(helper, initContent);
+                    if(userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR)) {
+                        new HuanXinRequest().getHuanxinUserDetailList(userId, userDetailPagerAdapter.userDetailActivity.queue, callback);
+                    }else{
+                        new HuanXinRequest().getHuanxinCompanyInfoDetailList(userId, userDetailPagerAdapter.userDetailActivity.queue, callback);
+                    }
                 }
             }
         }
+
+
+        class DetailInfoCallback extends DefaultCallback {
+            UserDetailViewHelper helper ;
+            UserDetailViewHelper.InitContent initContent ;
+            DetailInfoCallback(UserDetailViewHelper helper, UserDetailViewHelper.InitContent initContent){
+                this.helper=helper;
+                this.initContent = initContent;
+            }
+            @Override
+            public void success(Object obj) {
+                super.success(obj);
+                if (obj instanceof ArrayList) {
+                    @SuppressLint("unchecked")
+                    ArrayList<HuanxinUser> list = (ArrayList<HuanxinUser>) obj;
+                    if (list.size() == 1) {
+                        for (HuanxinUser huanxinUser : list) {
+                            UserDetailVO userDetailVO = new UserDetailVO();
+                            if (TextUtils.isEmpty(huanxinUser.getUid())) {
+                                userDetailVO.userId = userId;
+                            } else {
+                                userDetailVO.userId = huanxinUser.getUid();
+                            }
+                            userDetailVO.name = huanxinUser.getName();
+                            userDetailVO.picture_1 = huanxinUser.getAvatar();
+                            userDetailVO.sex = huanxinUser.sex;
+                            userDetailVO.creditworthiness = huanxinUser.creditworthiness;
+                            userDetailVO.earnest_money = huanxinUser.earnest_money;
+                            userDetailVO.certification = huanxinUser.certification;
+                            userDetailVO.age = huanxinUser.age;
+                            userDetailPagerAdapter.cache.put(huanxinUser.getUid(), userDetailVO);
+                            helper.reflesh(userDetailVO, initContent);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void failed(Object obj) {
+                ArrayList<HuanxinUser> huanxinUsers = ConstantForSaveList.usersNick;
+                if (huanxinUsers != null) {
+                    for (HuanxinUser huanxinUser : huanxinUsers) {
+                        if (huanxinUser == null) {
+                            continue;
+                        }
+                        if (huanxinUser.getUid() != null && huanxinUser.getUid().equals(userId)) {
+                            UserDetailVO udVO = new UserDetailVO();
+                            if (TextUtils.isEmpty(huanxinUser.getUid())) {
+                                udVO.userId = userId;
+                            } else {
+                                udVO.userId = huanxinUser.getUid();
+                            }
+                            udVO.name = huanxinUser.getName();
+                            udVO.picture_1 = huanxinUser.getAvatar();
+                            udVO.sex = huanxinUser.sex;
+                            udVO.creditworthiness = huanxinUser.creditworthiness;
+                            udVO.earnest_money = huanxinUser.earnest_money;
+                            udVO.certification = huanxinUser.certification;
+                            udVO.age = huanxinUser.age;
+
+                            helper.reflesh(udVO, initContent);
+                            return;
+                        }
+                    }
+                }
+                Toast.makeText(getActivity(), getString(R.string.get_failed), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
 }

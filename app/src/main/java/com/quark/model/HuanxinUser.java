@@ -12,7 +12,7 @@ import java.io.Serializable;
 */
 public class HuanxinUser implements Serializable {
 	private String uid;//	String	返回环信id。用户认u开头，商家以c开头
-	private String name;//	String	姓名
+	public String name;//	String	姓名
 	private String avatar;//	String	头像
     /*
     -1-普通商户，0-个人认证，1-企业认证，3-经纪人认证
@@ -25,6 +25,7 @@ public class HuanxinUser implements Serializable {
     public int earnest_money; //诚意金
     public int certification; //认证状态
     public int age;
+    public String introduction;
 
     public String getCity() {
         return city;
@@ -109,6 +110,14 @@ public class HuanxinUser implements Serializable {
 
     public void setCreditworthiness(int creditworthiness) {
         this.creditworthiness = creditworthiness;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
     @Override
