@@ -451,6 +451,8 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
         bindCity(view);
 
+        loadBanners();
+
         return view;
     }
 
@@ -572,7 +574,6 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        loadBanners();
 //        autoSlideManager.start();
     }
 
@@ -712,7 +713,12 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 //                try {
 //                views.get(position % views.size()).setImageBitmap(bannerPics.get(position % views.size()));
             if(views.size() > 0) {
-                ((ViewPager) container).addView(views.get(position % views.size()), 0);
+                ViewPager pager = ((ViewPager) container);
+                ImageView imageView = views.get(position % views.size());
+                if(pager.indexOfChild(imageView) >= 0){
+                    pager.removeView(imageView);
+                }
+                pager.addView(imageView, 0);
                 return views.get(position % views.size());
             }else {
                 return null;
@@ -826,14 +832,14 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
                 case MotionEvent.ACTION_DOWN:
                     moved = false;
-                    handler.removeCallbacks(worker);
+//                    handler.removeCallbacks(worker);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     moved = true;
-                    handler.removeCallbacks(worker);
+//                    handler.removeCallbacks(worker);
                     break;
                 case MotionEvent.ACTION_UP:
-                    handler.postDelayed(worker, duration);
+//                    handler.postDelayed(worker, duration);
                     if(!moved) {
                         int currentItem = pager.getCurrentItem();
                         if(views.size() > 0){
