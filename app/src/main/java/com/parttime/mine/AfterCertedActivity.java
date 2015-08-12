@@ -1,5 +1,6 @@
 package com.parttime.mine;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -40,8 +41,11 @@ public class AfterCertedActivity extends WithTitleActivity{
     private Button btnUpdate;
 
     private CertVo certVo;
+
+    public static Activity instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
         getIntentData();
         if(certVo == null){
             return;

@@ -160,6 +160,9 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
     private void initViewsByStatus(){
         eiBossName.setValue(certVo.name);
         eiBossIdCard.setValue(certVo.idNum);
+        if(certVo.accountType == AccountType.ENTERPRISE && eiRegId != null){
+            eiRegId.setValue(certVo.regId);
+        }
         if(!TextUtils.isEmpty(certVo.idFront)) {
 //            llFrontText.setVisibility(View.GONE);
             ContactImageLoader.loadNativePhoto(null, certVo.idFront, ivIdFront, -1, VolleySington.getInstance().getRequestQueue());
@@ -181,6 +184,15 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
 
             flFront.setEnabled(false);
             flBack.setEnabled(false);
+
+            if(certVo.accountType == AccountType.ENTERPRISE){
+                if(eiRegId != null){
+                    eiRegId.setEnabled(false);
+                }
+                if(flRegId != null){
+                    flRegId.setEnabled(false);
+                }
+            }
 
             btnSummit.setText(R.string.waiting_for_checking);
             btnSummit.setEnabled(false);
@@ -221,6 +233,9 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
                 btnSummit.setText(R.string.waiting_for_checking);
                 if(RealNameCertSelectActivity.instance != null && !RealNameCertSelectActivity.instance.isFinishing()){
                     RealNameCertSelectActivity.instance.finish();
+                }
+                if(AfterCertedActivity.instance != null && !AfterCertedActivity.instance.isFinishing()){
+                    AfterCertedActivity.instance.finish();
                 }
 
             }

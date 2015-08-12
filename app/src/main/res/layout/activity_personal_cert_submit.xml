@@ -19,6 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
                 app:ei_hint="@string/unfill"
+                app:ei_nameShow="false"
                 android:background="@color/white"/>
 
             <TextView
@@ -29,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
                 app:ei_hint="@string/unfill"
+                app:ei_nameShow="false"
                 android:background="@color/white"/>
 
             <FrameLayout
@@ -41,7 +43,7 @@
                     android:id="@+id/iv_id_front"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/id_front"/>
+                    android:background="@drawable/id_front"/>
                 <!--<LinearLayout
                     android:id="@+id/ll_front_text"
                     android:layout_width="wrap_content"
@@ -75,7 +77,7 @@
                     android:id="@+id/iv_id_back"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/id_back"/>
+                    android:background="@drawable/id_back"/>
                 <!--<LinearLayout
                     android:id="@+id/ll_back_text"
                     android:layout_width="wrap_content"

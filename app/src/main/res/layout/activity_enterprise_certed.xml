@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
                 app:ei_hint="@string/unfill"
+                app:ei_nameShow="false"
                 android:background="@color/white"/>
 
             <TextView
