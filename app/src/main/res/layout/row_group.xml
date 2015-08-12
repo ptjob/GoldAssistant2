@@ -10,14 +10,27 @@
         android:background="@drawable/item_selector"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/group_icon" />
+        <FrameLayout android:id="@id/avatar_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/group_icon" />
+            <TextView
+                android:id="@+id/avatar_tag"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/white"
+                android:background="@color/common_red"
+                android:textSize="9dp"
+                android:text="@string/activity_group"
+                android:visibility="visible"/>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/name"
@@ -25,11 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/avatar"
+            android:layout_toRightOf="@id/avatar_container"
             android:ellipsize="end"
             android:maxLength="15"
             android:singleLine="true"
             android:textColor="@color/txt_color_black"
+            android:text="ee"
             android:textSize="16sp" />
 
     </RelativeLayout>

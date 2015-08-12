@@ -13,24 +13,20 @@
  */
 package com.parttime.addresslist;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.carson.constant.ConstantForSaveList;
 import com.easemob.chat.EMGroup;
+import com.parttime.pojo.GroupDescription;
 import com.qingmu.jianzhidaren.R;
+
+import java.util.List;
+import java.util.Map;
 
 public class GroupAdapter extends ArrayAdapter<EMGroup> {
 
@@ -51,15 +47,40 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.row_group, null);
+            holder = new ViewHolder();
+            holder.name = ((TextView) convertView.findViewById(R.id.name));
+            holder.tag = ((TextView) convertView.findViewById(R.id.avatar_tag));
+            convertView.setTag(holder);
+        }else{
+            holder = (ViewHolder)convertView.getTag();
         }
 
-        ((TextView) convertView.findViewById(R.id.name)).setText(getItem(
-                position).getGroupName());
+        EMGroup group = getItem(position);
+
+        holder.name.setText(group.getGroupName());
+        holder.tag.setVisibility(View.GONE);
+
+        Map<String,GroupDescription> cache = ConstantForSaveList.groupDescriptionMapCache;
+        if(cache != null && cache.get(group.getGroupId()) != null){
+            GroupDescription groupDescription = cache.get(group.getGroupId());
+            int type = groupDescription.type;
+            if(type == GroupDescription.ACTIVITY_GROUP){
+                holder.tag.setText(R.string.activity_group);
+                holder.tag.setBackgroundResource(R.color.c_FF5C56);
+                holder.tag.setVisibility(View.VISIBLE);
+            }
+        }
 
 		return convertView;
 	}
+
+    class ViewHolder{
+        TextView name;
+        TextView tag;
+    }
 
 	@Override
 	public int getCount() {
