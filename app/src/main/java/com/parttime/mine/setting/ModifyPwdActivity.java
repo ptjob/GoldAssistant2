@@ -11,6 +11,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.parttime.base.LocalInitActivity;
+import com.parttime.login.RegisterInfoActivity;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
 import com.parttime.net.ErrorHandler;
@@ -53,12 +54,28 @@ public class ModifyPwdActivity extends LocalInitActivity implements Callback{
 
     @OnClick(R.id.btn_finish)
     public void modify(View v){
+        if(!validate()){
+            return;
+        }
         showWait(true);
         Map<String, String> params = new HashMap<String, String>();
         params.put("old_password", JiaoyanUtil.MD5(eiOldPwd.getValue().trim()));
         params.put("new_password", JiaoyanUtil.MD5(eiNewPwd.getValue().trim()));
         params.put("user_id", getCompanyId());
         new BaseRequest().request(Url.MODIFY_PWD, params, VolleySington.getInstance().getRequestQueue(), this);
+    }
+
+    private boolean validate(){
+        String pwd = eiNewPwd.getValue();
+        if(pwd.length() <= 0){
+            showToast(R.string.please_set_pwd);
+            return false;
+        }
+        if(pwd .length() < RegisterInfoActivity.PWD_AT_LEAT || pwd.length() > RegisterInfoActivity.PWD_AT_MOST){
+            showToast(R.string.pwd_should_range_from_6_to_10);
+            return false;
+        }
+        return true;
     }
 
     @Override
