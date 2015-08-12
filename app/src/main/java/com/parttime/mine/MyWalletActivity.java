@@ -95,7 +95,7 @@ public class MyWalletActivity extends LocalInitActivity implements XListView.IXL
 
         @Override
         public void failed(Object obj) {
-
+            showWait(false);
         }
     };
 

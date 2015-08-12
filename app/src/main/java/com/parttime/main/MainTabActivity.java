@@ -214,6 +214,8 @@ public class MainTabActivity extends BaseActivity implements
 	private ProgressDialog pd;
 	private boolean downFlag = false;// 开始下载的标志
 
+	public static boolean showAnim;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -357,6 +359,10 @@ public class MainTabActivity extends BaseActivity implements
 
     AnimDialog animDialog;
     private void checkAnim(){
+		if(!showAnim){
+			return;
+		}
+		showAnim = false;
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

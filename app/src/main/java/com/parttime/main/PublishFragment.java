@@ -574,7 +574,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-//        autoSlideManager.start();
+        autoSlideManager.start();
     }
 
     @Override

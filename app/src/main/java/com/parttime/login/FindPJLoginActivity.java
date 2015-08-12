@@ -503,6 +503,7 @@ public class FindPJLoginActivity extends BaseActivity {
 							if(/*showAnim*/false){
 								startActivity(new Intent(FindPJLoginActivity.this, ShowAnimActivity.class));
 							}else {
+								MainTabActivity.showAnim = true;
 								Intent intent = new Intent();
 								intent.setClass(FindPJLoginActivity.this,
 										MainTabActivity.class);
