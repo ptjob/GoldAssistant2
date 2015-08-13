@@ -16,6 +16,7 @@ import com.parttime.net.DefaultCallback;
 import com.parttime.net.ErrorHandler;
 import com.parttime.net.PublishRequest;
 import com.parttime.pojo.CertVo;
+import com.parttime.pojo.JobAuthType;
 import com.parttime.pojo.PartJob;
 import com.parttime.pojo.PreCheckStatus;
 import com.parttime.utils.ApplicationUtils;
@@ -242,7 +243,7 @@ public class JobDetailActivity extends BaseActivity {
     private void bindWithPartJob() {
         Logger.i(partJob.toString());
 
-        mTxtType.setText(partJob.type);
+        mTxtType.setText(CheckUtils.isNull(partJob.type) ? "" : partJob.type);
         mTxtTitle.setText(partJob.title);
         mTxtSalary.setText(LabelUtils.getSalaryLabel(ApplicationControl.getInstance(), partJob.salaryUnit, partJob.salary));
 
@@ -308,53 +309,55 @@ public class JobDetailActivity extends BaseActivity {
     private void bindActionLogic() {
         String status = "";
 
-        if (partJob.isEnd) {
-            // 活动已结束
-            status = getString(R.string.job_detail_status_fail);
-            switchRefreshOrExpedited(false, false);
-            switchModify(false);
+        if (partJob.jobAuthType == JobAuthType.READY) {
+            // 未审核
+            status = getString(R.string.job_detail_status_ready);
+            if (partJob.isStart) {
+                // 如果活动已经开始，刷新按钮则为加急按钮，不可点击。
+                switchRefreshOrExpedited(false, false);
+            } else {
+                // 如果活动未开始，则为刷新按钮，不可点击。
+                switchRefreshOrExpedited(true, false);
+            }
+            switchModify(true);
             switchShelveOrRepublish(false, true);
         } else {
-            // 活动未结束
-            switch (partJob.jobAuthType) {
-                case DELETE:
-                case FAIL_TO_PASS:
-                    status = getString(R.string.job_detail_status_fail);
-                    // 如果活动结束，则按钮显示为加急，且为不可按状态
-                    switchRefreshOrExpedited(false, false);
-                    switchModify(true);
-                    switchShelveOrRepublish(true, false);
-                    break;
-                case FROZEN:
-                    status = getString(R.string.job_detail_status_fail);
-                    switchRefreshOrExpedited(true, false);
-                    switchModify(false);
-                    switchShelveOrRepublish(false, true);
-                    break;
-                case PASS:
-                    status = getString(R.string.job_detail_status_pass);
-                    if (partJob.isStart) {
-                        // 如果活动已经开始，刷新按钮则为加急按钮。
-                        switchRefreshOrExpedited(false, true);
-                    } else {
-                        // 如果活动未开始，则为刷新按钮。
-                        switchRefreshOrExpedited(true, true);
-                    }
-                    switchModify(true);
-                    switchShelveOrRepublish(true, true);
-                    break;
-                case READY:
-                    status = getString(R.string.job_detail_status_ready);
-                    if (partJob.isStart) {
-                        // 如果活动已经开始，刷新按钮则为加急按钮，不可点击。
+            if (partJob.isEnd) {
+                // 活动已结束
+                status = getString(R.string.job_detail_status_fail);
+                switchRefreshOrExpedited(false, false);
+                switchModify(false);
+                switchShelveOrRepublish(false, true);
+            } else {
+                // 活动未结束
+                switch (partJob.jobAuthType) {
+                    case DELETE:
+                    case FAIL_TO_PASS:
+                        status = getString(R.string.job_detail_status_fail);
+                        // 如果活动结束，则按钮显示为加急，且为不可按状态
                         switchRefreshOrExpedited(false, false);
-                    } else {
-                        // 如果活动未开始，则为刷新按钮，不可点击。
+                        switchModify(true);
+                        switchShelveOrRepublish(true, false);
+                        break;
+                    case FROZEN:
+                        status = getString(R.string.job_detail_status_fail);
                         switchRefreshOrExpedited(true, false);
-                    }
-                    switchModify(true);
-                    switchShelveOrRepublish(false, true);
-                    break;
+                        switchModify(false);
+                        switchShelveOrRepublish(false, true);
+                        break;
+                    case PASS:
+                        status = getString(R.string.job_detail_status_pass);
+                        if (partJob.isStart) {
+                            // 如果活动已经开始，刷新按钮则为加急按钮。
+                            switchRefreshOrExpedited(false, true);
+                        } else {
+                            // 如果活动未开始，则为刷新按钮。
+                            switchRefreshOrExpedited(true, true);
+                        }
+                        switchModify(true);
+                        switchShelveOrRepublish(true, true);
+                        break;
+                }
             }
         }
 
