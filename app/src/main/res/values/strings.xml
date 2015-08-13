@@ -463,6 +463,8 @@
     <string name="telephone_num">手机号</string>
     <string name="operation_success">操作成功</string>
     <string name="sent">发送成功</string>
+    <string name="modify_pwd_success">修改密码成功</string>
+    <string name="submit_success">提交成功</string>
 
     <!-- 注册 -->
     <string name="acquire_again">再次获取</string>

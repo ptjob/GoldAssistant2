@@ -99,6 +99,7 @@ public class ModifyPwdActivity extends LocalInitActivity implements Callback{
     @Override
     public void success(Object obj) {
         showWait(false);
+        showToast(R.string.modify_pwd_success);
         finish();
     }
 
