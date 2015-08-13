@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">金牌助理</string>
+    <string name="app_name">兼职达人招聘</string>
 
     <!-- 公共 -->
     <string name="edit">编辑</string>
