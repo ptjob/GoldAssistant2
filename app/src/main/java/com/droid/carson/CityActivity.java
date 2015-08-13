@@ -2,8 +2,6 @@ package com.droid.carson;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
 import android.location.Location;
 import android.os.Bundle;
@@ -37,13 +35,12 @@ import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.utils.CheckUtils;
 import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
+import com.quark.db.CityService;
 import com.quark.jianzhidaren.BaseActivity;
 import com.quark.utils.Logger;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -187,64 +184,8 @@ public class CityActivity extends BaseActivity implements OnItemClickListener {
         allCity_lists.add(city);
         city = new City("重庆", "");
         allCity_lists.add(city);
-        city_lists = getCityList();
+        city_lists = CityService.getCityList(this);
         allCity_lists.addAll(city_lists);
-    }
-
-    private ArrayList<City> getCityList(String ccity) {
-        DBHelper dbHelper = new DBHelper(this);
-        ArrayList<City> list = new ArrayList<City>();
-        try {
-            dbHelper.createDataBase();
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery("select * from area ", null);
-            City city;
-            while (cursor.moveToNext()) {
-                city = new City(cursor.getString(1), cursor.getString(2));
-                if (city.name.contains(ccity)) {
-                    Log.e("city", city.name);
-                    list.add(city);
-                }
-            }
-            if (list.size() > 0) {
-                list.add(new City("", "-"));
-            }
-            cursor.close();
-            db.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Collections.sort(list, comparator);
-        return list;
-    }
-
-    private ArrayList<City> getCityList() {
-        DBHelper dbHelper = new DBHelper(this);
-        ArrayList<City> list = new ArrayList<City>();
-        try {
-            dbHelper.createDataBase();
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery("select * from area where deep=1 or deep=2", null);
-            int indexName = cursor.getColumnIndex("name");
-            int indexPinyin = cursor.getColumnIndex("pinyin");
-            City city;
-            while (cursor.moveToNext()) {
-                city = new City(cursor.getString(indexName), cursor.getString(indexPinyin));
-                if (CheckUtils.isEmpty(city.getPinyi())) {
-                    city.setPinyi(" ");
-                }
-                list.add(city);
-            }
-            cursor.close();
-            db.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Collections.sort(list, comparator);
-        return list;
     }
 
     /**
@@ -546,18 +487,9 @@ public class CityActivity extends BaseActivity implements OnItemClickListener {
 
         } else {
             allCity_lists.clear();
-            city_lists = getCityList(filterStr);
+            city_lists = CityService.getCityList(this, filterStr);
             allCity_lists.addAll(city_lists);
             setAdapter(allCity_lists);
-            // filterDateList.clear();
-            // for (SortModel sortModel : SourceDateList) {
-            // String name = sortModel.getName();
-            // if (name.indexOf(filterStr.toString()) != -1
-            // || characterParser.getSelling(name).startsWith(
-            // filterStr.toString())) {
-            // filterDateList.add(sortModel);
-            // }
-            // }
         }
 
     }

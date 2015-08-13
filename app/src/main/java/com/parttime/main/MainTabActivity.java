@@ -545,10 +545,14 @@ public class MainTabActivity extends BaseActivity implements
                         .get(headerName.substring(0, 1)).get(0).target.substring(0,
                                 1).toUpperCase());
             }
-			char header = user.getHeader().toLowerCase().charAt(0);
-			if (header < 'a' || header > 'z') {
-				user.setHeader("#");
-			}
+            if (user.getHeader() != null && user.getHeader().length() > 0) {
+                char header = user.getHeader().toLowerCase().charAt(0);
+                if (header < 'a' || header > 'z') {
+                    user.setHeader("#");
+                }
+            } else {
+                user.setHeader("#");
+            }
 		}
 	}
 

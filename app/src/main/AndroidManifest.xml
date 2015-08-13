@@ -65,6 +65,9 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <!-- 下载管理器不出现通知栏提示 -->
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
     <application
         android:name="com.quark.jianzhidaren.ApplicationControl"
         android:allowBackup="true"

@@ -28,7 +28,7 @@ import com.parttime.utils.FormatUtils;
 import com.parttime.utils.IntentManager;
 import com.parttime.utils.TimeUtils;
 import com.qingmu.jianzhidaren.R;
-import com.quark.db.CityDB;
+import com.quark.db.CityService;
 import com.quark.jianzhidaren.BaseActivity;
 import com.quark.ui.widget.ActionSheet;
 
@@ -299,7 +299,7 @@ public class WriteJobActivity extends BaseActivity implements
                 mTxtSelectTemp = mTxtWorkArea;
                 ;
 
-                ArrayList<String> citys = CityDB.getCitys(this, ApplicationUtils.getCity());
+                ArrayList<String> citys = CityService.getSubCitys(this, ApplicationUtils.getCity());
                 String[] workAreaArray = new String[citys.size()];
                 for (int i = 0; i < citys.size(); i++) {
                     workAreaArray[i] = citys.get(i);
