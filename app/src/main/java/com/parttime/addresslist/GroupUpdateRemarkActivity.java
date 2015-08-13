@@ -1,5 +1,6 @@
 package com.parttime.addresslist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -38,7 +39,7 @@ public class GroupUpdateRemarkActivity extends BaseActivity {
         findViewById(R.id.done).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String newName = name.getText().toString();
+                final String newName = name.getText().toString();
                 if(! newName.equals(oldName)){
                     if(! (userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR) || userId.contains(ApplicationConstants.SPECIAL_USER_PREFIX_CHAR))){
                         userId = ApplicationConstants.NORMALI_USER_PREFIX_CHAR + userId;
@@ -47,6 +48,9 @@ public class GroupUpdateRemarkActivity extends BaseActivity {
                         @Override
                         public void success(Object obj) {
                             Toast.makeText(GroupUpdateRemarkActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent();
+                            intent.putExtra(ActivityExtraAndKeys.name, newName);
+                            setResult(RESULT_OK,intent);
                             finish();
                         }
                     });

@@ -213,7 +213,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
                             userDetailVO.earnest_money = huanxinUser.earnest_money;
                             userDetailVO.certification = huanxinUser.certification;
                             userDetailVO.age = huanxinUser.age;
-                            userDetailPagerAdapter.cache.put(huanxinUser.getUid(), userDetailVO);
+                            userDetailPagerAdapter.cache.put(huanxinUser.getUid() != null ? huanxinUser.getUid() : userDetailVO.userId, userDetailVO);
                             helper.reflesh(userDetailVO, initContent);
                         }
                     }

@@ -49,6 +49,7 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
     private List<UserDetailRequest.GagUser> blockedList;
 
     public RequestQueue queue;
+    private final int modify_group_name_remark = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -315,7 +316,7 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
                     intent.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID, groupId);
                     intent.putExtra(ActivityExtraAndKeys.USER_ID, userId);
                     intent.putExtra(ActivityExtraAndKeys.GroupUpdateRemark.USER_NAME, adapter.cache.get(userId).name);
-                    startActivity(intent);
+                    startActivityForResult(intent, modify_group_name_remark);
                     more.dismiss();
                 }
             }
@@ -340,6 +341,21 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
         more.show();
 
         return more;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case modify_group_name_remark:
+                if(data != null){
+                    String name = data.getStringExtra(ActivityExtraAndKeys.name);
+                    adapter.cache.get(userId).name = name;
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+        }
     }
 
     public static enum FromAndStatus{

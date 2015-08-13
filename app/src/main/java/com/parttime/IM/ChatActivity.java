@@ -1266,8 +1266,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      * @param view View
      */
     public void toGroupDetails(View view) {
-        if (groupDescription != null && (groupDescription.type == GroupDescription.ACTIVITY_GROUP ||
-                groupDescription.type == GroupDescription.ACTIVITY_CONSULTATION_GROUP)) {
+        if (groupDescription != null && (groupDescription.type == GroupDescription.ACTIVITY_GROUP/* ||
+                groupDescription.type == GroupDescription.ACTIVITY_CONSULTATION_GROUP*/)) {
             startActivityForResult(
                     (new Intent(this, GroupResumeSettingActivity.class).putExtra(
                             "groupId", toChatUsername)), REQUEST_CODE_GROUP_DETAIL);
