@@ -258,10 +258,16 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
         }
 
         if (conversation.getUnreadMsgCount() > 0) {
-            // 显示与此用户的消息未读数
-            holder.unreadLabel.setText(String.valueOf(conversation
-                    .getUnreadMsgCount()));
-            holder.unreadLabel.setVisibility(View.VISIBLE);
+            if(isGroup && ConstantForSaveList.gagCache != null && ConstantForSaveList.gagCache.contains(username)){
+                // 显示与此用户的消息未读数
+                holder.unreadLabel.setText("");
+                holder.unreadLabel.setVisibility(View.VISIBLE);
+            }else {
+                // 显示与此用户的消息未读数
+                holder.unreadLabel.setText(String.valueOf(conversation
+                        .getUnreadMsgCount()));
+                holder.unreadLabel.setVisibility(View.VISIBLE);
+            }
         } else {
             holder.unreadLabel.setVisibility(View.INVISIBLE);
         }
