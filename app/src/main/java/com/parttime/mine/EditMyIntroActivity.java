@@ -108,7 +108,7 @@ public class EditMyIntroActivity extends LocalInitActivity {
     @Override
     protected void initViews(){
         left(TextView.class, R.string.back);
-        right(TextView.class, R.string.preview, new View.OnClickListener() {
+        /*right(TextView.class, R.string.preview, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditMyIntroActivity.this, PreviewMyIntroActivity.class);
@@ -116,7 +116,7 @@ public class EditMyIntroActivity extends LocalInitActivity {
                 intent.putExtra(PreviewMyIntroActivity.EXTRA_ACCOUNT_INFO, accountInfo);
                 startActivity(intent);
             }
-        });
+        });*/
         center(R.string.edit_intro);
         ViewUtils.inject(this);
         if(head != null) {
