@@ -221,7 +221,13 @@ public class EditMyIntroActivity extends LocalInitActivity {
             @Override
             public void success(Object obj) {
                 showWait(false);
-                finish();
+                showToast(R.string.submit_success);
+                cetIntro.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 500);
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.parttime.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +157,9 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
         }
         left(TextView.class, R.string.back);
         initViewsByStatus();
+        if(eiRegId != null){
+            eiRegId.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
     }
 
     private void initViewsByStatus(){
@@ -276,6 +280,10 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
             String regId = eiRegId.getValue().trim();
             if (TextUtils.isEmpty(regId)) {
                 showToast(R.string.please_enter_reg_id);
+                return false;
+            }
+            if(!regId.matches("[0-9]{15,15}")){
+                showToast(R.string.please_enter_correct_reg_id);
                 return false;
             }
         }
