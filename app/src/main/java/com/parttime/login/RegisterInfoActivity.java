@@ -66,6 +66,11 @@ public class RegisterInfoActivity extends WithTitleActivity{
     }
 
     @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void initViews() {
         super.initViews();
         center(R.string.basic_info_1);

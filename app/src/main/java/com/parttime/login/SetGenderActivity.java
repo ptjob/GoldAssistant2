@@ -45,6 +45,7 @@ public class SetGenderActivity extends WithTitleActivity{
     private String pwdEncoded;
 
     private String gender;
+    private boolean lock;
 
 
     @Override
@@ -68,6 +69,13 @@ public class SetGenderActivity extends WithTitleActivity{
         super.initViews();
         center(R.string.set_gender);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!lock) {
+            super.onBackPressed();
+        }
     }
 
     @OnClick(R.id.fl_male)
@@ -114,6 +122,7 @@ public class SetGenderActivity extends WithTitleActivity{
         intent.putExtra(CitySelectActivity.EXTRA_DIY_ACTION, new SelectCityAction());
         intent.putExtra(CitySelectActivity.EXTRA_ACITON_EXTRA, new RegParams(telephone, code, name, pwdEncoded, gender));
         startActivity(intent);
+        lock = true;
     }
 
     @Override

@@ -147,6 +147,8 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 	private int lastLen;
 	private boolean everReachLen;
 
+	private boolean lock;
+
 	@Override
 	protected ViewGroup getLeftWrapper() {
 		return null;
@@ -260,6 +262,13 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 				ConstantForSaveList.DEFAULTRETRYTIME * 1000, 1, 1.0f));
 	}*/
 
+	@Override
+	public void onBackPressed() {
+		if(!lock) {
+			super.onBackPressed();
+		}
+	}
+
 	/**
 	 * 联系客服
 	 */
@@ -288,6 +297,8 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		});
 		builder.create().show();
 	}*/
+
+
 
 	public void showAlertDialog(String str, final String str2) {
 
@@ -613,6 +624,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 		intent.putExtra(RegisterInfoActivity.EXTRA_TELEPHONE, telephoneStr);
 		intent.putExtra(RegisterInfoActivity.EXTRA_CODE, code);
 		startActivity(intent);
+		lock = true;
 		/*if (check()) {
 			showWait(true);
 			MobclickAgent.onEvent(RegisterActivity.this, "onclick3", "立即注册");
