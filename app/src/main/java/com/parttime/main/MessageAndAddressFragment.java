@@ -602,7 +602,9 @@ public class MessageAndAddressFragment extends Fragment {
 
     private void messageAdapterReflash() {
         ConstantForSaveListHelper.cacheGroupType();
-        messageAdapter.notifyDataSetChanged();
+        if(messageAdapter != null) {
+            messageAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -636,11 +638,13 @@ public class MessageAndAddressFragment extends Fragment {
         public void refresh() {
             if (conversationList != null) {
                 conversationList.clear();
-                List<EMConversation> sd = loadConversationsWithRecentChat();
-                conversationList.addAll(sd);
-                sortMessages(conversationList,messageSetMap);
-                messageAdapterReflash();
+            }else{
+                conversationList = new ArrayList<>();
             }
+            List<EMConversation> sd = loadConversationsWithRecentChat();
+            conversationList.addAll(sd);
+            sortMessages(conversationList,messageSetMap);
+            messageAdapterReflash();
         }
 
         /**

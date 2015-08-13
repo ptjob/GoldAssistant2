@@ -1,16 +1,16 @@
 package com.droid.carson;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * @author Joshua 用法： DBHelper dbHelper = new DBHelper(this);
@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // 用户数据库文件的版本
     private static final int DB_VERSION = 3;
     // 数据库文件目标存放路径为系统默认位置，cn.arthur.examples 是你的包名
-    private static String DB_PATH = "/data/data/com.parttimejob/databases/";
+    private static String DB_PATH = "/data/data/com.qingmu.jianzhidaren/databases/";
     /*
      * //如果你想把数据库文件存放在SD卡的话 private static String DB_PATH =
      * android.os.Environment.getExternalStorageDirectory().getAbsolutePath() +

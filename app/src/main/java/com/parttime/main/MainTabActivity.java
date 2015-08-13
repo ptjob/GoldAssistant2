@@ -140,6 +140,9 @@ public class MainTabActivity extends BaseActivity implements
 
 
     public static final String PINGBI = "pingbi";
+    private final int current_Tab_Message = 0;
+    private final int current_Tab_Publish = 1;
+    private final int current_Tab_Mine = 2;
     protected RequestQueue queue;
 	protected WaitDialog dialog;
 	// 极光推送
@@ -182,7 +185,7 @@ public class MainTabActivity extends BaseActivity implements
     private Gson gson = new Gson();
     private MainBroadCastReceiver mainBroadCastReceiver;
 
-	/**
+    /**
 	 * 检查当前用户是否被删除
 	 */
 	public boolean getCurrentAccountRemoved() {
@@ -545,10 +548,14 @@ public class MainTabActivity extends BaseActivity implements
                         .get(headerName.substring(0, 1)).get(0).target.substring(0,
                                 1).toUpperCase());
             }
-			char header = user.getHeader().toLowerCase().charAt(0);
-			if (header < 'a' || header > 'z') {
-				user.setHeader("#");
-			}
+            if(user.getHeader() != null) {
+                char header = user.getHeader().toLowerCase().charAt(0);
+                if (header < 'a' || header > 'z') {
+                    user.setHeader("#");
+                }
+            }else{
+                user.setHeader("#");
+            }
 		}
 	}
 
@@ -717,18 +724,18 @@ public class MainTabActivity extends BaseActivity implements
 		Fragment f = null;
 		switch (pager) {
 		case MESSAGE:
-			currentTabIndex = 0;
+			currentTabIndex = current_Tab_Message;
 			f = messageAndAddressFragment = new MessageAndAddressFragment();
 			break;
         case PUBLISH:
-            currentTabIndex = 1;
+            currentTabIndex = current_Tab_Publish;
             if (introduceFragment == null) {
                 introduceFragment = PublishFragment.newInstance(null, null);
             }
             f = introduceFragment;
             break;
 		case MINE:
-			currentTabIndex = 2;
+			currentTabIndex = current_Tab_Mine;
 			if (myFragment == null) {
 				myFragment = MyFragment.newInstance(null, null);
 			}
@@ -890,7 +897,7 @@ public class MainTabActivity extends BaseActivity implements
 				notifyNewMessage(message);
 			}
 			updateUnreadMsg();
-			if (currentTabIndex == 1) {
+			if (currentTabIndex == current_Tab_Message) {
 				// 当前页面如果为聊天历史页面，刷新此页面
 				if (messageAndAddressFragment != null) {
 					messageAndAddressFragment.message.refresh();
@@ -1058,9 +1065,6 @@ public class MainTabActivity extends BaseActivity implements
 
             // 提醒新消息
             EMNotifier.getInstance(getApplicationContext()).notifyOnNewMsg();
-			// 刷新ui
-			// if (currentTabIndex == 1)
-			// contactListFragment.refresh();
 
 		}
 
@@ -1093,7 +1097,7 @@ public class MainTabActivity extends BaseActivity implements
 
 					}
 					updateUnreadMsg();// 刷新圈子
-					if (currentTabIndex == 1)
+					if (currentTabIndex == current_Tab_Message)
 						messageAndAddressFragment.message.refresh();
 				}
 			});
@@ -1156,12 +1160,6 @@ public class MainTabActivity extends BaseActivity implements
 		saveInviteMsg(msg);
 		// 提示有新消息
 		EMNotifier.getInstance(getApplicationContext()).notifyOnNewMsg();
-
-		// 刷新bottom bar消息未读数
-		// updateUnreadAddressLable();
-		// 刷新好友页面ui
-		// if (currentTabIndex == 1)
-		// contactListFragment.refresh();
 	}
 
 	/**
@@ -1310,7 +1308,7 @@ public class MainTabActivity extends BaseActivity implements
 					// updateUnreadLabel();
 					// 刷新ui
 					// 有新群建立时
-					if (currentTabIndex == 1) {
+					if (currentTabIndex == current_Tab_Message) {
 						messageAndAddressFragment.message.refresh();
 					}
 					if (CommonUtils.getTopActivity(MainTabActivity.this)
@@ -1342,7 +1340,7 @@ public class MainTabActivity extends BaseActivity implements
 				public void run() {
 					try {
 						// updateUnreadLabel();
-						if (currentTabIndex == 1)
+						if (currentTabIndex == current_Tab_Message)
 							messageAndAddressFragment.message.refresh();
 						if (CommonUtils
 								.getTopActivity(MainTabActivity.this)
@@ -1365,7 +1363,7 @@ public class MainTabActivity extends BaseActivity implements
 			runOnUiThread(new Runnable() {
 				public void run() {
 					// updateUnreadLabel();
-					if (currentTabIndex == 1)
+					if (currentTabIndex == current_Tab_Message)
 						messageAndAddressFragment.message.refresh();
 					if (CommonUtils.getTopActivity(MainTabActivity.this)
 							.equals(GroupsActivity.class.getName())) {
@@ -1427,7 +1425,7 @@ public class MainTabActivity extends BaseActivity implements
 				public void run() {
 					// updateUnreadLabel();
 					// 刷新ui
-					if (currentTabIndex == 1) {
+					if (currentTabIndex == current_Tab_Message) {
 						messageAndAddressFragment.message.refresh();
 					}
 					if (CommonUtils.getTopActivity(MainTabActivity.this)
