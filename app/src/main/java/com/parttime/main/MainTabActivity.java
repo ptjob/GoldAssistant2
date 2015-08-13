@@ -2003,10 +2003,12 @@ public class MainTabActivity extends BaseActivity implements
 					Map<String, com.easemob.chatuidemo.domain.User> userlist = new HashMap<>();
 					for (User user : serverList) {
                         String username = user.getUsername();
-						setUserHearder(username, user);
-						userlist.put(username, user);
-                        if(BuildConfig.DEBUG) {
-                            Log.i("updateFriendFromServer", "username = " + username);
+                        if(! TextUtils.isEmpty(username)) {
+                            setUserHearder(username, user);
+                            userlist.put(username, user);
+                            if (BuildConfig.DEBUG) {
+                                Log.i("updateFriendFromServer", "username = " + username);
+                            }
                         }
 					}
                     addCustomerDefinedItem(userlist);

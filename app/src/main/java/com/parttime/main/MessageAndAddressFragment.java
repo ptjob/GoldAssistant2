@@ -514,7 +514,7 @@ public class MessageAndAddressFragment extends Fragment {
             }
 		} else if (v == contactlistView) {
 			// 长按前两个不弹menu
-			if (((AdapterContextMenuInfo) menuInfo).position >= 2) {
+			if (((AdapterContextMenuInfo) menuInfo).position >= 3) {
 				getActivity().getMenuInflater().inflate(
 						R.menu.context_contact_list, menu);
 			}
@@ -964,6 +964,8 @@ public class MessageAndAddressFragment extends Fragment {
                     contactAdapter = new ContactAdapter(getActivity(),
                             R.layout.row_contact, contactList, sidebar, usersNick);
                     contactlistView.setAdapter(contactAdapter);
+
+                    contactlistView.setSelector(R.drawable.mm_listitem_default_white);
                     contactlistView.setOnItemClickListener(contactItemClick);
 
                     contactlistView.setOnTouchListener(new OnTouchListener() {

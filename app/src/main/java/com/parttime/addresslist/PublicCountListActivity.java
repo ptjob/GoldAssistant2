@@ -39,6 +39,7 @@ public class PublicCountListActivity extends BaseActivity implements AdapterView
         adapter = new PublicCountAdapter();
         buildData();
         listView = (ListView)findViewById(R.id.listView);
+        listView.setSelector(R.drawable.mm_listitem_default_white);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 

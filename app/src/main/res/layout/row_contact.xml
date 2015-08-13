@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/contact_item_height"
-    android:background="@android:color/transparent"
+    android:background="@drawable/mm_listitem_default_white"
     android:orientation="vertical" >
 
-    <!--android:background="#E0E0E0"-->
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="23dp"
         android:background="@color/gray_block"
-        android:paddingLeft="10dp"
+        android:layout_marginLeft="10dp"
         android:textColor="@color/txt_color_black"
         android:gravity="center_vertical"
         android:textSize="15dp"
@@ -19,9 +18,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:background="@drawable/mm_listitem"
-        android:duplicateParentState="true" >
+        android:layout_height="@dimen/contact_item_height">
         <!-- 原本是 ImageView -->
         <com.quark.http.image.CircularImage
             android:id="@+id/avatar"
