@@ -23,7 +23,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.qingmu.jianzhidaren.R;
-import com.quark.db.CityDB;
+import com.quark.db.CityService;
 
 @SuppressLint("NewApi")
 public class ActionSheet {
@@ -1270,7 +1270,7 @@ public class ActionSheet {
 				android.content.Context.MODE_PRIVATE);
 		String city = sp.getString("city", "深圳");
 		ArrayList<String> countrys = new ArrayList<String>();
-		countrys = CityDB.getCitys(context, city);
+		countrys = CityService.getSubCitys(context, city);
 		country = countrys.get(0);
 		TableLayout didian_layout = (TableLayout) layout
 				.findViewById(R.id.didian_table);

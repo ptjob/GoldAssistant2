@@ -7,15 +7,15 @@ import java.io.InputStream;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.quark.jianzhidaren.ApplicationControl;
+
 /**
- * @author wangxin
- *
+ * @author wyw
  */
 public class CityDatabase {
 
-	final static String DATABASE_PATH = android.os.Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/jianzhidaren";
-	final static String DATABASE_FILENAME = "area.db";
+	final static String DATABASE_PATH = ApplicationControl.getInstance().getFilesDir().getPath();
+	final static String DATABASE_FILENAME = "qm_cities.db";
 
 	// @Override
 	// public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class CityDatabase {
 			// 如果在/sdcard/dictionary目录中不存在
 			// dictionary.db文件，则从res\raw目录中复制这个文件到
 			// SD卡的目录（/sdcard/dictionary）
-//			if (!(new File(databaseFilename)).exists()) {  如果用缓存 数据不能更新 修改为每次都重新生成数据库文件
+			if (!(new File(databaseFilename)).exists()) {  // 如果用缓存 数据不能更新 修改为每次都重新生成数据库文件
 				// 获得封装dictionary.db文件的InputStream对象
 				InputStream is = context.getAssets().open(DATABASE_FILENAME);
 				FileOutputStream fos = new FileOutputStream(databaseFilename);
@@ -48,7 +48,7 @@ public class CityDatabase {
 				}
 				fos.close();
 				is.close();
-//			}
+			}
 			// 打开/sdcard/dictionary目录中的dictionary.db文件
 			SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(
 					databaseFilename, null);

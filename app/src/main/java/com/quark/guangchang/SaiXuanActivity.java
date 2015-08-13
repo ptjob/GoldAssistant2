@@ -30,7 +30,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.ToastUtil;
-import com.quark.db.CityDB;
+import com.quark.db.CityService;
 import com.quark.jianzhidaren.BaseActivity;
 import com.quark.ui.widget.ActionSheet;
 import com.quark.ui.widget.ActionSheet.OnActionSheetSelected;
@@ -159,7 +159,7 @@ public class SaiXuanActivity extends BaseActivity implements
 			tempCity = city.substring(0, city.length() - 1);
 		}
 		// 城市view的id是用1开头 规则是i+1001
-		countrys = CityDB.getCitys(SaiXuanActivity.this, tempCity);
+		countrys = CityService.getSubCitys(SaiXuanActivity.this, tempCity);
 
 		SaixuanUi.initDidian(this, countrys, didian_layout, cityOnclick, 1);
 		// chooseCitys.add("全"+tempCity);
