@@ -1002,6 +1002,7 @@ public class MessageAndAddressFragment extends Fragment {
             HuanxinUser nullhx = new HuanxinUser();
             nullhx.setNamePinyin("aaa");
             nullhx.setName("aaa");
+            nullhx.setNamePinyin("");
             usersNick.add(0, nullhx);
             usersNick.add(0, nullhx);
             usersNick.add(0, nullhx);

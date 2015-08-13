@@ -136,6 +136,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
 
 			// 显示申请与通知item
 			if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
+                tvHeader.setVisibility(View.GONE);
 				nameTextview.setText(user.getNick());
 				avatar.setImageResource(R.drawable.new_friends_icon);
 				if (user.getUnreadMsgCount() > 0) {
@@ -148,10 +149,12 @@ public class ContactAdapter extends ArrayAdapter<User> implements
 				// 官方账号
 				nameTextview.setText(user.getNick());
 				avatar.setImageResource(R.drawable.peoplephoto);
+                tvHeader.setVisibility(View.GONE);
             } else if (username.equals(Constant.GROUP_USERNAME)) {
 				// 群聊item
 				nameTextview.setText(user.getNick());
 				avatar.setImageResource(R.drawable.peoplephoto);
+                tvHeader.setVisibility(View.GONE);
 			} else {
 				// 设置昵称 头像 头两条是群和通知 所以从联系人进来的 usersNick真实数据应该从第四条开始（开始三条为空）
 				// 2.从群设置进来 无通知和群聊，真实数据从第二个开始（第一个未空值）

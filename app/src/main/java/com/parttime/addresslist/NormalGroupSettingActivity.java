@@ -611,7 +611,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 		@Override
 		public View getView(final int position, View convertView,
 				final ViewGroup parent) {
-            Log.i(TAG,"count = " + getCount());
+
 			ViewHold viewhold;
 			if (convertView == null) {
 				viewhold = new ViewHold();
@@ -626,6 +626,7 @@ public class NormalGroupSettingActivity extends BaseActivity implements
 				viewhold = (ViewHold) convertView.getTag();
 			}
 
+            //Log.i(TAG,"count = " + getCount() + "position = " + position + ";avatar =" + viewhold.avatar);
 			// 最后一个item，减人按钮
 			if (position == getCount() - 1) {
 				viewhold.name.setText("");
@@ -931,8 +932,9 @@ public class NormalGroupSettingActivity extends BaseActivity implements
         sendBroadcast(new Intent(ActionConstants.ACTION_MESSAGE_TO_TOP));
 	}
 
-	// =============================================================
+
 	public void getNick(final String id, final ImageView avatar, final TextView name) {
+        avatar.setTag(R.id.avatar, id);
         new HuanXinRequest().getHuanxinUserList(id, queue, new DefaultCallback(){
             @Override
             public void success(Object obj) {
@@ -943,25 +945,21 @@ public class NormalGroupSettingActivity extends BaseActivity implements
                     huanXinUsers = list;
                     if(list.size() == 1) {
                         HuanxinUser us = list.get(0);
-                        if (avatar != null) {
-                            if (us.getName() != null
-                                    && !"".equals(us.getName())) {
-                                if (avatar.getTag() != null
-                                        && avatar.getTag().equals(id)) {
-                                    name.setText(us.getName());
-                                }
-                                sp.saveSharedPreferences(id + "realname", us.getName());
-                            } else {
-                                name.setText("");
+                        if (us.getName() != null
+                                && !"".equals(us.getName())) {
+                            if (avatar.getTag(R.id.avatar) != null
+                                    && avatar.getTag(R.id.avatar).equals(id)) {
+                                name.setText(us.getName());
                             }
+                            sp.saveSharedPreferences(id + "realname", us.getName());
+                        } else {
+                            name.setText("");
                         }
-                        if ((us.getAvatar() != null) && (!us.getAvatar().equals("")) && avatar != null) {
+                        if ((us.getAvatar() != null) && (!us.getAvatar().equals(""))) {
                             loadpersonPic(id, us.getAvatar(), avatar, 1);
-                        }/* else {
-                            if(avatar != null) {
-                                avatar.setBackgroundResource(R.drawable.default_avatar);
-                            }
-                        }*/
+                        } else {
+                            avatar.setBackgroundResource(R.drawable.default_avatar);
+                        }
                     }
                 }
             }
