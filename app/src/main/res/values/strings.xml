@@ -466,6 +466,12 @@
     <string name="sent">发送成功</string>
     <string name="modify_pwd_success">修改密码成功</string>
     <string name="submit_success">提交成功</string>
+    <string name="jianzhidaren">兼职达人</string>
+    <string name="about_line1">你在使用的是兼职达人商户端</string>
+    <string name="about_line2">会查看这一页的都是真爱</string>
+    <string name="about_line3">感谢你的支持</string>
+    <string name="about_line4">我们是一群精力充沛的90后</string>
+    <string name="about_line5">致力于解放人类闲时生产力</string>
 
     <!-- 注册 -->
     <string name="acquire_again">再次获取</string>

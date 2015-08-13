@@ -189,7 +189,7 @@ public class SettingActivity extends WithTitleActivity{
 
     @OnClick(R.id.fi_about)
     private void about(View v){
-
+        startActivity(new Intent(this, AboutActivity.class));
     }
 
     @OnClick(R.id.fb_logout)

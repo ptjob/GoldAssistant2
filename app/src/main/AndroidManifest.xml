@@ -936,6 +936,13 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
+            android:name="com.parttime.mine.setting.AboutActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+        <activity
             android:name="com.parttime.login.ForgetPwdActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
