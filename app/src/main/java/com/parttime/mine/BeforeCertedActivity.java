@@ -268,7 +268,7 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
 
         String bossIdCard = eiBossIdCard.getValue().trim();
         if(bossIdCard.length() <= 0){
-            showToast(R.string.please_enter_name);
+            showToast(R.string.please_enter_id_card_num);
             return false;
         }
         if(!Util.isIdCard(bossIdCard)){

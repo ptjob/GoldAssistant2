@@ -111,7 +111,7 @@ public class AfterCertedActivity extends WithTitleActivity{
         eiIdNum.setEnabled(false);
         eiName.setEnabled(false);
         if(certVo.accountType == AccountType.ENTERPRISE || !TextUtils.isEmpty(certVo.regId)){
-            eiRegId.setValue(certVo.regId);
+            eiRegId.setValue(getMaskString(certVo.regId));
             eiRegId.setEnabled(false);
         }else {
 

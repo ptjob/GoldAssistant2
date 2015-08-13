@@ -434,6 +434,13 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //		text.setText(moneyPool + "");
 		// 商家端时隐藏
 		getMiandarao();
+
+		ivCertStatus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				realNameCert();
+			}
+		});
 //		company_hit1.setVisibility(View.GONE);
 //		company_hit2.setVisibility(View.GONE);
 //		company_hit3.setVisibility(View.GONE);
