@@ -14,6 +14,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.parttime.base.LocalInitActivity;
 import com.parttime.base.WithTitleActivity;
+import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
@@ -252,11 +253,14 @@ public class MyFansActivity extends LocalInitActivity implements XListView.IXLis
             }
 
             Fans fans = (Fans) getItem(position);
-            holder.ivHead.setImageResource(R.drawable.ic_launcher);
+//            holder.ivHead.setImageResource(R.drawable.ic_launcher);
+            holder.ivHead.setTag(R.id.picture, fans.picture_1);
+            ContactImageLoader.loadNativePhoto(fans.user_name, fans.picture_1, holder.ivHead, VolleySington.getInstance().getRequestQueue());
             holder.tvName.setText(fans.user_name + " " + (fans.sex == 1 ? male : female));
             holder.tvSincereMoney.setText(context.getString(fans.earnest_money == 1 ? R.string.sincere_money_paid : R.string.sincere_money_not_paid));
             holder.tvCertStatus.setText(context.getString(fans.certification == 2 ? R.string.real_name_certed : R.string.real_name_not_certed));
             holder.rvCredit.setTotalScore(fans.creditworthiness / 10);
+            holder.rvCredit.rank(fans.creditworthiness / 10);
             return convertView;
         }
 

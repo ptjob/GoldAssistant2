@@ -406,6 +406,7 @@
     <string name="please_enter_name">请填写姓名</string>
     <string name="please_enter_id_card_num">请填写身份证号</string>
     <string name="please_enter_reg_id">请填写注册号</string>
+    <string name="please_enter_correct_reg_id">请填写正确的企业注册号</string>
     <string name="please_upload_id_card">请上传图片</string>
     <string name="name_should_be_chinese">哎呀，名字应该是汉字哦</string>
     <string name="please_enter_id_in_format">哎呀，请输入正确的身份证号码</string>
