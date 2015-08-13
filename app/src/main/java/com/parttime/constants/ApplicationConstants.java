@@ -17,6 +17,8 @@ public class ApplicationConstants {
     public static final String NORMALI_USER_PREFIX_CHAR = "u";
     public static final String SPECIAL_USER_PREFIX_CHAR = "c";
 
+    public static final String PHONE = "075523742220";
+
     public static final int PERIOD_FOR_GET_CODE = 60 * 1000;
 
 }
