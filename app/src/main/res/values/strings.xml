@@ -374,7 +374,8 @@
     <string name="wait_while_uploading_avatar">正在上传头像,请稍候。</string>
 
     <!-- 我的简介 -->
-    <string name="click_to_upload_head_img">点击上传头像</string>
+    <string name="click">点击</string>
+    <string name="click_to_upload_head_img">上传头像</string>
     <string name="brief_intro">简介</string>
     <string name="enter_your_intro_here">请在此输入您的自我介绍</string>
     <string name="preview">预览</string>

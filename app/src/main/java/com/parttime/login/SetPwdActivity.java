@@ -59,6 +59,11 @@ public class SetPwdActivity extends WithTitleActivity implements Callback{
     }
 
     @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void initViews() {
         super.initViews();
         center(R.string.change_pwd);
@@ -67,12 +72,23 @@ public class SetPwdActivity extends WithTitleActivity implements Callback{
 
     @OnClick(R.id.btn_finish)
     public void submit(View v){
+        if(!validate()){
+            return;
+        }
         showWait(true);
         Map<String, String> params  = new HashMap<String, String>();
         params.put("code", code);
         params.put("telephone", phoneNum);
-        params.put("new_password", JiaoyanUtil.MD5(eiNewPwd.getValue().trim())/*eiNewPwd.getValue().trim()*/);
+        params.put("new_password", JiaoyanUtil.MD5(eiNewPwd.getValue())/*eiNewPwd.getValue().trim()*/);
         new BaseRequest().request(Url.FORGET_PWD, params, VolleySington.getInstance().getRequestQueue(), this);
+    }
+
+    private boolean validate(){
+        if(eiNewPwd.getValue().length() < 6){
+            showToast(R.string.pwd_should_range_from_6_to_10);
+            return false;
+        }
+        return true;
     }
 
     @Override

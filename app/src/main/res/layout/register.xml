@@ -20,40 +20,44 @@
     <TextView
         style="@style/FormTitle"
         android:text="@string/validation_code"/>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:layout_marginTop="20dp">
-        <ImageView
-            android:id="@+id/iv_code_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/selector_vefify_state"
-            android:scaleType="center"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/common_margin"
-            android:visibility="gone"/>
-        <com.parttime.widget.EditItem
-            android:id="@+id/ei_code"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/form_item_height"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/iv_code_ok"
-            android:background="@color/white"
-            app:ei_hint="@string/unfill"
-            app:ei_nameShow="false"/>
+        android:orientation="vertical"
+        android:background="@color/white">
         <include layout="@layout/view_divider"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_width"
-            android:layout_above="@id/ei_validation_code"/>
+            android:layout_height="@dimen/divider_width" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_code_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/selector_vefify_state"
+                android:scaleType="center"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/common_margin"
+                android:visibility="gone"/>
+            <com.parttime.widget.EditItem
+                android:id="@+id/ei_code"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/iv_code_ok"
+                android:background="@color/white"
+                app:ei_hint="@string/unfill"
+                app:ei_nameShow="false"
+                app:ei_topDividerShow="false"
+                app:ei_bottomDividerShow="false"/>
+        </RelativeLayout>
+
         <include layout="@layout/view_divider"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_width"
-            android:layout_below="@id/ei_validation_code"/>
-    </RelativeLayout>
+            android:layout_height="@dimen/divider_width" />
+    </LinearLayout>
 
 
     <RelativeLayout

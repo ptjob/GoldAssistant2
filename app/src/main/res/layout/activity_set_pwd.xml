@@ -19,6 +19,7 @@
     <Button
         android:id="@+id/btn_finish"
         style="@style/CommonButton.Blue"
+        android:layout_marginTop="@dimen/button_margin"
         android:text="@string/finish"
         android:layout_gravity="center_horizontal"/>
 </LinearLayout>

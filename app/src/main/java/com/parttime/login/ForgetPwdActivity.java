@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.carson.constant.ConstantForSaveList;
@@ -32,9 +35,9 @@ import java.util.Map;
 /**
  * Created by cjz on 2015/7/24.
  */
-public class ForgetPwdActivity extends LocalInitActivity implements CountDownTimer.TimeTick{
+public class ForgetPwdActivity extends LocalInitActivity implements CountDownTimer.TimeTick, TextWatcher{
 
-
+    private static final int CODE_LEN = 6;
 
     @ViewInject(R.id.ei_phone_num)
     private EditItem eiPhone;
@@ -49,6 +52,9 @@ public class ForgetPwdActivity extends LocalInitActivity implements CountDownTim
     @ViewInject(R.id.tv_failed_to_get_code)
     private TextView tvFailToGetCode;
 
+    @ViewInject(R.id.iv_code_ok)
+    private ImageView ivVerify;
+
     private CustomDialog dlg;
     private String validateCode;
     private String phoneNum;
@@ -57,6 +63,10 @@ public class ForgetPwdActivity extends LocalInitActivity implements CountDownTim
     private static long lastTime;
 
     private String stringAgain;
+
+    private boolean everReachLen;
+    private String code;
+    private int lastLen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +88,7 @@ public class ForgetPwdActivity extends LocalInitActivity implements CountDownTim
             countDownTimer.start();
         }
 
+        eiCode.addTextChangeListener(this);
     }
 
     private boolean validatePhoneNum(){
@@ -126,6 +137,32 @@ public class ForgetPwdActivity extends LocalInitActivity implements CountDownTim
             return false;
         }
         return true;
+    }
+
+    private void verifyCode(){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("telephone", phoneNum);
+        params.put("code", code);
+        new BaseRequest().request(Url.MESSAGE_VALIDATE, params, VolleySington.getInstance().getRequestQueue(), new Callback() {
+            @Override
+            public void success(Object obj) {
+                if (!everReachLen) {
+                    ivVerify.setVisibility(View.VISIBLE);
+                    everReachLen = true;
+                }
+                ivVerify.setSelected(true);
+                btnNext.setEnabled(true);
+            }
+
+            @Override
+            public void failed(Object obj) {
+                if (!everReachLen) {
+                    ivVerify.setVisibility(View.VISIBLE);
+                    everReachLen = true;
+                }
+                ivVerify.setSelected(false);
+            }
+        });
     }
 
     @OnClick(R.id.btn_next)
@@ -233,5 +270,32 @@ public class ForgetPwdActivity extends LocalInitActivity implements CountDownTim
     @Override
     public void goOn() {
 
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        code = eiCode.getValue();
+        int length = s.length();
+        if(length == CODE_LEN){
+            if(lastLen < CODE_LEN){
+                verifyCode();
+            }
+        }else {
+            if(lastLen == CODE_LEN){
+                ivVerify.setSelected(false);
+                btnNext.setEnabled(false);
+            }
+        }
+        lastLen = length;
     }
 }
