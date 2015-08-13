@@ -1,6 +1,7 @@
 package com.parttime.main;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -54,6 +55,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.NetUtils;
 import com.parttime.IM.ChatActivity;
 import com.parttime.addresslist.PublicCountListActivity;
+import com.parttime.common.head.ActivityHead;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.ConstantForSaveListHelper;
 import com.parttime.main.adapter.ChatAllHistoryAdapter;
@@ -120,7 +122,7 @@ public class MessageAndAddressFragment extends Fragment {
     protected Addressbook addressbook = new Addressbook();
     protected Message message = new Message();
 
-	public static MessageAndAddressFragment newInstance(String param1, String param2) {
+	public static MessageAndAddressFragment newInstance() {
 		MessageAndAddressFragment fragment = new MessageAndAddressFragment();
 		return fragment;
 	}
@@ -129,6 +131,11 @@ public class MessageAndAddressFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		queue = VolleySington.getInstance().getRequestQueue();
+        Activity activity = getActivity();
+        if(activity instanceof MainTabActivity){
+            MainTabActivity mta = (MainTabActivity)activity ;
+            mta.messageAndAddressFragment = this;
+        }
 	}
 
 	@Override
