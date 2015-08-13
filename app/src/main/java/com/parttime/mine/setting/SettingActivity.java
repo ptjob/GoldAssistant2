@@ -171,16 +171,18 @@ public class SettingActivity extends WithTitleActivity{
             @Override
             public void run() {
                 super.run();
-                ContactImageLoader.clearCache();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!isFinishing()){
-                            getCacheSize();
-                            showToast(R.string.clear_success);
+                if(ContactImageLoader.getCacheSize() > 0) {
+                    ContactImageLoader.clearCache();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!isFinishing()) {
+                                getCacheSize();
+                                showToast(R.string.clear_success);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }.start();
     }
