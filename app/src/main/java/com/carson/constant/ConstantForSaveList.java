@@ -47,4 +47,6 @@ public class ConstantForSaveList {
     public static HashMap<String , Map<String , String >> aliasCache = new HashMap<>();
     //免扰缓存
     public static HashSet<String> disturbCache = new HashSet<>();
+    //禁言缓存
+    public static HashSet<String> gagCache = new HashSet<>();
 }

@@ -38,8 +38,8 @@ import com.easemob.chatuidemo.db.UserDao;
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
+import com.parttime.constants.ApplicationInitCache;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.main.MainTabActivity;
 import com.parttime.net.BaseRequest;
@@ -65,7 +65,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -446,17 +445,7 @@ public class FindPJLoginActivity extends BaseActivity {
 								EMGroupManager.getInstance()
 										.getGroupsFromServer();
 
-                                //初始化禁言列表
-                                if(ConstantForSaveList.disturbCache == null || ConstantForSaveList.disturbCache.size() == 0){
-                                    String disturbStr = SharePreferenceUtil.getInstance(FindPJLoginActivity.this)
-                                            .loadStringSharedPreference(SharedPreferenceConstants.DISTURB_CONFIGGURE);
-                                    if(!TextUtils.isEmpty(disturbStr)){
-                                        HashSet<String> data = new Gson().fromJson(disturbStr, new TypeToken<HashSet<String>>(){}.getType());
-                                        if(data != null && data.size() > 0){
-                                            ConstantForSaveList.disturbCache.addAll(data);
-                                        }
-                                    }
-                                }
+                                ApplicationInitCache.initData(SharePreferenceUtil.getInstance(FindPJLoginActivity.this), new Gson());
 							} catch (Exception e) {
 								e.printStackTrace();
 								runOnUiThread(new Runnable() {

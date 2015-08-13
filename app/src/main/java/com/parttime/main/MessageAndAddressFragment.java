@@ -604,6 +604,12 @@ public class MessageAndAddressFragment extends Fragment {
         ConstantForSaveListHelper.cacheGroupType();
         if(messageAdapter != null) {
             messageAdapter.notifyDataSetChanged();
+        }else{
+            /*messageAdapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
+            messageAdapter.messageSetMap = messageSetMap;
+
+            // 设置adapter
+            messageListView.setAdapter(messageAdapter);*/
         }
     }
 

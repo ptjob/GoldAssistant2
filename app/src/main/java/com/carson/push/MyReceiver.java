@@ -1,24 +1,25 @@
 package com.carson.push;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
-import cn.jpush.android.api.JPushInterface;
 
 import com.carson.broker.JiedanActivity;
 import com.carson.constant.ConstantForSaveList;
+import com.google.gson.Gson;
+import com.parttime.constants.SharedPreferenceConstants;
+import com.parttime.login.StartUpActivity;
+import com.parttime.main.MainTabActivity;
 import com.parttime.utils.SharePreferenceUtil;
 import com.quark.guanli.BaomingListActivity;
-import com.parttime.main.MainTabActivity;
-import com.parttime.login.StartUpActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 自定义接收器
@@ -26,6 +27,10 @@ import com.parttime.login.StartUpActivity;
  * 如果不定义这个 Receiver，则： 1) 默认用户会打开主界面 2) 接收不到自定义消息
  */
 public class MyReceiver extends BroadcastReceiver {
+
+    private static final String GAG = "5";
+    private static final String UNGAG = "6";
+
 	private static final String TAG = "JPush";
 	private SharePreferenceUtil sp;
 
@@ -61,6 +66,21 @@ public class MyReceiver extends BroadcastReceiver {
 				todo = extrasJson.optString("todo");
 				myJob = extrasJson.optString("myJob");
 				myComment = extrasJson.optString("myComment");
+                String type = extrasJson.getString("type");
+                String groupId = extrasJson.getString("group_id");
+
+                if(GAG.equals(type)){
+                    if(ConstantForSaveList.gagCache != null){
+                        ConstantForSaveList.gagCache.add(groupId);
+                        saveGagConfigure();
+                    }
+                }else if(UNGAG.equals(type)){
+                    if(ConstantForSaveList.gagCache != null){
+                        ConstantForSaveList.gagCache.remove(groupId);
+                        saveGagConfigure();
+                    }
+                }
+
 				if (null != todo) {
 					try {
 						target = Integer.parseInt(todo);
@@ -230,7 +250,14 @@ public class MyReceiver extends BroadcastReceiver {
 		}
 	}
 
-	// 打印所有的 intent extra 数据
+    private void saveGagConfigure() {
+        if(ConstantForSaveList.gagCache != null) {
+            String gagCache = new Gson().toJson(ConstantForSaveList.gagCache);
+            sp.saveSharedPreferences(SharedPreferenceConstants.GAG_CONFIGGURE,gagCache);
+        }
+    }
+
+    // 打印所有的 intent extra 数据
 	private static String printBundle(Bundle bundle) {
 		StringBuilder sb = new StringBuilder();
 		for (String key : bundle.keySet()) {

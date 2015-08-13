@@ -403,7 +403,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                 .newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
         // 判断单聊还是群聊
         chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
-        if (chatType == CHATTYPE_SINGLE) { // 单聊
+        if (isSingleChat()) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
             //chatBottomBarHelper = new ChatBottomBarHelper(this);
             if (toChatUsername != null && !"".equals(toChatUsername)) {
@@ -479,7 +479,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
             if (msgs != null && msgs.size() > 0) {
                 msgId = msgs.get(0).getMsgId();
             }
-            if (chatType == CHATTYPE_SINGLE) {
+            if (isSingleChat()) {
                 conversation.loadMoreMsgFromDB(msgId, pagesize);
             } else {
                 conversation.loadMoreGroupMsgFromDB(msgId, pagesize);
@@ -563,6 +563,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
             forwardMessage(forward_msg_id);
         }
 
+    }
+
+    private boolean isSingleChat() {
+        return chatType == CHATTYPE_SINGLE;
     }
 
     private void setGroupChatTitle() {
@@ -867,6 +871,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      *            message content
      */
     private void sendText(String content) {
+        if(isGag()){
+            return ;
+        }
 
         if (content.length() > 0) {
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
@@ -899,6 +906,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      */
     private void sendVoice(String filePath, String fileName, String length,
                            boolean isResend) {
+        if(isGag()){
+            return ;
+        }
         if (!(new File(filePath).exists())) {
             return;
         }
@@ -931,6 +941,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      * @param filePath String
      */
     private void sendPicture(final String filePath) {
+        if(isGag()){
+            return ;
+        }
         String to = toChatUsername;
         // create and add image message in view
         final EMMessage message = EMMessage
@@ -990,6 +1003,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      * @param selectedImage Uri
      */
     private void sendPicByUri(Uri selectedImage) {
+        if(isGag()){
+            return ;
+        }
         // String[] filePathColumn = { MediaStore.Images.Media.DATA };
         Cursor cursor = getContentResolver().query(selectedImage, null, null,
                 null, null);
@@ -1031,6 +1047,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      */
     private void sendLocationMsg(double latitude, double longitude,
                                  String imagePath, String locationAddress) {
+        if(isGag()){
+            return ;
+        }
         EMMessage message = EMMessage
                 .createSendMessage(EMMessage.Type.LOCATION);
         // 如果是群聊，设置chattype,默认是单聊
@@ -1148,8 +1167,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      * 重发消息
      */
     private void resendMessage() {
-        EMMessage msg = null;
-        msg = conversation.getMessage(resendPos);
+        if(isGag()){
+            return ;
+        }
+        EMMessage msg = conversation.getMessage(resendPos);
         // msg.setBackSend(true);
         msg.status = EMMessage.Status.CREATE;
 
@@ -1710,7 +1731,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                         try {
                             // 获取更多messges，调用此方法的时候从db获取的messages
                             // sdk会自动存入到此conversation中
-                            if (chatType == CHATTYPE_SINGLE)
+                            if (isSingleChat())
                                 messages = conversation.loadMoreMsgFromDB(adapter
                                         .getItem(0).message.getMsgId(), pagesize);
                             else
@@ -1901,5 +1922,23 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         });
     }
 
+    /**
+     * 判断是否禁言
+     * @return false: 没有禁言
+     *         true:被禁言
+     */
+    public boolean isGag(){
+        if(isSingleChat()){
+            return false;
+        }
+        if(ConstantForSaveList.gagCache != null){
+            boolean contain = ConstantForSaveList.gagCache.contains(toChatUsername);
+            if(contain){
+                Toast.makeText(this,"您已被禁言",Toast.LENGTH_LONG).show();
+            }
+            return contain;
+        }
+        return false;
+    }
 
 }
