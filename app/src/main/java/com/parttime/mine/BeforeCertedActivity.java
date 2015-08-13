@@ -238,6 +238,8 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
                 if(AfterCertedActivity.instance != null && !AfterCertedActivity.instance.isFinishing()){
                     AfterCertedActivity.instance.finish();
                 }
+                showToast(R.string.submit_success);
+                finish();
 
             }
 
