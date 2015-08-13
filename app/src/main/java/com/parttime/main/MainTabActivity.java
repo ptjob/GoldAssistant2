@@ -138,6 +138,9 @@ public class MainTabActivity extends BaseActivity implements
 
 
     public static final String PINGBI = "pingbi";
+    private final int TAB_MESSAGE = 0;
+    private final int TAB_PUBLISH = 1;
+    private final int TAB_MINE = 2;
     protected RequestQueue queue;
 	protected WaitDialog dialog;
 	// 极光推送
@@ -161,7 +164,7 @@ public class MainTabActivity extends BaseActivity implements
 	protected NotificationManager notificationManager;
 	private static final int notifiId = 11;
 
-	private MessageAndAddressFragment messageAndAddressFragment;
+	public MessageAndAddressFragment messageAndAddressFragment;
 	// 当前fragment的index
 	private int currentTabIndex;
 	private NewMessageBroadcastReceiver msgReceiver;
@@ -180,7 +183,7 @@ public class MainTabActivity extends BaseActivity implements
     private Gson gson = new Gson();
     private MainBroadCastReceiver mainBroadCastReceiver;
 
-	/**
+    /**
 	 * 检查当前用户是否被删除
 	 */
 	public boolean getCurrentAccountRemoved() {
@@ -280,7 +283,7 @@ public class MainTabActivity extends BaseActivity implements
 
 		inviteMessgeDao = new InviteMessgeDao(this);
 		userDao = new UserDao(this);
-		messageAndAddressFragment = new MessageAndAddressFragment();
+		//messageAndAddressFragment = new MessageAndAddressFragment();
 
 		initEasemob();
 
@@ -707,18 +710,22 @@ public class MainTabActivity extends BaseActivity implements
 		Fragment f = null;
 		switch (pager) {
 		case MESSAGE:
-			currentTabIndex = 0;
-			f = messageAndAddressFragment = new MessageAndAddressFragment();
+			currentTabIndex = TAB_MESSAGE;
+            if(messageAndAddressFragment == null) {
+                messageAndAddressFragment = new MessageAndAddressFragment();
+            }
+            f = messageAndAddressFragment;
+
 			break;
         case PUBLISH:
-            currentTabIndex = 1;
+            currentTabIndex = TAB_PUBLISH;
             if (introduceFragment == null) {
                 introduceFragment = PublishFragment.newInstance(null, null);
             }
             f = introduceFragment;
             break;
 		case MINE:
-			currentTabIndex = 2;
+			currentTabIndex = TAB_MINE;
 			if (myFragment == null) {
 				myFragment = MyFragment.newInstance(null, null);
 			}
@@ -880,7 +887,7 @@ public class MainTabActivity extends BaseActivity implements
 				notifyNewMessage(message);
 			}
 			updateUnreadMsg();
-			if (currentTabIndex == 1) {
+			if (currentTabIndex == TAB_MESSAGE) {
 				// 当前页面如果为聊天历史页面，刷新此页面
 				if (messageAndAddressFragment != null) {
 					messageAndAddressFragment.message.refresh();
@@ -1083,7 +1090,7 @@ public class MainTabActivity extends BaseActivity implements
 
 					}
 					updateUnreadMsg();// 刷新圈子
-					if (currentTabIndex == 1)
+					if (currentTabIndex == TAB_MESSAGE)
 						messageAndAddressFragment.message.refresh();
 				}
 			});
@@ -1300,7 +1307,7 @@ public class MainTabActivity extends BaseActivity implements
 					// updateUnreadLabel();
 					// 刷新ui
 					// 有新群建立时
-					if (currentTabIndex == 1) {
+					if (currentTabIndex == TAB_MESSAGE) {
 						messageAndAddressFragment.message.refresh();
 					}
 					if (CommonUtils.getTopActivity(MainTabActivity.this)
@@ -1332,7 +1339,7 @@ public class MainTabActivity extends BaseActivity implements
 				public void run() {
 					try {
 						// updateUnreadLabel();
-						if (currentTabIndex == 1)
+						if (currentTabIndex == TAB_MESSAGE)
 							messageAndAddressFragment.message.refresh();
 						if (CommonUtils
 								.getTopActivity(MainTabActivity.this)
@@ -1355,7 +1362,7 @@ public class MainTabActivity extends BaseActivity implements
 			runOnUiThread(new Runnable() {
 				public void run() {
 					// updateUnreadLabel();
-					if (currentTabIndex == 1)
+					if (currentTabIndex == TAB_MESSAGE)
 						messageAndAddressFragment.message.refresh();
 					if (CommonUtils.getTopActivity(MainTabActivity.this)
 							.equals(GroupsActivity.class.getName())) {
@@ -1417,7 +1424,7 @@ public class MainTabActivity extends BaseActivity implements
 				public void run() {
 					// updateUnreadLabel();
 					// 刷新ui
-					if (currentTabIndex == 1) {
+					if (currentTabIndex == TAB_MESSAGE) {
 						messageAndAddressFragment.message.refresh();
 					}
 					if (CommonUtils.getTopActivity(MainTabActivity.this)
@@ -2156,7 +2163,7 @@ public class MainTabActivity extends BaseActivity implements
                 // 保存经纪人分享开关和分享链接
                 boolean allow_company_share = appInfo.getInt("allow_company_share") != 0;
                 SharePreferenceUtil.getInstance(this).saveSharedPreferences(SharedPreferenceConstants.ALLOW_COMPANY_SHARE, allow_company_share);
-                String companyShareUrl = appInfo.getString("company_share_url");
+                String companyShareUrl = appInfo.getString("company_client_url");
                 if(! TextUtils.isEmpty(companyShareUrl))
                     SharePreferenceUtil.getInstance(this).saveSharedPreferences(SharedPreferenceConstants.COMPANY_SHARE_URL, companyShareUrl);
             }

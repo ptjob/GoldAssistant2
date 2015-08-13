@@ -205,16 +205,16 @@ public class MyReceiver extends BroadcastReceiver {
 					b.putString("female_count", female_count);
 					b.putString("male_count", male_count);
 					b.putBoolean("fromNotification", true);
-					Intent i = new Intent(context, BaomingListActivity.class);
+					/*Intent i = new Intent(context, BaomingListActivity.class);
 					i.putExtras(b);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					context.startActivity(i);
+					context.startActivity(i);*/
 				} else if ("2".equals(type)) {
-					Intent i = new Intent(context, JiedanActivity.class);
+					/*Intent i = new Intent(context, JiedanActivity.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					context.startActivity(i);
+					context.startActivity(i);*/
 				}
 
 			} else {

@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="#51a3d7"
-    android:orientation="vertical" >
+    android:background="@drawable/qidongye"
+    android:orientation="vertical"
+    >
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/iv_icon"
         android:layout_width="96dp"
         android:layout_height="136dp"
@@ -26,7 +27,7 @@
         android:layout_height="120dp"
         android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/startup_cloud"/>
+        android:src="@drawable/startup_cloud"/>-->
 
 
 </RelativeLayout>
