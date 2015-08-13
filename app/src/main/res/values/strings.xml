@@ -135,7 +135,7 @@
     <string name="parttime_scchool">兼职学堂</string>
 
     <!-- 编辑群通知 -->
-    <string name="group_notice_function_declare">群通知是XXX的功能</string>
+    <string name="group_notice_function_declare">群通知内容</string>
     <string name="group_notice_max_count_tip">限制输入数为%1$d</string>
     <string name="group_notice_hint">请在此输入您想让群成员看到的通知</string>
 
