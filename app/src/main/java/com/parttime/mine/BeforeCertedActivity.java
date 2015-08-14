@@ -271,7 +271,7 @@ public class BeforeCertedActivity extends UpLoadPicActivity{
             showToast(R.string.please_enter_id_card_num);
             return false;
         }
-        if(!Util.isIdCard(bossIdCard)){
+        if(!Util.IDCardValidate(bossIdCard)){
             showToast(R.string.please_enter_id_in_format);
             return false;
         }
