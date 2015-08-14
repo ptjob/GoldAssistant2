@@ -221,7 +221,7 @@ public class Util {
 	//验证身份证号码是否合法
 	public static boolean IDCardValidate(String IDStr){
 		String errorInfo="";          //记录错误信息
-		String []ValCode={"1","0","x","9","8","7","6","5","4","3","2"};          //校验码<身份证最后一位>
+		String []ValCode={"1","0","X","9","8","7","6","5","4","3","2"};          //校验码<身份证最后一位>
 		String[] Wi={"7","9","10","5","8","4","2","1","6","3","7","9","10","5","8","4","2"};
 		//Wi表示第i位置上的加权因子
 		String Ai="";                 //第i位置上的身份证号码数字值
