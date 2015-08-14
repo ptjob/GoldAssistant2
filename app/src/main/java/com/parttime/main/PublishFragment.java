@@ -493,7 +493,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
             return;
         }
         int oldSize = bannerIvs.size();
-        int need = banners.size() <= 3 ? banners.size() * 2 : banners.size();
+        int need = banners.size()/* <= 3 ? banners.size() * 2 : banners.size()*/;
         if(oldSize > need){
             do {
                 bannerIvs.remove(bannerIvs.size() - 1);
@@ -698,7 +698,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public int getCount() {
-            return views.size() <= 0 ? 0 : Integer.MAX_VALUE;
+            return views.size()/* <= 0 ? 0 : Integer.MAX_VALUE*/;
         }
 
         @Override
@@ -798,7 +798,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     if(views.size() <= 0){
                         return;
                     }
-                    int currentItem = (pager.getCurrentItem() + 1)/* % views.size()*/;
+                    int currentItem = (pager.getCurrentItem() + 1) % views.size();
                     pager.setCurrentItem(currentItem , true);
                     stepView.current(currentItem );
                     handler.postDelayed(this, duration);
@@ -826,21 +826,26 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         }
 
         private boolean moved;
+        private float downX, downY, upX, upY;
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()){
 
                 case MotionEvent.ACTION_DOWN:
                     moved = false;
-//                    handler.removeCallbacks(worker);
+                    downX = event.getX();
+                    downY = event.getY();
+                    handler.removeCallbacks(worker);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     moved = true;
-//                    handler.removeCallbacks(worker);
+                    handler.removeCallbacks(worker);
                     break;
                 case MotionEvent.ACTION_UP:
-//                    handler.postDelayed(worker, duration);
-                    if(!moved) {
+                    handler.postDelayed(worker, duration);
+                    upX = event.getX();
+                    upY = event.getY();
+                    if(!moved || Math.sqrt(Math.pow(upX - downY, 2) + Math.pow(upY - downY, 2)) < 6) {
                         int currentItem = pager.getCurrentItem();
                         if(views.size() > 0){
                             onBannerItemClick.onClick(views.get(currentItem % views.size()));
