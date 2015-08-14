@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -147,7 +148,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	private void updateView(){
 		if(function != null){
 			String avatar = function.getAvatar();
-			ContactImageLoader.loadNativePhoto(null, avatar, ivHead, VolleySington.getInstance().getRequestQueue());
+			if(!TextUtils.isEmpty(avatar)) {
+				ContactImageLoader.loadNativePhoto(null, avatar, ivHead, VolleySington.getInstance().getRequestQueue());
+			}else {
+				ivHead.setBackgroundResource(R.drawable.default_avatar);
+			}
 			tvName.setText(function.getName());
 //			tvScore.setText(getString(R.string.x_scores, function.getPoint()));
 			rvRank.rank((int) function.getPoint());
