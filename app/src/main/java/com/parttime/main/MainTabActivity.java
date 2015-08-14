@@ -80,6 +80,7 @@ import com.easemob.util.NetUtils;
 import com.google.gson.Gson;
 import com.parttime.IM.ChatActivity;
 import com.parttime.addresslist.GroupsActivity;
+import com.parttime.base.IntentManager;
 import com.parttime.common.update.UpdateUtils;
 import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ApplicationConstants;
@@ -1556,6 +1557,7 @@ public class MainTabActivity extends BaseActivity implements
 								sp.saveSharedPreferences("userId", "");
 								sp.saveSharedPreferences("token", "");
 								finish();
+								IntentManager.intentToLoginActivity(MainTabActivity.this);
 								// startActivity(new
 								// Intent(MainTabActivity.this,
 								// EnterActivity.class));
