@@ -98,6 +98,7 @@ public class RegisterInfoActivity extends WithTitleActivity{
             intent.putExtra(SetGenderActivity.EXTRA_NAME, name);
             intent.putExtra(SetGenderActivity.EXTRA_CODE, code);
             intent.putExtra(SetGenderActivity.EXTRA_PWD_ENCODED, JiaoyanUtil.MD5(pwd));
+            intent.putExtra(SetGenderActivity.EXTRA_PWD, pwd);
             startActivity(intent);
         }
 
