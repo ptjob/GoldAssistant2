@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class RechargeActivity extends LocalInitActivity {
     protected SingleSelectLayout sslAmount;
     @ViewInject(R.id.btn_pay)
     protected Button btnPay;
+    @ViewInject(R.id.iv_alipay)
+    protected ImageView ivAlipay;
 
     private String orderId;
 
@@ -118,6 +121,7 @@ public class RechargeActivity extends LocalInitActivity {
         super.initViews();
         center(R.string.recharge);
         left(TextView.class, R.string.back);
+        ivAlipay.setSelected(true);
         initRechargeAmount();
     }
 
@@ -138,7 +142,16 @@ public class RechargeActivity extends LocalInitActivity {
             showToast(R.string.please_select_recharge_amount);
             return false;
         }
+        if(!ivAlipay.isSelected()){
+            showToast(R.string.please_select_recharge_way);
+            return false;
+        }
         return true;
+    }
+
+    @OnClick(R.id.iv_alipay)
+    public void payWay(View v){
+        v.setSelected(!v.isSelected());
     }
 
     @OnClick(R.id.btn_pay)

@@ -420,6 +420,7 @@
     <string name="alipay">支付宝</string>
     <string name="confirm_to_pay">确认支付</string>
     <string name="please_select_recharge_amount">请选择充值金额</string>
+    <string name="please_select_recharge_way">请选择充值方式</string>
     <string name="jian_zhe_da_ren_recharge">兼职达人个人账户充值</string>
     <string name="yuan">元</string>
     <string name="total_praise">总好评率</string>
