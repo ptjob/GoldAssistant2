@@ -326,7 +326,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	private void loadHuncunFirst() {
 		Bitmap bitmap = ContactImageLoader.get(user_id);
 		if(bitmap != null){
-			ivHead.setImageBitmap(bitmap);
+			ivHead.setBackgroundDrawable(ContactImageLoader.bitmapToDrawable(bitmap));
 		}
 //		TextView textView = (TextView) view.findViewById(R.id.name);
 //		textView.setText(sp.getString(company_id + "name", "未知"));

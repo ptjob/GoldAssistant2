@@ -46,6 +46,9 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.parttime.common.Image.ContactImageLoader;
+import com.parttime.utils.ApplicationUtils;
+import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
 import com.quark.ui.widget.ActionSheet.OnActionSheetSelected;
 import com.quark.utils.Util;
@@ -196,7 +199,7 @@ public class UploadImg {
 									uploadListener.fail();
 
 								}else {
-									Toast mToast = Toast.makeText(context, "上传失败", 0);
+									Toast mToast = Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT);
 									mToast.setGravity(Gravity.CENTER, 0, 0);
 									mToast.show();
 								}
@@ -205,14 +208,15 @@ public class UploadImg {
 							if(uploadListener != null){
 								uploadListener.success();
 							}else {
-								Toast mToast = Toast.makeText(context, "上传成功", 0);
+								Toast mToast = Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT);
 								mToast.setGravity(Gravity.CENTER, 0, 0);
 								mToast.show();
 							}
 							Bitmap bitm = BitmapFactory.decodeFile(pathstr);
 							// Bitmap bitm = MyResumeActivity.zoomImg(
 							// new File(pathstr), 300, 300);
-							imageView.setImageBitmap(bitm);
+//							imageView.setBackgroundDrawable(ContactImageLoader.bitmapToDrawable(bitm));
+                            imageView.setImageBitmap(bitm);
 							// 保存上传后的图片url,下载到本地
 							OutputStream output = null;
 
@@ -233,6 +237,7 @@ public class UploadImg {
 									output);
 							output.flush();
 							output.close();
+                            SharePreferenceUtil.getInstance(context).saveSharedPreferences(ApplicationUtils.getLoginId() + "_photo", pic);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

@@ -193,6 +193,7 @@ public class EditMyIntroActivity extends LocalInitActivity {
                 }
             }
         }
+        ContactImageLoader.loadNativePhoto(getCompanyId(), null, ivHead, -1, VolleySington.getInstance().getRequestQueue());
     }
 
     protected void initWorkTypes(){
@@ -521,7 +522,7 @@ public class EditMyIntroActivity extends LocalInitActivity {
                                 + MainTabActivity.token;
                         UploadImg.getImageToView(this, data,
                                 ivHead, uploadAvatarUrl, null, null,
-                                null, "avatar", null, "company_id", getCompanyId(),
+                                null, "photo", null, "company_id", getCompanyId(),
                                 null, null);
                     }
                     break;

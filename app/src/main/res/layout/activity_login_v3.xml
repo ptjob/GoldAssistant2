@@ -39,7 +39,7 @@
                         android:id="@+id/iv_phone_icon"
                         android:layout_width="21dp"
                         android:layout_height="21dp"
-                        android:src="@drawable/other_login_icon_phone"
+                        android:src="@drawable/username"
                         android:layout_marginLeft="12dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"/>
@@ -70,7 +70,7 @@
                         android:id="@+id/iv_pwd_icon"
                         android:layout_width="21dp"
                         android:layout_height="21dp"
-                        android:src="@drawable/other_login_icon_phone"
+                        android:src="@drawable/pw"
                         android:layout_marginLeft="12dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"/>
