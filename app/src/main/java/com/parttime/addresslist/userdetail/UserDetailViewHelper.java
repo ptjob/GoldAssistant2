@@ -2,6 +2,7 @@ package com.parttime.addresslist.userdetail;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,6 +64,8 @@ public class UserDetailViewHelper implements View.OnClickListener {
     public FriendContentContainer friendContentContainer;
     public AppraiseContentContainer appraiseContentContainer;
 
+    public Button goLeft, goRight;
+
     UserDetailPagerAdapter.UserDetailFragment userDetailFragment;
     UserDetailPagerAdapter userDetailPagerAdapter;
 
@@ -102,6 +105,9 @@ public class UserDetailViewHelper implements View.OnClickListener {
         certificationTxt = (TextView)view.findViewById(R.id.certification_value);
         pictureNum = (TextView)view.findViewById(R.id.picture_num);
 
+        goLeft = (Button)view.findViewById(R.id.go_left);
+        goRight = (Button)view.findViewById(R.id.go_right);
+
         head = (ImageView)view.findViewById(R.id.head);
 
         if(initContent == InitContent.INIT_RESUME){//初始化简历
@@ -129,6 +135,19 @@ public class UserDetailViewHelper implements View.OnClickListener {
             appraiseContentContainer = new AppraiseContentContainer(userDetailFragment,userDetailPagerAdapter);
             appraiseContentContainer.initView(evaluationContainer);
         }
+
+        if(userDetailPagerAdapter.userDetailActivity.showGuide){
+            goLeft.setVisibility(View.VISIBLE);
+            goRight.setVisibility(View.VISIBLE);
+            userDetailPagerAdapter.userDetailActivity.showGuide = false;
+        }
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goLeft.setVisibility(View.GONE);
+                goRight.setVisibility(View.GONE);
+            }
+        },2000);
 
         setListener();
     }

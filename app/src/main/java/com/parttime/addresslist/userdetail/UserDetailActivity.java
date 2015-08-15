@@ -51,6 +51,8 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
     public RequestQueue queue;
     private final int modify_group_name_remark = 1;
 
+    public boolean showGuide = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_user_detail);
