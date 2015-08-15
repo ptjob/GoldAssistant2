@@ -16,6 +16,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="197dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="没有数据"/>
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
@@ -27,6 +33,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_width"
+                android:background="@color/form_divider"
+                android:layout_alignParentBottom="true"/>
             <!--<ImageView
                 android:id="@+id/iv_preloading"
                 android:layout_width="match_parent"

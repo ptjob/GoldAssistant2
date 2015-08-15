@@ -361,7 +361,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
     private boolean hasNativeBanner;
 
     private void loadFromNative(){
-        String s = SharePreferenceUtil.getInstance(activity).loadStringSharedPreference(SharedPreferenceConstants.BANNERS_INFO);
+        String s = SharePreferenceUtil.getInstance(activity).loadStringSharedPreference(SharedPreferenceConstants.BANNERS_INFO + "_" + city);
         if(!TextUtils.isEmpty(s)) {
             try {
                 List<BannerItem> bis = gson.fromJson(s, new TypeToken<List<BannerItem>>() {
@@ -401,7 +401,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     }
                     banners.clear();
                     banners.addAll(bis);
-                    SharePreferenceUtil.getInstance(activity).saveSharedPreferences(SharedPreferenceConstants.BANNERS_INFO, gson.toJson(bis));
+                    SharePreferenceUtil.getInstance(activity).saveSharedPreferences(SharedPreferenceConstants.BANNERS_INFO + "_" + city, gson.toJson(bis));
                     startBanners(true);
                 }
 
@@ -497,7 +497,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
         if(oldSize > need){
             do {
                 bannerIvs.remove(bannerIvs.size() - 1);
-            }while(bannerIvs.size() == need);
+            }while(bannerIvs.size() > need);
         }else if(oldSize < need){
             for(int i = 0; i < need - oldSize; ++i){
                 ImageView imageView = mkIv(i + oldSize);
@@ -560,6 +560,12 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
 
                 }
             }, i);
+        }
+
+        if(bannerIvs.size() <= 0){
+            viewPager.setVisibility(View.GONE);
+        }else {
+            viewPager.setVisibility(View.VISIBLE);
         }
 
         autoSlideManager.setInitPosition(lastPos);
