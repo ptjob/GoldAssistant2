@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.carson.constant.ConstantForSaveList;
 import com.parttime.constants.ActivityExtraAndKeys;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
@@ -42,6 +43,7 @@ public class ContactImageLoader {
 
     public static final String Image_Path = Environment.getExternalStorageDirectory() + "/"
             + "jzdr/" + "image";
+    public  static final String _PHOTO = "_photo";
 
     public static Bitmap get(String id){
         return get(id, null);
@@ -69,7 +71,7 @@ public class ContactImageLoader {
             picture = new File(Image_Path, imgName);
         }else {
             picture = new File(Image_Path,
-                    sp.loadStringSharedPreference(id + "_photo", "c"));
+                    sp.loadStringSharedPreference(id + _PHOTO, "c"));
         }
         if (! picture.isDirectory() && picture.exists()) {
             // 加载本地图片
@@ -115,6 +117,9 @@ public class ContactImageLoader {
      */
     public static void loadpersonPic(RequestQueue queue , final String id, final String url,
                                final ImageView imageView, final int isRound) {
+        if(TextUtils.isEmpty(url)){
+            return;
+        }
         ImageRequest imgRequest = new ImageRequest(Url.GETPIC + url,
                 new Response.Listener<Bitmap>() {
                     @Override
@@ -144,7 +149,11 @@ public class ContactImageLoader {
                                     output);
                             output.flush();
                             SharePreferenceUtil sp = SharePreferenceUtil.getInstance(ApplicationControl.getInstance());
-                            sp.saveSharedPreferences(id + "_photo", url);
+                            if(id.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR) || id.contains(ApplicationConstants.SPECIAL_USER_PREFIX_CHAR)) {
+                                sp.saveSharedPreferences(id + _PHOTO, url);
+                            }else{
+                                sp.saveSharedPreferences("c"+ id + _PHOTO, url);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         } finally{

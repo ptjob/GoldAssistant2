@@ -19,6 +19,8 @@ public class ApplicationConstants {
 
     public static final String PHONE = "075523742220";
 
+    public static final String DEFAULT_IMAGE_NAME = "default_1_.jpg";
+
     public static final int PERIOD_FOR_GET_CODE = 60 * 1000;
 
 }

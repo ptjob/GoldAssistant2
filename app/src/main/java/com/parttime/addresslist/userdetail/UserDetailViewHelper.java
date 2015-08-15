@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import com.parttime.addresslist.Utils;
 import com.parttime.common.Image.ContactImageLoader;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.pojo.UserDetailVO;
 import com.parttime.utils.IntentManager;
+import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.utils.TimeUtils;
 import com.parttime.widget.RankView;
 import com.qingmu.jianzhidaren.BuildConfig;
@@ -164,7 +166,19 @@ public class UserDetailViewHelper implements View.OnClickListener {
         pictures = new ArrayList<>();
         String picture1 = vo.picture_1;
         if(!TextUtils.isEmpty(picture1)){
-            ContactImageLoader.loadNativePhoto(userDetailFragment.userId,picture1,head, userDetailPagerAdapter.userDetailActivity.queue);
+            SharePreferenceUtil sharePreferenceUtil = SharePreferenceUtil.getInstance(ApplicationControl.getInstance());
+            String userId = userDetailFragment.userId;
+            if(userId.contains(ApplicationConstants.SPECIAL_USER_PREFIX_CHAR) || userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR)){
+                String defaultImg = sharePreferenceUtil.loadStringSharedPreference(userId + ContactImageLoader._PHOTO);
+                if(ApplicationConstants.DEFAULT_IMAGE_NAME.equals(defaultImg)){
+                    ContactImageLoader.loadpersonPic(userDetailPagerAdapter.userDetailActivity.queue,userId,picture1,head,1);
+                }else{
+                    ContactImageLoader.loadNativePhoto(userId,picture1,head, userDetailPagerAdapter.userDetailActivity.queue);
+                }
+            }else{
+                ContactImageLoader.loadNativePhoto(userId,picture1,head, userDetailPagerAdapter.userDetailActivity.queue);
+            }
+
             pictures.add(picture1);
         }
         String picture2 = vo.picture_2;

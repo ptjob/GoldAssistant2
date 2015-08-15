@@ -2045,7 +2045,11 @@ public class MessageAdapter extends BaseAdapter {
             // getNick2(id);// 更新本地数据
         } else {
             avatar.setImageResource(R.drawable.default_avatar);
-            getNick(id, avatar, name, msgData);
+            SharePreferenceUtil.getInstance(ApplicationControl.getInstance());
+            String defaultImage = sp.loadStringSharedPreference(id + "_photo");
+            if(! ApplicationConstants.DEFAULT_IMAGE_NAME.equals(defaultImage)){
+                getNick(id, avatar, name, msgData);
+            }
         }
 
 
@@ -2086,6 +2090,8 @@ public class MessageAdapter extends BaseAdapter {
                             } else {
                                 avatar.setImageResource(R.drawable.default_avatar_business);
                             }
+                            SharePreferenceUtil.getInstance(ApplicationControl.getInstance());
+                            sp.saveSharedPreferences(id + "_photo", ApplicationConstants.DEFAULT_IMAGE_NAME);
                         }
                     }
                 }
