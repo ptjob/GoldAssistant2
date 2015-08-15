@@ -851,7 +851,7 @@ public class PublishFragment extends Fragment implements View.OnClickListener {
                     handler.postDelayed(worker, duration);
                     upX = event.getX();
                     upY = event.getY();
-                    if(!moved || Math.sqrt(Math.pow(upX - downY, 2) + Math.pow(upY - downY, 2)) < 6) {
+                    if(!moved || Math.sqrt(Math.pow(upX - downX, 2) + Math.pow(upY - downY, 2)) < 6) {
                         int currentItem = pager.getCurrentItem();
                         if(views.size() > 0){
                             onBannerItemClick.onClick(views.get(currentItem % views.size()));
