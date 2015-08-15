@@ -427,6 +427,10 @@ public class UploadImg {
 			// ----问题:有的手机(如s4)拍照上传得到的uri为空
 			Uri uri = data.getData(); // 可以得到图片在Content：//。。。中的地址，把它转化成绝对地址如下
 			Log.e("carson_uri", uri + ":");
+            if(uri == null){
+                upload2(activity, img, url, warning, paramsOneName, paramsOneValue, paramsTwoName, paramsTwoValeu, paramsThreeName, paramsThreeValeu, loadProBar, uploadListener);
+                return ;
+            }
 			String[] proj = { MediaStore.Images.Media.DATA };
 			String imagePath = "";
 			// carson 抛出拍照上传异常
@@ -451,36 +455,41 @@ public class UploadImg {
 			//
 			// ----
 		} else {
-			// 有的手机不能通过intent.getdata获取照片.用之前保存的uri记录代替
-			Uri uri = ConstantForSaveList.uploadUri; // 可以得到图片在Content：//。。。中的地址，把它转化成绝对地址如下
-			Log.e("carson_uri", uri + ":");
-			String[] proj = { MediaStore.Images.Media.DATA };
-			String imagePath = "";
-			// carson 抛出拍照上传异常
-			Cursor cursor = null;
-			try {
-				cursor = activity.managedQuery(uri, proj, null, null, null);
-			} catch (Exception e) {
-				return;
-			}
+            upload2(activity, img, url, warning, paramsOneName, paramsOneValue, paramsTwoName, paramsTwoValeu, paramsThreeName, paramsThreeValeu, loadProBar, uploadListener);
 
-			if (cursor != null) {
-				int column_index = cursor
-						.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-				if (cursor.getCount() > 0 && cursor.moveToFirst()) {
-					imagePath = cursor.getString(column_index);
-					uploadpic(activity, imagePath, img, url, warning,
-							paramsOneName, paramsOneValue, paramsTwoName,
-							paramsTwoValeu, paramsThreeName, paramsThreeValeu,
-							loadProBar, uploadListener);
-				}
-			} else {
-			}
 
-		}
+        }
 	}
 
-	public static interface OnUploadListener {
+    private static void upload2(Activity activity, ImageView img, String url, Button warning, String paramsOneName, String paramsOneValue, String paramsTwoName, String paramsTwoValeu, String paramsThreeName, String paramsThreeValeu, ProgressBar loadProBar, OnUploadListener uploadListener) {
+        // 有的手机不能通过intent.getdata获取照片.用之前保存的uri记录代替
+        Uri uri = ConstantForSaveList.uploadUri; // 可以得到图片在Content：//。。。中的地址，把它转化成绝对地址如下
+        Log.e("carson_uri", uri + ":");
+        String[] proj = { MediaStore.Images.Media.DATA };
+        String imagePath = "";
+        // carson 抛出拍照上传异常
+        Cursor cursor = null;
+        try {
+            cursor = activity.managedQuery(uri, proj, null, null, null);
+        } catch (Exception e) {
+            return;
+        }
+
+        if (cursor != null) {
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            if (cursor.getCount() > 0 && cursor.moveToFirst()) {
+                imagePath = cursor.getString(column_index);
+                uploadpic(activity, imagePath, img, url, warning,
+                        paramsOneName, paramsOneValue, paramsTwoName,
+                        paramsTwoValeu, paramsThreeName, paramsThreeValeu,
+                        loadProBar, uploadListener);
+            }
+        } else {
+        }
+    }
+
+    public static interface OnUploadListener {
 		void success();
 		void fail();
 	}
