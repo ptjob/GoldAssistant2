@@ -25,15 +25,15 @@ import com.qingmu.jianzhidaren.R;
  */
 public class WheelDialog extends Dialog implements View.OnClickListener, OnWheelChangedListener {
 
-    private LinearLayout llWheelHouse;
+    protected LinearLayout llWheelHouse;
     protected WheelView[] wheels;
-    private TextView tvOk;
-    private TextView tvCanel;
-    private TextView tvTitle;
+    protected TextView tvOk;
+    protected TextView tvCanel;
+    protected TextView tvTitle;
     private boolean isCycle = false;
 
-    private OnSubmitListener onSubmitListener;
-    private OnClickListener onWheelCancelListener;
+    protected OnSubmitListener onSubmitListener;
+    protected OnClickListener onWheelCancelListener;
 
     public WheelDialog(Context context, String[]...txts) {
         super(context, R.style.Dialog);

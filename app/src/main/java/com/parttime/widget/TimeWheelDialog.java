@@ -297,6 +297,22 @@ public class TimeWheelDialog extends WheelDialog {
     }
 
     @Override
+    protected void onOk() {
+        int count = wheels.length;
+        int[] pos = new int[count];
+        for(int i = 0 ; i < count; ++i){
+            pos[i] = wheels[i].getCurrentItem();
+        }
+        if(onSubmitListener != null){
+            onSubmitListener.onSubmit(pos);
+        } else {
+            dismiss();
+        }
+
+        // dismiss();
+    }
+
+    @Override
     public void onChanged(WheelView wheel, int oldValue, int newValue) {
         super.onChanged(wheel, oldValue, newValue);
         FlagType flagType = (FlagType) wheel.getTag();

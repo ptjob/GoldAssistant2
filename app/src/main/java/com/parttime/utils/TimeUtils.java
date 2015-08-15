@@ -25,10 +25,7 @@ public class TimeUtils {
     public static boolean beforeToday(String date, String dateFormatStr) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormatStr);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+        TimeUtils.clearDay(calendar);
         return simpleDateFormat.parse(date).before(calendar.getTime());
     }
 
@@ -68,5 +65,13 @@ public class TimeUtils {
         }
 
         return result;
+    }
+
+    public static void clearDay(Calendar current) {
+        current.set(Calendar.HOUR, 0);
+        current.set(Calendar.HOUR_OF_DAY, 0);
+        current.set(Calendar.MINUTE, 0);
+        current.set(Calendar.SECOND, 0);
+        current.set(Calendar.MILLISECOND, 0);
     }
 }

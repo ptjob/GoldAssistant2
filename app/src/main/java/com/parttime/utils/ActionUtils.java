@@ -2,10 +2,12 @@ package com.parttime.utils;
 
 import android.content.Context;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parttime.widget.TimeWheelDialog;
 import com.parttime.widget.WheelDialog;
 import com.qingmu.jianzhidaren.R;
+import com.quark.jianzhidaren.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,6 +28,53 @@ public class ActionUtils {
                 SimpleDateFormat myFmt = new SimpleDateFormat(TimeUtils.DATE_FORMAT_YMD);
                 String formatedDate = myFmt.format(selectedCalendar.getTime());
                 textView.setText(formatedDate);
+                timeWheelDialog.dismiss();
+            }
+        });
+        timeWheelDialog.setTitle(title);
+
+        timeWheelDialog.show();
+    }
+
+    public static void selectDate(final BaseActivity context, final TextView textView, Calendar current, final String title, final Calendar minTime, final String tip) {
+        final TimeWheelDialog timeWheelDialog = new TimeWheelDialog(context, TimeWheelDialog.FLAG_YEAR |
+                TimeWheelDialog.FLAG_MONTH | TimeWheelDialog.FLAG_DATE, current, false);
+        timeWheelDialog.setOnSubmitListener(new WheelDialog.OnSubmitListener() {
+            @Override
+            public void onSubmit(int... pos) {
+                Calendar selectedCalendar = timeWheelDialog.getTime();
+                if (selectedCalendar.before(minTime)) {
+                    context.showToast(tip);
+                } else {
+                    SimpleDateFormat myFmt = new SimpleDateFormat(TimeUtils.DATE_FORMAT_YMD);
+                    String formatedDate = myFmt.format(selectedCalendar.getTime());
+                    textView.setText(formatedDate);
+                    timeWheelDialog.dismiss();
+                }
+            }
+        });
+        timeWheelDialog.setTitle(title);
+
+        timeWheelDialog.show();
+    }
+
+    public static void selectDate(final BaseActivity context, final TextView textView, Calendar current, final String title, final Calendar minTime, final String minTip, final Calendar maxTime, final String maxTip) {
+        final TimeWheelDialog timeWheelDialog = new TimeWheelDialog(context, TimeWheelDialog.FLAG_YEAR |
+                TimeWheelDialog.FLAG_MONTH | TimeWheelDialog.FLAG_DATE, current, false);
+        timeWheelDialog.setOnSubmitListener(new WheelDialog.OnSubmitListener() {
+            @Override
+            public void onSubmit(int... pos) {
+                Calendar selectedCalendar = timeWheelDialog.getTime();
+                if (selectedCalendar.before(minTime)) {
+                    context.showToast(minTip);
+                } else if (selectedCalendar.after(maxTime)) {
+                    context.showToast(maxTip);
+                } else {
+                    SimpleDateFormat myFmt = new SimpleDateFormat(TimeUtils.DATE_FORMAT_YMD);
+                    String formatedDate = myFmt.format(selectedCalendar.getTime());
+                    textView.setText(formatedDate);
+                    timeWheelDialog.dismiss();
+                }
             }
         });
         timeWheelDialog.setTitle(title);

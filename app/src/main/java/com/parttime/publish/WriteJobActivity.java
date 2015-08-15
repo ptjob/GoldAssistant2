@@ -31,11 +31,13 @@ import com.qingmu.jianzhidaren.R;
 import com.quark.db.CityService;
 import com.quark.jianzhidaren.BaseActivity;
 import com.quark.ui.widget.ActionSheet;
+import com.quark.utils.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 发布兼职页
@@ -61,7 +63,7 @@ public class WriteJobActivity extends BaseActivity implements
     private EditText mEditWorkRequire;
     private LinearLayout mLLHeadSumContainer, mLLSexContainer, mLLMoreRequireContainer;
     private RadioButton mRadioSexUnlimited, mRadioSexLimited;
-    private RadioButton mRadioUnShowTel, mRadioShowTel;
+    private RadioButton  mRadioShowTel;
     private RadioButton mRadioNeedHealthProve, mRadioUnNeedHealthProve;
     private Button mBtnPublish;
 
@@ -125,8 +127,8 @@ public class WriteJobActivity extends BaseActivity implements
 
                 if (partJob.isHasMeasurements()) {
                     mTxtMeasurements.setText(getString(
-                            R.string.publish_job_measurements_format,
-                            "" + partJob.bust, "" + partJob.beltline, "" + partJob.hipline)
+                                    R.string.publish_job_measurements_format,
+                                    "" + partJob.bust, "" + partJob.beltline, "" + partJob.hipline)
                     );
                 }
             }
@@ -206,8 +208,6 @@ public class WriteJobActivity extends BaseActivity implements
     }
 
 
-
-
     private void initIntent() {
         type = getIntent().getStringExtra(EXTRA_TYPE);
         if (getIntent().hasExtra(EXTRA_PART_JOB)) {
@@ -247,14 +247,12 @@ public class WriteJobActivity extends BaseActivity implements
 
         mRadioSexUnlimited = (RadioButton) findViewById(R.id.radio_sex_unlimited);
         mRadioSexLimited = (RadioButton) findViewById(R.id.radio_sex_limited);
-        mRadioUnShowTel = (RadioButton) findViewById(R.id.radio_unshow_tel);
         mRadioShowTel = (RadioButton) findViewById(R.id.radio_show_tel);
         mRadioNeedHealthProve = (RadioButton) findViewById(R.id.radio_need_health_prove);
         mRadioUnNeedHealthProve = (RadioButton) findViewById(R.id.radio_unneed_health_prove);
 
         mBtnPublish = (Button) findViewById(R.id.btn_publish);
     }
-
 
 
     @Override
@@ -267,11 +265,34 @@ public class WriteJobActivity extends BaseActivity implements
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeUtils.DATE_FORMAT_YMD);
                     try {
                         calendarBeginTime.setTime(simpleDateFormat.parse(beginTime));
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                ActionUtils.selectDate(this, mTxtBeginTime, calendarBeginTime, getString(R.string.publish_job_label_begin_time));
+                clearDay(calendarBeginTime);
+
+                Calendar current = Calendar.getInstance();
+                clearDay(current);
+
+                if (CheckUtils.isEmpty(mTxtEndTime.getText().toString())) {
+                    // 跟今天做比较
+                    ActionUtils.selectDate(this, mTxtBeginTime, calendarBeginTime, getString(R.string.publish_job_label_begin_time), current, getString(R.string.publish_job_begin_time_warn));
+                } else {
+                    // 跟今天和 结束时间做比较
+                    String endTime = mTxtEndTime.getText().toString();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeUtils.DATE_FORMAT_YMD);
+                    try {
+                        Date endTimeDate = simpleDateFormat.parse(endTime);
+                        Calendar endTimeCalendar = Calendar.getInstance();
+                        clearDay(endTimeCalendar);
+                        Logger.i("calenrBeginTime=" + calendarBeginTime.toString() + "; endTimeCalendar=" + endTimeCalendar);
+                        endTimeCalendar.setTime(endTimeDate);
+                        ActionUtils.selectDate(this, mTxtBeginTime, calendarBeginTime, getString(R.string.publish_job_label_begin_time), current, getString(R.string.publish_job_begin_time_warn), endTimeCalendar, getString(R.string.publish_job_begin_time_warn));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case R.id.txt_end_time:
                 String endTime = mTxtEndTime.getText().toString();
@@ -282,11 +303,33 @@ public class WriteJobActivity extends BaseActivity implements
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeUtils.DATE_FORMAT_YMD);
                     try {
                         calendarEndTime.setTime(simpleDateFormat.parse(endTime));
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                ActionUtils.selectDate(this, mTxtEndTime, calendarEndTime, getString(R.string.publish_job_label_end_time));
+                clearDay(calendarEndTime);
+
+                current = Calendar.getInstance();
+                clearDay(current);
+
+                if (CheckUtils.isEmpty(mTxtBeginTime.getText().toString())) {
+                    // 跟今天做比较
+                    ActionUtils.selectDate(this, mTxtEndTime, calendarEndTime, getString(R.string.publish_job_label_end_time), current, getString(R.string.publish_job_end_time_warn));
+                } else {
+                    // 跟今天结束时间做比较
+                    beginTime = mTxtBeginTime.getText().toString();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeUtils.DATE_FORMAT_YMD);
+                    try {
+                        Date beginTimeDate = simpleDateFormat.parse(beginTime);
+                        Calendar beginTimeCalendar = Calendar.getInstance();
+                        clearDay(beginTimeCalendar);
+                        beginTimeCalendar.setTime(beginTimeDate);
+                        ActionUtils.selectDate(this, mTxtEndTime, calendarEndTime, getString(R.string.publish_job_label_end_time), beginTimeCalendar, getString(R.string.publish_job_end_time_warn));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case R.id.txt_pay_type:
                 mTxtSelectTemp = mTxtPayType;
@@ -297,7 +340,6 @@ public class WriteJobActivity extends BaseActivity implements
                 break;
             case R.id.txt_work_area:
                 mTxtSelectTemp = mTxtWorkArea;
-                ;
 
                 ArrayList<String> citys = CityService.getSubCitys(this, ApplicationUtils.getCity());
                 String[] workAreaArray = new String[citys.size()];
@@ -332,6 +374,10 @@ public class WriteJobActivity extends BaseActivity implements
             default:
                 break;
         }
+    }
+
+    private void clearDay(Calendar current) {
+        TimeUtils.clearDay(current);
     }
 
     @Override
@@ -430,9 +476,9 @@ public class WriteJobActivity extends BaseActivity implements
 
         char[] titleChars = verifyStr.toCharArray();
         boolean isDigit = true;
-        for (int i = 0; i < titleChars.length; i++) {
-            if (!Character.isDigit(titleChars[i])) {
-                isDigit = false ;
+        for (char titleChar : titleChars) {
+            if (!Character.isDigit(titleChar)) {
+                isDigit = false;
                 break;
             }
         }
@@ -442,38 +488,16 @@ public class WriteJobActivity extends BaseActivity implements
             return false;
         }
 
-        String beginTime;
-        beginTime = verifyStr = mTxtBeginTime.getText().toString();
+        verifyStr = mTxtBeginTime.getText().toString();
         if (CheckUtils.isEmpty(verifyStr)) {
             showToast(getString(R.string.publish_job_form_uninput_warn_format, getString(R.string.publish_job_label_begin_time)));
             return false;
         }
 
-        // 判断开始时间是否早于今天
-        try {
-            if (TimeUtils.beforeToday(beginTime, TimeUtils.DATE_FORMAT_YMD)) {
-                showToast(R.string.publish_job_begin_time_warn);
-                return false;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        String endTime;
-        endTime = verifyStr = mTxtEndTime.getText().toString();
+        verifyStr = mTxtEndTime.getText().toString();
         if (CheckUtils.isEmpty(verifyStr)) {
             showToast(getString(R.string.publish_job_form_uninput_warn_format, getString(R.string.publish_job_label_end_time)));
             return false;
-        }
-
-        // 判断结束时间是否早于开始时间
-        try {
-            if (TimeUtils.before(endTime, beginTime, TimeUtils.DATE_FORMAT_YMD)) {
-                showToast(R.string.publish_job_end_time_warn);
-                return false;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
 
         verifyStr = mTxtPayType.getText().toString();
@@ -516,7 +540,7 @@ public class WriteJobActivity extends BaseActivity implements
             return false;
         }
 
-        int sum = 0;
+        int sum;
         if (mRadioSexLimited.isChecked()) {
             String maleNumStr = mEditMaleNum.getText().toString();
             sum = CheckUtils.isEmpty(maleNumStr) ? 0 : FormatUtils.parseToInt(maleNumStr);
@@ -622,7 +646,7 @@ public class WriteJobActivity extends BaseActivity implements
             partJob.headSum = CheckUtils.isEmpty(headSumStr) ? 0 : FormatUtils.parseToInt(headSumStr);
         }
 
-        partJob.workRequire =  FormatUtils.formatStr(mEditWorkRequire.getText().toString());
+        partJob.workRequire = FormatUtils.formatStr(mEditWorkRequire.getText().toString());
         partJob.isShowTel = mRadioShowTel.isChecked();
 
         String heightTxt = mTxtHeight.getText().toString();
