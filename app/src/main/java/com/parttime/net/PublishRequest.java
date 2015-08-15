@@ -210,6 +210,10 @@ public class PublishRequest extends BaseRequest {
                 partJob.workRequire = activityDetail.getString("require_info");
                 // partJob.isShowTel = activityDetail.get
                 partJob.jobAuthType = JobAuthType.parse(activityDetail.getInt("status"));
+                int activity_status = activityDetail.getInt("activity_status");
+                if (activity_status == 4) {
+                    partJob.jobAuthType = JobAuthType.FROZEN;
+                }
                 partJob.viewCount = activityDetail.getInt("view_count");
                 partJob.handCount = activityDetail.getInt("apply_count");
                 String require_language = activityDetail.getString("require_language");

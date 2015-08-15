@@ -12,6 +12,8 @@ public enum JobAuthType {
     PASS,
     // 审核不通过
     FAIL_TO_PASS,
+    // 下架
+    STELVE,
     // 冻结
     FROZEN;
 
@@ -27,7 +29,7 @@ public enum JobAuthType {
             case 3:
                 return FAIL_TO_PASS;
             case 4:
-                return FROZEN;
+                return STELVE;
             default:
                 return DELETE;
         }

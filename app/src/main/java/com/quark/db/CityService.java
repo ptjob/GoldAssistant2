@@ -64,7 +64,7 @@ public class CityService {
     public static ArrayList<City> getCityList(Context context) {
         SQLiteDatabase db = CityDatabase.openDatabase(context);
         ArrayList<City> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from area where deep=1 or deep=2", null);
+        Cursor cursor = db.rawQuery("select * from area where deep=1 or deep=2 order by id asc", null);
         int indexName = cursor.getColumnIndex("name");
         int indexPinyin = cursor.getColumnIndex("pinyin");
         City city;
@@ -123,7 +123,7 @@ public class CityService {
         mCountries.add("全" + city);
 
         int tempCityId = 1;
-        String sql = "select * from area where name='" + city + "'";
+        String sql = "select * from area where name='" + city + "' order by id asc";
         Cursor cursor = mDbCity.rawQuery(sql, null);
         if (cursor.getCount() > 0) {
             // 必须使用moveToFirst方法将记录指针移动到第1条记录的位置

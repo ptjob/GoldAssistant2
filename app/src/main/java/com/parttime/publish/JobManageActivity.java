@@ -1,5 +1,6 @@
 package com.parttime.publish;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import com.parttime.common.head.ActivityHead;
+import com.parttime.main.MainTabActivity;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.ErrorHandler;
 import com.parttime.net.PublishRequest;
@@ -17,6 +19,7 @@ import com.parttime.utils.IntentManager;
 import com.parttime.widget.BaseXListView;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.BaseActivity;
+import com.quark.utils.Logger;
 
 import me.maxwin.view.XListView;
 
@@ -28,6 +31,7 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
 
 
     public static final int PAGE_COUNT = 20;
+    private static final int REQUEST_JOB_DETAIL = 0x1000;
 
     private BaseXListView mListViewMain;
     private RadioButton mRadioRecruit;
@@ -84,7 +88,7 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public void finish() {
-        IntentManager.goToMainTab(this);
+        IntentManager.goToMainTab(this, R.id.tv2);
         super.finish();
     }
 
@@ -134,7 +138,7 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
         int position = i - 1;
         if (position < mCurrentAdapter.getCount()) {
             long jobId = mCurrentAdapter.getItemId(position);
-            IntentManager.openJobDetailActivity(this, (int) jobId, "");
+            IntentManager.openJobDetailActivity(this, REQUEST_JOB_DETAIL, (int) jobId, "");
         } else {
             showToast(R.string.error_date_and_refresh);
         }
@@ -143,6 +147,21 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         refreshFirstPage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Logger.i("onActivityResult");
+        switch (requestCode) {
+            case REQUEST_JOB_DETAIL:
+                if (resultCode == RESULT_OK && data != null) {
+                    boolean shouldRefresh = data.getBooleanExtra(JobDetailActivity.EXTRA_SHOULD_REFRESH, false);
+                    if (shouldRefresh) {
+                        refreshFirstPage();
+                    }
+                }
+                break;
+        }
     }
 
     // 刷新第一页

@@ -139,9 +139,9 @@ public class MainTabActivity extends BaseActivity implements
 
 
     public static final String PINGBI = "pingbi";
-    private final int TAB_MESSAGE = 0;
-    private final int TAB_PUBLISH = 1;
-    private final int TAB_MINE = 2;
+    public static final int TAB_MESSAGE = 0;
+    public static final int TAB_PUBLISH = 1;
+    public static final int TAB_MINE = 2;
     protected RequestQueue queue;
 	protected WaitDialog dialog;
 	// 极光推送
@@ -377,6 +377,7 @@ public class MainTabActivity extends BaseActivity implements
         }, 500);
 
     }
+
 
 
 	private void initUrl() {

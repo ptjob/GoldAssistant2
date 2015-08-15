@@ -60,6 +60,7 @@ public class JobDetailActivity extends BaseActivity {
     public static final String EXTRA_ID = "id";
     public static final String EXTRA_GROUP_ID = "group_id";
     public static final String EXTRA_PART_JOB = "part_job";
+    public static final String EXTRA_SHOULD_REFRESH = "should_refresh";
 
 
     private View mViewRoot;
@@ -83,10 +84,12 @@ public class JobDetailActivity extends BaseActivity {
     private PartJob partJob;
     private Type type;
 
+    private int bindCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bindCount = 0;
         setContentView(R.layout.activity_job_detail);
         initIntent();
         initControls();
@@ -110,7 +113,19 @@ public class JobDetailActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void finish() {
+        Logger.i("bindCount=" + bindCount);
+        if (bindCount > 1) {
+            Intent intent = getIntent();
+            intent.putExtra(EXTRA_SHOULD_REFRESH, true);
+            setResult(RESULT_OK, intent);
+        }
+        super.finish();
+    }
+
     private void bindData() {
+        ++bindCount;
         if (type == Type.REVIEW) {
             bindWithPartJob();
         } else if (type == Type.DETAIL) {
@@ -333,6 +348,7 @@ public class JobDetailActivity extends BaseActivity {
                 switch (partJob.jobAuthType) {
                     case DELETE:
                     case FAIL_TO_PASS:
+                    case STELVE:
                         status = getString(R.string.job_detail_status_fail);
                         // 如果活动结束，则按钮显示为加急，且为不可按状态
                         switchRefreshOrExpedited(false, false);

@@ -105,7 +105,7 @@ public class IntentManager {
     }
 
     /**
-     * 跳完活动详情页面
+     * 跳往活动详情页面
      * @param context
      * @param jobId 活动ID （二个传一个，不传时带 <= 0 的值）
      * @param groupId 群组ID （二个传一个，不传时带""或者null ）
@@ -115,6 +115,20 @@ public class IntentManager {
         intent.putExtra(JobDetailActivity.EXTRA_ID, jobId);
         intent.putExtra(JobDetailActivity.EXTRA_GROUP_ID, groupId);
         context.startActivity(intent);
+    }
+
+    /**
+     * 跳往活动详情页面
+     * @param context
+     * @param requestCode 请求Code
+     * @param jobId 活动ID （二个传一个，不传时带 <= 0 的值）
+     * @param groupId 群组ID （二个传一个，不传时带""或者null ）
+     */
+    public static void openJobDetailActivity(BaseActivity context, int requestCode,  int jobId, String groupId) {
+        Intent intent = new Intent(context, JobDetailActivity.class);
+        intent.putExtra(JobDetailActivity.EXTRA_ID, jobId);
+        intent.putExtra(JobDetailActivity.EXTRA_GROUP_ID, groupId);
+        context.startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -132,8 +146,9 @@ public class IntentManager {
      * 跳往主TAB页
      * @param context
      */
-    public static void goToMainTab(Context context){
+    public static void goToMainTab(Context context, int resId){
         Intent intent = new Intent(context, MainTabActivity.class);
+        intent.putExtra("resId", resId);
         context.startActivity(intent);
     }
 
