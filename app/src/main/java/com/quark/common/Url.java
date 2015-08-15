@@ -372,7 +372,7 @@ public class Url {
 			+ "/UserCenter/change_city";
 	// 切换城市,上传城市位置商家
 	public static final String CHANGE_CITY_CUSTOM = HOST + SUBJECT
-			+ "/AgentCenter/change_city";
+			+ "/CompanyCenter/changeCity";
 	// 投诉
 	public static final String USER_TOUSU = HOST + SUBJECT
 			+ "/Activity/complain";
