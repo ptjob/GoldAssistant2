@@ -146,6 +146,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                 tip.setText(getString(R.string.admitted_pending_finished_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
                 data.clear();
                 data.addAll(appliantResult.userList);
+                sort();
                 notifyDataSetChanged();
             }
         }
@@ -187,6 +188,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                     if(result.userList != null) {
                         data.clear();
                         data.addAll(userVOs);
+                        sort();
                         notifyDataSetChanged();
                     }
                 }
