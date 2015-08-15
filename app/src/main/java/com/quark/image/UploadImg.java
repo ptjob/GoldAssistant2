@@ -215,8 +215,8 @@ public class UploadImg {
 							Bitmap bitm = BitmapFactory.decodeFile(pathstr);
 							// Bitmap bitm = MyResumeActivity.zoomImg(
 							// new File(pathstr), 300, 300);
-//							imageView.setBackgroundDrawable(ContactImageLoader.bitmapToDrawable(bitm));
-                            imageView.setImageBitmap(bitm);
+							imageView.setBackgroundDrawable(ContactImageLoader.bitmapToDrawable(bitm));
+//                            imageView.setImageBitmap(bitm);
 							// 保存上传后的图片url,下载到本地
 							OutputStream output = null;
 
