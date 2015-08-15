@@ -166,10 +166,12 @@ public class AppraiseContentContainer implements CompoundButton.OnCheckedChangeL
                 if(!isChecked){
                     star4.setChecked(false);
                     starDescription.setText(R.string.comment_bad);
+                    appraiseDetailContainer.setVisibility(View.VISIBLE);
                 }else{
                     star1.setChecked(true);
                     star2.setChecked(true);
                     starDescription.setText(R.string.comment_good);
+                    appraiseDetailContainer.setVisibility(View.GONE);
                 }
                 break;
             case R.id.star4:
@@ -180,7 +182,6 @@ public class AppraiseContentContainer implements CompoundButton.OnCheckedChangeL
                     appraiseDetailContainer.setVisibility(View.GONE);
                     starDescription.setText(R.string.comment_excellent);
                 }else{
-                    appraiseDetailContainer.setVisibility(View.VISIBLE);
                     starDescription.setText(R.string.comment_good);
                 }
                 break;
@@ -213,7 +214,9 @@ public class AppraiseContentContainer implements CompoundButton.OnCheckedChangeL
 
         final String remark = appraiseContent.getText().toString();
 
-        if(application.getString(R.string.comment_fly).equals(comment) && remark.length() < 10){
+        if((application.getString(R.string.comment_fly).equals(comment)
+                || application.getString(R.string.comment_bad).equals(comment))
+                && remark.length() < 10){
             Toast.makeText(activity,R.string.comment_fly_tips, Toast.LENGTH_SHORT).show();
             return ;
         }

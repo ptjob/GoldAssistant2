@@ -174,13 +174,15 @@ public class UserDetailViewHelper implements View.OnClickListener {
         if(initContent == InitContent.INIT_FRIEND){
             if(vo.age > 0) {
                 ageTxt.setText(String.valueOf(vo.age));
+            }else{
+                ageTxt.setText(String.valueOf(1));
             }
         }else {
             String birthdate = vo.birthdate;
             if (!TextUtils.isEmpty(birthdate)) {
                 long birthTime = TimeUtils.getTime(birthdate, TimeUtils.pattern1);
-                int age = (int) (System.currentTimeMillis() - birthTime) / (1000 * 60 * 60 * 24);
-                if (age > 0) {
+                int age = (int) (System.currentTimeMillis() - birthTime) / (1000 * 60 * 60 * 24 * 365); //916882357
+                if (age >= 0) {
                     ageTxt.setText(String.valueOf(age + 1));
                 }
             }

@@ -91,6 +91,7 @@ import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.parttime.IM.activitysetting.ChatSendMsgHelper;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.addresslist.NormalGroupSettingActivity;
 import com.parttime.constants.ApplicationConstants;
@@ -452,15 +453,21 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                 @Override
                 public void run() {
                     try {
-                        EMGroup returnGroup = EMGroupManager.getInstance()
+                        final EMGroup returnGroup = EMGroupManager.getInstance()
                                 .getGroupFromServer(toChatUsername);
                         // 更新本地数据
                         EMGroupManager.getInstance().createOrUpdateLocalGroup(
                                 returnGroup);
                         if (group != null) {
-                            setGroupChatTitle();
-                            String description = returnGroup.getDescription();
-                            updateGroupNoticeStatus(description);
+                            ChatActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setGroupChatTitle();
+                                    String description = returnGroup.getDescription();
+                                    updateGroupNoticeStatus(description);
+                                }
+                            });
+
                         }
                     }catch (Exception ignore){
 
@@ -1319,24 +1326,25 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                 @Override
                 public void run() {
                     more.setVisibility(View.VISIBLE);
-                    btnMore.setBackgroundResource(R.drawable.type_select_btn_pressed);
                     btnContainer.setVisibility(View.VISIBLE);
                     emojiIconContainer.setVisibility(View.GONE);
+
                 }
             });
             micImageHandler.post(new Runnable() {
                      @Override
                      public void run() {
+                         btnMore.setBackgroundResource(R.drawable.type_select_btn_pressed);
                          hideKeyboard();
                      }
                  });
 
         } else {
             if (emojiIconContainer.getVisibility() == View.VISIBLE) {
-                emojiIconContainer.setVisibility(View.GONE);
                 btnContainer.setVisibility(View.VISIBLE);
                 iv_emoticons_normal.setVisibility(View.VISIBLE);
                 iv_emoticons_checked.setVisibility(View.INVISIBLE);
+                emojiIconContainer.setVisibility(View.GONE);
             } else {
                 moreGone();
                 btnMore.setBackgroundResource(R.drawable.type_select_btn);
