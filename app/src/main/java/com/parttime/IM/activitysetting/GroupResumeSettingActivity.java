@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.carson.constant.ConstantForSaveList;
@@ -43,6 +44,7 @@ import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.net.HuanXinRequest;
+import com.parttime.net.ResponseBaseCommonError;
 import com.parttime.utils.IntentManager;
 import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.RankView;
@@ -581,6 +583,22 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                                                 userVO.apply = GroupSettingRequest.UserVO.APPLY_OK;
                                                 updateTip();
                                                 notifyDataSetChanged();
+                                            }
+
+                                            @Override
+                                            public void failed(Object obj) {
+                                                if(obj instanceof ResponseBaseCommonError){
+                                                    ResponseBaseCommonError rbe = (ResponseBaseCommonError)obj;
+                                                    final String msg = rbe.msg;
+                                                    if(! TextUtils.isEmpty(msg)){
+                                                        GroupResumeSettingActivity.this.runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(GroupResumeSettingActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    }
+                                                }
                                             }
                                         });
                                 /*new GroupSettingUtils().showAlertDialog( GroupResumeSettingActivity.this,

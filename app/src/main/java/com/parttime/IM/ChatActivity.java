@@ -118,6 +118,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 聊天页面
@@ -176,7 +177,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
     // private ViewPager expressionViewpager;
     private LinearLayout emojiIconContainer;
     private LinearLayout btnContainer,activityDetailContainer;
-    private ImageView locationImgview , activityManagementImgview;
+    private ImageView locationImgview , activityManagementImgview, noticeStatusImg;
     private View more;
     private ImageView iv_emoticons_normal;
     private ImageView iv_emoticons_checked;
@@ -258,6 +259,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                 if (groupDescription != null && (groupDescription.type == GroupDescription.ACTIVITY_GROUP ||
                         groupDescription.type == GroupDescription.ACTIVITY_CONSULTATION_GROUP)) {
                     activityDetailContainer.setVisibility(View.VISIBLE);
+                    Map<String,GroupDescription> cache = ConstantForSaveList.groupDescriptionMapCache;
+                    GroupDescription groupDescription = cache.get(toChatUsername);
+                    if(groupDescription != null && groupDescription.isNew) {
+                        noticeStatusImg.setVisibility(View.VISIBLE);
+                    }
                     //获取报名列表
                     getGroupApliantResult(toChatUsername);
                 }
@@ -287,6 +293,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         btnContainer = (LinearLayout) findViewById(R.id.ll_btn_container);
         activityDetailContainer = (LinearLayout) findViewById(R.id.activity_management_container);
         activityManagementImgview = (ImageView) findViewById(R.id.imgv_activity_management);
+        noticeStatusImg = (ImageView) findViewById(R.id.notice_update_status);
         locationImgview = (ImageView) findViewById(R.id.btn_location);
         iv_emoticons_normal = (ImageView) findViewById(R.id.iv_emoticons_normal);
         iv_emoticons_checked = (ImageView) findViewById(R.id.iv_emoticons_checked);
@@ -452,6 +459,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                                 returnGroup);
                         if (group != null) {
                             setGroupChatTitle();
+                            String description = returnGroup.getDescription();
+                            updateGroupNoticeStatus(description);
                         }
                     }catch (Exception ignore){
 
@@ -563,6 +572,23 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
             forwardMessage(forward_msg_id);
         }
 
+    }
+
+    private void updateGroupNoticeStatus(String description) {
+        if(! TextUtils.isEmpty(description)) {
+            try {
+                description = URLDecoder.decode(description, "UTF-8");
+                groupDescription = new Gson().fromJson(description, GroupDescription.class);
+            } catch (IllegalStateException | JsonSyntaxException | UnsupportedEncodingException ignore) {
+                Log.e(TAG, "description format is error , description = " + description);
+            }
+        }
+        Map<String,GroupDescription> cache = ConstantForSaveList.groupDescriptionMapCache;
+        GroupDescription gd = cache.get(toChatUsername);
+        if(gd != null && ! groupDescription.info.equals(gd.info)) {
+            gd.info = groupDescription.info;
+            noticeStatusImg.setVisibility(View.VISIBLE);
+        }
     }
 
     private boolean isSingleChat() {
@@ -1257,6 +1283,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      * @param view View
      */
     public void showGroupNotice(View view){
+        noticeStatusImg.setVisibility(View.GONE);
         new ChatActivityHelper().showGroupNotice(this, nameVeiw);
     }
 

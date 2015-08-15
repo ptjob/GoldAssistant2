@@ -10,13 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.carson.constant.ConstantForSaveList;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.parttime.constants.ActivityExtraAndKeys;
+import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.pojo.GroupDescription;
+import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.ApplicationControl;
 
@@ -24,6 +27,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Map;
 
 /**
  *
@@ -69,24 +73,27 @@ public class ChatActivityHelper {
 
 
         TextView content = (TextView)popView.findViewById(R.id.group_notice_content);
-        if(description != null) {
+        Map<String,GroupDescription> cache = ConstantForSaveList.groupDescriptionMapCache;
+        GroupDescription groupDescription = cache.get(activity.toChatUsername);
+        GroupDescription gd = null;
+        if(groupDescription != null){
+            content.setText(groupDescription.info);
+        }else if(description != null) {
             try {
                 String desc = URLDecoder.decode(description, HTTP.UTF_8);
-                GroupDescription gd = new Gson().fromJson(desc, GroupDescription.class);
+                gd = new Gson().fromJson(desc, GroupDescription.class);
                 if(gd != null){
-                    content.setText(gd.info);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(gd.info).append(" ").append("更新于").append(" ").append(gd.time);
+                    content.setText(stringBuilder);
                 }
             } catch (IllegalStateException | JsonSyntaxException | UnsupportedEncodingException ignore) {
                 Log.e(TAG, "description format is error , description = " + description);
             }
-
         }
         popupWindow.setBackgroundDrawable(new ColorDrawable(0));
-        //设置popwindow出现和消失动画
-        //popupWindow.setAnimationStyle(R.style.popwin_anim_style_2);
 
         //设置popwindow显示位置
-        //popupWindow.showAsDropDown(view);
         popupWindow.showAsDropDown(view,
                 0,
                 (int) activity.getResources().getDimension(R.dimen.chat_activity_popup_margin) / 5);
@@ -96,6 +103,29 @@ public class ChatActivityHelper {
         popupWindow.setOutsideTouchable(true);
         popupWindow.update();
 
+        updateNoticeStatus(activity,gd);
+
+    }
+
+    private void updateNoticeStatus(ChatActivity activity,GroupDescription gd) {
+        Map<String,GroupDescription> cache = ConstantForSaveList.groupDescriptionMapCache;
+        GroupDescription groupDescription = cache.get(activity.toChatUsername);
+        if(groupDescription != null){
+            if(groupDescription.isNew){
+                groupDescription.isNew = false;
+            }else{
+                return;
+            }
+        }else{
+            if(gd != null) {
+                cache.put(activity.toChatUsername, gd);
+            }else{
+                return;
+            }
+        }
+        SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).saveSharedPreferences(
+                SharedPreferenceConstants.GROUP_NOTICE_CONFIGGURE,
+                new Gson().toJson(cache));
     }
 
 }

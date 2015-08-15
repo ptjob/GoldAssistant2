@@ -243,7 +243,16 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
             @Override
             public void failed(Object obj) {
                 if(obj instanceof ResponseBaseCommonError){
-                    Toast.makeText(ResumeBatchManagementActivity.this, ((ResponseBaseCommonError)obj).msg, Toast.LENGTH_SHORT).show();
+                    ResponseBaseCommonError rbe = (ResponseBaseCommonError)obj;
+                    final String msg = rbe.msg;
+                    if(! TextUtils.isEmpty(msg)){
+                        ResumeBatchManagementActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ResumeBatchManagementActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
                 showWait(false);
             }

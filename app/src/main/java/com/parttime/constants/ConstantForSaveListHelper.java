@@ -8,7 +8,11 @@ import com.easemob.chat.EMGroupManager;
 import com.google.gson.Gson;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.pojo.GroupDescription;
+import com.parttime.utils.SharePreferenceUtil;
+import com.quark.jianzhidaren.ApplicationControl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -43,22 +47,33 @@ public class ConstantForSaveListHelper {
             for (EMGroup group : groups){
                 if(group != null){
                     String groupId = group.getGroupId();
-                    if(cache.get(groupId) != null){
-                        continue;
-                    }
                     String description = group.getDescription();
-                    if(!TextUtils.isEmpty(description)){
-                        try {
+                    GroupDescription gd = cache.get(groupId);
+                    try {
+                        if(!TextUtils.isEmpty(description)){
+
+                            description = URLDecoder.decode(description, "UTF-8");
                             GroupDescription groupDescription = gson.fromJson(description, GroupDescription.class);
                             if (groupDescription == null) {
                                 continue;
                             }
+                            if(gd != null){
+                                if(gd.info != null && ! gd.info.equals(groupDescription.info)){
+                                    groupDescription.isNew = true;
+                                }else{
+                                    continue;
+                                }
+                            }
                             cache.put(groupId, groupDescription);
-                        }catch (Exception ignore){
+
                         }
+                    }catch (Exception ignore){
                     }
                 }
             }
+            SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).saveSharedPreferences(
+                    SharedPreferenceConstants.GROUP_NOTICE_CONFIGGURE,
+                    gson.toJson(cache));
         }
     }
 

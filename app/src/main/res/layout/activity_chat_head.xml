@@ -62,23 +62,30 @@ android:background="@drawable/shape_top_background">
             android:src="@drawable/user_chat" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/container_group_notice"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_toLeftOf="@+id/container_right2_image"
+        android:layout_marginRight="9dp"
         android:onClick="showGroupNotice"
         android:visibility="gone">
 
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="9dp"
             android:scaleType="centerInside"
-            android:src="@drawable/selector_notice" />
-    </RelativeLayout>
+            android:src="@drawable/selector_notice"
+            android:layout_gravity="center" />
+        <ImageView android:id="@+id/notice_update_status"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/unread_count_bg"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/container_right2_image"

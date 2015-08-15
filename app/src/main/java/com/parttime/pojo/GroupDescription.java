@@ -11,4 +11,8 @@ public class GroupDescription {
 
     public int type; //1: 活动群
     public String info;
+    public String name;
+    public String time;
+    public String title;
+    public boolean isNew; //新通知状态
 }

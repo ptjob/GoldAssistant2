@@ -5,9 +5,12 @@ import android.text.TextUtils;
 import com.carson.constant.ConstantForSaveList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.parttime.pojo.GroupDescription;
 import com.parttime.utils.SharePreferenceUtil;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  *
@@ -41,6 +44,18 @@ public class ApplicationInitCache {
                 }
             }
         }
+        //初始化群通知
+        String noticeStr = sp.loadStringSharedPreference(SharedPreferenceConstants.GROUP_NOTICE_CONFIGGURE);
+        if(! TextUtils.isEmpty(noticeStr)){
+            HashMap<String,GroupDescription> map = new Gson().fromJson(
+                    noticeStr,
+                    new TypeToken<HashMap<String,GroupDescription>>(){}.getType());
+
+            if(map != null){
+                ConstantForSaveList.groupDescriptionMapCache = map;
+            }
+        }
+        ConstantForSaveListHelper.cacheGroupType();
     }
 
 }

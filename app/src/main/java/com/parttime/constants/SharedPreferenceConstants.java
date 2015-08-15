@@ -23,6 +23,9 @@ public class SharedPreferenceConstants {
     public static final String COMPANY_SHARE_URL = "company_share_url";
     public static final String FIRST_LOCATION = "firstdingwei";
 
+    //群通知
+    public static final String GROUP_NOTICE_CONFIGGURE = "group_notice_configure" + ApplicationControl.getInstance().getUserName();
+
     //免扰设置
     public static final String DISTURB_CONFIGGURE = "disturb_configure" + ApplicationControl.getInstance().getUserName();
 
