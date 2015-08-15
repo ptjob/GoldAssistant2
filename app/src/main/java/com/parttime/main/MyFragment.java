@@ -888,7 +888,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 						mToast.show();
 						UploadImg.getImageToView(getActivity(), data,
 								ivHead, uploadAvatarUrl, null, null,
-								null, "avatar", null, "company_id", company_id,
+								null, "photo", null, "company_id", company_id,
 								null, null);
 					}
 					break;
