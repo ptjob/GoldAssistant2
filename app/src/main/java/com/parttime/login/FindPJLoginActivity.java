@@ -49,6 +49,7 @@ import com.parttime.net.ResponseBaseCommonError;
 import com.parttime.type.AccountType;
 import com.parttime.utils.AndroidUtils;
 import com.parttime.utils.SharePreferenceUtil;
+import com.parttime.widget.KeyboardListenLinearLayout;
 import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
@@ -74,7 +75,7 @@ import java.util.Map;
  * @author carson
  * 
  */
-public class FindPJLoginActivity extends BaseActivity {
+public class FindPJLoginActivity extends BaseActivity implements KeyboardListenLinearLayout.IOnKeyboardStateChangedListener{
 
     public static final String SP_JRDR_SETTING = "jrdr.setting";
     public static final String EXTRA_USER_ID = "userId";
@@ -89,6 +90,8 @@ public class FindPJLoginActivity extends BaseActivity {
 	private String passwordStr;
 	EditText telephoneView;
 	EditText passwordView;
+    private TextView tvCopyRight;
+    private KeyboardListenLinearLayout root;
 	public static FindPJLoginActivity instance;
 	private SharedPreferences sp;
 	// 环信
@@ -137,6 +140,10 @@ public class FindPJLoginActivity extends BaseActivity {
 		logoImv.setBackgroundResource(R.drawable.login_logo_c);
 //		Button button = (Button) findViewById(R.id.look);
 //		button.setVisibility(View.GONE);
+
+        tvCopyRight = (TextView) findViewById(R.id.tv_copy_right);
+        root = (KeyboardListenLinearLayout) findViewById(R.id.klll_root);
+        root.setOnKeyboardStateChangedListener(this);
 		url = Url.COMPANY_LOGIN ;
 
 		telephoneView = (EditText) findViewById(R.id.et_tel);
@@ -588,4 +595,24 @@ public class FindPJLoginActivity extends BaseActivity {
 		});
 	}
 
+    @Override
+    public void onKeyboardStateChanged(int state) {
+        if(state == KeyboardListenLinearLayout.KEYBOARD_STATE_SHOW){
+            root.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tvCopyRight.setVisibility(View.GONE);
+                }
+            }, 200);
+
+        }else if(state == KeyboardListenLinearLayout.KEYBOARD_STATE_HIDE){
+            root.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tvCopyRight.setVisibility(View.VISIBLE);
+                }
+            }, 200);
+
+        }
+    }
 }
