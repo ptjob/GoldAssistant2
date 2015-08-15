@@ -37,6 +37,24 @@ public class CityService {
         }
     };
 
+    public static ArrayList<City> getHotCity(Context context) {
+        SQLiteDatabase db = CityDatabase.openDatabase(context);
+        ArrayList<City> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from area where hot=1 order by id asc", null);
+        int indexName = cursor.getColumnIndex("name");
+        City city;
+        while (cursor.moveToNext()) {
+            city = new City(cursor.getString(indexName), "");
+            list.add(city);
+        }
+        cursor.close();
+        db.close();
+
+        // Collections.sort(list, comparator);
+        return list;
+    }
+
+
     /**
      * 获取城市列表
      *

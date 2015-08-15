@@ -162,49 +162,10 @@ public class CityActivity extends BaseActivity implements OnItemClickListener {
         // allCity_lists.add(city);
         // city = new City("", "-");
         allCity_lists.add(city);
-        city = new City("上海", "");
-        allCity_lists.add(city);
-        city = new City("北京", "");
-        allCity_lists.add(city);
-        city = new City("广州", "");
-        allCity_lists.add(city);
-        city = new City("深圳", "");
-        allCity_lists.add(city);
-        city = new City("武汉", "");
-        allCity_lists.add(city);
-        city = new City("天津", "");
-        allCity_lists.add(city);
-        city = new City("西安", "");
-        allCity_lists.add(city);
-        city = new City("南京", "");
-        allCity_lists.add(city);
-        city = new City("杭州", "");
-        allCity_lists.add(city);
-        city = new City("成都", "");
-        allCity_lists.add(city);
-        city = new City("重庆", "");
-        allCity_lists.add(city);
+        allCity_lists.addAll(CityService.getHotCity(this));
         city_lists = CityService.getCityList(this);
         allCity_lists.addAll(city_lists);
     }
-
-    /**
-     * a-z排序
-     */
-    Comparator comparator = new Comparator<City>() {
-        @Override
-        public int compare(City lhs, City rhs) {
-            String a = lhs.getPinyi().substring(0, 1);
-            String b = rhs.getPinyi().substring(0, 1);
-            int flag = a.compareTo(b);
-            if (flag == 0) {
-                return a.compareTo(b);
-            } else {
-                return flag;
-            }
-
-        }
-    };
 
     private void setAdapter(List<City> list) {
         adapter = new ListAdapter(this, list);
