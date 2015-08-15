@@ -820,9 +820,7 @@ public class MessageAdapter extends BaseAdapter {
 					} else if (ApplicationConstants.TONGZHI.equals(message.getFrom())) {
 						ToastUtil.showShortToast("通知中心");
 					} else {
-						// Intent intent = new Intent(activity, UserInfo.class);
-						// intent.putExtra("hxId", message.getFrom());
-						// activity.startActivity(intent);
+
                         clickHead(message);
 					}
 				}
@@ -855,6 +853,11 @@ public class MessageAdapter extends BaseAdapter {
         String groupOwner = null;
         if( activity.group != null){
             groupOwner = activity.group.getOwner() ;
+        }
+
+        if(message.getFrom().equals(EMChatManager.getInstance().getCurrentUser())){
+            Toast.makeText(activity,"您点击了自己",Toast.LENGTH_SHORT).show();
+            return ;
         }
 
         boolean isGroupOwner = EMChatManager.getInstance().getCurrentUser()
