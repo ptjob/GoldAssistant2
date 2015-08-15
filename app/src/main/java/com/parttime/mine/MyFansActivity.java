@@ -21,6 +21,7 @@ import com.parttime.net.Callback;
 import com.parttime.net.ErrorHandler;
 import com.parttime.pojo.Fans;
 import com.parttime.utils.SharePreferenceUtil;
+import com.parttime.widget.CreditView;
 import com.parttime.widget.RankView;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.JsonUtil;
@@ -246,7 +247,7 @@ public class MyFansActivity extends LocalInitActivity implements XListView.IXLis
                 holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
                 holder.tvSincereMoney = (TextView) convertView.findViewById(R.id.tv_sincere_moneys);
                 holder.tvCertStatus = (TextView) convertView.findViewById(R.id.tv_cert_status);
-                holder.rvCredit = (RankView) convertView.findViewById(R.id.rv_credit);
+                holder.cv = (CreditView) convertView.findViewById(R.id.cv);
                 convertView.setTag(holder);
             }else {
                 holder = (ViewHolder) convertView.getTag();
@@ -259,8 +260,7 @@ public class MyFansActivity extends LocalInitActivity implements XListView.IXLis
             holder.tvName.setText(fans.user_name + " " + (fans.sex == 1 ? male : female));
             holder.tvSincereMoney.setText(context.getString(fans.earnest_money == 1 ? R.string.sincere_money_paid : R.string.sincere_money_not_paid));
             holder.tvCertStatus.setText(context.getString(fans.certification == 2 ? R.string.real_name_certed : R.string.real_name_not_certed));
-            holder.rvCredit.setTotalScore(fans.creditworthiness / 10);
-            holder.rvCredit.rank(fans.creditworthiness / 10);
+            holder.cv.credit(fans.creditworthiness / 10);
             return convertView;
         }
 
@@ -270,7 +270,7 @@ public class MyFansActivity extends LocalInitActivity implements XListView.IXLis
             public TextView tvSincereMoney;
             public TextView tvCertStatus;
             public TextView tvCredit;
-            public RankView rvCredit;
+            public CreditView cv;
         }
     }
 }
