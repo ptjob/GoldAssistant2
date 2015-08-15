@@ -109,6 +109,7 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="10dp"
                 android:layout_height="100dp"
+                android:hint="啊哦，您对该用户做出了差评的评价，请说明下理由"
                 android:text=""/>
 
             <TextView
