@@ -39,8 +39,8 @@ public class CityUpdator {
 
         String currentVersion = ApplicationUtils.getCityVersion();
         Logger.i(TAG, "[update]currentVersion=" + currentVersion + "; newVersion=" + newVersion);
-//        if (newVersion.compareTo(currentVersion) > 0) {
-        if (true) {
+        if (newVersion.compareTo(currentVersion) > 0) {
+//        if (true) {
             CityUpdator.newVersion = newVersion;
 
             DownloadManager dm = (DownloadManager) ApplicationControl.getInstance().getSystemService(Context.DOWNLOAD_SERVICE);
