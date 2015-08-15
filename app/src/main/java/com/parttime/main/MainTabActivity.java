@@ -653,12 +653,14 @@ public class MainTabActivity extends BaseActivity implements
 
 	@Override
 	protected void onNewIntent(Intent intent) {
+
 		super.onNewIntent(intent);
 		// 默认值为home页
 		int resId = intent.getIntExtra("resId", R.id.tv2);
 		if (resId == R.id.tv1) {
 			// login();
 		}
+        Logger.i("onNewIntent, resId=" + resId);
 		selectedFragment(PAGER.getPager(resId));
 		if (getIntent().getBooleanExtra("conflict", false)
 				&& !isConflictDialogShow) {

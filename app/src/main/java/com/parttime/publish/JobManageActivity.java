@@ -88,7 +88,7 @@ public class JobManageActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public void finish() {
-        IntentManager.goToMainTab(this, R.id.tv2);
+        IntentManager.goToMainTab(this, R.id.tv3);
         super.finish();
     }
 
