@@ -60,16 +60,14 @@
             android:textColor="@color/txt_color_black"
             android:text="@string/credit_value"/>
 
-        <com.parttime.widget.RankView
-            android:id="@+id/rv_credit"
+        <com.parttime.widget.CreditView
+            android:id="@+id/cv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            app:rv_item_width="14dp"
-            app:rv_item_height="14dp"
-            app:rv_full_img="@drawable/red_heart"
-            app:rv_empty_img="@drawable/red_heart" />
+            app:credit_view_itemWidth="14dp"
+            app:credit_view_itemHeight="14dp"/>
     </LinearLayout>
 
 

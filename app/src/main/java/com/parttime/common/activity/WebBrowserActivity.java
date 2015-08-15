@@ -51,7 +51,7 @@ public class WebBrowserActivity extends WithTitleActivity{
     }
 
     private void load(){
-        if(!url.startsWith("http://") && !url.startsWith("https://")){
+        if(url != null && !url.startsWith("http://") && !url.startsWith("https://")){
             url = "http://" + url;
         }
         webView.loadUrl(url);

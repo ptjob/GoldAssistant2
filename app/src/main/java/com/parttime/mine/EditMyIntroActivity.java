@@ -120,7 +120,8 @@ public class EditMyIntroActivity extends LocalInitActivity {
         center(R.string.edit_intro);
         ViewUtils.inject(this);
         if(head != null) {
-            ivHead.setImageBitmap(head);
+//            ivHead.setImageBitmap(head);
+            ivHead.setBackgroundDrawable(ContactImageLoader.bitmapToDrawable(head));
         }
         checkWhetherAgent();
     }

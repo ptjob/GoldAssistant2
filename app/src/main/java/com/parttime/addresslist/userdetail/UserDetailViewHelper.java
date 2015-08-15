@@ -2,6 +2,7 @@ package com.parttime.addresslist.userdetail;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,6 +64,8 @@ public class UserDetailViewHelper implements View.OnClickListener {
     public FriendContentContainer friendContentContainer;
     public AppraiseContentContainer appraiseContentContainer;
 
+    public Button goLeft, goRight;
+
     UserDetailPagerAdapter.UserDetailFragment userDetailFragment;
     UserDetailPagerAdapter userDetailPagerAdapter;
 
@@ -102,6 +105,9 @@ public class UserDetailViewHelper implements View.OnClickListener {
         certificationTxt = (TextView)view.findViewById(R.id.certification_value);
         pictureNum = (TextView)view.findViewById(R.id.picture_num);
 
+        goLeft = (Button)view.findViewById(R.id.go_left);
+        goRight = (Button)view.findViewById(R.id.go_right);
+
         head = (ImageView)view.findViewById(R.id.head);
 
         if(initContent == InitContent.INIT_RESUME){//初始化简历
@@ -129,6 +135,19 @@ public class UserDetailViewHelper implements View.OnClickListener {
             appraiseContentContainer = new AppraiseContentContainer(userDetailFragment,userDetailPagerAdapter);
             appraiseContentContainer.initView(evaluationContainer);
         }
+
+        if(userDetailPagerAdapter.userDetailActivity.showGuide){
+            goLeft.setVisibility(View.VISIBLE);
+            goRight.setVisibility(View.VISIBLE);
+            userDetailPagerAdapter.userDetailActivity.showGuide = false;
+        }
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goLeft.setVisibility(View.GONE);
+                goRight.setVisibility(View.GONE);
+            }
+        },2000);
 
         setListener();
     }
@@ -174,13 +193,15 @@ public class UserDetailViewHelper implements View.OnClickListener {
         if(initContent == InitContent.INIT_FRIEND){
             if(vo.age > 0) {
                 ageTxt.setText(String.valueOf(vo.age));
+            }else{
+                ageTxt.setText(String.valueOf(1));
             }
         }else {
             String birthdate = vo.birthdate;
             if (!TextUtils.isEmpty(birthdate)) {
                 long birthTime = TimeUtils.getTime(birthdate, TimeUtils.pattern1);
-                int age = (int) (System.currentTimeMillis() - birthTime) / (1000 * 60 * 60 * 24);
-                if (age > 0) {
+                int age = (int) (System.currentTimeMillis() - birthTime) / (1000 * 60 * 60 * 24 * 365); //916882357
+                if (age >= 0) {
                     ageTxt.setText(String.valueOf(age + 1));
                 }
             }

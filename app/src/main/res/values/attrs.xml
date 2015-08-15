@@ -143,4 +143,12 @@
         <attr name="sv_stepCount" format="integer"/>
         <attr name="sv_defaultStep" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="CreditView">
+        <attr name="credit_view_creditScale" format="integer"/>
+        <attr name="credit_view_imgArray" format="reference"/>
+        <attr name="credit_view_innerMargin" format="dimension"/>
+        <attr name="credit_view_itemWidth" format="dimension"/>
+        <attr name="credit_view_itemHeight" format="dimension"/>
+    </declare-styleable>
 </resources>

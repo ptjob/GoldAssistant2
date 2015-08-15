@@ -65,6 +65,11 @@ public class GroupSettingRequest extends BaseRequest {
                         userVO.isCommented = jsonObject.getInt("is_commented");
                         userVO.earnestMoney = jsonObject.getInt("earnest_money");
                         userVO.certification = jsonObject.getInt("certification");
+                        if(userVO.sex == 0 && userVO.apply == UserVO.APPLY_OK){
+                            appliantResult.approvedFemaleCount ++;
+                        }else if(userVO.sex == 1 && userVO.apply == UserVO.APPLY_OK){
+                            appliantResult.approvedMaleCount ++;
+                        }
                         if(appliantResult.isEnd == AppliantResult.NO_END){
                             if(userVO.apply != UserVO.APPLY_REJECT) {
                                 userVOs.add(userVO);
@@ -102,6 +107,8 @@ public class GroupSettingRequest extends BaseRequest {
         public int approvedCount; //已确认人数
         public int unApprovedCount; //未确认人数
         public int isEnd; //：活动是否结束（0-否，1-是）
+        public int approvedMaleCount; //录取的男
+        public int approvedFemaleCount; //录取的女
     }
 
     public static class UserVO extends BaseUser{

@@ -60,4 +60,9 @@
         <item>205</item>
         <item>210</item>
     </string-array>
+
+    <string-array name="credit_view_default">
+        <item>@drawable/red_heart</item>
+        <item>@drawable/huangguan</item>
+    </string-array>
 </resources>

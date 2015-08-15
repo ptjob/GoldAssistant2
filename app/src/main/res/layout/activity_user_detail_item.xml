@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -312,6 +312,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/activity_user_detail_resume_bottom"
-        android:layout_alignParentBottom="true"
-        />
-</RelativeLayout>
+        android:layout_gravity="bottom" />
+    <Button android:id="@+id/go_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|left"
+        android:background="@drawable/left"
+        android:visibility="gone"/>
+    <Button
+        android:id="@+id/go_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:background="@drawable/right"
+        android:visibility="gone"/>
+</FrameLayout>

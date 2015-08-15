@@ -146,6 +146,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
                 if (userDetailVO != null) {
                     helper.reflesh(userDetailVO, initContent);
                 } else {
+                    userDetailPagerAdapter.userDetailActivity.showWait(true);
                     new UserDetailRequest().getUserDetail(userId,
                             userDetailPagerAdapter.userDetailActivity.groupId,
                             userDetailPagerAdapter.userDetailActivity.queue,
@@ -156,7 +157,14 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
                                         UserDetailVO vo = (UserDetailVO) obj;
                                         userDetailPagerAdapter.cache.put(userId, vo);
                                         helper.reflesh(vo, initContent2);
+
                                     }
+                                    userDetailPagerAdapter.userDetailActivity.showWait(false);
+                                }
+
+                                @Override
+                                public void failed(Object obj) {
+                                    userDetailPagerAdapter.userDetailActivity.showWait(false);
                                 }
                             });
                 }
@@ -175,6 +183,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
                     helper.reflesh(userDetailVO, initContent);
                 }else {
                     DetailInfoCallback callback = new DetailInfoCallback(helper, initContent);
+                    userDetailPagerAdapter.userDetailActivity.showWait(true);
                     if(userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR)) {
                         new HuanXinRequest().getHuanxinUserDetailList(userId, userDetailPagerAdapter.userDetailActivity.queue, callback);
                     }else{
@@ -218,6 +227,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
                         }
                     }
                 }
+                userDetailPagerAdapter.userDetailActivity.showWait(false);
             }
 
             @Override
@@ -248,6 +258,7 @@ public class UserDetailPagerAdapter extends FragmentPagerAdapter{
                         }
                     }
                 }
+                userDetailPagerAdapter.userDetailActivity.showWait(false);
                 Toast.makeText(getActivity(), getString(R.string.get_failed), Toast.LENGTH_SHORT).show();
             }
         }
