@@ -56,6 +56,8 @@ import com.quark.model.HuanxinUser;
 import com.quark.volley.VolleySington;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -581,6 +583,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                                             @Override
                                             public void success(Object obj) {
                                                 userVO.apply = GroupSettingRequest.UserVO.APPLY_OK;
+                                                sort();
                                                 updateTip();
                                                 notifyDataSetChanged();
                                             }
@@ -678,6 +681,25 @@ public class GroupResumeSettingActivity extends BaseActivity implements
         }
 
     }
+
+
+    private void sort() {
+        Collections.sort(data,new Comparator<GroupSettingRequest.UserVO>() {
+            @Override
+            public int compare(GroupSettingRequest.UserVO lhs, GroupSettingRequest.UserVO rhs) {
+                if(isEnd == GroupSettingRequest.AppliantResult.NO_END) {
+                    if(lhs == null || rhs == null){
+                        return 0;
+                    }
+
+                    return ((lhs.apply == 0 && rhs.apply ==1) || (lhs.apply == 3 && rhs.apply ==1)) ? -1 : 0;
+                }else{
+                    return 0;
+                }
+            }
+        });
+    }
+
 
     private void notifyDataSetChanged() {
         if(data.size() == 0){
