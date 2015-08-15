@@ -128,8 +128,10 @@ public class GroupResumeSettingActivity extends BaseActivity implements
 
         if(groupId != null) {
             group = EMGroupManager.getInstance().getGroup(groupId);
-            List<String> count = group.getMembers();
-            headView.setCenterTxt2(getString(R.string.group_member_number, count != null ? count.size() : 1));
+            if(group != null) {
+                List<String> count = group.getMembers();
+                headView.setCenterTxt2(getString(R.string.group_member_number, count != null ? count.size() : 1));
+            }
         }
         appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
         if(appliantResult != null){
