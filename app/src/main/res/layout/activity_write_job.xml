@@ -201,7 +201,7 @@
                     android:id="@+id/edittxt_head_sum"
                     style="@style/FormInput"
                     android:layout_weight="1"
-                    android:hint="@string/canblank"
+                    android:hint="@string/required"
                     android:inputType="number"
                     android:maxLength="9" />
 
@@ -245,7 +245,7 @@
                         style="@style/FormInput"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:hint="@string/canblank"
+                        android:hint="@string/required"
                         android:inputType="number"
                         android:maxLength="9" />
 
@@ -256,7 +256,7 @@
                         style="@style/FormInput"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:hint="@string/canblank"
+                        android:hint="@string/required"
                         android:inputType="number"
                         android:maxLength="9" />
 
@@ -307,7 +307,7 @@
                     style="@style/FormCheckbox"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:text="@string/unshow" />
+                    android:text="@string/not_allowed" />
 
                 <ImageView style="@style/PublicLineV" />
 
@@ -315,7 +315,7 @@
                     android:id="@+id/radio_show_tel"
                     style="@style/FormCheckbox"
                     android:layout_weight="1"
-                    android:text="@string/show" />
+                    android:text="@string/allowed" />
 
             </RadioGroup>
 

@@ -12,10 +12,13 @@
     <string name="unselect">未选择</string>
     <string name="uninput">未输入</string>
     <string name="canblank">可留空</string>
+    <string name="required">必填</string>
     <string name="unshow">不显示</string>
     <string name="show">显示</string>
     <string name="need">需要</string>
     <string name="unneed">不需要</string>
+    <string name="not_allowed">不允许</string>
+    <string name="allowed">允许</string>
     <string name="publish">发布</string>
     <string name="pass">通过</string>
     <string name="refused">拒绝</string>
@@ -535,7 +538,7 @@
     <string name="publish_job_hint_salary_unit">请输入薪酬单位</string>
     <string name="publish_job_hint_head_sum_zero">招人数量不能为0</string>
     <string name="publish_job_hint_work_require">请输入10到1000字的工作内容和要求</string>
-    <string name="publish_job_hint_is_show_tel">是否显示您的手机号</string>
+    <string name="publish_job_hint_is_show_tel">是否允许用户直接联系您的手机</string>
     <string name="publish_job_checkbox_sex_unlimited">不限性别</string>
     <string name="publish_job_checkbox_sex_limited">分招男女</string>
     <string name="publish_job_label_head_sum">总人数</string>
