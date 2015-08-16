@@ -229,6 +229,9 @@ public class WriteJobActivity extends BaseActivity implements
         mTxtSalaryUnit = (TextView) findViewById(R.id.txt_salary_unit);
         mTxtLanguage = (TextView) findViewById(R.id.txt_language);
         mTxtHeight = (TextView) findViewById(R.id.txt_height);
+        mTxtHeight.setFocusable(true);
+        mTxtHeight.setFocusableInTouchMode(true);
+
         mTxtMeasurements = (TextView) findViewById(R.id.txt_measurements);
         mTxtWorkRequireTip = (TextView) findViewById(R.id.edittxt_work_require_tip);
         mTxtSalaryUnitTip = (TextView) findViewById(R.id.txt_salary_unit_tip);
@@ -399,6 +402,7 @@ public class WriteJobActivity extends BaseActivity implements
                             }
                         }
                     }
+                    mTxtHeight.requestFocusFromTouch();
                     break;
                 default:
                     break;
