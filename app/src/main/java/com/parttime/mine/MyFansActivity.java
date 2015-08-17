@@ -260,7 +260,10 @@ public class MyFansActivity extends LocalInitActivity implements XListView.IXLis
             holder.tvName.setText(fans.user_name + " " + (fans.sex == 1 ? male : female));
             holder.tvSincereMoney.setText(context.getString(fans.earnest_money == 1 ? R.string.sincere_money_paid : R.string.sincere_money_not_paid));
             holder.tvCertStatus.setText(context.getString(fans.certification == 2 ? R.string.real_name_certed : R.string.real_name_not_certed));
-            holder.cv.credit(fans.creditworthiness / 10);
+
+            //在此处适配CreditView，最大传10
+            int credit = fans.creditworthiness / 10;
+            holder.cv.credit(credit > 10 ? 10 : credit);
             return convertView;
         }
 

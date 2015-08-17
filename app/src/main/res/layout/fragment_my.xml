@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
                 android:layout_marginTop="@dimen/form_items_margin"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/my_intro"
                 app:form_title="@string/my_intro"/>
 
@@ -81,7 +81,7 @@
                 android:id="@+id/fi_my_fans"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:topLine_shown="false"
                 app:form_icon="@drawable/my_fans"
                 app:form_title="@string/my_fans"
@@ -91,7 +91,7 @@
                 android:id="@+id/fi_my_balance"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/my_balance"
                 app:form_title="@string/my_balance"
                 android:layout_marginTop="@dimen/form_items_margin"/>
@@ -101,7 +101,7 @@
                 android:id="@+id/fi_praise_recved"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/praise_recved"
                 app:form_title="@string/praise_recved"
                 app:bottomLine_leftIndent="true"
@@ -112,7 +112,7 @@
                 android:id="@+id/fi_real_name_cert"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/real_name"
                 app:form_title="@string/real_name_cert"
                 app:topLine_shown="false"/>
@@ -121,7 +121,7 @@
                 android:id="@+id/fi_fresh_man_guide"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/freshman_guide"
                 app:form_title="@string/fresh_man_guide"
                 android:layout_marginTop="@dimen/form_items_margin"/>
@@ -130,7 +130,7 @@
                 android:id="@+id/fi_suggestion"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/suggestion"
                 app:form_title="@string/suggestion"
                 app:bottomLine_leftIndent="true"
@@ -141,7 +141,7 @@
                 android:id="@+id/fi_setting"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/item_selector"
+                android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/setting"
                 app:form_title="@string/setting"
                 app:topLine_shown="false"/>
