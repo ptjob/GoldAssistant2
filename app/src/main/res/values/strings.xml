@@ -485,7 +485,7 @@
     <string name="set_gender">性别（2/3）</string>
     <string name="real_name">真实姓名</string>
     <string name="password">密码</string>
-    <string name="real_name_contributes">用真名能提高被录取的机率哦~</string>
+    <string name="real_name_contributes">使用真实姓名能帮你更快招到人哦</string>
     <string name="pwd_range_from_6_10_digit">要输入6-10位密码哦~</string>
     <string name="please_enter_real_name">请输入真实姓名</string>
     <string name="please_set_pwd">请设定密码</string>
