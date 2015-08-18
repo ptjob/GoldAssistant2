@@ -60,9 +60,11 @@
     <string name="kefu">kefu</string> <!-- 客服 -->
     <string name="caiwu">caiwu</string> <!-- 财务 -->
     <string name="dingyue">dingyue</string> <!-- 订阅 -->
+    <string name="tongzhi">tongzhi</string> <!-- 订阅 -->
     <string name="kefu_value">兼职达人客服</string> <!-- 客服 -->
     <string name="caiwu_value">财务小助手</string> <!-- 财务 -->
     <string name="dingyue_value">活动小助手</string> <!-- 订阅 -->
+    <string name="tongzhi_value">活动小助手</string> <!-- 订阅 -->
 
 
     <!-- 注册登陆 -->

@@ -763,6 +763,9 @@ public class MessageAndAddressFragment extends Fragment {
                                 ((EMGroup) emContact).getGroupId());
                     } else {
                         // it is single chat
+                        /*if(ApplicationConstants.TONGZHI.equals(username)){
+                            username = ApplicationConstants.DINGYUE;
+                        }*/
                         intent.putExtra("userId", username);
                     }
                     startActivity(intent);

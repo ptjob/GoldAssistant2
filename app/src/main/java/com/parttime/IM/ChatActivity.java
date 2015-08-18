@@ -429,7 +429,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                     findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                     chatBottomBarHelper = new ChatBottomBarHelper(this);
                 } else if (ApplicationConstants.TONGZHI.equals(toChatUsername)) {
-                    sp.saveSharedPreferences(ApplicationConstants.TONGZHI + "realname", "通知中心");
+                    sp.saveSharedPreferences(ApplicationConstants.TONGZHI + "realname", "活动小助手");
+                    findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                 }
             }
 
