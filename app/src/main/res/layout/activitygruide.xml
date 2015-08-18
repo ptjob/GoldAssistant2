@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        style="@style/FormOrangeButton"
+        android:layout_marginBottom="23dp"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:text="开始使用"
+        android:id="@+id/enter"
+        android:layout_gravity="center_horizontal|bottom"
+        android:visibility="gone"/>
+
+</FrameLayout>

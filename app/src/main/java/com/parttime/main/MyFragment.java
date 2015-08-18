@@ -934,6 +934,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 	 * showAlertDialog("您当前的版本已是最新版本，无需升级", "已是最新版本"); } }
 	 */
 
+
 	public void showAlertDialog(String str, final String str2) {
 
 		if(activity.isFinishing()){
@@ -1027,11 +1028,10 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 							IntentManager.intentToAfterCertedActivity((BaseActivity) getActivity(), certVo);
 						}
 
-						    /*
-    1:待审核  2：审核通过 3：审核不通过
-0:尚未提交审核
-     */
-
+                        /*
+                        1:待审核  2：审核通过 3：审核不通过
+                        0:尚未提交审核
+                         */
 					} catch (Exception e) {
 						new ErrorHandler((BaseActivity) getActivity(), e);
 					}

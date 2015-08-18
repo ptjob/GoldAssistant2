@@ -123,6 +123,13 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+
+        <activity
+            android:name="com.parttime.login.guide.GuideActivity"
+            android:label="@string/title_activity_guide"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
+        </activity>
         <activity
             android:name="com.quark.jianzhidaren.AgreementActivity"
             android:label="@string/app_name"
@@ -516,12 +523,12 @@
         <activity
             android:name="com.parttime.addresslist.GroupUpdateRemarkActivity"
             android:label="@string/title_activity_group_update_remark"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.parttime.IM.VedioSurfaceActivity"
             android:label="@string/title_activity_group_update_remark"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <!-- 普通群设置 -->
         <activity
@@ -723,17 +730,22 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3ecea51f560650b1ed8a4b99808f52e8" />
         <!-- 高德地图apikey -->
-        <!--<meta-data
+        <!--
+        <meta-data
         android:name="com.amap.api.v2.apikey"
-        android:value="1f74b3b1a6b20509df7a729fe6a2f317" />-->
+        android:value="1f74b3b1a6b20509df7a729fe6a2f317" />
+        -->
 
-        <!-- 高德debug key-->
-        <!--<meta-data
+
+        <!-- 高德debug key -->
+        <!--
+        <meta-data
         android:name="com.amap.api.v2.apikey"
-        android:value="8963d022ed8376c7efbb9c5e1f527748" />-->
+        android:value="8963d022ed8376c7efbb9c5e1f527748" />
+        -->
 
 
-        <!-- 高德debug key com.qingmu.jianzhidaren-->
+        <!-- 高德debug key com.qingmu.jianzhidaren -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c41c7e906217c78d5dc359f7602ab658" />
@@ -941,7 +953,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-
         <activity
             android:name="com.parttime.login.ForgetPwdActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -1004,21 +1015,18 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-
         <activity
             android:name="com.parttime.mine.RechargeActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-
         <activity
             android:name="com.parttime.common.activity.WebBrowserActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-
 
         <!-- 发布兼职 -->
         <activity
@@ -1037,8 +1045,8 @@
         <!-- 管理兼职 -->
         <activity
             android:name="com.parttime.publish.JobManageActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name="com.parttime.publish.JobExpeditedActivity"
@@ -1072,11 +1080,12 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
 
         <!-- 下载管理器监听器 -->
-        <receiver android:name="com.parttime.receivers.DownloadManagerReceiver">
+        <receiver android:name="com.parttime.receivers.DownloadManagerReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

@@ -255,7 +255,7 @@ public class UploadImg {
 						if(uploadListener != null){
 							uploadListener.fail();
 						}
-						Toast mToast = Toast.makeText(context, "上传失败，请重试", 0);
+						Toast mToast = Toast.makeText(context, "上传失败，请重试", Toast.LENGTH_SHORT);
 						mToast.setGravity(Gravity.CENTER, 0, 0);
 						mToast.show();
 						if (loadProBar != null) {
@@ -316,7 +316,7 @@ public class UploadImg {
 					intentFromCapture.putExtra(
 							MediaStore.Images.Media.ORIENTATION, 0);
 				} else {
-					Toast mToast = Toast.makeText(activity, "未找到存储卡，无法存储照片", 0);
+					Toast mToast = Toast.makeText(activity, "未找到存储卡，无法存储照片", Toast.LENGTH_SHORT);
 					mToast.setGravity(Gravity.CENTER, 0, 0);
 					mToast.show();
 					// Toast.makeText(activity,
