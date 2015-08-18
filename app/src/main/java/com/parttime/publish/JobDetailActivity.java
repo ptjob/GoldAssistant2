@@ -827,6 +827,7 @@ public class JobDetailActivity extends BaseActivity {
             public void success(Object obj) {
                 showWait(false);
                 showToast(R.string.job_refresh_success);
+                bindData();
             }
 
             @Override

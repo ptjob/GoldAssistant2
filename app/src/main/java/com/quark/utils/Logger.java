@@ -44,7 +44,7 @@ public class Logger {
     private static boolean ISLOG = true;
     private static boolean WRITE_SDCARD_LOG = true;
     @SuppressLint("SdCardPath")
-    private static String LOG_PATH = "/data/data/com.mdj.mdjmeijia/";
+    private static String LOG_PATH = "/data/data/com.qingmu.jianzhidaren/";
     private static String LOG_FILENAME = "log.log";
 
     // log 等级的分配，完全和 android.util.Log类中的完全

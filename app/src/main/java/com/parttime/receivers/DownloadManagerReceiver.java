@@ -26,19 +26,19 @@ public class DownloadManagerReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-            Logger.i(TAG, "[onReceive]download complete");
+            Logger.w(TAG, "[onReceive]download complete");
             DownloadManager manager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
 
             DownloadManager.Query query = new DownloadManager.Query();
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-            Logger.i(TAG, "[onReceive]download complete, id=" + id);
+            Logger.w(TAG, "[onReceive]download complete, id=" + id);
             query.setFilterById(id);
             Cursor c = manager.query(query);
             if(c.moveToFirst()) {
                 //获取文件下载路径
 
                 String filename = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
-                Logger.i(TAG, "[onReceive]filename=" + filename);
+                Logger.w(TAG, "[onReceive]filename=" + filename);
                 //如果文件名不为空，说明已经存在了
                 if(filename != null){
                     if (REQUEST_CITY == id) {

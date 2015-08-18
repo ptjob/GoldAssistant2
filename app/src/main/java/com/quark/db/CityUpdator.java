@@ -38,7 +38,7 @@ public class CityUpdator {
         }
 
         String currentVersion = ApplicationUtils.getCityVersion();
-        Logger.i(TAG, "[update]currentVersion=" + currentVersion + "; newVersion=" + newVersion);
+        Logger.w(TAG, "[update]currentVersion=" + currentVersion + "; newVersion=" + newVersion);
         if (newVersion.compareTo(currentVersion) > 0) {
 //        if (true) {
             CityUpdator.newVersion = newVersion;
@@ -64,14 +64,14 @@ public class CityUpdator {
                 }
             }
             Uri destinationUri = Uri.fromFile(dbFile);
-            Logger.i(TAG, "[update]destinationUri=" + destinationUri.toString());
+            Logger.w(TAG, "[update]destinationUri=" + destinationUri.toString());
 
             request.setDestinationUri(destinationUri);
 
             DownloadManagerReceiver.REQUEST_CITY = dm.enqueue(request);
-            Logger.i(TAG, "[update]dm begin download, id=" + DownloadManagerReceiver.REQUEST_CITY);
+            Logger.w(TAG, "[update]dm begin download, id=" + DownloadManagerReceiver.REQUEST_CITY);
         } else {
-            Logger.i(TAG, "[update]do not download");
+            Logger.w(TAG, "[update]do not download");
         }
     }
 
@@ -102,7 +102,7 @@ public class CityUpdator {
         }
 
         SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).saveSharedPreferences(SharedPreferenceConstants.CITY_DATABASE_VARSION, CityUpdator.newVersion);
-        Logger.i(TAG, "[saveVersion]save, newVersion=" + CityUpdator.newVersion);
+        Logger.w(TAG, "[saveVersion]save, newVersion=" + CityUpdator.newVersion);
     }
 
     /**
@@ -130,7 +130,7 @@ public class CityUpdator {
             }
         }
         catch (Exception e) {
-            Logger.i(TAG, "复制单个文件操作出错");
+            Logger.w(TAG, "复制单个文件操作出错");
             e.printStackTrace();
 
         }
