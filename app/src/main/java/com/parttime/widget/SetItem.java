@@ -34,17 +34,41 @@ public class SetItem extends FrameLayout {
     protected boolean topDividerShown;
     protected boolean bottomDividerShown;
 
+    private boolean initExecuted;
 
     public SetItem(Context context) {
         super(context);
+        if(!initExecuted){
+            initExecuted = true;
+            init(context, null);
+        }
     }
 
     public SetItem(Context context, AttributeSet attrs) {
         super(context, attrs);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if(!initExecuted){
+            initExecuted = true;
             init(context, attrs);
         }
     }
+
+    public SetItem(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        if(!initExecuted){
+            initExecuted = true;
+            init(context, attrs);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public SetItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        if(!initExecuted){
+            initExecuted = true;
+            init(context, attrs);
+        }
+    }
+
 
 
     protected void init(Context context, AttributeSet attrs){
