@@ -8,7 +8,7 @@
         android:id="@+id/fi_account_setting"
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_item_height"
-        android:background="@drawable/item_selector"
+        android:background="@drawable/mm_listitem_default_white"
         app:form_icon_show="false"
         app:topLine_shown="false"
         app:form_title="@string/account_setting"/>
@@ -17,7 +17,7 @@
         android:id="@+id/fi_clear_cache"
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_item_height"
-        android:background="@drawable/item_selector"
+        android:background="@drawable/mm_listitem_default_white"
         android:layout_marginTop="@dimen/form_items_margin"
         app:form_icon_show="false"
         app:form_title="@string/clear_cache"/>
@@ -34,7 +34,7 @@
         android:id="@+id/fi_about"
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_item_height"
-        android:background="@drawable/item_selector"
+        android:background="@drawable/mm_listitem_default_white"
         android:layout_marginTop="@dimen/form_items_margin"
         app:form_icon_show="false"
         app:form_title="@string/about"/>
