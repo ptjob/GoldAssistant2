@@ -97,9 +97,9 @@ public class CityUpdator {
             return ;
         }
 
-//        if (!dest.delete()) {
-//            Logger.w(TAG, "[update]delete dest fail!");
-//        }
+        if (!dest.delete()) {
+            Logger.w(TAG, "[update]delete dest fail!");
+        }
 
         SharePreferenceUtil.getInstance(ApplicationControl.getInstance()).saveSharedPreferences(SharedPreferenceConstants.CITY_DATABASE_VARSION, CityUpdator.newVersion);
         Logger.w(TAG, "[saveVersion]save, newVersion=" + CityUpdator.newVersion);
