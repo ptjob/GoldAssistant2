@@ -181,6 +181,8 @@ public class MainTabActivity extends BaseActivity implements
 	private String getFriendListUrl;// 获取服务端好友列表url
 	List<String> usernames = new ArrayList<>();// 好友列表显示的是uid
 														// u1007或者c100之类
+    private int getEMContactUserNameTimes = 0;
+
     private Gson gson = new Gson();
     private MainBroadCastReceiver mainBroadCastReceiver;
 
@@ -297,13 +299,8 @@ public class MainTabActivity extends BaseActivity implements
 					// demo中每次登陆都去获取好友username，开发者自己根据情况而定
 					try {
 						if (EMContactManager.getInstance() != null) {
-                            try {
-                                usernames = EMContactManager.getInstance()
-                                        .getContactUserNames();
-                            }catch (com.easemob.exceptions.EMNetworkUnconnectedException ignore){
-                                Log.e(TAG, Log.getStackTraceString(ignore));
-                            }
-						}
+                            getEMContactUserNames();
+                        }
 						Map<String, com.easemob.chatuidemo.domain.User> userlist = new HashMap<>();
 						for (String username : usernames) {
 							com.easemob.chatuidemo.domain.User user = new com.easemob.chatuidemo.domain.User();
@@ -346,6 +343,19 @@ public class MainTabActivity extends BaseActivity implements
         registerReceiver(mainBroadCastReceiver, new IntentFilter(ActionConstants.ACTION_MESSAGE_TO_TOP));
         checkAnim();
 	}
+
+    private void getEMContactUserNames() throws EaseMobException {
+        try {
+            usernames = EMContactManager.getInstance()
+                    .getContactUserNames();
+        }catch (com.easemob.exceptions.EMNetworkUnconnectedException ignore){
+            getEMContactUserNameTimes ++ ;
+            Log.e(TAG, Log.getStackTraceString(ignore));
+            if(getEMContactUserNameTimes < 4) {
+                getEMContactUserNames();
+            }
+        }
+    }
 
     AnimDialog animDialog;
     private void checkAnim(){

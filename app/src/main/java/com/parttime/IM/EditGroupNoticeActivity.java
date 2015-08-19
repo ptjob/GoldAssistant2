@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.carson.constant.ConstantForSaveList;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
@@ -27,11 +28,8 @@ import com.parttime.pojo.GroupDescription;
 import com.qingmu.jianzhidaren.R;
 import com.quark.volley.VolleySington;
 
-import org.apache.http.protocol.HTTP;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 public class EditGroupNoticeActivity extends BaseActivity implements View.OnClickListener{
 
@@ -102,7 +100,11 @@ public class EditGroupNoticeActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.done:
-                String info = noticeContent.getText().toString();
+                final String info = noticeContent.getText().toString();
+                if("我是活动群公告".equals(info)){
+                    Toast.makeText(this,"请输入群公告" , Toast.LENGTH_SHORT).show();
+                    return ;
+                }
                 /*if(groupNotice != null) {
                     groupNotice.info = info;
                     String desc = new Gson().toJson(groupNotice);
@@ -122,9 +124,11 @@ public class EditGroupNoticeActivity extends BaseActivity implements View.OnClic
                                         }
                                     }
                                 }).start();
+                                GroupDescription gd = ConstantForSaveList.groupDescriptionMapCache.get(groupId);
+                                gd.info = info;
+                                ConstantForSaveList.groupDescriptionMapCache.put(groupId,gd);
                                 finish();
                                 Toast.makeText(EditGroupNoticeActivity.this,R.string.update_success , Toast.LENGTH_SHORT).show();
-
                             }
 
                             @Override

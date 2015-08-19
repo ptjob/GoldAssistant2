@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:paddingRight="10dp"
         android:text="通知内容"
         android:id="@+id/group_notice_content"
         android:layout_marginLeft="14sp" />

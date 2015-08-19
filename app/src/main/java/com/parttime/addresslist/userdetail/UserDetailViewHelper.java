@@ -138,8 +138,8 @@ public class UserDetailViewHelper implements View.OnClickListener {
         }
 
         if(userDetailPagerAdapter.userDetailActivity.showGuide){
-            goLeft.setVisibility(View.VISIBLE);
-            goRight.setVisibility(View.VISIBLE);
+            /*goLeft.setVisibility(View.VISIBLE);
+            goRight.setVisibility(View.VISIBLE);*/
             userDetailPagerAdapter.userDetailActivity.showGuide = false;
         }
         new android.os.Handler().postDelayed(new Runnable() {
@@ -219,9 +219,18 @@ public class UserDetailViewHelper implements View.OnClickListener {
                 }
             }
         }
-        sexTxt.setText(vo.sex == 0 ? "女": (vo.sex == 1 ? "男":"未知"));
-        educationTxt.setText(vo.education);
-        heightTxt.setText(String.valueOf(vo.height));
+
+        sexTxt.setText(vo.sex == 0 ? "女" : (vo.sex == 1 ? "男" : "未知"));
+        if(! TextUtils.isEmpty(vo.education)) {
+            educationTxt.setText(vo.education);
+        }else{
+            educationContainer.setVisibility(View.GONE);
+        }
+        if(vo.height >= 0) {
+            heightTxt.setText(String.valueOf(vo.height));
+        }else{
+            heightContainer.setVisibility(View.GONE);
+        }
         String other;
         if(vo.health_record == 0){
             other = "有健康证";
@@ -229,7 +238,11 @@ public class UserDetailViewHelper implements View.OnClickListener {
             other = "无健康证";
         }
         otherTxt.setText(other);
-        threeDimensionalTxt.setText(vo.bbh);
+        if(! TextUtils.isEmpty(vo.bbh)) {
+            threeDimensionalTxt.setText(vo.bbh);
+        }else{
+            threeDimensionalContainer.setVisibility(View.GONE);
+        }
         StringBuilder certificationStr = new StringBuilder();
         int certification = vo.certification;
         if(certification == 1){
