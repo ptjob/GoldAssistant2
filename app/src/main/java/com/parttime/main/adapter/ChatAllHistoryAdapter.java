@@ -148,7 +148,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
         EMContact contact = null;
         boolean isGroup = false;
         boolean isMsgBlocked = false;
-        boolean isMsgGag = false;
+        boolean isMsgDisturb = false;
         for (EMGroup group : groups) {
             if (group.getGroupId().equals(username)) {
                 isGroup = true;
@@ -160,7 +160,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
         if (ConstantForSaveList.disturbCache != null) {
             if (ConstantForSaveList.disturbCache.contains(username)) {
-                isMsgGag = true;
+                isMsgDisturb = true;
             }
         }
 
@@ -200,7 +200,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
             }else{
                 holder.quit.setVisibility(View.GONE);
             }
-            if(isMsgGag){
+            if(isMsgDisturb){
                 holder.quit.setVisibility(View.VISIBLE);
             }else{
                 holder.quit.setVisibility(View.GONE);
@@ -258,7 +258,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
         }
 
         if (conversation.getUnreadMsgCount() > 0) {
-            if(isGroup && ConstantForSaveList.gagCache != null && ConstantForSaveList.gagCache.contains(username)){
+            if(isGroup && ConstantForSaveList.disturbCache != null && ConstantForSaveList.disturbCache.contains(username)){
                 // 显示与此用户的消息未读数
                 holder.unreadLabel.setText("");
                 holder.unreadLabel.setVisibility(View.VISIBLE);

@@ -42,10 +42,7 @@ import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chatuidemo.Constant;
-import com.parttime.addresslist.AddContactActivity;
-import com.parttime.addresslist.GroupsActivity;
 import com.easemob.chatuidemo.activity.NewFriendsMsgActivity;
-import com.parttime.addresslist.ContactAdapter;
 import com.easemob.chatuidemo.db.InviteMessgeDao;
 import com.easemob.chatuidemo.db.MessageSetDao;
 import com.easemob.chatuidemo.db.UserDao;
@@ -54,8 +51,10 @@ import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.NetUtils;
 import com.parttime.IM.ChatActivity;
+import com.parttime.addresslist.AddContactActivity;
+import com.parttime.addresslist.ContactAdapter;
+import com.parttime.addresslist.GroupsActivity;
 import com.parttime.addresslist.PublicCountListActivity;
-import com.parttime.common.head.ActivityHead;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.ConstantForSaveListHelper;
 import com.parttime.main.adapter.ChatAllHistoryAdapter;
@@ -131,6 +130,12 @@ public class MessageAndAddressFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		queue = VolleySington.getInstance().getRequestQueue();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EMChatManager.getInstance().getChatOptions().setReceiveNotNoifyGroup(new ArrayList<>(ConstantForSaveList.disturbCache));
+            }
+        }).start();
         Activity activity = getActivity();
         if(activity instanceof MainTabActivity){
             MainTabActivity mta = (MainTabActivity)activity ;

@@ -583,6 +583,12 @@ public class NormalGroupSettingActivity extends BaseActivity implements
         super.onStop();
         isExcuteOnCreate = false;
         sp.saveSharedPreferences(SharedPreferenceConstants.DISTURB_CONFIGGURE,gson.toJson(ConstantForSaveList.disturbCache));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EMChatManager.getInstance().getChatOptions().setReceiveNotNoifyGroup(new ArrayList<>(ConstantForSaveList.disturbCache));
+            }
+        }).start();
     }
 
     class ViewHold {
