@@ -372,7 +372,10 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			digest = getStrng(context, R.string.video);
 			break;
 		case TXT: // 文本消息
-			if (!message.getBooleanAttribute(
+            if("1".equals(message.getStringAttribute(
+                    Constant.MESSAGE_SHARE_JOB, "0"))){
+                digest = message.getStringAttribute("activityTitle","");
+            }else if (!message.getBooleanAttribute(
 					Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)) {
 				TextMessageBody txtBody = (TextMessageBody) message.getBody();
 				digest = txtBody.getMessage();
