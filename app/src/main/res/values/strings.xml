@@ -624,7 +624,7 @@
     <string name="job_expedited_reason_2">人招少了，我要扩招</string>
     <string name="job_expedited_tip">加急招人是为应对缺人情况设计的应急方案。\n活动加急后会有加急标签，并置顶于活动列表。\n首次加急免费</string>
     <string name="job_expedited_free_msg">本次加急免费，加急时长为8小时，是否确认</string>
-    <string name="job_expedited_pay_msg">本次加急将花费3元（余额：%1$d元），是否确认</string>
+    <string name="job_expedited_pay_msg">本次加急将花费10元（余额：%1$d元），是否确认</string>
     <string name="job_expedited_lack_of_money_msg">您的余额不足，请充值后再执行操作</string>
     <string name="job_expedited_should_verify_msg">您还不是认证商家，认证过的商家才会有更多的权限</string>
 
