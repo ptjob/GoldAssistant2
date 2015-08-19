@@ -40,11 +40,6 @@
             android:textColor="@color/c_363636"
             android:textSize="15sp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0px"
-            android:background="#ffffffff" />
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
