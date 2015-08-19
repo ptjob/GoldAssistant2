@@ -484,7 +484,7 @@
         <!-- 聊天页面 -->
         <activity
             android:name="com.parttime.IM.ChatActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" >
         </activity>

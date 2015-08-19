@@ -562,6 +562,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         });
         // 注册接收消息广播
         receiver = new NewMessageBroadcastReceiver();
+        receiver.chatId = new StringBuilder(toChatUsername+"");
         IntentFilter intentFilter = new IntentFilter(EMChatManager
                 .getInstance().getNewMessageBroadcastAction());
         // 设置广播的优先级别大于Mainacitivity,这样如果消息来的时候正好在chat页面，直接显示消息，而不是提示消息未读
@@ -1393,6 +1394,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      *
      */
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+        public StringBuilder chatId;
+
         @Override
         public void onReceive(Context context, Intent intent) {
             // 记得把广播给终结掉
@@ -1406,13 +1409,14 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
             if (message.getChatType() == ChatType.GroupChat) {
                 username = message.getTo();
             }
-            if (!username.equals(toChatUsername) ) {
-                // 消息不是发给当前会话，return
+            if (!username.equals(chatId.toString())) {
                 if(!ConstantForSaveList.disturbCache.contains(message.getTo())) {
                     notifyNewMessage(message);
                 }
+                // 消息不是发给当前会话，return
                 return;
             }
+
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername);
             // 通知adapter有新消息，更新ui
