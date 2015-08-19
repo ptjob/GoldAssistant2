@@ -83,6 +83,7 @@ import com.parttime.addresslist.GroupsActivity;
 import com.parttime.base.IntentManager;
 import com.parttime.common.update.UpdateUtils;
 import com.parttime.constants.ActionConstants;
+import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.ApplicationInitCache;
 import com.parttime.constants.SharedPreferenceConstants;
@@ -283,6 +284,20 @@ public class MainTabActivity extends BaseActivity implements
 				&& !isAccountRemovedDialogShow) {
 			showAccountRemovedDialog();
 		}
+        Intent intent = getIntent();
+        if(intent != null){
+            boolean toActivitySetting = intent.getBooleanExtra(ActivityExtraAndKeys.TO_ACTIVITY_SETTING,false);
+            if(toActivitySetting){
+                String groupId = intent.getStringExtra(ActivityExtraAndKeys.GroupSetting.GROUPID);
+                Intent i = new Intent(this, ChatActivity.class);
+                i.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID, groupId);
+                i.putExtra(ActivityExtraAndKeys.TO_ACTIVITY_SETTING,true);
+                i.putExtra(ActivityExtraAndKeys.chatType, ChatActivity.CHATTYPE_GROUP);
+                i.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID,groupId);
+
+                startActivity(i);
+            }
+        }
 
 		inviteMessgeDao = new InviteMessgeDao(this);
 		userDao = new UserDao(this);

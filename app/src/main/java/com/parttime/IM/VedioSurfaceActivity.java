@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.media.MediaPlayer.OnVideoSizeChangedListener;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -58,9 +59,11 @@ public class VedioSurfaceActivity extends Activity implements MediaPlayer.OnComp
         player.setOnSeekCompleteListener(this);    
         player.setOnVideoSizeChangedListener(this);
         //然后指定需要播放文件的路径，初始化MediaPlayer    
-        String dataPath = Environment.getExternalStorageDirectory().getPath()+"/sangfor/vedio.mp4";
-        try {    
-            player.setDataSource(dataPath);
+        //String dataPath = Environment.getExternalStorageDirectory().getPath()+"/sangfor/vedio.mp4";
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.video);
+        try {
+            player.setDataSource(this, uri);
+            //player.setDataSource(dataPath);
         } catch (IllegalArgumentException | IllegalStateException | IOException e) {
             e.printStackTrace();
         }    

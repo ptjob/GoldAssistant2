@@ -528,7 +528,7 @@
         <activity
             android:name="com.parttime.IM.VedioSurfaceActivity"
             android:label="@string/title_activity_group_update_remark"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
         </activity>
         <!-- 普通群设置 -->
         <activity

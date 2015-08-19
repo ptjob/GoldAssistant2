@@ -94,6 +94,7 @@ import com.google.gson.JsonSyntaxException;
 import com.parttime.IM.activitysetting.ChatSendMsgHelper;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.addresslist.NormalGroupSettingActivity;
+import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
@@ -394,6 +395,18 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
     }
 
     private void setUpView() {
+
+        Intent intent = getIntent();
+        if(intent != null){
+            boolean toActivitySetting = intent.getBooleanExtra(ActivityExtraAndKeys.TO_ACTIVITY_SETTING,false);
+            if(toActivitySetting){
+                String groupId = intent.getStringExtra(ActivityExtraAndKeys.GroupSetting.GROUPID);
+                Intent i = new Intent(this, GroupResumeSettingActivity.class);
+                i.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID, groupId);
+                startActivity(i);
+            }
+        }
+
         activityInstance = this;
         iv_emoticons_normal.setOnClickListener(this);
         iv_emoticons_checked.setOnClickListener(this);
@@ -410,7 +423,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE))
                 .newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
         // 判断单聊还是群聊
-        chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
+        chatType = getIntent().getIntExtra(ActivityExtraAndKeys.chatType, CHATTYPE_SINGLE);
         if (isSingleChat()) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
             //chatBottomBarHelper = new ChatBottomBarHelper(this);

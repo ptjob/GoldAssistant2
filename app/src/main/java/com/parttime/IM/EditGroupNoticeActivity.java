@@ -100,17 +100,18 @@ public class EditGroupNoticeActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.done:
-                final String info = noticeContent.getText().toString();
-                if("我是活动群公告".equals(info)){
-                    Toast.makeText(this,"请输入群公告" , Toast.LENGTH_SHORT).show();
+                String info = noticeContent.getText().toString();
+                if("我是活动群通告".equals(info)){
+                    Toast.makeText(this,"请输入群通告" , Toast.LENGTH_SHORT).show();
                     return ;
                 }
+                final String info2 = " " + info;
                 /*if(groupNotice != null) {
                     groupNotice.info = info;
                     String desc = new Gson().toJson(groupNotice);
                     try {
                         desc = URLEncoder.encode(desc,HTTP.UTF_8);*/
-                        new GroupSettingRequest().updateGroupDescription(groupId, EMChatManager.getInstance().getCurrentUser(),info,null,queue, new DefaultCallback(){
+                        new GroupSettingRequest().updateGroupDescription(groupId, EMChatManager.getInstance().getCurrentUser(),info2,null,queue, new DefaultCallback(){
                             @Override
                             public void success(Object obj) {
                                 new Thread(new Runnable() {
@@ -125,7 +126,7 @@ public class EditGroupNoticeActivity extends BaseActivity implements View.OnClic
                                     }
                                 }).start();
                                 GroupDescription gd = ConstantForSaveList.groupDescriptionMapCache.get(groupId);
-                                gd.info = info;
+                                gd.info = info2;
                                 ConstantForSaveList.groupDescriptionMapCache.put(groupId,gd);
                                 finish();
                                 Toast.makeText(EditGroupNoticeActivity.this,R.string.update_success , Toast.LENGTH_SHORT).show();

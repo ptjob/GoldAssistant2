@@ -186,6 +186,11 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                     }else if(isEnd == GroupSettingRequest.AppliantResult.YES_END) { //活动结束
                         tip.setText(getString(R.string.admitted_pending_finished_tip, result.approvedCount, result.unApprovedCount));
                     }
+
+                    //更新成员数
+                    int count = result.approvedCount + result.unApprovedCount + 1;
+                    headView.setCenterTxt2(getString(R.string.group_member_number, count > 0 ? count : 1));
+
                     List<GroupSettingRequest.UserVO> userVOs = result.userList;
                     if(result.userList != null) {
                         data.clear();

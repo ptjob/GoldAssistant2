@@ -55,6 +55,7 @@ import com.parttime.addresslist.AddContactActivity;
 import com.parttime.addresslist.ContactAdapter;
 import com.parttime.addresslist.GroupsActivity;
 import com.parttime.addresslist.PublicCountListActivity;
+import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.ConstantForSaveListHelper;
 import com.parttime.main.adapter.ChatAllHistoryAdapter;
@@ -763,8 +764,8 @@ public class MessageAndAddressFragment extends Fragment {
                     }
                     if (emContact != null && emContact instanceof EMGroup) {
                         // it is group chat
-                        intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                        intent.putExtra("groupId",
+                        intent.putExtra(ActivityExtraAndKeys.chatType, ChatActivity.CHATTYPE_GROUP);
+                        intent.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID,
                                 ((EMGroup) emContact).getGroupId());
                     } else {
                         // it is single chat
