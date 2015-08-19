@@ -55,9 +55,9 @@ public class PublicCountListActivity extends BaseActivity implements AdapterView
         caiwy.setUsername(getString(R.string.caiwu));
         users.add(caiwy);
 
-        User dingyue = new User();
-        dingyue.setUsername(getString(R.string.dingyue));
-        users.add(dingyue);
+        User tongzhi = new User();
+        tongzhi.setUsername(getString(R.string.tongzhi));
+        users.add(tongzhi);
 
     }
 
@@ -143,8 +143,8 @@ public class PublicCountListActivity extends BaseActivity implements AdapterView
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
                 viewHolder.picture.setImageBitmap(bitmap);
-            }else if(getString(R.string.dingyue).equals(user.getUsername())){
-                viewHolder.name.setText(getString(R.string.dingyue_value));
+            }else if(getString(R.string.tongzhi).equals(user.getUsername())){
+                viewHolder.name.setText(getString(R.string.tongzhi_value));
                 Drawable draw1 = getResources().getDrawable(
                         R.drawable.custom_xiaozhushou);
                 BitmapDrawable bd = (BitmapDrawable) draw1;

@@ -224,7 +224,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
                 Bitmap bitmap = bd.getBitmap();
                 holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.DINGYUE)) {
-                holder.name.setText("订阅小助手");
+                holder.name.setText(getContext().getString(R.string.dingyue_value));
                 Drawable draw1 = tcontext.getResources().getDrawable(
                         R.drawable.custom_xiaozhushou);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
@@ -238,9 +238,9 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
                 Bitmap bitmap = bd.getBitmap();
                 holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.TONGZHI)) {
-                holder.name.setText("通知中心");
+                holder.name.setText(getContext().getString(R.string.dingyue_value));
                 Drawable draw1 = tcontext.getResources().getDrawable(
-                        R.drawable.custom_tongzhi);
+                        R.drawable.custom_xiaozhushou);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
                 holder.avatar.setImageBitmap(bitmap);

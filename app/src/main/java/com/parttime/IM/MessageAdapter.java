@@ -564,7 +564,7 @@ public class MessageAdapter extends BaseAdapter {
 				holder.head_iv.setImageBitmap(bitmap);
 			} else if (ApplicationConstants.TONGZHI.equals(message.getFrom())) {
 				Drawable draw1 = context.getResources().getDrawable(
-						R.drawable.custom_tongzhi);
+						R.drawable.custom_xiaozhushou);
 				BitmapDrawable bd = (BitmapDrawable) draw1;
 				Bitmap bitmap = bd.getBitmap();
 
@@ -663,7 +663,7 @@ public class MessageAdapter extends BaseAdapter {
 				holder.head_iv.setImageBitmap(bitmap);
 			} else if (ApplicationConstants.TONGZHI.equals(message.getFrom())) {
 				Drawable draw1 = context.getResources().getDrawable(
-						R.drawable.custom_tongzhi);
+						R.drawable.custom_xiaozhushou);
 				BitmapDrawable bd = (BitmapDrawable) draw1;
 				Bitmap bitmap = bd.getBitmap();
 
@@ -715,7 +715,7 @@ public class MessageAdapter extends BaseAdapter {
 				holder.head_iv.setImageBitmap(bitmap);
 			} else if (ApplicationConstants.TONGZHI.equals(message.getFrom())) {
 				Drawable draw1 = context.getResources().getDrawable(
-						R.drawable.custom_tongzhi);
+						R.drawable.custom_xiaozhushou);
 				BitmapDrawable bd = (BitmapDrawable) draw1;
 				Bitmap bitmap = bd.getBitmap();
 				holder.head_iv.setImageBitmap(bitmap);
@@ -812,13 +812,13 @@ public class MessageAdapter extends BaseAdapter {
 					if (ApplicationConstants.JZDR.equals(message.getFrom())) {
 						ToastUtil.showShortToast("兼职达人团队");
 					} else if (ApplicationConstants.CAIWU.equals(message.getFrom())) {
-						ToastUtil.showShortToast("财务小管家");
+						ToastUtil.showShortToast(activity.getString(R.string.caiwu_value));
 					} else if (ApplicationConstants.DINGYUE.equals(message.getFrom())) {
 						ToastUtil.showShortToast("订阅小助手");
 					} else if (ApplicationConstants.KEFU.equals(message.getFrom())) {
-						ToastUtil.showShortToast("兼职达人客服");
+						ToastUtil.showShortToast(activity.getString(R.string.kefu_value));
 					} else if (ApplicationConstants.TONGZHI.equals(message.getFrom())) {
-						ToastUtil.showShortToast("通知中心");
+						ToastUtil.showShortToast(activity.getString(R.string.tongzhi_value));
 					} else {
 
                         clickHead(message);

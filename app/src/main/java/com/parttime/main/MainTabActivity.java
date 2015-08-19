@@ -881,6 +881,8 @@ public class MainTabActivity extends BaseActivity implements
 				}
 			}
 
+
+
 			// 注销广播接收者，否则在ChatActivity中会收到这个广播
 			abortBroadcast();
 			// message.getTo表示消息来自对象(单聊是uid,群聊是群组id)

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.parttime.IM.ChatActivity;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.IM.activitysetting.GroupSettingUtils;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.net.UserDetailRequest;
@@ -114,7 +115,7 @@ public  class ResumeContentContainer implements View.OnClickListener, CompoundBu
             case R.id.send_msg_container:
                 activity.startActivity(new Intent(activity,
                         ChatActivity.class).putExtra("userId",
-                        "c"+userDetailFragment.userId));
+                        ApplicationConstants.NORMALI_USER_PREFIX_CHAR+userDetailFragment.userId));
                 break;
             case R.id.cancel_resume:
             case R.id.reject:{

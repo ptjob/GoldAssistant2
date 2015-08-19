@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/summary_key"
             android:layout_toEndOf="@+id/summary_key"
-            android:gravity="center_horizontal"
+            android:gravity="center_vertical|left"
             android:paddingTop="10dp"
             android:text=""/>
         <ImageView
