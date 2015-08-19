@@ -148,7 +148,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
         EMContact contact = null;
         boolean isGroup = false;
         boolean isMsgBlocked = false;
-        boolean isMsgGag = false;
+        boolean isMsgDisturb = false;
         for (EMGroup group : groups) {
             if (group.getGroupId().equals(username)) {
                 isGroup = true;
@@ -160,7 +160,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
         if (ConstantForSaveList.disturbCache != null) {
             if (ConstantForSaveList.disturbCache.contains(username)) {
-                isMsgGag = true;
+                isMsgDisturb = true;
             }
         }
 
@@ -200,7 +200,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
             }else{
                 holder.quit.setVisibility(View.GONE);
             }
-            if(isMsgGag){
+            if(isMsgDisturb){
                 holder.quit.setVisibility(View.VISIBLE);
             }else{
                 holder.quit.setVisibility(View.GONE);
@@ -224,7 +224,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
                 Bitmap bitmap = bd.getBitmap();
                 holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.DINGYUE)) {
-                holder.name.setText("订阅小助手");
+                holder.name.setText(getContext().getString(R.string.dingyue_value));
                 Drawable draw1 = tcontext.getResources().getDrawable(
                         R.drawable.custom_xiaozhushou);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
@@ -238,9 +238,9 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
                 Bitmap bitmap = bd.getBitmap();
                 holder.avatar.setImageBitmap(bitmap);
             } else if (username.equals(ApplicationConstants.TONGZHI)) {
-                holder.name.setText("通知中心");
+                holder.name.setText(getContext().getString(R.string.dingyue_value));
                 Drawable draw1 = tcontext.getResources().getDrawable(
-                        R.drawable.custom_tongzhi);
+                        R.drawable.custom_xiaozhushou);
                 BitmapDrawable bd = (BitmapDrawable) draw1;
                 Bitmap bitmap = bd.getBitmap();
                 holder.avatar.setImageBitmap(bitmap);
@@ -258,7 +258,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
         }
 
         if (conversation.getUnreadMsgCount() > 0) {
-            if(isGroup && ConstantForSaveList.gagCache != null && ConstantForSaveList.gagCache.contains(username)){
+            if(isGroup && ConstantForSaveList.disturbCache != null && ConstantForSaveList.disturbCache.contains(username)){
                 // 显示与此用户的消息未读数
                 holder.unreadLabel.setText("");
                 holder.unreadLabel.setVisibility(View.VISIBLE);
@@ -372,7 +372,10 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			digest = getStrng(context, R.string.video);
 			break;
 		case TXT: // 文本消息
-			if (!message.getBooleanAttribute(
+            if("1".equals(message.getStringAttribute(
+                    Constant.MESSAGE_SHARE_JOB, "0"))){
+                digest = message.getStringAttribute("activityTitle","");
+            }else if (!message.getBooleanAttribute(
 					Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)) {
 				TextMessageBody txtBody = (TextMessageBody) message.getBody();
 				digest = txtBody.getMessage();

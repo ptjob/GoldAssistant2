@@ -2,6 +2,7 @@ package com.parttime.net;
 
 import com.android.volley.RequestQueue;
 import com.google.gson.Gson;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.pojo.AccountInfo;
 import com.parttime.pojo.CommentPage;
 import com.parttime.pojo.UserDetailVO;
@@ -82,6 +83,10 @@ public class UserDetailRequest extends BaseRequest {
      */
     public void setUserGag(String groupId, String userId,GagStatus status , RequestQueue queue ,final Callback callback){
         Map<String, String> map = new HashMap<>();
+        if(userId != null && ! userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR) &&
+                ! userId.contains(ApplicationConstants.SPECIAL_USER_PREFIX_CHAR)){
+            userId = ApplicationConstants.NORMALI_USER_PREFIX_CHAR + userId;
+        }
         map.put("user_id", userId);
         map.put("group_id", groupId);
         map.put("ban_status", String.valueOf(status.ordinal()));

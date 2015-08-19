@@ -13,16 +13,12 @@ import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.parttime.base.LocalInitActivity;
-import com.parttime.base.WithTitleActivity;
 import com.parttime.common.Image.ContactImageLoader;
-import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
 import com.parttime.net.ErrorHandler;
 import com.parttime.pojo.Fans;
-import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.CreditView;
-import com.parttime.widget.RankView;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.JsonUtil;
 import com.quark.common.Url;
@@ -36,7 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import me.maxwin.view.XListView;
 
@@ -260,7 +255,10 @@ public class MyFansActivity extends LocalInitActivity implements XListView.IXLis
             holder.tvName.setText(fans.user_name + " " + (fans.sex == 1 ? male : female));
             holder.tvSincereMoney.setText(context.getString(fans.earnest_money == 1 ? R.string.sincere_money_paid : R.string.sincere_money_not_paid));
             holder.tvCertStatus.setText(context.getString(fans.certification == 2 ? R.string.real_name_certed : R.string.real_name_not_certed));
-            holder.cv.credit(fans.creditworthiness / 10);
+
+            //在此处适配CreditView，最大传10
+            int credit = fans.creditworthiness / 10;
+            holder.cv.credit(credit > 10 ? 10 : credit);
             return convertView;
         }
 

@@ -36,6 +36,8 @@ public class ChatBottomBarHelper implements View.OnClickListener{
         parttimeScchool = (TextView)activity.findViewById(R.id.parttime_scchool);
 
         switcherNormal.setVisibility(View.VISIBLE);
+        normalBar.setVisibility(View.GONE);
+        publicAccountBar.setVisibility(View.VISIBLE);
 
         switcherNormal.setOnClickListener(this);
         switcherPublicAccount.setOnClickListener(this);
@@ -61,7 +63,8 @@ public class ChatBottomBarHelper implements View.OnClickListener{
                 activity.startActivity(intent);
                 break;
             case R.id.parttime_scchool:
-                Toast.makeText(activity,"调用浏览器",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(activity,VedioSurfaceActivity.class);
+                activity.startActivity(i);
                 break;
         }
     }

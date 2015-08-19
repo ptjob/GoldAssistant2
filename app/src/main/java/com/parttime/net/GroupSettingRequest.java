@@ -136,6 +136,8 @@ public class GroupSettingRequest extends BaseRequest {
         public int earnestMoney;    //诚意金
         public int certification;   //认证状态  0:未认证 1:已提交认证 2:认证通过 3:认证不通过
 
+        public int applyOrder;
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

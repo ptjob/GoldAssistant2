@@ -51,7 +51,6 @@
     <string name="location_fail">定位失败</string>
     <string name="get_failed">获取失败</string>
 
-
     <!-- 主界面 -->
     <string name="hiring">招人</string>
     <string name="mine">我</string>
@@ -61,9 +60,11 @@
     <string name="kefu">kefu</string> <!-- 客服 -->
     <string name="caiwu">caiwu</string> <!-- 财务 -->
     <string name="dingyue">dingyue</string> <!-- 订阅 -->
+    <string name="tongzhi">tongzhi</string> <!-- 订阅 -->
     <string name="kefu_value">兼职达人客服</string> <!-- 客服 -->
     <string name="caiwu_value">财务小助手</string> <!-- 财务 -->
     <string name="dingyue_value">活动小助手</string> <!-- 订阅 -->
+    <string name="tongzhi_value">活动小助手</string> <!-- 订阅 -->
 
 
     <!-- 注册登陆 -->
@@ -485,7 +486,7 @@
     <string name="set_gender">性别（2/3）</string>
     <string name="real_name">真实姓名</string>
     <string name="password">密码</string>
-    <string name="real_name_contributes">用真名能提高被录取的机率哦~</string>
+    <string name="real_name_contributes">使用真实姓名能帮你更快招到人哦</string>
     <string name="pwd_range_from_6_10_digit">要输入6-10位密码哦~</string>
     <string name="please_enter_real_name">请输入真实姓名</string>
     <string name="please_set_pwd">请设定密码</string>
@@ -603,7 +604,6 @@
     <string name="job_manage_view_count_format">%1$d次浏览</string>
     <string name="job_manage_hand_count_format">报名%1$d人</string>
     <string name="job_manage_hire_count_format">已招%1$d人</string>
-
     <string name="job_refresh_success">刷新成功</string>
     <string name="job_refresh_fail">刷新失败，请稍后再试</string>
     <string name="job_refresh_free_msg">本次刷新免费，是否确认</string>
@@ -616,26 +616,21 @@
     <string name="job_republish_msg">是否确认上架活动？</string>
     <string name="job_republish_success">上架成功</string>
     <string name="job_republish_fail">上架失败</string>
-
-
     <string name="job_expedited_title">加急招人</string>
     <string name="job_expedited_label_reason">你遇到了哪种情况？</string>
     <string name="job_expedited_reason_1">人员变动，我要补招</string>
     <string name="job_expedited_reason_2">人招少了，我要扩招</string>
     <string name="job_expedited_tip">加急招人是为应对缺人情况设计的应急方案。\n活动加急后会有加急标签，并置顶于活动列表。\n首次加急免费</string>
     <string name="job_expedited_free_msg">本次加急免费，加急时长为8小时，是否确认</string>
-    <string name="job_expedited_pay_msg">本次加急将花费3元（余额：%1$d元），是否确认</string>
+    <string name="job_expedited_pay_msg">本次加急将花费10元（余额：%1$d元），是否确认</string>
     <string name="job_expedited_lack_of_money_msg">您的余额不足，请充值后再执行操作</string>
     <string name="job_expedited_should_verify_msg">您还不是认证商家，认证过的商家才会有更多的权限</string>
-
     <string name="job_expansion_begin">开始加急招人</string>
     <string name="job_expansion_label_num">扩招人数</string>
     <string name="job_expantion_title">扩招</string>
     <string name="job_expedited_success">加急成功</string>
     <string name="job_expansion_num_limited">扩招人数输入限制在50人以内</string>
     <string name="job_expansion_input_hint">请在此输入需要扩招的人数</string>
-
-
 
     <!-- 兼职广场 -->
     <string name="job_plaza_title">兼职广场</string>
@@ -648,8 +643,6 @@
     <string name="job_broker_detail_title">经纪人详情</string>
     <string name="job_broker_fans_format">粉丝：%1$d</string>
     <string name="job_broker_detail_hire_type_format">主营：%1$s</string>
-
-
     <string name="title_activity_group_setting">GroupSettingActivity</string>
     <string name="title_activity_group_gag">GroupGagActivity</string>
     <string name="title_activity_resume_batch_management">ResumeBatchManagementActivity</string>
@@ -658,6 +651,6 @@
     <string name="title_activity_user_detail">UserDetailActivity</string>
     <string name="title_activity_image_show">ImageShowActivity</string>
     <string name="title_activity_group_update_remark">GroupUpdateRemarkActivity</string>
-
+    <string name="title_activity_guide">GuideActivity</string>
 
 </resources>

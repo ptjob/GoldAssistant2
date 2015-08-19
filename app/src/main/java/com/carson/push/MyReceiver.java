@@ -5,11 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.carson.broker.JiedanActivity;
 import com.carson.constant.ConstantForSaveList;
 import com.google.gson.Gson;
+import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
+import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.login.StartUpActivity;
 import com.parttime.main.MainTabActivity;
@@ -177,7 +180,7 @@ public class MyReceiver extends BroadcastReceiver {
 			// 用户点击报名,点击通知弹出用户详情界面
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 			if (!"".equals(sp.loadStringSharedPreference("userId", ""))) {
-				String activity_id, titile;
+				String activity_id, titile, groupId = null;
 				String female_count, male_count;
 				String extrassss = bundle.getString(JPushInterface.EXTRA_EXTRA);
 				JSONObject extrasJson;
@@ -189,6 +192,7 @@ public class MyReceiver extends BroadcastReceiver {
 					titile = extrasJson.optString("titile");
 					female_count = extrasJson.optString("female_count");
 					male_count = extrasJson.optString("male_count");
+                    groupId = extrasJson.optString("group_id");
 				} catch (JSONException e) {
 					type = "";
 					activity_id = "";
@@ -205,11 +209,20 @@ public class MyReceiver extends BroadcastReceiver {
 					b.putString("female_count", female_count);
 					b.putString("male_count", male_count);
 					b.putBoolean("fromNotification", true);
-					/*Intent i = new Intent(context, BaomingListActivity.class);
-					i.putExtras(b);
-					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					context.startActivity(i);*/
+
+                    /*startActivityForResult(
+                            (new Intent(this, GroupResumeSettingActivity.class).putExtra(
+                                    "groupId", groupId)), REQUEST_CODE_GROUP_DETAIL);*/
+                    if(! TextUtils.isEmpty(groupId)) {
+                        //Intent i = new Intent(context, MainTabActivity.class);
+                        Intent i = new Intent(context, GroupResumeSettingActivity.class);
+                        //i.putExtras(b);
+                        i.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID, groupId);
+                        //i.putExtra(ActivityExtraAndKeys.TO_ACTIVITY_SETTING,true);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(i);
+                    }
 				} else if ("2".equals(type)) {
 					/*Intent i = new Intent(context, JiedanActivity.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

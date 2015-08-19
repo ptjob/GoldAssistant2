@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.parttime.IM.ChatActivity;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.IM.activitysetting.GroupSettingUtils;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.net.UserDetailRequest;
@@ -33,7 +34,8 @@ import java.util.List;
  * 简历容器
  */
 public  class ResumeContentContainer implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
-    public RelativeLayout appraiseContainer; //评价title容器
+    public RelativeLayout appraiseContainer, //评价title容器
+            summaryValueMainContainer;//简历容器
 
     public LinearLayout appraiseValueContainer,//评价容器
             resumeBottomContainer,//招聘底部容器
@@ -68,6 +70,7 @@ public  class ResumeContentContainer implements View.OnClickListener, CompoundBu
 
     public void initView(View view){
         appraiseContainer = (RelativeLayout)view.findViewById(R.id.appraise_container);
+        summaryValueMainContainer = (RelativeLayout)view.findViewById(R.id.summarye_value_main_container);
 
         appraiseValueContainer = (LinearLayout)view.findViewById(R.id.appraise_value_container);
         resumeBottomContainer = (LinearLayout)view.findViewById(R.id.resume_bottom);
@@ -114,7 +117,7 @@ public  class ResumeContentContainer implements View.OnClickListener, CompoundBu
             case R.id.send_msg_container:
                 activity.startActivity(new Intent(activity,
                         ChatActivity.class).putExtra("userId",
-                        "c"+userDetailFragment.userId));
+                        ApplicationConstants.NORMALI_USER_PREFIX_CHAR+userDetailFragment.userId));
                 break;
             case R.id.cancel_resume:
             case R.id.reject:{
@@ -268,7 +271,11 @@ public  class ResumeContentContainer implements View.OnClickListener, CompoundBu
 
     public void reflesh(UserDetailVO vo) {
         this.userDetailVO = vo;
-        summaryValue.setText(vo.summary);
+        if(! TextUtils.isEmpty(vo.summary)) {
+            summaryValue.setText(vo.summary);
+        }else{
+            summaryValueMainContainer.setVisibility(View.GONE);
+        }
         int apply = vo.apply;
         if(apply == 0 || apply == 3){//（0-没查看，1-已录取，2-、已拒绝，3-已查看）
             showUnResumeView();

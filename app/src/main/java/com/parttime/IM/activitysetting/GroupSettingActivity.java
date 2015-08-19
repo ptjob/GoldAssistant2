@@ -29,6 +29,7 @@ import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.volley.VolleySington;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
@@ -194,6 +195,12 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     protected void onStop() {
         super.onStop();
         sp.saveSharedPreferences(SharedPreferenceConstants.DISTURB_CONFIGGURE,gson.toJson(ConstantForSaveList.disturbCache));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EMChatManager.getInstance().getChatOptions().setReceiveNotNoifyGroup(new ArrayList<>(ConstantForSaveList.disturbCache));
+            }
+        }).start();
     }
 
     @Override

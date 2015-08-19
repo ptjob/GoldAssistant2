@@ -113,8 +113,10 @@ public class AfterCertedActivity extends WithTitleActivity{
         if(certVo.accountType == AccountType.ENTERPRISE || !TextUtils.isEmpty(certVo.regId)){
             eiRegId.setValue(getMaskString(certVo.regId));
             eiRegId.setEnabled(false);
-        }else {
-
+        }else if(certVo.accountType == AccountType.AGENT){
+            if(btnUpdate != null){
+                btnUpdate.setVisibility(View.GONE);
+            }
         }
     }
 

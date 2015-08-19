@@ -5,7 +5,8 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:paddingLeft="@dimen/common_margin"
-    android:paddingRight="@dimen/common_margin">
+    android:paddingRight="@dimen/common_margin"
+    android:background="@drawable/mm_listitem_default_white">
     <ImageView
         android:id="@+id/iv_head"
         android:layout_width="46dp"

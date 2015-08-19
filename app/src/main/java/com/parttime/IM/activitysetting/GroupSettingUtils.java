@@ -175,9 +175,7 @@ public class GroupSettingUtils {
             public void failed(Object obj) {
                 super.failed(obj);
                 activity.showWait(false);
-                Toast.makeText(ApplicationControl.getInstance(),
-                        ApplicationControl.getInstance().getString(R.string.action_failed),
-                        Toast.LENGTH_SHORT).show();
+                callback.failed(obj);
             }
         });
     }

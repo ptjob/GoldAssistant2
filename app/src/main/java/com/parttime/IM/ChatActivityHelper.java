@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -77,7 +76,7 @@ public class ChatActivityHelper {
         GroupDescription groupDescription = cache.get(activity.toChatUsername);
         GroupDescription gd = null;
         if(groupDescription != null){
-            content.setText(groupDescription.info);
+            content.setText(toDBC(groupDescription.info));
         }else if(description != null) {
             try {
                 String desc = URLDecoder.decode(description, HTTP.UTF_8);
@@ -85,7 +84,7 @@ public class ChatActivityHelper {
                 if(gd != null){
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append(gd.info).append(" ").append("更新于").append(" ").append(gd.time);
-                    content.setText(stringBuilder);
+                    content.setText(toDBC(stringBuilder.toString()));
                 }
             } catch (IllegalStateException | JsonSyntaxException | UnsupportedEncodingException ignore) {
                 Log.e(TAG, "description format is error , description = " + description);
@@ -105,6 +104,18 @@ public class ChatActivityHelper {
 
         updateNoticeStatus(activity,gd);
 
+    }
+
+    public static String toDBC(String input) {
+        char[] c = input.toCharArray();
+        for (int i = 0; i< c.length; i++) {
+            if (c[i] == 12288) {
+                c[i] = (char) 32;
+                continue;
+            }if (c[i]> 65280&& c[i]< 65375)
+                c[i] = (char) (c[i] - 65248);
+        }
+        return new String(c);
     }
 
     private void updateNoticeStatus(ChatActivity activity,GroupDescription gd) {

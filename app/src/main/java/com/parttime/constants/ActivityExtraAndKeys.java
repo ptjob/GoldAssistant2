@@ -9,6 +9,9 @@ public class ActivityExtraAndKeys {
     public static final String USER_ID = "user_id";
     public static final String FROM_WHERE = "from_where";
     public static final String name = "name";
+    public static final String chatType = "chatType";
+
+    public static final String TO_ACTIVITY_SETTING = "to_activity_setting";
 
     public static final int LOAD_PICTURE = 0x0010;
 

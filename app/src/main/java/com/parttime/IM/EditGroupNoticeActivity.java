@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.carson.constant.ConstantForSaveList;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
@@ -27,11 +28,8 @@ import com.parttime.pojo.GroupDescription;
 import com.qingmu.jianzhidaren.R;
 import com.quark.volley.VolleySington;
 
-import org.apache.http.protocol.HTTP;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 public class EditGroupNoticeActivity extends BaseActivity implements View.OnClickListener{
 
@@ -103,12 +101,17 @@ public class EditGroupNoticeActivity extends BaseActivity implements View.OnClic
         switch (v.getId()){
             case R.id.done:
                 String info = noticeContent.getText().toString();
+                if("我是活动群通告".equals(info)){
+                    Toast.makeText(this,"请输入群通告" , Toast.LENGTH_SHORT).show();
+                    return ;
+                }
+                final String info2 = " " + info;
                 /*if(groupNotice != null) {
                     groupNotice.info = info;
                     String desc = new Gson().toJson(groupNotice);
                     try {
                         desc = URLEncoder.encode(desc,HTTP.UTF_8);*/
-                        new GroupSettingRequest().updateGroupDescription(groupId, EMChatManager.getInstance().getCurrentUser(),info,null,queue, new DefaultCallback(){
+                        new GroupSettingRequest().updateGroupDescription(groupId, EMChatManager.getInstance().getCurrentUser(),info2,null,queue, new DefaultCallback(){
                             @Override
                             public void success(Object obj) {
                                 new Thread(new Runnable() {
@@ -122,9 +125,11 @@ public class EditGroupNoticeActivity extends BaseActivity implements View.OnClic
                                         }
                                     }
                                 }).start();
+                                GroupDescription gd = ConstantForSaveList.groupDescriptionMapCache.get(groupId);
+                                gd.info = info2;
+                                ConstantForSaveList.groupDescriptionMapCache.put(groupId,gd);
                                 finish();
                                 Toast.makeText(EditGroupNoticeActivity.this,R.string.update_success , Toast.LENGTH_SHORT).show();
-
                             }
 
                             @Override

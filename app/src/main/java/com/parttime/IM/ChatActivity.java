@@ -94,6 +94,7 @@ import com.google.gson.JsonSyntaxException;
 import com.parttime.IM.activitysetting.ChatSendMsgHelper;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.addresslist.NormalGroupSettingActivity;
+import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
@@ -394,6 +395,18 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
     }
 
     private void setUpView() {
+
+        Intent intent = getIntent();
+        if(intent != null){
+            boolean toActivitySetting = intent.getBooleanExtra(ActivityExtraAndKeys.TO_ACTIVITY_SETTING,false);
+            if(toActivitySetting){
+                String groupId = intent.getStringExtra(ActivityExtraAndKeys.GroupSetting.GROUPID);
+                Intent i = new Intent(this, GroupResumeSettingActivity.class);
+                i.putExtra(ActivityExtraAndKeys.GroupSetting.GROUPID, groupId);
+                startActivity(i);
+            }
+        }
+
         activityInstance = this;
         iv_emoticons_normal.setOnClickListener(this);
         iv_emoticons_checked.setOnClickListener(this);
@@ -410,7 +423,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE))
                 .newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
         // 判断单聊还是群聊
-        chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
+        chatType = getIntent().getIntExtra(ActivityExtraAndKeys.chatType, CHATTYPE_SINGLE);
         if (isSingleChat()) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
             //chatBottomBarHelper = new ChatBottomBarHelper(this);
@@ -429,7 +442,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                     findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                     chatBottomBarHelper = new ChatBottomBarHelper(this);
                 } else if (ApplicationConstants.TONGZHI.equals(toChatUsername)) {
-                    sp.saveSharedPreferences(ApplicationConstants.TONGZHI + "realname", "通知中心");
+                    sp.saveSharedPreferences(ApplicationConstants.TONGZHI + "realname", "活动小助手");
+                    findViewById(R.id.container_contact_detail).setVisibility(View.GONE);
                 }
             }
 
@@ -548,6 +562,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         });
         // 注册接收消息广播
         receiver = new NewMessageBroadcastReceiver();
+        receiver.chatId = new StringBuilder(toChatUsername+"");
         IntentFilter intentFilter = new IntentFilter(EMChatManager
                 .getInstance().getNewMessageBroadcastAction());
         // 设置广播的优先级别大于Mainacitivity,这样如果消息来的时候正好在chat页面，直接显示消息，而不是提示消息未读
@@ -1379,6 +1394,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
      *
      */
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+        public StringBuilder chatId;
+
         @Override
         public void onReceive(Context context, Intent intent) {
             // 记得把广播给终结掉
@@ -1392,13 +1409,14 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
             if (message.getChatType() == ChatType.GroupChat) {
                 username = message.getTo();
             }
-            if (!username.equals(toChatUsername) ) {
-                // 消息不是发给当前会话，return
+            if (!username.equals(chatId.toString())) {
                 if(!ConstantForSaveList.disturbCache.contains(message.getTo())) {
                     notifyNewMessage(message);
                 }
+                // 消息不是发给当前会话，return
                 return;
             }
+
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername);
             // 通知adapter有新消息，更新ui

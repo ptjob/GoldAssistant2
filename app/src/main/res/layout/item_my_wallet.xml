@@ -5,7 +5,8 @@
     android:paddingLeft="@dimen/common_margin"
     android:paddingRight="@dimen/common_margin"
     android:paddingTop="9dp"
-    android:paddingBottom="7dp">
+    android:paddingBottom="7dp"
+    android:background="@drawable/mm_listitem_default_white">
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
