@@ -4,42 +4,41 @@
     android:layout_height="fill_parent"
     android:clickable="true"
     android:orientation="vertical"
-    android:padding="20.0dip" >
+    android:padding="30.0dip">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/brownborder"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="fill_parent"
-            android:layout_height="50.0dip"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="15dip"
             android:text="成功注册"
-            android:textSize="20.0dip"
-            android:paddingTop="20dip"
-            android:textColor="#FA8C2A"
+            android:textColor="@color/c_363636"
+            android:textSize="17sp"
             android:visibility="visible" />
 
         <TextView
             android:id="@+id/message"
-            android:textSize="16.0dip"
-            android:textColor="#666565"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:lineSpacingMultiplier="1.3"
-            android:minHeight="60.0dip"
-            android:paddingBottom="15.0dip"
-            android:text="3333"
+            android:paddingBottom="10.0dip"
+            android:singleLine="false"
             android:paddingLeft="20.0dip"
             android:paddingRight="20.0dip"
-            android:paddingTop="15.0dip" 
-            />
+            android:paddingTop="10.0dip"
+            android:text="3333"
+            android:textColor="@color/c_363636"
+            android:textSize="15sp" />
 
         <View
             android:layout_width="fill_parent"
@@ -48,41 +47,37 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="60.0dip"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@null"
+            android:layout_marginBottom="10dip"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:gravity="center"
-            android:layout_marginBottom="20.0dip"
-            android:orientation="horizontal" 
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            >
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/negativeButton"
+                android:layout_width="wrap_content"
+                android:minWidth="105dp"
+                android:layout_height="40.0dip"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/shape_dialog_btn_queren"
+                android:gravity="center"
+                android:text="点错了"
+                android:textColor="@color/c_363636"
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/positiveButton"
-                style="@style/text_16_666666"
                 android:layout_width="wrap_content"
-                android:minWidth="120dip"
-                android:layout_height="50.0dip"
-                android:background="@drawable/btn_changingcolor_blue_pre"
-                android:gravity="center"
-                android:layout_marginRight="5dp"
-                android:textSize="15sp"
-                android:text="确定退出"
-                android:textColor="#ffffff" />
-
-            <Button  
+                android:minWidth="105dp"
+                android:layout_height="40.0dip"
                 android:layout_marginLeft="5dp"
-                android:id="@+id/negativeButton"  
-                style="@style/text_16_666666"
-              android:layout_width="wrap_content"
-                android:minWidth="120dip"
-                android:layout_height="50.0dip"
-                android:background="@drawable/btn_hangingcolor_orange"
+                android:background="@drawable/shape_dialog_btn_quxiao"
                 android:gravity="center"
-                android:text="点错了"
-                android:textSize="15sp"
-                android:textColor="#ffffff" />   
+                android:text="确定退出"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
         </LinearLayout>
     </LinearLayout>

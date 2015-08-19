@@ -5,8 +5,7 @@
     android:background="@color/bg_0"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/activity_common_head" />
+    <include layout="@layout/activity_common_head" />
 
     <TextView
         android:id="@+id/title"
@@ -238,4 +237,11 @@
             android:textSize="@dimen/myjianli" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="9dp"
+        android:gravity="center_horizontal"
+        android:text="@string/publish_tip_about_publish" />
 </LinearLayout>

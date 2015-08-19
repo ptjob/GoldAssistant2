@@ -268,4 +268,5 @@
     <color name="broker_rank_1">#ffc701</color>
     <color name="broker_rank_2">#c7c7c7</color>
     <color name="broker_rank_3">#e39660</color>
+    <color name="publish_item_text">#7e7e7e</color>
 </resources>

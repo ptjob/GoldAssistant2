@@ -446,7 +446,7 @@
     <string name="about">关于</string>
     <string name="modify_phone_number">修改手机号码</string>
     <string name="modify_pwd">修改密码</string>
-    <string name="logout_prompt_content">确认退出后，将无法接收新消确定息</string>
+    <string name="logout_prompt_content">确认退出后，将无法接收新消息</string>
     <string name="logout_tips_title">退出提示</string>
     <string name="wrong_click">点错了</string>
     <string name="original_phone_number">原手机号码</string>
@@ -509,7 +509,7 @@
     <string name="manage_job">管理兼职</string>
     <string name="job_plaza">兼职广场</string>
     <string name="broker_charts">经纪人排行榜</string>
-    <string name="publish_tip_about_publish">*请发布真实活动。\n若遭到用户投诉，我们可能会做封号处理。</string>
+    <string name="publish_tip_about_publish">*请发布真实活动\n若遭到用户投诉，我们可能会做封号处理</string>
     <string name="city_choose_title">选择城市</string>
     <string name="publish_tab_verifying_tip">您的实名认证正在审核中</string>
     <string name="publish_tab_should_verify_title">未完成实名认证提示</string>

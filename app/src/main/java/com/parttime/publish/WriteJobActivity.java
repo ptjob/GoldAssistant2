@@ -260,6 +260,11 @@ public class WriteJobActivity extends BaseActivity implements
 
     @Override
     public void onClick(View view) {
+        View currentFocus = getCurrentFocus();
+        if(currentFocus != null) {
+            currentFocus.clearFocus();
+        }
+
         switch (view.getId()) {
             case R.id.txt_begin_time:
                 String beginTime = mTxtBeginTime.getText().toString();
@@ -400,9 +405,10 @@ public class WriteJobActivity extends BaseActivity implements
                             if (mTxtSelectTemp == mTxtSalaryUnit) {
                                 refreshSalaryControls();
                             }
+
+                            mTxtSelectTemp.requestFocusFromTouch();
                         }
                     }
-                    mTxtHeight.requestFocusFromTouch();
                     break;
                 default:
                     break;

@@ -66,14 +66,14 @@
                         android:layout_width="49dp"
                         android:layout_height="60dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/fabu_small"
+                        android:src="@drawable/fabu_big"
                         android:scaleType="fitXY"/>
                     <TextView
                         android:id="@+id/tv_left_top2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="21dp"
-                        android:textColor="@color/txt_color_gray"
+                        android:textColor="@color/publish_item_text"
                         android:layout_toRightOf="@id/iv_left_top2"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="38dp"
@@ -97,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="@color/txt_color_gray"
+                        android:textColor="@color/publish_item_text"
                         android:layout_below="@id/iv_left_top"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
@@ -119,7 +119,7 @@
                     android:gravity="center">
                     <ImageView
                         android:id="@+id/iv_right_top"
-                        android:layout_width="41dp"
+                        android:layout_width="39dp"
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/guanli"
@@ -130,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:textSize="16dp"
-                        android:textColor="@color/txt_color_gray"
+                        android:textColor="@color/publish_item_text"
                         android:layout_below="@id/iv_right_top"
                         android:layout_marginTop="15dp"
                         android:text="@string/manage_job"/>
@@ -156,7 +156,7 @@
                     android:gravity="center">
                     <ImageView
                         android:id="@+id/iv_left_bottom"
-                        android:layout_width="41dp"
+                        android:layout_width="56dp"
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/guangchang"
@@ -166,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="@color/txt_color_gray"
+                        android:textColor="@color/publish_item_text"
                         android:layout_below="@id/iv_left_bottom"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
@@ -188,7 +188,7 @@
                     android:gravity="center">
                     <ImageView
                         android:id="@+id/iv_right_bottom"
-                        android:layout_width="41dp"
+                        android:layout_width="62dp"
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/jingjiren"
@@ -199,7 +199,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:textSize="16dp"
-                        android:textColor="@color/txt_color_gray"
+                        android:textColor="@color/publish_item_text"
                         android:layout_below="@id/iv_right_bottom"
                         android:layout_marginTop="15dp"
                         android:text="@string/broker_charts"/>

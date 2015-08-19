@@ -48,7 +48,7 @@
     <dimen name="fontsize_36px">18sp</dimen>
     <dimen name="ziti_19">19sp</dimen>
     <dimen name="fontsize_40px">20sp</dimen>
-    <dimen name="tt">22sp</dimen>
+    <dimen name="tt">18sp</dimen>
     <dimen name="xingchou">25sp</dimen>
     <dimen name="xiaohui">16sp</dimen>
     <dimen name="chat_activity_popup_margin">50dp</dimen>
