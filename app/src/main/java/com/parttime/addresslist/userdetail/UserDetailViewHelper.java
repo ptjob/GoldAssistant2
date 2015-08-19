@@ -17,7 +17,6 @@ import com.parttime.utils.IntentManager;
 import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.utils.TimeUtils;
 import com.parttime.widget.RankView;
-import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.ApplicationControl;
 
@@ -225,31 +224,31 @@ public class UserDetailViewHelper implements View.OnClickListener {
         heightTxt.setText(String.valueOf(vo.height));
         String other;
         if(vo.health_record == 0){
-            other = "无健康证";
-        }else{
             other = "有健康证";
+        }else{
+            other = "无健康证";
         }
         otherTxt.setText(other);
         threeDimensionalTxt.setText(vo.bbh);
         StringBuilder certificationStr = new StringBuilder();
         int certification = vo.certification;
-        if(certification == 0){
-            certificationStr.append("未认证");
-        }else if(certification == 1){
+        if(certification == 1){
             certificationStr.append("已提交认证");
         }else if(certification == 2){
             certificationStr.append("已实名认证");
         }else if(certification == 3){
             certificationStr.append("认证不通过");
+        }else{
+            certificationStr.append("未认证");
         }
         if(certificationStr.length() > 0){
             certificationStr.append("/");
         }
         int earnestMoney = vo.earnest_money;
-        if(earnestMoney == 0){
-            certificationStr.append("未交诚意金");
-        }else if(earnestMoney ==1){
+        if(earnestMoney ==1){
             certificationStr.append("已交诚意金");
+        }else{
+            certificationStr.append("未交诚意金");
         }
         certificationTxt.setText(certificationStr.toString());
 

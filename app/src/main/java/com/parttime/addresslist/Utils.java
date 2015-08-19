@@ -1,7 +1,6 @@
 package com.parttime.addresslist;
 
 import android.app.Activity;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -47,8 +46,10 @@ public class Utils {
         for(int i = 0 ; i < crown; i ++){
             container.addView(newStar(activity,crownDrawable));
         }
-        for(int i = 0 ; i < heart; i ++){
-            container.addView(newStar(activity,heartDrawable));
+        if(crown == 0) {
+            for (int i = 0; i < heart; i++) {
+                container.addView(newStar(activity, heartDrawable));
+            }
         }
     }
 
