@@ -693,6 +693,19 @@ public class GroupResumeSettingActivity extends BaseActivity implements
 
 
     private void sort() {
+        if(data == null){
+            return ;
+        }
+        for(GroupSettingRequest.UserVO vo : data){
+            if(vo == null){
+                continue;
+            }
+            if(vo.apply == 0 || vo.apply == 3){
+                vo.applyOrder = 0;
+            }else if(vo.apply == 1){
+                vo.applyOrder = 1;
+            }
+        }
         Collections.sort(data,new Comparator<GroupSettingRequest.UserVO>() {
             @Override
             public int compare(GroupSettingRequest.UserVO lhs, GroupSettingRequest.UserVO rhs) {
@@ -701,7 +714,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                         return 0;
                     }
 
-                    return ((lhs.apply == 0 && rhs.apply ==1) || (lhs.apply == 3 && rhs.apply ==1)) ? -1 : 0;
+                    return lhs.applyOrder < rhs.applyOrder ? -1 : lhs.applyOrder == rhs.applyOrder ? 0 : 1;
                 }else{
                     return 0;
                 }
