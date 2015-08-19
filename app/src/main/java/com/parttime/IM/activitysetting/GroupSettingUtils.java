@@ -59,7 +59,13 @@ public class GroupSettingUtils {
 
                                                     appliantResult.approvedCount--;
 
+                                                    if(userVO.sex == 1){
+                                                        appliantResult.approvedMaleCount -- ;
+                                                    }else{
+                                                        appliantResult.approvedFemaleCount --;
+                                                    }
                                                 }
+
                                                 callback.success(userId);
                                                 activity.showWait(false);
                                             }
@@ -166,6 +172,11 @@ public class GroupSettingUtils {
                 if(appliantResult != null){
                     appliantResult.approvedCount++;
                     appliantResult.unApprovedCount --;
+                    if(userVO.sex == 1){
+                        appliantResult.approvedMaleCount ++ ;
+                    }else{
+                        appliantResult.approvedFemaleCount ++;
+                    }
                 }
                 callback.success(null);
                 activity.showWait(false);

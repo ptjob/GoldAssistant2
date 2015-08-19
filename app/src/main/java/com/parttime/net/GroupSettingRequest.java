@@ -65,7 +65,7 @@ public class GroupSettingRequest extends BaseRequest {
                         userVO.isCommented = jsonObject.getInt("is_commented");
                         userVO.earnestMoney = jsonObject.getInt("earnest_money");
                         userVO.certification = jsonObject.getInt("certification");
-                        if(userVO.sex == 0 && userVO.apply == UserVO.APPLY_OK){
+                        if((userVO.sex == 0 || userVO.sex == -1) && userVO.apply == UserVO.APPLY_OK){
                             appliantResult.approvedFemaleCount ++;
                         }else if(userVO.sex == 1 && userVO.apply == UserVO.APPLY_OK){
                             appliantResult.approvedMaleCount ++;

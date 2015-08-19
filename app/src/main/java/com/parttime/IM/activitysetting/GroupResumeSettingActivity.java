@@ -140,7 +140,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                 //isEnd = GroupSettingRequest.AppliantResult.YES_END;
             }
             if(isEnd == GroupSettingRequest.AppliantResult.NO_END) {
-                tip.setText(getString(R.string.admitted_pending_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
+                tip.setText(getString(R.string.admitted_pending_tip, appliantResult.approvedMaleCount,appliantResult.approvedFemaleCount,  appliantResult.unApprovedCount));
                 data.clear();
                 data.addAll(appliantResult.userList);
                 notifyDataSetChanged();
@@ -162,9 +162,13 @@ public class GroupResumeSettingActivity extends BaseActivity implements
      */
     public void updateTip(){
         appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
+        updateTip(appliantResult);
+    }
+
+    private void updateTip(GroupSettingRequest.AppliantResult appliantResult) {
         if(appliantResult != null) {
             if(isEnd == GroupSettingRequest.AppliantResult.NO_END) {
-                tip.setText(getString(R.string.admitted_pending_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
+                tip.setText(getString(R.string.admitted_pending_tip, appliantResult.approvedMaleCount,appliantResult.approvedFemaleCount, appliantResult.unApprovedCount));
             }else if(isEnd == GroupSettingRequest.AppliantResult.YES_END) { //活动结束
                 tip.setText(getString(R.string.admitted_pending_finished_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
             }
@@ -181,15 +185,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                 super.success(obj);
                 if (obj instanceof GroupSettingRequest.AppliantResult) {
                     GroupSettingRequest.AppliantResult result = (GroupSettingRequest.AppliantResult) obj;
-                    if(isEnd == GroupSettingRequest.AppliantResult.NO_END) {
-                        tip.setText(getString(R.string.admitted_pending_tip, result.approvedCount, result.unApprovedCount));
-                    }else if(isEnd == GroupSettingRequest.AppliantResult.YES_END) { //活动结束
-                        tip.setText(getString(R.string.admitted_pending_finished_tip, result.approvedCount, result.unApprovedCount));
-                    }
-
-                    //更新成员数
-                    int count = result.approvedCount + result.unApprovedCount + 1;
-                    headView.setCenterTxt2(getString(R.string.group_member_number, count > 0 ? count : 1));
+                    updateTip(result);
 
                     List<GroupSettingRequest.UserVO> userVOs = result.userList;
                     if(result.userList != null) {

@@ -225,7 +225,16 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                             }
                         }
                     }
-                    appliantResult.approvedCount = (appliantResult.approvedCount + batchUserVOs.size());
+                    for(BatchUserVO batchUserVO : batchUserVOs){
+                        if(batchUserVO == null){
+                            continue;
+                        }
+                        if(batchUserVO.sex == 1){
+                            appliantResult.approvedMaleCount -- ;
+                        }else{
+                            appliantResult.approvedFemaleCount --;
+                        }
+                    }
                     appliantResult.unApprovedCount = (appliantResult.unApprovedCount - batchUserVOs.size());
                 }
                 //成功之后，刷新列表
