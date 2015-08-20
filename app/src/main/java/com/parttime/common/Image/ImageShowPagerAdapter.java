@@ -1,7 +1,6 @@
 package com.parttime.common.Image;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.qingmu.jianzhidaren.R;
+import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.volley.VolleySington;
 
 import java.io.File;
@@ -144,12 +144,14 @@ public class ImageShowPagerAdapter extends FragmentPagerAdapter {
                             imageFileName,
                             "jzdr");
                     if (!TextUtils.isEmpty(url)) {
-                        final String filePath = path+imageFileName;
-                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + filePath)));
-                        MediaScannerConnection.scanFile(getActivity(),
-                                new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath() + "/" + path},
-                                null,
-                                null);
+                        final String filePath = path + imageFileName;
+                        try {
+                            ApplicationControl.getInstance().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + filePath)));
+                            MediaScannerConnection.scanFile(ApplicationControl.getInstance(),
+                                    new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath() + "/" + path},
+                                    null,
+                                    null);
+                        }catch (Exception ignore){}
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

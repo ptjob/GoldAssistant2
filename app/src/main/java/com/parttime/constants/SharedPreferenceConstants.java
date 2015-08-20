@@ -33,5 +33,8 @@ public class SharedPreferenceConstants {
     //禁言设置
     public static final String GAG_CONFIGGURE = "gag_configure" + ApplicationControl.getInstance().getUserName();
 
+    //群备注设置设置
+    public static final String GROUP_REMARK_CONFIGGURE = "group_remark_configure" + ApplicationControl.getInstance().getUserName();
+
     public static final String BANNERS_INFO = "banners_info";
 }

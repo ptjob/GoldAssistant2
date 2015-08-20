@@ -196,6 +196,12 @@ public class MessageAdapter extends BaseAdapter {
                 messageData.add(data);
             }
         }
+
+        Map<String, String> aliasCache = ConstantForSaveList.aliasCache.get(username);
+        if(aliasCache != null && aliasCache.size() > 0){
+            reflashAliasName(aliasCache);
+        }
+
     }
 
     public void reflashAliasName(Map<String,String> map){

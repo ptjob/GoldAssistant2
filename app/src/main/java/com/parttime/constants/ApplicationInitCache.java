@@ -10,6 +10,7 @@ import com.parttime.utils.SharePreferenceUtil;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  *
@@ -55,6 +56,18 @@ public class ApplicationInitCache {
             }
         }
         ConstantForSaveListHelper.cacheGroupType();
+        
+        //初始化群通知
+        String remarkStr = sp.loadStringSharedPreference(SharedPreferenceConstants.GROUP_REMARK_CONFIGGURE);
+        if(! TextUtils.isEmpty(remarkStr)){
+            HashMap<String , Map<String , String >> map = new Gson().fromJson(
+                    remarkStr,
+                    new TypeToken<HashMap<String,Map<String , String >>>(){}.getType());
+
+            if(map != null){
+                ConstantForSaveList.aliasCache = map;
+            }
+        }
     }
 
 }

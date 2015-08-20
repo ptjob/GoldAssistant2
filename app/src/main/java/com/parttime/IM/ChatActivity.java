@@ -91,7 +91,6 @@ import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.parttime.IM.activitysetting.ChatSendMsgHelper;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.addresslist.NormalGroupSettingActivity;
 import com.parttime.constants.ActivityExtraAndKeys;
@@ -1967,8 +1966,23 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                            }
                            tempMap.put(aliasVO.userId,aliasVO.alias);
                        }
-                       ConstantForSaveList.aliasCache.put(toChatUsername, tempMap);
-                       adapter.reflashAliasName(tempMap);
+                       Map<String,String> aliasCache = ConstantForSaveList.aliasCache.get(toChatUsername);
+                       if(aliasCache != null && aliasCache.size() == tempMap.size()){
+                           boolean reflash = false;
+                           for(Map.Entry<String ,String> entry : tempMap.entrySet()){
+                               if(! aliasCache.containsKey(entry.getKey())){
+                                    reflash = true;
+                                   break;
+                               }
+                           }
+                           if(reflash){
+                               ConstantForSaveList.aliasCache.put(toChatUsername, tempMap);
+                               adapter.reflashAliasName(tempMap);
+                           }
+                       }else {
+                           ConstantForSaveList.aliasCache.put(toChatUsername, tempMap);
+                           adapter.reflashAliasName(tempMap);
+                       }
                    }
                }
             }

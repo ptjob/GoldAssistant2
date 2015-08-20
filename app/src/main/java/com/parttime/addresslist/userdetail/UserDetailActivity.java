@@ -17,11 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
-import com.easemob.chat.EMGroupManager;
-import com.easemob.exceptions.EaseMobException;
 import com.parttime.addresslist.GroupUpdateRemarkActivity;
 import com.parttime.base.WithTitleActivity;
 import com.parttime.constants.ActivityExtraAndKeys;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.UserDetailRequest;
 import com.qingmu.jianzhidaren.R;
@@ -162,7 +161,12 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
                             blockedList = gagUsers;
                             if (blockedList != null) {
                                 UserDetailRequest.GagUser gu = new UserDetailRequest.GagUser();
-                                gu.userId = userId;
+                                if(userId != null && ! userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR)
+                                        && ! userId.contains(ApplicationConstants.SPECIAL_USER_PREFIX_CHAR) ) {
+                                    gu.userId = ApplicationConstants.NORMALI_USER_PREFIX_CHAR + userId;
+                                }else{
+                                    gu.userId = userId;
+                                }
                                 if (blockedList.contains(gu)) {
                                     forbiddenValue = 1;
                                 } else {
@@ -181,7 +185,12 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
             }).start();
         }else{
             UserDetailRequest.GagUser gu = new UserDetailRequest.GagUser();
-            gu.userId = userId;
+            if(userId != null && ! userId.contains(ApplicationConstants.NORMALI_USER_PREFIX_CHAR)
+                    && ! userId.contains(ApplicationConstants.SPECIAL_USER_PREFIX_CHAR) ) {
+                gu.userId = ApplicationConstants.NORMALI_USER_PREFIX_CHAR + userId;
+            }else{
+                gu.userId = userId;
+            }
             if (blockedList.contains(gu)) {
                 forbiddenValue = 1;
             } else {
