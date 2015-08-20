@@ -34,7 +34,7 @@
 
     <Button
         android:id="@+id/exit"
-        style="@style/CommonButton.Black"
+        style="@style/CommonButton.Red"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:text="@string/exit_app"/>
