@@ -176,7 +176,7 @@
     <string name="group_setting">群设置</string>
     <string name="group_top">群置顶</string>
     <string name="group_msg_undisturb">消息免打扰</string>
-    <string name="group_not_allow_send_msg">禁言管理</string>
+    <string name="group_not_allow_send_msg">已禁言列表</string>
     <string name="group_cancel_gag">取消禁言</string>
     <string name="pls_check_first">请选择</string>
     <string name="update_success">更新成功</string>

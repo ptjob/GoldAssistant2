@@ -173,7 +173,7 @@ public class GroupResumeSettingActivity extends BaseActivity implements
                 tip.setText(getString(R.string.admitted_pending_finished_tip, appliantResult.approvedCount, appliantResult.unApprovedCount));
             }
             //更新成员数
-            int count = appliantResult.approvedCount + appliantResult.unApprovedCount + 1;
+            int count = appliantResult.approvedCount + appliantResult.unApprovedCount;
             headView.setCenterTxt2(getString(R.string.group_member_number, count > 0 ? count : 1));
         }
     }

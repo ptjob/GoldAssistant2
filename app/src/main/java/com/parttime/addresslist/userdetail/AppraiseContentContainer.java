@@ -1,5 +1,6 @@
 package com.parttime.addresslist.userdetail;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parttime.common.activity.EditTextLimitChar;
+import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ConstantForSaveListHelper;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.UserDetailRequest;
@@ -243,7 +245,7 @@ public class AppraiseContentContainer implements CompoundButton.OnCheckedChangeL
                                 appraiseDetailContainer.setVisibility(View.GONE);
                             }
                         });
-
+                        activity.sendBroadcast(new Intent(ActionConstants.ACTION_RESUME_STATUS_CHANGE));
                         activity.showWait(false);
                     }
 

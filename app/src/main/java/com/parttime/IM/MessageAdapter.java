@@ -182,15 +182,17 @@ public class MessageAdapter extends BaseAdapter {
                 data.message = message;
 
                 String contactUID = message.getFrom();
-                contactUID = contactUID.replace("c","").replace("u","");
-                GroupSettingRequest.UserVO userVO = temp.get(contactUID);
-                if(userVO != null){
-                    data.userId = contactUID;
-                    data.name = userVO.name;
-                    data.picture = userVO.picture;
-                    data.apply = userVO.apply;
-                    data.ableComment = userVO.ableComment;
-                    data.isCommented = userVO.isCommented;
+                if(contactUID != null && !contactUID.equals(EMChatManager.getInstance().getCurrentUser())) {
+                    contactUID = contactUID.replace("c", "").replace("u", "");
+                    GroupSettingRequest.UserVO userVO = temp.get(contactUID);
+                    if (userVO != null) {
+                        data.userId = contactUID;
+                        data.name = userVO.name;
+                        data.picture = userVO.picture;
+                        data.apply = userVO.apply;
+                        data.ableComment = userVO.ableComment;
+                        data.isCommented = userVO.isCommented;
+                    }
                 }
 
                 messageData.add(data);
@@ -199,14 +201,19 @@ public class MessageAdapter extends BaseAdapter {
 
         Map<String, String> aliasCache = ConstantForSaveList.aliasCache.get(username);
         if(aliasCache != null && aliasCache.size() > 0){
-            reflashAliasName(aliasCache);
+            reflashAlias(aliasCache);
         }
 
     }
 
     public void reflashAliasName(Map<String,String> map){
+        if (reflashAlias(map)) return;
+        notifyDataSetChanged();
+    }
+
+    private boolean reflashAlias(Map<String, String> map) {
         if(map == null || map.size() == 0){
-            return;
+            return true;
         }
         for(MessageData md : messageData){
             String userId = md.userId;
@@ -219,7 +226,7 @@ public class MessageAdapter extends BaseAdapter {
                 md.name = name;
             }
         }
-        notifyDataSetChanged();
+        return false;
     }
 
     /**
@@ -607,6 +614,8 @@ public class MessageAdapter extends BaseAdapter {
                             holder.resumeStatus.setText(R.string.commented);
 							holder.resumeStatus.setSelected(true);
                         }
+                    }else{
+                        holder.resumeStatus.setText("");
                     }
                 }
             }else{
@@ -885,7 +894,8 @@ public class MessageAdapter extends BaseAdapter {
                     }
                 }
                 if(userVO == null){
-                    userVO = userVOs.get(0);
+                    //userVO = userVOs.get(0);
+                    return ;
                 }
             }
 
@@ -2043,7 +2053,9 @@ public class MessageAdapter extends BaseAdapter {
                 name.setText(msgData.name);
             }else if (!"".equals(nativeName)) {
 				name.setText(nativeName);
-			}
+			}else{
+                name.setText("");
+            }
 		}
         Bitmap bitmap = ContactImageLoader.get(id);
         if (bitmap != null) {
@@ -2082,7 +2094,7 @@ public class MessageAdapter extends BaseAdapter {
                             }
                             if (us.getName() != null
                                     && !"".equals(us.getName())) {
-                                sp.loadStringSharedPreference(id + "realname", us.getName());
+                                sp.saveSharedPreferences(id + "realname", us.getName());
                             }
                         }
                         if ((us.getAvatar() != null)
@@ -2116,7 +2128,7 @@ public class MessageAdapter extends BaseAdapter {
         public int isEnd;
         public int apply = -1 ;      //录取状态（0-没查看，1-已录取，2-、已拒绝，3-已查看）
         public int ableComment; //是否可评价（0-否，1-是)
-        public int isCommented; //评价状态（0-未评价，1-已评价）
+        public int isCommented = -1; //评价状态（0-未评价，1-已评价）
 
         public EMMessage message;
     }

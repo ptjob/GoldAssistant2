@@ -313,6 +313,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
         new GroupSettingRequest().reject(userIds, groupId, queue, new DefaultCallback(){
             @Override
             public void success(Object obj) {
+                showWait(false);
                 //更新缓存
                 GroupSettingRequest.AppliantResult appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
                 if(appliantResult != null) {
@@ -335,7 +336,7 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                     noDataTip.setVisibility(View.GONE);
                 }
                 adapter.notifyDataSetChanged();
-                showWait(false);
+
             }
 
             @Override

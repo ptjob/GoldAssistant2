@@ -29,7 +29,7 @@ public class ConstantForSaveListHelper {
                     if(userVO == null){
                         continue;
                     }
-                    if(userId.equals(userVO.userId)){
+                    if(userId.equals(String.valueOf(userVO.userId))){
                         userVO.isCommented = GroupSettingRequest.UserVO.ISCOMMENT_OK;
                         break;
                     }

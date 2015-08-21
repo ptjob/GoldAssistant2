@@ -93,6 +93,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.addresslist.NormalGroupSettingActivity;
+import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
@@ -200,6 +201,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
     private GroupListener groupListener;
     private ReceiveBroadCast receiveBroadCast;// 注册监听是否分享我的兼职
     private SharePreferenceUtil sp;
+
+    private ResumeStatusChangeReceiver resumeReceiver;
 
     RequestQueue queue = VolleySington.getInstance().getRequestQueue();
     private Handler micImageHandler = new Handler() {
@@ -559,6 +562,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
                 return false;
             }
         });
+
+        resumeReceiver = new ResumeStatusChangeReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ActionConstants.ACTION_RESUME_STATUS_CHANGE);
+        registerReceiver(resumeReceiver,filter);
+
         // 注册接收消息广播
         receiver = new NewMessageBroadcastReceiver();
         receiver.chatId = new StringBuilder(toChatUsername+"");
@@ -1388,6 +1397,16 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 
     }
 
+    private class ResumeStatusChangeReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(!isSingleChat()) {
+                adapter.refresh();
+            }
+        }
+    }
+
     /**
      * 消息广播接收者
      *
@@ -1664,6 +1683,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
         super.onDestroy();
         activityInstance = null;
         EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
+        try{
+            unregisterReceiver(resumeReceiver);
+            resumeReceiver = null;
+        }catch (Exception ignore){
+        }
         // 注销广播
         try {
             unregisterReceiver(receiver);

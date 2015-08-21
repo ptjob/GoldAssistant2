@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.parttime.IM.ChatActivity;
 import com.parttime.IM.activitysetting.GroupResumeSettingActivity;
 import com.parttime.IM.activitysetting.GroupSettingUtils;
+import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
@@ -144,6 +145,7 @@ public  class ResumeContentContainer implements View.OnClickListener, CompoundBu
                                 userDetailPagerAdapter.userIds.remove(userDetailFragment.userId);
                                 userDetailPagerAdapter.cache.remove(userDetailFragment.userId);
                                 activity.adapter.notifyDataSetChanged();
+                                activity.sendBroadcast(new Intent(ActionConstants.ACTION_RESUME_STATUS_CHANGE));
                             }
                         });
                 break;}
@@ -161,6 +163,7 @@ public  class ResumeContentContainer implements View.OnClickListener, CompoundBu
                             public void success(Object obj) {
                                 showResumedView();
                                 activity.adapter.notifyDataSetChanged();
+                                activity.sendBroadcast(new Intent(ActionConstants.ACTION_RESUME_STATUS_CHANGE));
                             }
                         });
                 break;}

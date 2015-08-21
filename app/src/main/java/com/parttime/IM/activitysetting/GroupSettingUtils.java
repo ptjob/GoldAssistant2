@@ -14,6 +14,7 @@ import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.ui.widget.CustomDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -170,6 +171,14 @@ public class GroupSettingUtils {
                 userVO.apply = GroupSettingRequest.UserVO.APPLY_OK;
                 GroupSettingRequest.AppliantResult appliantResult = ConstantForSaveList.groupAppliantCache.get(groupId);
                 if(appliantResult != null){
+                    List<GroupSettingRequest.UserVO> userVOs =  appliantResult.userList;
+                    if(userVOs != null){
+                        for (GroupSettingRequest.UserVO uVO : userVOs){
+                            if(userVO.userId == uVO.userId){
+                                uVO.apply = GroupSettingRequest.UserVO.APPLY_OK;
+                            }
+                        }
+                    }
                     appliantResult.approvedCount++;
                     appliantResult.unApprovedCount --;
                     if(userVO.sex == 1){
