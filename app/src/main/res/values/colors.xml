@@ -156,6 +156,7 @@
     <color name="viewfinder_mask">#80000000</color>
     <color name="result_view">#b0000000</color>
     <color name="possible_result_points">#66E001</color>
+    <color name="black_33">#33000000</color>
 
     <!--个人详情-->
     <color name="uncomment">#ff5c60</color>
