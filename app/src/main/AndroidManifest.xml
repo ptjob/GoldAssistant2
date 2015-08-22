@@ -4,7 +4,7 @@
     android:versionCode="31"
     android:versionName="2.0.2" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="10" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -123,12 +123,11 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-
         <activity
             android:name="com.parttime.login.guide.GuideActivity"
             android:label="@string/title_activity_guide"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.quark.jianzhidaren.AgreementActivity"
@@ -1086,6 +1085,31 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="com.parttime.guide.GuideChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent" >
+        </activity>
+        <activity
+            android:name="com.parttime.guide.GuideUserDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent" >
+        </activity>
+        <activity
+            android:name="com.parttime.guide.GuideActivityGroupSettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent" >
+        </activity>
+        <activity
+            android:name="com.parttime.guide.GuideMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent">
+        </activity>
+        <activity
+            android:name="com.parttime.guide.GuideMineActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent">
+        </activity>
     </application>
 
 </manifest>

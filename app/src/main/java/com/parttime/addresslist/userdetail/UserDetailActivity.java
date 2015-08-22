@@ -21,8 +21,11 @@ import com.parttime.addresslist.GroupUpdateRemarkActivity;
 import com.parttime.base.WithTitleActivity;
 import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
+import com.parttime.constants.SharedPreferenceConstants;
+import com.parttime.guide.GuideUserDetailActivity;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.UserDetailRequest;
+import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
 import com.quark.volley.VolleySington;
 
@@ -46,6 +49,7 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
 
     private LinkedHashSet<String> set;
     private List<UserDetailRequest.GagUser> blockedList;
+    private SharePreferenceUtil sp;
 
     public RequestQueue queue;
     private final int modify_group_name_remark = 1;
@@ -57,6 +61,7 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
         setContentView(R.layout.activity_user_detail);
         super.onCreate(savedInstanceState);
         queue = VolleySington.getInstance().getRequestQueue();
+        sp = SharePreferenceUtil.getInstance(this);
         initView();
 
         bindData();
@@ -77,6 +82,26 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
 
 
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showGuide();
+    }
+
+    public void showGuide(){
+        if (UserDetailActivity.FromAndStatus.FROM_ACTIVITY_GROUP_AND_NOT_FINISH == fromAndStatus) {
+            boolean guideShow = sp.loadBooleanSharedPreference(
+                    SharedPreferenceConstants.USER_DETAIL_GUIDE_NOT_SHOW,
+                    false);
+            if (!guideShow) {
+                sp.saveSharedPreferences(SharedPreferenceConstants.USER_DETAIL_GUIDE_NOT_SHOW, true);
+                startActivity(new Intent(this, GuideUserDetailActivity.class));
+            }
+        }
+    }
+
 
     private void bindData() {
         groupId = getIntent().getStringExtra(ActivityExtraAndKeys.GroupSetting.GROUPID);
@@ -353,7 +378,6 @@ public class UserDetailActivity extends WithTitleActivity implements View.OnClic
 
         return more;
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

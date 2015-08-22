@@ -12,7 +12,6 @@ public class SharedPreferenceConstants {
     public static final String DINGWEICITY = "dingweicity";
     public static final String USER_ID = "user_id";
     public static final String INIT_CITY = "init_city";
-
     public static final String USER_TYPE = "user_type";
     public static final String COMPANY_ID = "userId";
     public static final String COMPANY_NAME = "IM_NIKENAME";
@@ -37,4 +36,15 @@ public class SharedPreferenceConstants {
     public static final String GROUP_REMARK_CONFIGGURE = "group_remark_configure" + ApplicationControl.getInstance().getUserName();
 
     public static final String BANNERS_INFO = "banners_info";
+
+    //展示主界面
+    public static final String MAIN_GUIDE_NOT_SHOW = "main_guide_not_show";
+    //展示我
+    public static final String MINE_GUIDE_NOT_SHOW = "mine_guide_not_show";
+    //展示聊天简介
+    public static final String CHAT_GUIDE_NOT_SHOW = "chat_guide_not_show";
+    //展示用户详情简介
+    public static final String USER_DETAIL_GUIDE_NOT_SHOW = "user_detail_guide_not_show";
+    //展示活动群管理
+    public static final String ACTIVITY_GROUP_SETTING_GUIDE_NOT_SHOW = "activity_group_setting_guide_not_show";
 }

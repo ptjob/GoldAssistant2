@@ -23,4 +23,6 @@ public class ApplicationConstants {
 
     public static final int PERIOD_FOR_GET_CODE = 60 * 1000;
 
+    public static String IM_NIKENAME = "";
+
 }
