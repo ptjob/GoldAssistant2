@@ -122,7 +122,8 @@ public class PickContactNoCheckboxActivity extends BaseActivity {
 		while (iterator.hasNext()) {
 			Entry<String, User> entry = iterator.next();
 			if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME)
-					&& !entry.getKey().equals(Constant.GROUP_USERNAME))
+					&& !entry.getKey().equals(Constant.GROUP_USERNAME)
+                    && !entry.getKey().equals(Constant.PUBLIC_COUNT))
 				if (!entry.getKey().equals(ApplicationConstants.JZDR)) {
 					contactList.add(entry.getValue());
 				}
