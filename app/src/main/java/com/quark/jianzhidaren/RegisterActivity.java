@@ -44,6 +44,7 @@ import com.parttime.net.BaseRequest;
 import com.parttime.net.Callback;
 import com.parttime.net.ErrorHandler;
 import com.parttime.utils.CountDownTimer;
+import com.parttime.utils.SoftwareUtil;
 import com.parttime.widget.EditItem;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
@@ -144,6 +145,8 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 
 	private boolean lock;
 
+    private CustomDialog dlg;
+
 	@Override
 	protected ViewGroup getLeftWrapper() {
 		return null;
@@ -182,7 +185,13 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 	protected void initViews() {
 		super.initViews();
 		center(R.string.register);
-		left(TextView.class, R.string.back);
+		left(TextView.class, R.string.back, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SoftwareUtil.hideSoftWare(RegisterActivity.this);
+                finish();
+            }
+        });
 		eiCode.addTextChangeListener(this);
 
 		if(System.currentTimeMillis() - lastTime < ApplicationConstants.PERIOD_FOR_GET_CODE){
@@ -598,6 +607,30 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 			}
 		});
 	}
+
+    @OnClick(R.id.tv_failed_to_get_code)
+    public void failToGetCode(View v){
+        dlg = createDialog(getString(R.string.friendly_tips), getString(R.string.contact_customer_service_for_validaion_code),
+                getString(R.string.contact_customer_service), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dlg.dismiss();
+                        Intent intent = new Intent(
+                                Intent.ACTION_CALL,
+                                Uri.parse("tel:"
+                                        + ConstantForSaveList.CARSON_CALL_NUMBER));
+                        RegisterActivity.this.startActivity(intent);
+                    }
+                }, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null && dlg.isShowing()) {
+                            dlg.dismiss();
+                        }
+                    }
+                });
+        dlg.show();
+    }
 
 	@OnClick(R.id.btn_get_code)
 	public void sendMSM(View view) {

@@ -31,6 +31,7 @@ import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.parttime.base.CitySelectActivity;
 import com.parttime.base.IntentManager;
@@ -85,6 +86,12 @@ public class SetGenderActivity extends WithTitleActivity{
     private String gender;
     private boolean lock;
 
+    @ViewInject(R.id.fl_male)
+    private View viewMale;
+    @ViewInject(R.id.fl_female)
+    private View viewFemale;
+
+    private boolean enable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +99,12 @@ public class SetGenderActivity extends WithTitleActivity{
         ViewUtils.inject(this);
         super.onCreate(savedInstanceState);
         getIntentData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        enable = true;
     }
 
     private void getIntentData(){
@@ -121,6 +134,10 @@ public class SetGenderActivity extends WithTitleActivity{
     public void male(View v){
 //        showToast("male");
 //        startActivity(new Intent(this, Activity01.class));
+        if(!enable){
+            return;
+        }
+        enable = false;
         gender = "1";
         register();
     }
@@ -129,6 +146,10 @@ public class SetGenderActivity extends WithTitleActivity{
     public void female(View v){
 //        showToast("female");
 //        startActivity(new Intent(this, Activity01.class));
+        if(!enable){
+            return;
+        }
+        enable = false;
         gender = "0";
         register();
     }
