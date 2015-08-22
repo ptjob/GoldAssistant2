@@ -1,31 +1,18 @@
 package com.quark.jianzhidaren;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +51,14 @@ import com.quark.ui.widget.CustomDialog;
 import com.quark.utils.Util;
 import com.quark.volley.VolleySington;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -355,6 +350,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 						IM_USERID = jsonts.getString("IM_USERID");
 						IM_AVATAR = jsonts.getString("IM_AVATAR");
 						IM_NIKENAME = jsonts.getString("IM_NIKENAME");
+                        ApplicationConstants.IM_NIKENAME = IM_NIKENAME;
 						loginIM(IM_USERID, IM_PASSWORD);
 					}
 				} catch (JSONException e) {
@@ -384,7 +380,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 
 	// 环信 登陆
 	private void loginIM(String userName, String passWord) {
-		ApplicationControl.currentUserNick = "ydt01";
+		ApplicationControl.currentUserNick = ApplicationConstants.IM_NIKENAME;
 		// 如果用户名密码都有，直接进入主页面
 		/*
 		 * if (DemoHXSDKHelper.getInstance().isLogined()) { autoLogin = true;

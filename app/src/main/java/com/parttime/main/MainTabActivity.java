@@ -87,6 +87,8 @@ import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.ApplicationInitCache;
 import com.parttime.constants.SharedPreferenceConstants;
+import com.parttime.guide.GuideMainActivity;
+import com.parttime.guide.GuideUserDetailActivity;
 import com.parttime.login.FindPJLoginActivity;
 import com.parttime.net.PublishRequest;
 import com.parttime.type.AccountType;
@@ -1109,13 +1111,13 @@ public class MainTabActivity extends BaseActivity implements
 							&& usernameList
 									.contains(ChatActivity.activityInstance
 											.getToChatUsername())) {
-						Toast mToast = Toast.makeText(
+						/*Toast mToast = Toast.makeText(
 								MainTabActivity.this,
 								ChatActivity.activityInstance
 										.getToChatUsername() + "已把你从他好友列表里移除",
 								Toast.LENGTH_SHORT);
 						mToast.setGravity(Gravity.CENTER, 0, 0);
-						mToast.show();
+						mToast.show();*/
 
 						ChatActivity.activityInstance.finish();
 
@@ -1522,10 +1524,22 @@ public class MainTabActivity extends BaseActivity implements
 		if (!isConflict || !isCurrentAccountRemoved) {
 			EMChatManager.getInstance().activityResumed();
 		}
+        showGuide();
 		MobclickAgent.onPause(this);// 友盟
 		updateUnreadMsg();// 刷新圈子
 //		initMy();// 刷新功能小红点
 	}
+
+    public void showGuide(){
+        boolean guideShow = sp.loadBooleanSharedPreference(
+                SharedPreferenceConstants.MAIN_GUIDE_NOT_SHOW,
+                false);
+        if (!guideShow) {
+            sp.saveSharedPreferences(SharedPreferenceConstants.MAIN_GUIDE_NOT_SHOW, true);
+            startActivity(new Intent(this, GuideMainActivity.class));
+        }
+    }
+
 
 	@Override
 	protected void onPause() {

@@ -35,6 +35,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.parttime.base.CitySelectActivity;
 import com.parttime.base.IntentManager;
 import com.parttime.base.WithTitleActivity;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.ApplicationInitCache;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.main.MainTabActivity;
@@ -276,6 +277,7 @@ public class SetGenderActivity extends WithTitleActivity{
                             IM_AVATAR = jsonts.getString("IM_AVATAR");
                             IM_NIKENAME = jsonts.getString("IM_NIKENAME");
                             int type = jsonts.getInt("type");
+                            ApplicationConstants.IM_NIKENAME = IM_NIKENAME;
 
                             loginIM(activity, IM_USERID, IM_PASSWORD);
 
@@ -369,7 +371,7 @@ public class SetGenderActivity extends WithTitleActivity{
 
         // 环信 登陆
         private void loginIM(final BaseActivity activity, String userName, String passWord) {
-            ApplicationControl.currentUserNick = "ydt01";
+            ApplicationControl.currentUserNick = ApplicationConstants.IM_NIKENAME;
             // 如果用户名密码都有，直接进入主页面
 		/*
 		 * if (DemoHXSDKHelper.getInstance().isLogined()) { autoLogin = true;

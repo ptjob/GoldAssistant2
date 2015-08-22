@@ -41,6 +41,9 @@ import com.parttime.addresslist.Utils;
 import com.parttime.common.Image.ContactImageLoader;
 import com.parttime.common.head.ActivityHead2;
 import com.parttime.constants.ActivityExtraAndKeys;
+import com.parttime.constants.SharedPreferenceConstants;
+import com.parttime.guide.GuideActivityGroupSettingActivity;
+import com.parttime.login.guide.GuideActivity;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.net.HuanXinRequest;
@@ -266,7 +269,20 @@ public class GroupResumeSettingActivity extends BaseActivity implements
     protected void onResume() {
         super.onResume();
         bindView();
+        showGuide();
     }
+
+
+    public void showGuide(){
+        boolean guideShow = sp.loadBooleanSharedPreference(
+                SharedPreferenceConstants.ACTIVITY_GROUP_SETTING_GUIDE_NOT_SHOW,
+                false);
+        if (!guideShow) {
+            sp.saveSharedPreferences(SharedPreferenceConstants.ACTIVITY_GROUP_SETTING_GUIDE_NOT_SHOW, true);
+            startActivity(new Intent(this, GuideActivityGroupSettingActivity.class));
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

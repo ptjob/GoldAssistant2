@@ -96,6 +96,8 @@ import com.parttime.addresslist.NormalGroupSettingActivity;
 import com.parttime.constants.ActionConstants;
 import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
+import com.parttime.constants.SharedPreferenceConstants;
+import com.parttime.guide.GuideChatActivity;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.GroupSettingRequest;
 import com.parttime.net.HuanXinRequest;
@@ -1709,6 +1711,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+
+        boolean guideShow = sp.loadBooleanSharedPreference(
+                SharedPreferenceConstants.CHAT_GUIDE_NOT_SHOW,
+                false);
+        if(! guideShow && groupDescription != null && groupDescription.type == GroupDescription.ACTIVITY_GROUP ){
+            sp.saveSharedPreferences(SharedPreferenceConstants.CHAT_GUIDE_NOT_SHOW, true);
+            startActivity(new Intent(this, GuideChatActivity.class));
+        }
+
         if (group != null){
             setGroupChatTitle();
             if(group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())){

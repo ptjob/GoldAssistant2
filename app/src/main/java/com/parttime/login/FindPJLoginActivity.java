@@ -39,6 +39,7 @@ import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
+import com.parttime.constants.ApplicationConstants;
 import com.parttime.constants.ApplicationInitCache;
 import com.parttime.constants.SharedPreferenceConstants;
 import com.parttime.main.MainTabActivity;
@@ -252,6 +253,8 @@ public class FindPJLoginActivity extends BaseActivity implements KeyboardListenL
                                 IM_USERID = jsonts.getString("IM_USERID");
                                 IM_AVATAR = jsonts.getString("IM_AVATAR");
                                 IM_NIKENAME = jsonts.getString("IM_NIKENAME");
+                                ApplicationConstants.IM_NIKENAME = IM_NIKENAME;
+
 								int type = jsonts.getInt("type");
 
 
@@ -315,10 +318,9 @@ public class FindPJLoginActivity extends BaseActivity implements KeyboardListenL
 					finish();
 				}else {
 					SharePreferenceUtil.getInstance(FindPJLoginActivity.this).saveSharedPreferences(SharedPreferenceConstants.USER_TYPE, type);
+
 					loginIM(IM_USERID, IM_PASSWORD);
 				}
-
-
 			}
 
 			@Override
@@ -352,7 +354,7 @@ public class FindPJLoginActivity extends BaseActivity implements KeyboardListenL
 
 	// 环信 登陆
 	private void loginIM(String userName, String passWord) {
-		ApplicationControl.currentUserNick = "ydt01";
+		ApplicationControl.currentUserNick = ApplicationConstants.IM_NIKENAME;
 		// 如果用户名密码都有，直接进入主页面
 		/*
 		 * if (DemoHXSDKHelper.getInstance().isLogined()) { autoLogin = true;

@@ -40,12 +40,13 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.parttime.base.IntentManager;
 import com.parttime.common.Image.ContactImageLoader;
+import com.parttime.constants.SharedPreferenceConstants;
+import com.parttime.guide.GuideMineActivity;
 import com.parttime.mine.EditMyIntroActivity;
 import com.parttime.mine.FreshManGuideActivity;
 import com.parttime.mine.MyFansActivity;
 import com.parttime.mine.MyWalletActivity;
 import com.parttime.mine.PraiseRecvedActivity;
-import com.parttime.mine.RealNameCertSelectActivity;
 import com.parttime.mine.SuggestionActivity;
 import com.parttime.mine.setting.SettingActivity;
 import com.parttime.net.BaseRequest;
@@ -54,6 +55,7 @@ import com.parttime.net.ErrorHandler;
 import com.parttime.pojo.CertVo;
 import com.parttime.type.AccountType;
 import com.parttime.type.CertStatus;
+import com.parttime.utils.SharePreferenceUtil;
 import com.parttime.widget.FormItem;
 import com.parttime.widget.RankView;
 import com.qingmu.jianzhidaren.R;
@@ -61,6 +63,7 @@ import com.quark.common.JsonUtil;
 import com.quark.common.Url;
 import com.quark.fragment.company.BaseFragment;
 import com.quark.image.UploadImg;
+import com.quark.jianzhidaren.ApplicationControl;
 import com.quark.jianzhidaren.BaseActivity;
 import com.quark.model.Function;
 import com.quark.ui.widget.CommonWidget;
@@ -317,9 +320,24 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 		super.onResume();
 		// 先加载缓存
 		loadHuncunFirst();
+
+        showGuide();
 	}
 
-	/**
+
+    public void showGuide(){
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(ApplicationControl.getInstance());
+        boolean guideShow = sp.loadBooleanSharedPreference(
+                SharedPreferenceConstants.MINE_GUIDE_NOT_SHOW,
+                false);
+        if (!guideShow) {
+            sp.saveSharedPreferences(SharedPreferenceConstants.MINE_GUIDE_NOT_SHOW, true);
+            getActivity().startActivity(new Intent(getActivity(), GuideMineActivity.class));
+        }
+    }
+
+
+    /**
 	 * 先加载缓存
 	 *
 	 */
