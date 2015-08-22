@@ -35,7 +35,7 @@
             android:id="@+id/zidingyi_chat_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_chat_activity"
+            android:layout_marginRight="0dp"
             android:layout_toLeftOf="@id/iv_userhead"
             android:layout_marginTop="3dp"
             android:layout_below="@+id/tv_ack"

@@ -12,4 +12,10 @@
         <item name="android:windowAnimationStyle">@style/ActionSheetAnimation</item>
     </style>
 
+    <style name="Transparent">
+        <item name="android:windowBackground">@color/black_33</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

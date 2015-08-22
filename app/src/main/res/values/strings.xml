@@ -652,5 +652,9 @@
     <string name="title_activity_image_show">ImageShowActivity</string>
     <string name="title_activity_group_update_remark">GroupUpdateRemarkActivity</string>
     <string name="title_activity_guide">GuideActivity</string>
+    <string name="title_activity_guide_chat">GuideChatActivity</string>
+    <string name="title_activity_guide_user_detail">GuideUserDetailActivity</string>
+    <string name="title_activity_guide_activity_group_setting">GuideActivityGroupSettingActivity</string>
+    <string name="title_activity_guide_main">GuideMainActivity</string>
 
 </resources>
