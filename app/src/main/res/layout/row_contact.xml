@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="23dp"
         android:background="@color/gray_block"
-        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
         android:textColor="@color/txt_color_black"
         android:gravity="center_vertical"
         android:textSize="15dp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <RelativeLayout
         android:layout_width="match_parent"
