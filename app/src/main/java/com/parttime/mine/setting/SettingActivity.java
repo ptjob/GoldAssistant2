@@ -89,7 +89,7 @@ public class SettingActivity extends WithTitleActivity{
         CustomDialog.Builder builder = new CustomDialog.Builder(this);
         builder.setMessage(R.string.logout_prompt_content);
         builder.setTitle(R.string.logout_tips_title);
-        builder.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 ApplicationControl.getInstance().logout(new EMCallBack() {
@@ -130,7 +130,7 @@ public class SettingActivity extends WithTitleActivity{
             }
         });
 
-        builder.setPositiveButton(R.string.wrong_click, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.wrong_click, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
