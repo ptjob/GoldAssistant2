@@ -131,6 +131,7 @@ public class PublishRequest extends BaseRequest {
             @Override
             public void success(Object obj) throws JSONException {
                 JSONObject jsonObject = (JSONObject) obj;
+                Logger.i("[publishActivityList]jsonObject=" + jsonObject.toString());
                 JSONObject activityPage = jsonObject.getJSONObject("activityPage");
                 PublishActivityListVo publishActivityListVo = new PublishActivityListVo();
                 publishActivityListVo.type = type;
@@ -148,6 +149,7 @@ public class PublishRequest extends BaseRequest {
                         jobManageListVo.jobId = listItem.getInt("activity_id");
                         jobManageListVo.jobTitle = listItem.getString("title");
                         jobManageListVo.view = listItem.getInt("view_count");
+                        jobManageListVo.hand = listItem.getInt("apply_count");
                         jobManageListVo.hire = listItem.getInt("confirmed_count");
 
                         // 招人中页面并且加急
