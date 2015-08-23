@@ -13,7 +13,6 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/common_margin"
             android:layout_weight="1">
@@ -37,7 +36,6 @@
         </RelativeLayout>
 
         <include layout="@layout/view_divider"/>
-
 
     </LinearLayout>
     <TextView
