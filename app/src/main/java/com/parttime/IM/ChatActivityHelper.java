@@ -90,6 +90,7 @@ public class ChatActivityHelper {
                 Log.e(TAG, "description format is error , description = " + description);
             }
         }
+
         popupWindow.setBackgroundDrawable(new ColorDrawable(0));
 
         //设置popwindow显示位置
@@ -103,7 +104,6 @@ public class ChatActivityHelper {
         popupWindow.update();
 
         updateNoticeStatus(activity,gd);
-
     }
 
     public static String toDBC(String input) {

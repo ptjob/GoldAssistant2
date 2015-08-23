@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingRight="@dimen/title_padding"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        />
 
     <TextView
         android:id="@+id/tv_title"
