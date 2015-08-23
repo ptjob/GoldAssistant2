@@ -118,7 +118,7 @@ public class PublicCountListActivity extends BaseActivity implements AdapterView
             ViewHolder viewHolder;
             if(convertView == null){
                 viewHolder = new ViewHolder();
-                view = getLayoutInflater().inflate(R.layout.row_contact,parent,false);
+                view = getLayoutInflater().inflate(R.layout.row_public_account,parent,false);
                 viewHolder.picture = (CircularImage) view.findViewById(R.id.avatar);
                 viewHolder.name = (TextView) view.findViewById(R.id.name);
                 view.setTag(viewHolder);

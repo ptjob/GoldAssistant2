@@ -75,9 +75,7 @@
                 android:layout_marginTop="@dimen/form_items_margin"
                 android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/my_intro"
-                app:form_title="@string/my_intro"
-                app:bottomLine_leftIndent="true"
-                app:bottomLine_rightIndent="true"/>
+                app:form_title="@string/my_intro"/>
 
             <com.parttime.widget.FormItem
                 android:id="@+id/fi_my_fans"

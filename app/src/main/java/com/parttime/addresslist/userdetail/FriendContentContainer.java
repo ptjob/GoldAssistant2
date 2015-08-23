@@ -79,9 +79,11 @@ public class FriendContentContainer implements View.OnClickListener{
                 toMsg.setVisibility(View.VISIBLE);
                 deleteFriend.setVisibility(View.VISIBLE);
                 friendContainer.setVisibility(View.VISIBLE);
+                sendAddFriend.setVisibility(View.GONE);
             }else{
                 //初始化加入好友界面
                 sendAddFriend.setVisibility(View.VISIBLE);
+                friendContainer.setVisibility(View.GONE);
             }
         }
     }

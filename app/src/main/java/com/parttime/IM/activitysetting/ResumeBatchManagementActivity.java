@@ -93,11 +93,11 @@ public class ResumeBatchManagementActivity extends BaseActivity implements View.
                     CheckBox cb = (CheckBox)view.findViewById(R.id.checkBox);
                     //点击checkBox时，checkBox点击之后的状态
                     if(! cb.isChecked()){ //
-                        checkedMap.remove(position);
-                        batchUserVO.checked = false;
-                    }else{
                         checkedMap.put(position, batchUserVO);
                         batchUserVO.checked = true;
+                    }else{
+                        checkedMap.remove(position);
+                        batchUserVO.checked = false;
                     }
                     cb.setChecked(! cb.isChecked());
                 }
