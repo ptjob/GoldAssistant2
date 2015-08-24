@@ -201,7 +201,7 @@ public class AppraiseContentContainer implements CompoundButton.OnCheckedChangeL
 
     private void submit() {
         ApplicationControl application = ApplicationControl.getInstance();
-        String comment = application.getString(R.string.comment_excellent);
+        String comment = "";
         if(star4.isChecked()){
             comment = application.getString(R.string.comment_excellent);
         }else if(star3.isChecked()){
