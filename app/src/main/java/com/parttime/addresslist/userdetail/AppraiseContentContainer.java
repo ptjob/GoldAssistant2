@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +18,6 @@ import com.parttime.constants.ConstantForSaveListHelper;
 import com.parttime.net.DefaultCallback;
 import com.parttime.net.UserDetailRequest;
 import com.parttime.pojo.UserDetailVO;
-import com.qingmu.jianzhidaren.BuildConfig;
 import com.qingmu.jianzhidaren.R;
 import com.quark.jianzhidaren.ApplicationControl;
 
@@ -217,7 +215,8 @@ public class AppraiseContentContainer implements CompoundButton.OnCheckedChangeL
         final String remark = appraiseContent.getText().toString();
 
         if((application.getString(R.string.comment_fly).equals(comment)
-                || application.getString(R.string.comment_bad).equals(comment))
+                || application.getString(R.string.comment_bad).equals(comment)
+                || TextUtils.isEmpty(comment))
                 && remark.length() < 10){
             Toast.makeText(activity,R.string.comment_fly_tips, Toast.LENGTH_SHORT).show();
             return ;

@@ -1,6 +1,5 @@
 package com.parttime.common.Image;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,7 +8,6 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -17,12 +15,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.carson.constant.ConstantForSaveList;
-import com.parttime.constants.ActivityExtraAndKeys;
 import com.parttime.constants.ApplicationConstants;
 import com.parttime.utils.SharePreferenceUtil;
 import com.qingmu.jianzhidaren.R;
 import com.quark.common.Url;
-import com.quark.http.image.LoadImage;
 import com.quark.jianzhidaren.ApplicationControl;
 
 import java.io.File;
@@ -234,7 +230,7 @@ public class ContactImageLoader {
                                 }
 
                             }
-                        }, 300, 200, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
+                        }, 600, 400, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
                         cb.failed(tag);
