@@ -230,7 +230,7 @@ public class ContactImageLoader {
                                 }
 
                             }
-                        }, 600, 400, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
+                        }, 1000, 500, ImageView.ScaleType.CENTER, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
                         cb.failed(tag);

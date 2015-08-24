@@ -33,6 +33,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@id/avatar"
+                android:layout_toLeftOf="@+id/indicator"
                 android:textColor="#0F0F0F"
                 android:textSize="16sp" />
 
