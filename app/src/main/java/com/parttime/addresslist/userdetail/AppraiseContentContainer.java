@@ -214,11 +214,16 @@ public class AppraiseContentContainer implements CompoundButton.OnCheckedChangeL
 
         final String remark = appraiseContent.getText().toString();
 
-        if((application.getString(R.string.comment_fly).equals(comment)
-                || application.getString(R.string.comment_bad).equals(comment)
-                || TextUtils.isEmpty(comment))
-                && remark.length() < 10){
+        if( TextUtils.isEmpty(comment)){
+            Toast.makeText(activity,"请给评价", Toast.LENGTH_SHORT).show();
+            return ;
+        }else if(application.getString(R.string.comment_fly).equals(comment) && remark.length() < 10
+                ){
             Toast.makeText(activity,R.string.comment_fly_tips, Toast.LENGTH_SHORT).show();
+            return ;
+        }else if(application.getString(R.string.comment_bad).equals(comment)
+                && remark.length() < 10){
+            Toast.makeText(activity,R.string.comment_bad_tips, Toast.LENGTH_SHORT).show();
             return ;
         }
 

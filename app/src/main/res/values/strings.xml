@@ -228,6 +228,7 @@
     <string name="comment_fly">放飞机</string>
     <string name="comment_remark_hint">啊哦，您对该用户做出了放飞机评价请说明一下理由</string>
     <string name="comment_fly_tips">您给放飞机评价，请输入至少10个字理由</string>
+    <string name="comment_bad_tips">您给差价，请输入至少10个字理由</string>
     <string name="loading_more">加载更多</string>
     <string name="group_remark">群备注</string>
     <string name="update_group_remark">修改群备注</string>
