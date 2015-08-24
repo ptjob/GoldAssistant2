@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qingmu.jianzhidaren.R;
@@ -81,6 +83,7 @@ public abstract class WithTitleActivity extends BaseActivity {
         }else if(ImageButton.class.equals(clz)){
             v = mkIb(resId);
 
+
         }
         if(layoutParams != null) {
             v.setLayoutParams(layoutParams);
@@ -109,9 +112,22 @@ public abstract class WithTitleActivity extends BaseActivity {
             v = mkTv(resId);
         }else if(ImageButton.class.equals(clz)){
             v = mkIb(resId);
+        }else if(ImageView.class.equals(clz)){
+            v = mkIV(resId);
         }
         if(layoutParams != null) {
-            v.setLayoutParams(layoutParams);
+            if(ImageView.class.equals(clz)){
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)layoutParams;
+                params.height = (int)getResources().getDimension(R.dimen.star_width);
+                params.width = (int)getResources().getDimension(R.dimen.star_width);
+                params.setMargins(0,
+                        (int)getResources().getDimension(R.dimen.star_width)*2/3,
+                        0,
+                        (int)getResources().getDimension(R.dimen.star_width)*2/3);
+                v.setLayoutParams(layoutParams);
+            }else {
+                v.setLayoutParams(layoutParams);
+            }
         }
         v.setOnClickListener(onClickListener);
         rightWrapper.removeAllViews();
@@ -131,6 +147,12 @@ public abstract class WithTitleActivity extends BaseActivity {
         ib.setBackgroundColor(0x00000000);
         ib.setImageResource(resId);
         return ib;
+    }
+
+    protected ImageView mkIV(int resId){
+        ImageView iv = new ImageView(this);
+        iv.setBackgroundResource(resId);
+        return iv;
     }
 
     private ViewGroup.LayoutParams getLayoutParams(ViewGroup vg){

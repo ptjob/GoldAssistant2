@@ -51,6 +51,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:background="@drawable/line_item_dividing"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:layout_below="@+id/name_key"/>
                         </RelativeLayout>
 
@@ -75,6 +77,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:background="@drawable/line_item_dividing"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:layout_below="@+id/sex_key"/>
                         </RelativeLayout>
 
@@ -99,6 +103,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_below="@+id/age_key"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:background="@drawable/line_item_dividing"/>
                         </RelativeLayout>
 
@@ -134,7 +140,7 @@
                 </RelativeLayout>
                 <!--学历-->
             <RelativeLayout android:id="@+id/education_container"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/name_age_sex_container"
                 android:background="@android:color/white">
@@ -157,11 +163,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/education_key"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:background="@drawable/line_item_dividing"/>
                 </RelativeLayout>
                 <!--身高-->
                 <RelativeLayout android:id="@+id/height_container"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/education_container"
                     android:background="@android:color/white">
@@ -184,11 +194,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/height_key"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:background="@drawable/line_item_dividing"/>
                 </RelativeLayout>
                 <!--其他-->
                 <RelativeLayout android:id="@+id/other_container"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/height_container"
                     android:background="@android:color/white">
@@ -211,11 +225,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/other_key"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:background="@drawable/line_item_dividing"/>
                 </RelativeLayout>
                 <!--三维-->
                 <RelativeLayout android:id="@+id/three_dimensional_container"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/other_container"
                     android:background="@android:color/white">
@@ -238,11 +256,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/three_dimensional_key"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:background="@drawable/line_item_dividing"/>
                 </RelativeLayout>
                 <!--信誉-->
                 <RelativeLayout android:id="@+id/reputation_container"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/three_dimensional_container"
                     android:background="@android:color/white"
@@ -267,11 +289,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/reputation_key"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:background="@drawable/line_item_dividing"/>
                 </RelativeLayout>
                 <!--认证-->
                 <RelativeLayout android:id="@+id/certification_container"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/reputation_container"
                     android:background="@android:color/white">
@@ -294,6 +320,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/certification_key"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:background="@drawable/line_item_dividing"/>
                 </RelativeLayout>
 

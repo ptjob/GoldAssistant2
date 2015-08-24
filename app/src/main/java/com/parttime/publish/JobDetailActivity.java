@@ -42,6 +42,7 @@ import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.framework.utils.UIHandler;
 
 /**
@@ -91,6 +92,7 @@ public class JobDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         bindCount = 0;
         setContentView(R.layout.activity_job_detail);
+        ShareSDK.initSDK(this);
         initIntent();
         initControls();
         bindListener();

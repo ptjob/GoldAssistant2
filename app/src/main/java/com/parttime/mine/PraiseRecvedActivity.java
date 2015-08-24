@@ -1,7 +1,14 @@
 package com.parttime.mine;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
@@ -104,7 +111,34 @@ public class PraiseRecvedActivity extends LocalInitActivity{
     protected void initViews() {
         super.initViews();
         left(TextView.class, R.string.back);
+        right(ImageView.class,R.drawable.wenhao,new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                show(v);
+            }
+
+        });
         center(R.string.praise_recved);
+    }
+
+
+    private void show(View view) {
+        View popView = getLayoutInflater().inflate(R.layout.activity_wenhao_popup, null);
+        final PopupWindow popupWindow = new PopupWindow(popView,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0));
+
+        //设置popwindow显示位置
+        popupWindow.showAsDropDown(view);
+        /*popupWindow.showAtLocation(view, Gravity.TOP, -0,
+                (int)getResources().getDimension(R.dimen.praise_activity_popup_margin));*/
+        //获取popwindow焦点
+        popupWindow.setFocusable(true);
+        //设置popwindow如果点击外面区域，便关闭。
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.update();
     }
 
     @Override

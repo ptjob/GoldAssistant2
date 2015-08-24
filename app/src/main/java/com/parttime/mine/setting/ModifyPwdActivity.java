@@ -42,6 +42,7 @@ public class ModifyPwdActivity extends LocalInitActivity implements Callback{
     protected void onCreate(Bundle savedInstanceState) {
 //        COMPANY_EDITPASSWORD
         setContentView(R.layout.activity_modify_pwd);
+        setContentView(R.layout.activity_modify_pwd);
         ViewUtils.inject(this);
         super.onCreate(savedInstanceState);
     }
@@ -52,7 +53,7 @@ public class ModifyPwdActivity extends LocalInitActivity implements Callback{
         center(R.string.modify_pwd);
         left(TextView.class, R.string.back);
         eiOldPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-        eiNewPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+        eiNewPwd.setInputType(InputType.TYPE_CLASS_TEXT);
     }
 
     @OnClick(R.id.btn_finish)

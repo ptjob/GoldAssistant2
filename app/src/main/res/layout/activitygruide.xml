@@ -10,11 +10,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        style="@style/FormOrangeButton"
+        style="@style/FormRedButton"
         android:layout_marginBottom="23dp"
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
-        android:text="开始使用"
+        android:text="进入应用"
         android:id="@+id/enter"
         android:layout_gravity="center_horizontal|bottom"
         android:visibility="gone"/>

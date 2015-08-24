@@ -5,17 +5,6 @@
     android:background="@drawable/mm_listitem_default_white"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="23dp"
-        android:background="@color/gray_block"
-        android:paddingLeft="10dp"
-        android:textColor="@color/txt_color_black"
-        android:gravity="center_vertical"
-        android:textSize="15dp"
-        android:visibility="visible" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/contact_item_height">
@@ -67,19 +56,6 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <TextView
-            android:layout_centerVertical="true"
-            android:id="@+id/unread_msg_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="35dp"
-            android:background="@drawable/unread_count_bg"
-            android:gravity="center"
-            android:visibility="invisible"
-            android:text="7"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
     </RelativeLayout>
 
 </LinearLayout>

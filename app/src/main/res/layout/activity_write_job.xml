@@ -100,7 +100,8 @@
                 android:id="@+id/edittxt_work_address"
                 style="@style/FormInput"
                 android:hint="@string/publish_job_hint_work_address"
-                android:maxLength="@integer/work_address_max_length" />
+                android:maxLength="@integer/work_address_max_length"
+                android:singleLine="true"/>
 
             <ImageView style="@style/PublicLineH" />
 

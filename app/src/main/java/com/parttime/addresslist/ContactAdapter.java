@@ -148,7 +148,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
 			} else if (username.equals(Constant.PUBLIC_COUNT)) {
 				// 官方账号
 				nameTextview.setText(user.getNick());
-				avatar.setImageResource(R.drawable.peoplephoto);
+				avatar.setImageResource(R.drawable.icon_officail);
                 tvHeader.setVisibility(View.GONE);
             } else if (username.equals(Constant.GROUP_USERNAME)) {
 				// 群聊item

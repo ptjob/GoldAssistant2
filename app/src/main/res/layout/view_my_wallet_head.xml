@@ -9,12 +9,12 @@
         android:layout_weight="1"
         android:background="@color/gray_block"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/common_margin">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
+            android:paddingLeft="@dimen/common_margin"
             android:layout_weight="1">
 
             <TextView
@@ -36,7 +36,6 @@
         </RelativeLayout>
 
         <include layout="@layout/view_divider"/>
-
 
     </LinearLayout>
     <TextView

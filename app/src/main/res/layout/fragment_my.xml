@@ -109,22 +109,23 @@
                 android:layout_marginTop="@dimen/form_items_margin"/>
 
             <com.parttime.widget.FormItem
-                android:id="@+id/fi_real_name_cert"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/form_item_height"
-                android:background="@drawable/mm_listitem_default_white"
-                app:form_icon="@drawable/real_name"
-                app:form_title="@string/real_name_cert"
-                app:topLine_shown="false"/>
-
-            <com.parttime.widget.FormItem
                 android:id="@+id/fi_fresh_man_guide"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/form_item_height"
                 android:background="@drawable/mm_listitem_default_white"
                 app:form_icon="@drawable/freshman_guide"
                 app:form_title="@string/fresh_man_guide"
-                android:layout_marginTop="@dimen/form_items_margin"/>
+                app:topLine_shown="false"/>
+
+            <com.parttime.widget.FormItem
+                android:id="@+id/fi_real_name_cert"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_item_height"
+                android:background="@drawable/mm_listitem_default_white"
+                android:layout_marginTop="@dimen/form_items_margin"
+                app:form_icon="@drawable/real_name"
+                app:form_title="@string/real_name_cert"
+                />
 
             <com.parttime.widget.FormItem
                 android:id="@+id/fi_suggestion"

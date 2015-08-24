@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/btn_finish"
-        style="@style/CommonButton.Blue"
+        style="@style/CommonButton.Orange"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/finish" />

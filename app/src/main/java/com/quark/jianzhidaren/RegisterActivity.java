@@ -6,6 +6,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -185,7 +186,7 @@ public class RegisterActivity extends WithTitleActivity implements CountDownTime
 	protected void initViews() {
 		super.initViews();
 		center(R.string.register);
-		left(TextView.class, R.string.back, new OnClickListener() {
+		left(TextView.class, R.string.back, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SoftwareUtil.hideSoftWare(RegisterActivity.this);
